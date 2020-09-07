@@ -1,6 +1,7 @@
 from importlib.machinery import SourceFileLoader
 
 import sympy as sym
+import numpy as np
 
 main = SourceFileLoader("main", "src/main.py").load_module()
 
@@ -74,3 +75,26 @@ def test_probability_being_in_state_T():
 
 def test_probability_being_in_state_P():
     assert main.probability_being_in_state_P((0, 0, 0), (0, 0, 0), delta=0) == 1
+
+
+def test_imitation_probability():
+    assert np.isclose(float(main.imitation_probability(0, 5, 1)), 0.993307)
+
+
+def test_probability_of_receving_payoffs():
+    q, d, N = sym.symbols("q, delta, N")
+
+    ALLD = (0, 0, 0)
+    GTFT = (1, 1, q)
+
+    expr = main.probability_of_receving_payoffs(
+        player=GTFT,
+        opponent=ALLD,
+        player_state=main.probability_being_in_state_R,
+        opponent_state=main.probability_being_in_state_P,
+        N=N,
+        k=1,
+        delta=d,
+    ).factor()
+
+    assert (expr - (((N - 2) / (N - 1)) * d * (1 - q))).simplify() == 0
