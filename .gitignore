@@ -1,0 +1,4 @@
+.coverage
+.ipynb_checkpoints/
+src/__pycache__/
+tests/__pycache__/
