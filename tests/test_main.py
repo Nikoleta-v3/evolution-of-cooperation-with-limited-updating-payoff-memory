@@ -98,3 +98,27 @@ def test_probability_of_receving_payoffs():
     ).factor()
 
     assert (expr - (((N - 2) / (N - 1)) * d * (1 - q))).simplify() == 0
+
+
+def test_probability_of_receving_payoffs_for_non_feasible_payoffs():
+    """
+    For this test case the first_term in `probability_of_receving_payoffs`
+    falls to zero because an GTFT can not interact with an ALLD player and
+    receive an S payoff while ALLD recieves R.
+    """
+    q, d, N = sym.symbols("q, delta, N")
+
+    ALLD = (0, 0, 0)
+    GTFT = (1, 1, q)
+
+    expr = main.probability_of_receving_payoffs(
+        player=GTFT,
+        opponent=ALLD,
+        player_state=main.probability_being_in_state_S,
+        opponent_state=main.probability_being_in_state_R,
+        N=N,
+        k=1,
+        delta=d,
+    ).simplify()
+
+    assert expr == 0
