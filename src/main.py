@@ -172,7 +172,15 @@ def probability_of_receving_payoffs(
     player, opponent, player_state, opponent_state, N, k, delta
 ):
 
-    first_term = (1 / (N - 1)) * player_state(player, opponent, delta)
+    if (player_state, opponent_state) in [
+        (probability_being_in_state_R, probability_being_in_state_R),
+        (probability_being_in_state_T, probability_being_in_state_S),
+        (probability_being_in_state_S, probability_being_in_state_T),
+        (probability_being_in_state_P, probability_being_in_state_P),
+    ]:
+        first_term = (1 / (N - 1)) * player_state(player, opponent, delta)
+    else:
+        first_term = 0
 
     second_term_case_one = (
         ((k - 1) / (N - 2))
