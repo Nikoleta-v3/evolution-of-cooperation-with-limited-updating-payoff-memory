@@ -1,5 +1,3 @@
-import itertools
-
 import numpy as np
 import sympy as sym
 
@@ -9,8 +7,8 @@ def expected_distribution_opening_round(player, opponent):
     Returns
 
 
-    the first state of two staregies gven that they are written as vectors and the first element
-    is the probability of cooperating in the oppening move.
+    the first state of two strategies given that they are written as vectors and the first element
+    is the probability of cooperating in the opening move.
 
     For example:
     s_1 = (y_1, p_1, q_1)
@@ -154,18 +152,6 @@ def probability_being_in_state_P(player, opponent, delta):
     )
 
 
-def imitation_probability(
-    utility_of_learner, utility_of_role_model, strength_of_selection
-):
-    return 1 / (
-        1
-        + sym.exp(
-            -strength_of_selection
-            * (utility_of_role_model - utility_of_learner)
-        )
-    )
-
-
 def probability_of_receiving_payoffs(
     player, opponent, player_state, opponent_state, N, k, delta
 ):
@@ -211,62 +197,3 @@ def probability_of_receiving_payoffs(
         + second_term_case_three
         + second_term_case_four
     )
-
-
-def probability_mutant_increases(player, opponent, N, k, delta, beta, payoffs):
-
-    states = itertools.product(
-        [
-            probability_being_in_state_R,
-            probability_being_in_state_S,
-            probability_being_in_state_T,
-            probability_being_in_state_P,
-        ],
-        repeat=2,
-    )
-
-    payoffs_ = itertools.product(
-        payoffs,
-        repeat=2,
-    )
-
-    sum_ = sum(
-        [
-            probability_of_receving_payoffs(
-                player, opponent, state[0], state[1], N, k, delta
-            )
-            * imitation_probability(payoff[0], payoff[1], beta)
-            for state, payoff in zip(states, payoffs_)
-        ]
-    )
-    return ((N - k) / N) * (k / N) * sum_
-
-
-def probability_mutant_descreases(player, opponent, N, k, delta, beta, payoffs):
-
-    states = itertools.product(
-        [
-            probability_being_in_state_R,
-            probability_being_in_state_S,
-            probability_being_in_state_T,
-            probability_being_in_state_P,
-        ],
-        repeat=2,
-    )
-
-    payoffs_ = itertools.product(
-        payoffs,
-        repeat=2,
-    )
-
-    sum_ = sum(
-        [
-            probability_of_receving_payoffs(
-                player, opponent, state[0], state[1], N, k, delta
-            )
-            * imitation_probability(payoff[1], payoff[0], beta)
-            for state, payoff in zip(states, payoffs_)
-        ]
-    )
-
-    return ((N - k) / N) * (k / N) * sum_
