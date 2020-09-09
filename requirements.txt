@@ -1,0 +1,9 @@
+black==20.8b1
+blackbook==0.0.6
+jupyter==1.0.0
+numpy==1.19.1
+pytest==6.0.1
+pytest-cov==2.10.1
+sympy==1.6.2
+matplotlib==3.3.1
+isort==5.5.1

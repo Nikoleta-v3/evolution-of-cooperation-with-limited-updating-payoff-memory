@@ -13,3 +13,5 @@ dependencies:
     - pytest==6.0.1
     - pytest-cov==2.10.1
     - sympy==1.6.2
+    - matplotlib==3.3.1
+    - isort==5.5.1
