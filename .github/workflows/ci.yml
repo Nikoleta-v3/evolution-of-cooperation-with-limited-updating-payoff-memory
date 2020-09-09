@@ -36,4 +36,4 @@ jobs:
         python -m isort -w 80 -m 3 --trailing-comma --check-only .
     - name: Test with pytest 
       run: |
-        python -m pytest --cov=matching --cov-fail-under=100 tests
+        python -m pytest --cov=src --cov-fail-under=100 tests
