@@ -166,7 +166,7 @@ def imitation_probability(
     )
 
 
-def probability_of_receving_payoffs(
+def probability_of_receiving_payoffs(
     player, opponent, player_state, opponent_state, N, k, delta
 ):
 

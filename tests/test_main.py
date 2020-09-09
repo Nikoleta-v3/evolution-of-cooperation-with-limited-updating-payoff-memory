@@ -81,13 +81,13 @@ def test_imitation_probability():
     assert np.isclose(float(main.imitation_probability(0, 5, 1)), 0.993307)
 
 
-def test_probability_of_receving_payoffs():
+def test_probability_of_receiving_payoffs():
     q, d, N = sym.symbols("q, delta, N")
 
     ALLD = (0, 0, 0)
     GTFT = (1, 1, q)
 
-    expr = main.probability_of_receving_payoffs(
+    expr = main.probability_of_receiving_payoffs(
         player=GTFT,
         opponent=ALLD,
         player_state=main.probability_being_in_state_R,
@@ -100,18 +100,18 @@ def test_probability_of_receving_payoffs():
     assert (expr - (((N - 2) / (N - 1)) * d * (1 - q))).simplify() == 0
 
 
-def test_probability_of_receving_payoffs_for_non_feasible_payoffs():
+def test_probability_of_receiving_payoffs_for_non_feasible_payoffs():
     """
-    For this test case the first_term in `probability_of_receving_payoffs`
+    For this test case the first_term in `probability_of_receiving_payoffs`
     falls to zero because an GTFT can not interact with an ALLD player and
-    receive an S payoff while ALLD recieves R.
+    receive an S payoff while ALLD receives R.
     """
     q, d, N = sym.symbols("q, delta, N")
 
     ALLD = (0, 0, 0)
     GTFT = (1, 1, q)
 
-    expr = main.probability_of_receving_payoffs(
+    expr = main.probability_of_receiving_payoffs(
         player=GTFT,
         opponent=ALLD,
         player_state=main.probability_being_in_state_S,
