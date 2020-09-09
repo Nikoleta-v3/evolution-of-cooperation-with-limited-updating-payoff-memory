@@ -11,18 +11,17 @@ import itertools
 
 
 def imitation_probability(
-    utility_of_learner, utility_of_role_model, strength_of_selection
+    utility_of_resident, utility_of_mutant, strength_of_selection
 ):
     return 1 / (
         1
         + sym.exp(
-            -strength_of_selection
-            * (utility_of_role_model - utility_of_learner)
+            -strength_of_selection * (utility_of_mutant - utility_of_resident)
         )
     )
 
 
-def probability_mutant_increases(player, opponent, N, k, delta, beta, payoffs):
+def probability_mutant_increases(resident, mutant, N, k, delta, beta, payoffs):
 
     states = itertools.product(
         [
@@ -42,7 +41,7 @@ def probability_mutant_increases(player, opponent, N, k, delta, beta, payoffs):
     sum_ = sum(
         [
             formulation.probability_of_receiving_payoffs(
-                player, opponent, state[0], state[1], N, k, delta
+                resident, mutant, state[0], state[1], N, k, delta
             )
             * imitation_probability(payoff[0], payoff[1], beta)
             for state, payoff in zip(states, payoffs_)
@@ -51,7 +50,7 @@ def probability_mutant_increases(player, opponent, N, k, delta, beta, payoffs):
     return ((N - k) / N) * (k / N) * sum_
 
 
-def probability_mutant_descreases(player, opponent, N, k, delta, beta, payoffs):
+def probability_mutant_descreases(resident, mutant, N, k, delta, beta, payoffs):
 
     states = itertools.product(
         [
@@ -71,7 +70,7 @@ def probability_mutant_descreases(player, opponent, N, k, delta, beta, payoffs):
     sum_ = sum(
         [
             formulation.probability_of_receiving_payoffs(
-                player, opponent, state[0], state[1], N, k, delta
+                resident, mutant, state[0], state[1], N, k, delta
             )
             * imitation_probability(payoff[1], payoff[0], beta)
             for state, payoff in zip(states, payoffs_)
