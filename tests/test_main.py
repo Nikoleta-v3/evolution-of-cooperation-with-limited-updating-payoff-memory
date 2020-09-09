@@ -1,7 +1,7 @@
 from importlib.machinery import SourceFileLoader
 
-import sympy as sym
 import numpy as np
+import sympy as sym
 
 main = SourceFileLoader("main", "src/main.py").load_module()
 
@@ -122,3 +122,39 @@ def test_probability_of_receving_payoffs_for_non_feasible_payoffs():
     ).simplify()
 
     assert expr == 0
+
+
+def test_fixation_ration_for_ALLD_invading_GTFT():
+    R, S, T, P = sym.symbols("R, S, T, P")
+    q, d, N, b = sym.symbols("q, delta, N, beta")
+
+    ALLD = (0, 0, 0)
+    GTFT = (1, 1, q)
+
+    expr = main.probability_mutant_increases(
+        GTFT, ALLD, N, k=1, delta=d, beta=b, payoffs=[R, S, T, P]
+    ) / main.probability_mutant_descreases(
+        GTFT, ALLD, N, k=1, delta=d, beta=b, payoffs=[R, S, T, P]
+    )
+
+    numerator_first_term = (1 - d + d * q) / (1 + sym.exp(-b * (T - R))) + (
+        (d * (1 - q)) / (1 + sym.exp(-b * (P - R)))
+    )
+    numerator_second_term = (1 - d + d * q) / (1 + sym.exp(-b * (T - S))) + (
+        (d * (1 - q)) / 2
+    )
+    denominator_first_term = (1 - d + d * q) / (1 + sym.exp(-b * (R - T))) + (
+        (d * (1 - q)) / (1 + sym.exp(-b * (R - P)))
+    )
+    denominator_second_term = (1 - d + d * q) / (1 + sym.exp(-b * (S - T))) + (
+        (d * (1 - q)) / 2
+    )
+    written_expr = (
+        ((N - 2) / (N - 1)) * numerator_first_term
+        + (1 / (N - 1)) * numerator_second_term
+    ) / (
+        ((N - 2) / (N - 1)) * denominator_first_term
+        + (1 / (N - 1)) * denominator_second_term
+    )
+
+    assert (expr - written_expr).simplify() == 0

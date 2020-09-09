@@ -1,7 +1,7 @@
+import itertools
+
 import numpy as np
 import sympy as sym
-
-import itertools
 
 
 def expected_distribution_opening_round(player, opponent):
@@ -157,8 +157,6 @@ def probability_being_in_state_P(player, opponent, delta):
 def imitation_probability(
     utility_of_learner, utility_of_role_model, strength_of_selection
 ):
-    if utility_of_learner == 0 and utility_of_role_model == 0:
-        return 0
     return 1 / (
         1
         + sym.exp(
