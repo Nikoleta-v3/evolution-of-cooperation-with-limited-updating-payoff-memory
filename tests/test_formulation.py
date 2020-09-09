@@ -140,3 +140,24 @@ def test_probability_of_receiving_payoffs_for_non_feasible_payoffs():
     ).simplify()
 
     assert expr == 0
+
+
+def test_expected_distribution_last_round_defectors():
+    d = sym.symbols("delta")
+    assert formulation.expected_distribution_last_round(
+        (0, 0, 0), (0, 0, 0), d
+    ) == (0, 0, 0, 1)
+
+
+def test_expected_distribution_last_round_cooperators():
+    d = sym.symbols("delta")
+    assert formulation.expected_distribution_last_round(
+        (1, 1, 1), (1, 1, 1), d
+    ) == (1, 0, 0, 0)
+
+
+def test_expected_distribution_last_round_opening_with_c():
+    d = sym.symbols("delta")
+    assert formulation.expected_distribution_last_round(
+        (0, 1, 1), (0, 0, 0), d
+    ) == (0, d, 0, 1 - d)

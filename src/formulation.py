@@ -152,6 +152,15 @@ def probability_being_in_state_P(player, opponent, delta):
     )
 
 
+def expected_distribution_last_round(player, opponent, delta):
+    return (
+        probability_being_in_state_R(player, opponent, delta),
+        probability_being_in_state_S(player, opponent, delta),
+        probability_being_in_state_T(player, opponent, delta),
+        probability_being_in_state_P(player, opponent, delta),
+    )
+
+
 def probability_of_receiving_payoffs(
     player, opponent, player_state, opponent_state, N, k, delta
 ):
