@@ -44,3 +44,39 @@ def test_fixation_ratio_for_ALLD_invading_GTFT():
     )
 
     assert (expr - written_expr).simplify() == 0
+
+
+def test_expected_payoffs_of_resident():
+    q, d = sym.symbols("q, delta")
+    GTFT = (1, 1, q)
+
+    assert (
+        evolution.expected_payoffs_of_resident(
+            GTFT, (1, 1, 1), N=2, k=1, delta=d, payoffs=[3, 0, 5, 1]
+        )
+        == 3
+    )
+
+
+def test_expected_payoffs_of_mutant():
+    q, d = sym.symbols("q, delta")
+    GTFT = (1, 1, q)
+
+    assert (
+        evolution.expected_payoffs_of_mutant(
+            GTFT, (1, 1, 1), N=2, k=1, delta=d, payoffs=[3, 0, 5, 1]
+        )
+        == 3
+    )
+
+
+def test_ratio_of_expected_payoffs():
+    q, d, b = sym.symbols("q, delta, beta")
+    GTFT = (1, 1, q)
+
+    assert (
+        evolution.ratio_of_expected_payoffs(
+            GTFT, (1, 1, 1), N=2, k=1, delta=d, beta=b, payoffs=[3, 0, 5, 1]
+        )
+        == 1
+    )
