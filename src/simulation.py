@@ -46,9 +46,7 @@ def main(
             resident = mutant
 
         with open(filename, "a") as textfile:
-            textfile.write(
-                ",".join([str(elem) for elem in resident]) + "\n"
-            )
+            textfile.write(",".join([str(elem) for elem in resident]) + "\n")
         textfile.close()
         history.append(resident)
     return history
@@ -99,7 +97,7 @@ if __name__ == "__main__":
     N_val = 100
     d_val = 1 - (10 ** -3)
     b_val = 1
-    number_of_steps = 50
+    number_of_steps = 10 ** 4
     payoffs = donation_game(1, 3)
 
     _ = main(
@@ -109,4 +107,5 @@ if __name__ == "__main__":
         number_of_steps,
         payoffs,
         "e",
+        seed=10
     )
