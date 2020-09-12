@@ -1,3 +1,7 @@
+"""This file contains functions for calculating the probabilities of two
+reactive strategies being at any given state in the last round, and their
+utilities given these probabilities.
+"""
 import numpy as np
 import sympy as sym
 
@@ -61,6 +65,27 @@ def markov_chain_for_reactive_strategies(player, opponent):
 
 
 def probability_being_in_state_R(player, opponent, delta):
+    """
+    The probability of being in state R (both players cooperated)
+    when in steady state.
+
+    The probability can be written down analytically and is given by Eq (2)
+    in the written material.
+
+    Parameters
+    ----------
+    player : tuple
+        A reactive player
+    opponent : tuple
+        A reactive opponent
+    delta : float
+        The probability that the match will go on for another round.
+
+    Returns
+    -------
+    float
+        The probability of being in state R.
+    """
 
     r_1 = player[1] - player[2]
     r_2 = opponent[1] - opponent[2]
@@ -82,7 +107,27 @@ def probability_being_in_state_R(player, opponent, delta):
 
 
 def probability_being_in_state_S(player, opponent, delta):
+    """
+    The probability of being in state S (the player cooperated and the opponent
+    defected) when in steady state.
 
+    The probability can be written down analytically and is given by Eq (2)
+    in the written material.
+
+    Parameters
+    ----------
+    player : tuple
+        A reactive player
+    opponent : tuple
+        A reactive opponent
+    delta : float
+        The probability that the match will go on for another round.
+
+    Returns
+    -------
+    float
+        The probability of being in state S.
+    """
     r_1 = player[1] - player[2]
     r_2 = opponent[1] - opponent[2]
 
@@ -106,7 +151,27 @@ def probability_being_in_state_S(player, opponent, delta):
 
 
 def probability_being_in_state_T(player, opponent, delta):
+    """
+    The probability of being in state T (the player defected and the opponent
+    cooperated) when in steady state.
 
+    The probability can be written down analytically and is given by Eq (2)
+    in the written material.
+
+    Parameters
+    ----------
+    player : tuple
+        A reactive player
+    opponent : tuple
+        A reactive opponent
+    delta : float
+        The probability that the match will go on for another round.
+
+    Returns
+    -------
+    float
+        The probability of being in state T.
+    """
     r_1 = player[1] - player[2]
     r_2 = opponent[1] - opponent[2]
 
@@ -128,7 +193,26 @@ def probability_being_in_state_T(player, opponent, delta):
 
 
 def probability_being_in_state_P(player, opponent, delta):
+    """
+    The probability of being in state P (both players defected) when in steady state.
 
+    The probability can be written down analytically and is given by Eq (2)
+    in the written material.
+
+    Parameters
+    ----------
+    player : tuple
+        A reactive player
+    opponent : tuple
+        A reactive opponent
+    delta : float
+        The probability that the match will go on for another round.
+
+    Returns
+    -------
+    float
+        The probability of being in state P.
+    """
     r_1 = player[1] - player[2]
     r_2 = opponent[1] - opponent[2]
 
@@ -153,6 +237,11 @@ def probability_being_in_state_P(player, opponent, delta):
 
 
 def expected_distribution_last_round(player, opponent, delta):
+    """
+    Vector v.
+
+    The probability of being at each state in steady state.
+    """
     return (
         probability_being_in_state_R(player, opponent, delta),
         probability_being_in_state_S(player, opponent, delta),
@@ -161,48 +250,28 @@ def expected_distribution_last_round(player, opponent, delta):
     )
 
 
-def probability_of_receiving_payoffs(
-    player, opponent, player_state, opponent_state, N, k, delta
-):
+def utility(player, opponent, delta, payoffs):
+    """ "The expected utility of two reactive strategies in steady state.
 
-    if (player_state, opponent_state) in [
-        (probability_being_in_state_R, probability_being_in_state_R),
-        (probability_being_in_state_T, probability_being_in_state_S),
-        (probability_being_in_state_S, probability_being_in_state_T),
-        (probability_being_in_state_P, probability_being_in_state_P),
-    ]:
-        first_term = (1 / (N - 1)) * player_state(player, opponent, delta)
-    else:
-        first_term = 0
+    Parameters
+    ----------
+    player : tuple
+        A reactive player.
+    opponent : tuple
+        A reactive opponent.
+    delta : float
+        The probability that the match will go on for another round.
+    payoffs : tuple
+        The payoffs of the game the players play.
 
-    second_term_case_one = (
-        ((k - 1) / (N - 2))
-        * ((k - 2) / (N - 3))
-        * player_state(player, opponent, delta)
-        * opponent_state(opponent, opponent, delta)
-    )
-    second_term_case_two = (
-        ((k - 1) / (N - 2))
-        * ((N - k - 1) / (N - 3))
-        * player_state(player, opponent, delta)
-        * opponent_state(opponent, player, delta)
-    )
-    second_term_case_three = (
-        ((N - k - 1) / (N - 2))
-        * ((k - 1) / (N - 3))
-        * player_state(player, player, delta)
-        * opponent_state(opponent, opponent, delta)
-    )
-    second_term_case_four = (
-        ((N - k - 1) / (N - 2))
-        * ((N - k - 2) / (N - 3))
-        * player_state(player, player, delta)
-        * opponent_state(opponent, player, delta)
-    )
+    Returns
+    -------
+    float
+        The expected utility of the player.
+    """
 
-    return first_term + (1 - 1 / (N - 1)) * (
-        second_term_case_one
-        + second_term_case_two
-        + second_term_case_three
-        + second_term_case_four
+    payoff_vector = np.array(payoffs)
+    return (
+        np.array(expected_distribution_last_round(player, opponent, delta))
+        @ payoff_vector
     )

@@ -99,49 +99,6 @@ def test_probability_being_in_state_P():
     )
 
 
-def test_probability_of_receiving_payoffs():
-    q, d, N = sym.symbols("q, delta, N")
-
-    ALLD = (0, 0, 0)
-    GTFT = (1, 1, q)
-
-    expr = formulation.probability_of_receiving_payoffs(
-        player=GTFT,
-        opponent=ALLD,
-        player_state=formulation.probability_being_in_state_R,
-        opponent_state=formulation.probability_being_in_state_P,
-        N=N,
-        k=1,
-        delta=d,
-    ).factor()
-
-    assert (expr - (((N - 2) / (N - 1)) * d * (1 - q))).simplify() == 0
-
-
-def test_probability_of_receiving_payoffs_for_non_feasible_payoffs():
-    """
-    For this test case the first_term in `probability_of_receiving_payoffs`
-    falls to zero because an GTFT can not interact with an ALLD player and
-    receive an S payoff while ALLD receives R.
-    """
-    q, d, N = sym.symbols("q, delta, N")
-
-    ALLD = (0, 0, 0)
-    GTFT = (1, 1, q)
-
-    expr = formulation.probability_of_receiving_payoffs(
-        player=GTFT,
-        opponent=ALLD,
-        player_state=formulation.probability_being_in_state_S,
-        opponent_state=formulation.probability_being_in_state_R,
-        N=N,
-        k=1,
-        delta=d,
-    ).simplify()
-
-    assert expr == 0
-
-
 def test_expected_distribution_last_round_defectors():
     d = sym.symbols("delta")
     assert formulation.expected_distribution_last_round(
@@ -161,3 +118,42 @@ def test_expected_distribution_last_round_opening_with_c():
     assert formulation.expected_distribution_last_round(
         (0, 1, 1), (0, 0, 0), d
     ) == (0, d, 0, 1 - d)
+
+
+def test_utility_defectors():
+    assert (
+        formulation.utility(
+            (0, 0, 0), (1, 1, 3 / 8), delta=0, payoffs=(3, 0, 5, 1)
+        )
+        == 5
+    )
+    assert (
+        formulation.utility(
+            (0, 0, 0), (1, 1, 1), delta=1 / 2, payoffs=(3, 0, 5, 1)
+        )
+        == 5
+    )
+
+
+def test_utility_gtft_vs_defector():
+    assert (
+        formulation.utility(
+            (1, 1, 3 / 8), (0, 0, 0), delta=0, payoffs=(3, 0, 5, 1)
+        )
+        == 0
+    )
+    assert (
+        formulation.utility(
+            (0, 0, 0), (1, 1, 3 / 8), delta=1 / 2, payoffs=(3, 0, 5, 1)
+        )
+        == 3.75
+    )
+
+
+def test_utility_cooperator():
+    assert (
+        formulation.utility(
+            (1, 1, 1), (1, 1, 1), delta=1 / 2, payoffs=(3, 0, 5, 1)
+        )
+        == 3
+    )
