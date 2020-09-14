@@ -1,13 +1,11 @@
+import itertools
+import os.path
 from collections import Counter
 from importlib.machinery import SourceFileLoader
 
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
-
-import itertools
-
-import os.path
 
 evolution = SourceFileLoader("evolution", "src/evolution.py").load_module()
 formulation = SourceFileLoader(
@@ -91,54 +89,31 @@ def gammas_for_stochastic_payoffs(resident, mutant, delta, N, beta, payoffs):
         for label in itertools.product(["resident", "mutant"], repeat=2)
         for state in ["R", "S", "T", "P"]
     ]
-    states = list(
-        itertools.product(
-            [
-                formulation.probability_being_in_state_R(
-                    resident, resident, delta
-                ),
-                formulation.probability_being_in_state_R(
-                    resident, mutant, delta
-                ),
-                formulation.probability_being_in_state_R(
-                    mutant, resident, delta
-                ),
-                formulation.probability_being_in_state_R(mutant, mutant, delta),
-                formulation.probability_being_in_state_S(
-                    resident, resident, delta
-                ),
-                formulation.probability_being_in_state_S(
-                    resident, mutant, delta
-                ),
-                formulation.probability_being_in_state_S(
-                    mutant, resident, delta
-                ),
-                formulation.probability_being_in_state_S(mutant, mutant, delta),
-                formulation.probability_being_in_state_T(
-                    resident, resident, delta
-                ),
-                formulation.probability_being_in_state_T(
-                    resident, mutant, delta
-                ),
-                formulation.probability_being_in_state_T(
-                    mutant, resident, delta
-                ),
-                formulation.probability_being_in_state_T(mutant, mutant, delta),
-                formulation.probability_being_in_state_P(
-                    resident, resident, delta
-                ),
-                formulation.probability_being_in_state_P(
-                    resident, mutant, delta
-                ),
-                formulation.probability_being_in_state_P(
-                    mutant, resident, delta
-                ),
-                formulation.probability_being_in_state_P(mutant, mutant, delta),
-            ],
-            repeat=1,
-        )
+    states = itertools.product(
+        [
+            formulation.probability_being_in_state_R(resident, resident, delta),
+            formulation.probability_being_in_state_S(resident, resident, delta),
+            formulation.probability_being_in_state_T(resident, resident, delta),
+            formulation.probability_being_in_state_P(resident, resident, delta),
+            formulation.probability_being_in_state_R(resident, mutant, delta),
+            formulation.probability_being_in_state_S(resident, mutant, delta),
+            formulation.probability_being_in_state_T(resident, mutant, delta),
+            formulation.probability_being_in_state_P(resident, mutant, delta),
+            formulation.probability_being_in_state_P(mutant, resident, delta),
+            formulation.probability_being_in_state_R(mutant, resident, delta),
+            formulation.probability_being_in_state_S(mutant, resident, delta),
+            formulation.probability_being_in_state_T(mutant, resident, delta),
+            formulation.probability_being_in_state_R(mutant, mutant, delta),
+            formulation.probability_being_in_state_S(mutant, mutant, delta),
+            formulation.probability_being_in_state_T(mutant, mutant, delta),
+            formulation.probability_being_in_state_P(mutant, mutant, delta),
+        ],
+        repeat=1,
     )
-    states_dict = {label: state for label, state in zip(state_labels, states)}
+
+    states_dict = {
+        label: state[0] for label, state in zip(state_labels, states)
+    }
 
     combinations = list(
         itertools.product(
@@ -214,9 +189,7 @@ def main(
     seed=10,
     starting_resident=(0, 0, 0),
 ):
-
     resident = starting_resident
-
     history = [resident]
     random_ = np.random.RandomState(seed)
 
@@ -245,9 +218,9 @@ def _reshape_data(df):
 
 if __name__ == "__main__":  # pragma: no cover
 
-    number_of_steps = 10 ** 5
-    mode = "e"
-    filename = "expected_payoff_data.csv"
+    number_of_steps = 10 ** 3
+    mode = "s"
+    filename = "stochastic_payoff_data.csv"
 
     _ = main(
         N=100,
@@ -256,4 +229,6 @@ if __name__ == "__main__":  # pragma: no cover
         number_of_steps=number_of_steps,
         payoffs=donation_game(1, 3),
         mode=mode,
+        filename=filename,
+        seed=1,
     )

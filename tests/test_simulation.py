@@ -1,9 +1,8 @@
 from importlib.machinery import SourceFileLoader
 
 import numpy as np
-import sympy as sym
-
 import pandas as pd
+import sympy as sym
 
 simulation = SourceFileLoader("simulation", "src/simulation.py").load_module()
 
