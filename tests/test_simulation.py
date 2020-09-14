@@ -1,10 +1,9 @@
+import itertools
 from importlib.machinery import SourceFileLoader
 
 import numpy as np
 import pandas as pd
 import sympy as sym
-
-import itertools
 
 simulation = SourceFileLoader("simulation", "src/simulation.py").load_module()
 formulation = SourceFileLoader(

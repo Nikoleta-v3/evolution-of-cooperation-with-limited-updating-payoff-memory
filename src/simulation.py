@@ -1,9 +1,8 @@
 import itertools
 import os.path
+import sys
 from collections import Counter
 from importlib.machinery import SourceFileLoader
-
-import sys
 
 import numpy as np
 import pandas as pd
@@ -117,10 +116,7 @@ def gammas_for_stochastic_payoffs(resident, mutant, delta, N, beta, payoffs):
         label: state[0] for label, state in zip(state_labels, states)
     }
 
-    combinations = list(
-        itertools.product(["R", "S", "T", "P"], repeat=2
-        )
-    )
+    combinations = list(itertools.product(["R", "S", "T", "P"], repeat=2))
 
     gammas = []
     for k in range(1, N):
