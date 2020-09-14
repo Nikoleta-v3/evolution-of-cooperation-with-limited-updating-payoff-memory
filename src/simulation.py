@@ -5,6 +5,8 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
+import itertools
+
 import os.path
 
 evolution = SourceFileLoader("evolution", "src/evolution.py").load_module()
@@ -13,24 +15,207 @@ formulation = SourceFileLoader(
 ).load_module()
 
 
+def donation_game(c, b):
+    """The donation game
+
+    Parameters
+    ----------
+    c : int
+        The resident's personal cost.
+    b : int
+        The mutant's benefit.
+
+    Returns
+    -------
+    tuple
+        The payoff vector for the donation game.
+    """
+    return (b - c, -c, b, 0)
+
+
+def simulate_probability_of_receiving_payoffs(
+    label, feasible_states, states_dict, N, k
+):
+    if (label[1], label[-1]) in feasible_states:
+        first_term = (1 / (N - 1)) * states_dict[
+            (label[1], "resident", "mutant")
+        ]
+    else:
+        first_term = 0
+
+    second_term_case_one = (
+        ((k - 1) / (N - 2))
+        * ((k - 2) / (N - 3))
+        * states_dict[(label[1], "resident", "mutant")]
+        * states_dict[(label[-1], "mutant", "mutant")]
+    )
+
+    second_term_case_two = (
+        ((k - 1) / (N - 2))
+        * ((N - k - 1) / (N - 3))
+        * states_dict[(label[1], "resident", "mutant")]
+        * states_dict[(label[-1], "mutant", "resident")]
+    )
+
+    second_term_case_three = (
+        ((N - k - 1) / (N - 2))
+        * ((k - 1) / (N - 3))
+        * states_dict[(label[1], "resident", "resident")]
+        * states_dict[(label[-1], "mutant", "mutant")]
+    )
+
+    second_term_case_four = (
+        ((N - k - 1) / (N - 2))
+        * ((N - k - 2) / (N - 3))
+        * states_dict[(label[1], "resident", "resident")]
+        * states_dict[(label[-1], "mutant", "mutant")]
+    )
+
+    return first_term + (1 - 1 / (N - 1)) * (
+        second_term_case_one
+        + second_term_case_two
+        + second_term_case_three
+        + second_term_case_four
+    )
+
+
+def gammas_for_stochastic_payoffs(resident, mutant, delta, N, beta, payoffs):
+    feasible_states = list(itertools.product(["R", "S", "T", "P"], repeat=2))
+
+    payoffs_dict = {
+        label: payoff for label, payoff in zip(["R", "S", "T", "P"], payoffs)
+    }
+
+    state_labels = [
+        (state, label[0], label[1])
+        for label in itertools.product(["resident", "mutant"], repeat=2)
+        for state in ["R", "S", "T", "P"]
+    ]
+    states = list(
+        itertools.product(
+            [
+                formulation.probability_being_in_state_R(
+                    resident, resident, delta
+                ),
+                formulation.probability_being_in_state_R(
+                    resident, mutant, delta
+                ),
+                formulation.probability_being_in_state_R(
+                    mutant, resident, delta
+                ),
+                formulation.probability_being_in_state_R(mutant, mutant, delta),
+                formulation.probability_being_in_state_S(
+                    resident, resident, delta
+                ),
+                formulation.probability_being_in_state_S(
+                    resident, mutant, delta
+                ),
+                formulation.probability_being_in_state_S(
+                    mutant, resident, delta
+                ),
+                formulation.probability_being_in_state_S(mutant, mutant, delta),
+                formulation.probability_being_in_state_T(
+                    resident, resident, delta
+                ),
+                formulation.probability_being_in_state_T(
+                    resident, mutant, delta
+                ),
+                formulation.probability_being_in_state_T(
+                    mutant, resident, delta
+                ),
+                formulation.probability_being_in_state_T(mutant, mutant, delta),
+                formulation.probability_being_in_state_P(
+                    resident, resident, delta
+                ),
+                formulation.probability_being_in_state_P(
+                    resident, mutant, delta
+                ),
+                formulation.probability_being_in_state_P(
+                    mutant, resident, delta
+                ),
+                formulation.probability_being_in_state_P(mutant, mutant, delta),
+            ],
+            repeat=1,
+        )
+    )
+    states_dict = {label: state for label, state in zip(state_labels, states)}
+
+    combinations = list(
+        itertools.product(
+            ["resident", "mutant"], ["R", "S", "T", "P"], repeat=2
+        )
+    )
+
+    gammas = []
+    for k in range(1, N):
+        payoffs_for_increase = []
+        payoffs_for_decrease = []
+        for label in combinations:
+            utility_of_resident = payoffs_dict[label[1]]
+            utility_of_mutant = payoffs_dict[label[-1]]
+
+            payoffs_for_increase.append(
+                simulate_probability_of_receiving_payoffs(
+                    label, feasible_states, states_dict, N, k
+                )
+                * float(
+                    evolution.imitation_probability(
+                        utility_of_resident, utility_of_mutant, beta
+                    )
+                )
+            )
+
+            payoffs_for_decrease.append(
+                simulate_probability_of_receiving_payoffs(
+                    label, feasible_states, states_dict, N, k
+                )
+                * float(
+                    evolution.imitation_probability(
+                        utility_of_mutant, utility_of_resident, beta
+                    )
+                )
+            )
+
+        gammas.append(
+            (((N - k) / N) * (k / N) * sum(payoffs_for_decrease))
+            / (((N - k) / N) * (k / N) * sum(payoffs_for_increase))
+        )
+
+    return gammas
+
+
+def fixation_probability(resident, mutant, N, delta, beta, payoffs, mode):
+    if mode == "s":
+        gammas = gammas_for_stochastic_payoffs(
+            resident, mutant, delta, N, beta, payoffs
+        )
+    if mode == "e":
+        gammas = [
+            evolution.ratio_of_expected_payoffs(
+                resident, mutant, N, k, delta, beta, payoffs
+            )
+            for k in range(1, N)
+        ]
+    if mode not in ["s", "e"]:
+        print("Chose a feasible mode.")
+        exit()
+
+    return 1 / (1 + np.sum(np.cumprod(gammas)))
+
+
 def main(
-    N_val,
-    d_val,
-    b_val,
+    N,
+    d,
+    b,
     number_of_steps,
     payoffs,
     mode,
-    seed=0,
+    filename,
+    seed=10,
     starting_resident=(0, 0, 0),
-    filename="expected_payoff_data.csv",
 ):
 
-    if os.path.isfile(filename):
-        df = pd.read_csv(filename, header=None)
-        resident = df.iloc[-1].values
-        seed = len(df)
-    else:
-        resident = starting_resident
+    resident = starting_resident
 
     history = [resident]
     random_ = np.random.RandomState(seed)
@@ -38,11 +223,9 @@ def main(
     for _ in tqdm(range(number_of_steps)):
         mutant = [random_.random() for _ in range(3)]
 
-        phi = fixation_probability(
-            resident, mutant, N_val, d_val, b_val, payoffs, mode
-        )
+        phi = fixation_probability(resident, mutant, N, d, b, payoffs, mode)
 
-        if random_.random() < phi:
+        if random_.random() < abs(phi):
             resident = mutant
 
         with open(filename, "a") as textfile:
@@ -52,60 +235,25 @@ def main(
     return history
 
 
-def _reshape_history(history):
-    points = [(i, j) for _, i, j in history]
-    x, y, weights = zip(
-        *[
-            (point[0], point[1], weight)
-            for point, weight in Counter(points).items()
-        ]
-    )
-    return x, y, weights
+def _reshape_data(df):
+    """Returns the points p and q that occurred at each time step of the simulation."""
+    history = df.values
+    points = [(p, q) for _, p, q in history]
+    ps, qs = zip(*points)
+    return ps, qs
 
 
-def donation_game(c, b):
-    return (b - c, -c, b, 0)
+if __name__ == "__main__":  # pragma: no cover
 
-
-def ratio_of_mutant_fixation(resident, mutant, N, k, delta, beta, payoffs):
-
-    return evolution.probability_mutant_descreases(
-        resident, mutant, N, k, delta, beta, payoffs
-    ) / evolution.probability_mutant_increases(
-        resident, mutant, N, k, delta, beta, payoffs
-    )
-
-
-def fixation_probability(resident, mutant, N, delta, beta, payoffs, mode):
-    if mode == "s":
-        ratio = ratio_of_mutant_fixation
-    if mode == "e":
-        ratio = evolution.ratio_of_expected_payoffs
-    if mode not in ["s", "e"]:
-        print("Chose a feasible mode.")
-        exit()
-
-    gammas = [
-        ratio(resident, mutant, N, k, delta, beta, payoffs) for k in range(1, N)
-    ]
-
-    return 1 / (1 + np.sum(np.cumprod(gammas)))
-
-
-if __name__ == "__main__":
-
-    N_val = 100
-    d_val = 1 - (10 ** -3)
-    b_val = 1
-    number_of_steps = 10 ** 4
-    payoffs = donation_game(1, 3)
+    number_of_steps = 10 ** 5
+    mode = "e"
+    filename = "expected_payoff_data.csv"
 
     _ = main(
-        N_val,
-        d_val,
-        b_val,
-        number_of_steps,
-        payoffs,
-        "e",
-        seed=10
+        N=100,
+        d=1 - (10 ** -3),
+        b=1,
+        number_of_steps=number_of_steps,
+        payoffs=donation_game(1, 3),
+        mode=mode,
     )
