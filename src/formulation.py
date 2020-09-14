@@ -21,7 +21,6 @@ def expected_distribution_opening_round(player, opponent):
 
     s_1 = (y_1, p_1, p_2, p_3, p_4)
     """
-
     cc_probability = player[0] * opponent[0]
     cd_probability = player[0] * (1 - opponent[0])
     dc_probability = (1 - player[0]) * opponent[0]
