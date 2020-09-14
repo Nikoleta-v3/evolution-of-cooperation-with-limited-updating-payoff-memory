@@ -3,6 +3,8 @@ import os.path
 from collections import Counter
 from importlib.machinery import SourceFileLoader
 
+import sys
+
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
@@ -34,9 +36,9 @@ def donation_game(c, b):
 def simulate_probability_of_receiving_payoffs(
     label, feasible_states, states_dict, N, k
 ):
-    if (label[1], label[-1]) in feasible_states:
+    if (label[0], label[1]) in feasible_states:
         first_term = (1 / (N - 1)) * states_dict[
-            (label[1], "resident", "mutant")
+            (label[0], "resident", "mutant")
         ]
     else:
         first_term = 0
@@ -44,29 +46,29 @@ def simulate_probability_of_receiving_payoffs(
     second_term_case_one = (
         ((k - 1) / (N - 2))
         * ((k - 2) / (N - 3))
-        * states_dict[(label[1], "resident", "mutant")]
-        * states_dict[(label[-1], "mutant", "mutant")]
+        * states_dict[(label[0], "resident", "mutant")]
+        * states_dict[(label[1], "mutant", "mutant")]
     )
 
     second_term_case_two = (
         ((k - 1) / (N - 2))
         * ((N - k - 1) / (N - 3))
-        * states_dict[(label[1], "resident", "mutant")]
-        * states_dict[(label[-1], "mutant", "resident")]
+        * states_dict[(label[0], "resident", "mutant")]
+        * states_dict[(label[1], "mutant", "resident")]
     )
 
     second_term_case_three = (
         ((N - k - 1) / (N - 2))
         * ((k - 1) / (N - 3))
-        * states_dict[(label[1], "resident", "resident")]
-        * states_dict[(label[-1], "mutant", "mutant")]
+        * states_dict[(label[0], "resident", "resident")]
+        * states_dict[(label[1], "mutant", "mutant")]
     )
 
     second_term_case_four = (
         ((N - k - 1) / (N - 2))
         * ((N - k - 2) / (N - 3))
-        * states_dict[(label[1], "resident", "resident")]
-        * states_dict[(label[-1], "mutant", "mutant")]
+        * states_dict[(label[0], "resident", "resident")]
+        * states_dict[(label[1], "mutant", "resident")]
     )
 
     return first_term + (1 - 1 / (N - 1)) * (
@@ -78,7 +80,7 @@ def simulate_probability_of_receiving_payoffs(
 
 
 def gammas_for_stochastic_payoffs(resident, mutant, delta, N, beta, payoffs):
-    feasible_states = list(itertools.product(["R", "S", "T", "P"], repeat=2))
+    feasible_states = [("R", "R"), ("S", "T"), ("T", "S"), ("P", "P")]
 
     payoffs_dict = {
         label: payoff for label, payoff in zip(["R", "S", "T", "P"], payoffs)
@@ -99,10 +101,10 @@ def gammas_for_stochastic_payoffs(resident, mutant, delta, N, beta, payoffs):
             formulation.probability_being_in_state_S(resident, mutant, delta),
             formulation.probability_being_in_state_T(resident, mutant, delta),
             formulation.probability_being_in_state_P(resident, mutant, delta),
-            formulation.probability_being_in_state_P(mutant, resident, delta),
             formulation.probability_being_in_state_R(mutant, resident, delta),
             formulation.probability_being_in_state_S(mutant, resident, delta),
             formulation.probability_being_in_state_T(mutant, resident, delta),
+            formulation.probability_being_in_state_P(mutant, resident, delta),
             formulation.probability_being_in_state_R(mutant, mutant, delta),
             formulation.probability_being_in_state_S(mutant, mutant, delta),
             formulation.probability_being_in_state_T(mutant, mutant, delta),
@@ -116,8 +118,7 @@ def gammas_for_stochastic_payoffs(resident, mutant, delta, N, beta, payoffs):
     }
 
     combinations = list(
-        itertools.product(
-            ["resident", "mutant"], ["R", "S", "T", "P"], repeat=2
+        itertools.product(["R", "S", "T", "P"], repeat=2
         )
     )
 
@@ -126,8 +127,8 @@ def gammas_for_stochastic_payoffs(resident, mutant, delta, N, beta, payoffs):
         payoffs_for_increase = []
         payoffs_for_decrease = []
         for label in combinations:
-            utility_of_resident = payoffs_dict[label[1]]
-            utility_of_mutant = payoffs_dict[label[-1]]
+            utility_of_resident = payoffs_dict[label[0]]
+            utility_of_mutant = payoffs_dict[label[1]]
 
             payoffs_for_increase.append(
                 simulate_probability_of_receiving_payoffs(
@@ -209,7 +210,7 @@ def main(
 
 
 def _reshape_data(df):
-    """Returns the points p and q that occurred at each time step of the simulation."""
+    """Returns the points p and q that occurred at each time step of the 4."""
     history = df.values
     points = [(p, q) for _, p, q in history]
     ps, qs = zip(*points)
@@ -218,9 +219,9 @@ def _reshape_data(df):
 
 if __name__ == "__main__":  # pragma: no cover
 
-    number_of_steps = 10 ** 3
-    mode = "s"
-    filename = "stochastic_payoff_data.csv"
+    number_of_steps = 10 ** 4
+    mode = sys.argv[1]
+    filename = sys.argv[2]
 
     _ = main(
         N=100,
@@ -230,5 +231,4 @@ if __name__ == "__main__":  # pragma: no cover
         payoffs=donation_game(1, 3),
         mode=mode,
         filename=filename,
-        seed=1,
     )
