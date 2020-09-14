@@ -4,6 +4,9 @@ import numpy as np
 import sympy as sym
 
 evolution = SourceFileLoader("evolution", "src/evolution.py").load_module()
+formulation = SourceFileLoader(
+    "formulation", "src/formulation.py"
+).load_module()
 
 
 def test_imitation_probability():
@@ -80,3 +83,46 @@ def test_ratio_of_expected_payoffs():
         )
         == 1
     )
+
+
+def test_probability_of_receiving_payoffs():
+    q, d, N = sym.symbols("q, delta, N")
+
+    ALLD = (0, 0, 0)
+    GTFT = (1, 1, q)
+
+    expr = evolution.probability_of_receiving_payoffs(
+        resident=GTFT,
+        mutant=ALLD,
+        resident_state=formulation.probability_being_in_state_R,
+        mutant_state=formulation.probability_being_in_state_P,
+        N=N,
+        k=1,
+        delta=d,
+    ).factor()
+
+    assert (expr - (((N - 2) / (N - 1)) * d * (1 - q))).simplify() == 0
+
+
+def test_probability_of_receiving_payoffs_for_non_feasible_payoffs():
+    """
+    For this test case the first_term in `probability_of_receiving_payoffs`
+    falls to zero because an GTFT can not interact with an ALLD player and
+    receive an S payoff while ALLD receives R.
+    """
+    q, d, N = sym.symbols("q, delta, N")
+
+    ALLD = (0, 0, 0)
+    GTFT = (1, 1, q)
+
+    expr = evolution.probability_of_receiving_payoffs(
+        resident=GTFT,
+        mutant=ALLD,
+        resident_state=formulation.probability_being_in_state_S,
+        mutant_state=formulation.probability_being_in_state_R,
+        N=N,
+        k=1,
+        delta=d,
+    ).simplify()
+
+    assert expr == 0
