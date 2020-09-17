@@ -120,40 +120,15 @@ def test_expected_distribution_last_round_opening_with_c():
     ) == (0, d, 0, 1 - d)
 
 
-def test_utility_defectors():
-    assert (
-        formulation.utility(
-            (0, 0, 0), (1, 1, 3 / 8), delta=0, payoffs=(3, 0, 5, 1)
-        )
-        == 5
-    )
-    assert (
-        formulation.utility(
-            (0, 0, 0), (1, 1, 1), delta=1 / 2, payoffs=(3, 0, 5, 1)
-        )
-        == 5
-    )
+def test_steady_state():
+    d = sym.symbols("delta")
+    player = (1 / 2, 1 / 2, 1 / 2)
+    opponent = (1, 1, 3 / 8)
 
-
-def test_utility_gtft_vs_defector():
-    assert (
-        formulation.utility(
-            (1, 1, 3 / 8), (0, 0, 0), delta=0, payoffs=(3, 0, 5, 1)
-        )
-        == 0
+    last_round = formulation.expected_distribution_last_round(
+        player, opponent, d
     )
-    assert (
-        formulation.utility(
-            (0, 0, 0), (1, 1, 3 / 8), delta=1 / 2, payoffs=(3, 0, 5, 1)
-        )
-        == 3.75
-    )
+    steady_state = formulation.steady_state(player, opponent, d)
 
-
-def test_utility_cooperator():
-    assert (
-        formulation.utility(
-            (1, 1, 1), (1, 1, 1), delta=1 / 2, payoffs=(3, 0, 5, 1)
-        )
-        == 3
-    )
+    for states in zip(last_round, steady_state):
+        assert (states[0] - states[1]).factor() == 0

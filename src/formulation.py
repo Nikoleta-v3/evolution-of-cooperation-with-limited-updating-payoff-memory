@@ -237,9 +237,7 @@ def probability_being_in_state_P(player, opponent, delta):
 
 def expected_distribution_last_round(player, opponent, delta):
     """
-    Vector v.
-
-    The probability of being at each state in steady state.
+    The probability of being at each state at the last round.
     """
     return (
         probability_being_in_state_R(player, opponent, delta),
@@ -249,28 +247,14 @@ def expected_distribution_last_round(player, opponent, delta):
     )
 
 
-def utility(player, opponent, delta, payoffs):
-    """ "The expected utility of two reactive strategies in steady state.
-
-    Parameters
-    ----------
-    player : tuple
-        A reactive player.
-    opponent : tuple
-        A reactive opponent.
-    delta : float
-        The probability that the match will go on for another round.
-    payoffs : tuple
-        The payoffs of the game the players play.
-
-    Returns
-    -------
-    float
-        The expected utility of the player.
+def steady_state(player, opponent, delta):
     """
+    Vector v.
 
-    payoff_vector = np.array(payoffs)
-    return (
-        np.array(expected_distribution_last_round(player, opponent, delta))
-        @ payoff_vector
-    )
+    The probability of being at each state in steady state.
+    """
+    v_zero = expected_distribution_opening_round(player, opponent)
+    M = markov_chain_for_reactive_strategies(player, opponent)
+    inverse = sym.Matrix(np.identity(4) - delta * M).inverse_ADJ()
+
+    return (1 - delta) * sym.Matrix(v_zero).reshape(1, 4) @ inverse
