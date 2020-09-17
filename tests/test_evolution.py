@@ -47,7 +47,6 @@ def test_fixation_probability_for_expected_payoffs():
     )
 
     assert len(output) == 3
-    assert np.isclose(output[0], 0.251784)
     assert output[1] == 0
     assert output[2] == 0
 

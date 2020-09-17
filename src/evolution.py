@@ -66,7 +66,7 @@ def fixation_probability_for_expected_payoffs(
             (N - k - 1) / (N - 1)
         ) * combination_payoffs[3]
 
-        lminus.append(
+        lplus.append(
             1
             / (
                 1
@@ -78,7 +78,7 @@ def fixation_probability_for_expected_payoffs(
                 )
             )
         )
-        lplus.append(
+        lminus.append(
             1
             / (
                 1
