@@ -21,246 +21,181 @@ def imitation_probability(
     )
 
 
+def fixation_probability_for_expected_payoffs(
+    resident, mutant, N, delta, beta, payoffs
+):
+    """Returns the fixation probability of a mutant based on the expected
+    payoffs.
+
+    The function also returns two other measures which are calculated during
+    the calculation of the fixation probability:
+
+    - cooperation rate, which is the probability of CC and CD of the mutant
+    against a mutant.
+    - the average payoff a mutant receives against another mutant.
+
+    Parameters
+    ----------
+    resident : tuple
+        A reactive resident.
+    mutant : tuple
+        A reactive mutant.
+    N : int
+        Number of individuals in the population
+    delta : float
+        The probability that the match will go on for another round
+    beta : float
+        The strength of selection
+    payoffs: tuple
+        The payoffs of the game the players play.
+    """
+    payoff_vector = np.array(payoffs)
+    combinations = itertools.product([mutant, resident], repeat=2)
+
+    steady_states = [
+        formulation.steady_state(p1, p2, delta) for p1, p2 in combinations
+    ]
+    combination_payoffs = [state @ payoff_vector for state in steady_states]
+
+    lminus, lplus = [], []
+    for k in range(1, N):
+        expected_payoff_mutant = (
+            (k - 1) / (N - 1) * combination_payoffs[0]
+        ) + ((N - k) / (N - 1)) * combination_payoffs[1]
+        expected_payoff_resident = (k / (N - 1) * combination_payoffs[2]) + (
+            (N - k - 1) / (N - 1)
+        ) * combination_payoffs[3]
+
+        lminus.append(
+            1
+            / (
+                1
+                + np.exp(
+                    float(
+                        -beta
+                        * (expected_payoff_mutant - expected_payoff_resident)
+                    )
+                )
+            )
+        )
+        lplus.append(
+            1
+            / (
+                1
+                + np.exp(
+                    float(
+                        -beta
+                        * (expected_payoff_resident - expected_payoff_mutant)
+                    )
+                )
+            )
+        )
+
+    gammas = np.array(lminus) / np.array(lplus)
+    cooperation_rate = steady_states[0][0] + steady_states[0][1]
+    return (
+        1 / (1 + np.sum(np.cumprod(gammas))),
+        cooperation_rate,
+        combination_payoffs[0][0],
+    )
+
+
+def fixation_probability_for_stochastic_payoffs(
+    resident, mutant, N, delta, beta, payoffs
+):
+    """Returns the fixation probability of a mutant based on the stochastic
+    payoffs.
+
+    The function also returns two other measures which are calculated during
+    the calculation of the fixation probability:
+
+    - cooperation rate, which is the probability of CC and CD of the mutant
+    against a mutant.
+    - the average payoff a mutant receives against another mutant.
+
+    Parameters
+    ----------
+    resident : tuple
+        A reactive resident.
+    mutant : tuple
+        A reactive mutant.
+    N : int
+        Number of individuals in the population
+    delta : float
+        The probability that the match will go on for another round
+    beta : float
+        The strength of selection
+    payoffs: tuple
+        The payoffs of the game the players play.
+    """
+
+    payoff_vector = np.array(payoffs)
+    payoff_combinations = itertools.product(payoff_vector, repeat=2)
+
+    elements = [
+        float(imitation_probability(*pairs, 1)) for pairs in payoff_combinations
+    ]
+    rhos = np.array(elements).reshape(4, 4)
+
+    combinations = itertools.product([mutant, resident], repeat=2)
+    vMM, vMR, vRM, vRR = [
+        formulation.steady_state(p1, p2, delta) for p1, p2 in combinations
+    ]
+
+    lminus, lplus = [], []
+    for k in range(1, N):
+        x = probability_of_receiving_payoffs(vMM, vMR, vRM, vRR, k, N)
+        lplus.append(sum(sum(x * rhos)))
+        lminus.append(sum(sum(x * rhos.T)))
+
+    gammas = np.array(lminus) / np.array(lplus)
+    cooperation_rate = vMM[0] + vMM[1]
+    return (
+        float(1 / (1 + np.sum(np.cumprod(gammas)))),
+        cooperation_rate,
+        (vMM @ payoff_vector)[0],
+    )
+
+
 def probability_of_receiving_payoffs(
-    resident, mutant, resident_state, mutant_state, N, k, delta
+    vector_mutant_mutant,
+    vector_mutant_resident,
+    vector_resident_mutant,
+    vector_resident_resident,
+    k,
+    N,
 ):
     """This is defined as x in the written material and is given by Eq (6).
-
     We use x(u1, u2) to denote the probability that the randomly chosen resident
     was at state u1 in the last round of their respective game, and
     that the mutant was at state u2.
-
-    Parameters
-    ----------
-    resident : tuple
-        A reactive resident.
-    mutant : tuple
-        A reactive mutant.
-    resident_state : function
-        State of resident in the last round.
-    mutant_state : function
-        State of mutant in the last round.
-    N : int
-        Number of individuals in the population
-    k : int
-        Number of mutants in the population
-    delta : float
-        The probability that the match will go on for another round.
     """
-    if (resident_state, mutant_state) in [
-        (
-            formulation.probability_being_in_state_R,
-            formulation.probability_being_in_state_R,
-        ),
-        (
-            formulation.probability_being_in_state_T,
-            formulation.probability_being_in_state_S,
-        ),
-        (
-            formulation.probability_being_in_state_S,
-            formulation.probability_being_in_state_T,
-        ),
-        (
-            formulation.probability_being_in_state_P,
-            formulation.probability_being_in_state_P,
-        ),
-    ]:
-        first_term = (1 / (N - 1)) * resident_state(resident, mutant, delta)
-    else:
-        first_term = 0
+    feasible_states = [(1, 1), (2, 3), (3, 2), (4, 4)]
+    x = []
+    for i in range(4):
+        for j in range(4):
+            expr = 0
 
-    second_term_case_one = (
-        ((k - 1) / (N - 2))
-        * ((k - 2) / (N - 3))
-        * resident_state(resident, mutant, delta)
-        * mutant_state(mutant, mutant, delta)
-    )
-    second_term_case_two = (
-        ((k - 1) / (N - 2))
-        * ((N - k - 1) / (N - 3))
-        * resident_state(resident, mutant, delta)
-        * mutant_state(mutant, resident, delta)
-    )
-    second_term_case_three = (
-        ((N - k - 1) / (N - 2))
-        * ((k - 1) / (N - 3))
-        * resident_state(resident, resident, delta)
-        * mutant_state(mutant, mutant, delta)
-    )
-    second_term_case_four = (
-        ((N - k - 1) / (N - 2))
-        * ((N - k - 2) / (N - 3))
-        * resident_state(resident, resident, delta)
-        * mutant_state(mutant, resident, delta)
-    )
+            if (i, j) in feasible_states:
+                expr += (1 / (N - 1)) * vector_resident_mutant[i]
 
-    return first_term + (1 - 1 / (N - 1)) * (
-        second_term_case_one
-        + second_term_case_two
-        + second_term_case_three
-        + second_term_case_four
-    )
-
-
-def probability_mutant_increases(resident, mutant, N, k, delta, beta, payoffs):
-    """The probability that the mutants in the population decrease.
-
-    Thus, the probability that mutant becomes a resident.
-    """
-    states = itertools.product(
-        [
-            formulation.probability_being_in_state_R,
-            formulation.probability_being_in_state_S,
-            formulation.probability_being_in_state_T,
-            formulation.probability_being_in_state_P,
-        ],
-        repeat=2,
-    )
-
-    payoffs_ = itertools.product(
-        payoffs,
-        repeat=2,
-    )
-
-    sum_ = sum(
-        [
-            probability_of_receiving_payoffs(
-                resident, mutant, state[0], state[1], N, k, delta
+            expr += (1 - 1 / (N - 1)) * (
+                ((k - 1) / (N - 2))
+                * ((k - 2) / (N - 3))
+                * vector_resident_mutant[i]
+                * vector_mutant_mutant[j]
+                + ((k - 1) / (N - 2))
+                * ((N - k - 1) / (N - 3))
+                * vector_resident_mutant[i]
+                * vector_mutant_resident[j]
+                + ((N - k - 1) / (N - 2))
+                * ((k - 1) / (N - 3))
+                * vector_resident_resident[i]
+                * vector_mutant_mutant[j]
+                + ((N - k - 1) / (N - 2))
+                * ((N - k - 2) / (N - 3))
+                * vector_resident_resident[i]
+                * vector_mutant_resident[j]
             )
-            * imitation_probability(payoff[0], payoff[1], beta)
-            for state, payoff in zip(states, payoffs_)
-        ]
-    )
-    return ((N - k) / N) * (k / N) * sum_
-
-
-def probability_mutant_descreases(resident, mutant, N, k, delta, beta, payoffs):
-    """The probability that the mutants in the population decrease.
-
-    Thus, the probability that mutant becomes a resident.
-    """
-    states = itertools.product(
-        [
-            formulation.probability_being_in_state_R,
-            formulation.probability_being_in_state_S,
-            formulation.probability_being_in_state_T,
-            formulation.probability_being_in_state_P,
-        ],
-        repeat=2,
-    )
-
-    payoffs_ = itertools.product(
-        payoffs,
-        repeat=2,
-    )
-
-    sum_ = sum(
-        [
-            probability_of_receiving_payoffs(
-                resident, mutant, state[0], state[1], N, k, delta
-            )
-            * imitation_probability(payoff[1], payoff[0], beta)
-            for state, payoff in zip(states, payoffs_)
-        ]
-    )
-
-    return ((N - k) / N) * (k / N) * sum_
-
-
-def expected_payoffs_of_resident(resident, mutant, N, k, delta, payoffs):
-    """
-    The expected payoff the resident.
-
-    There are N individuals in the population, k of them are mutants and N - k
-    are residents.
-
-    The expected payoff the resident is defined as pi_1 in the written material
-    and is given by:
-
-    pi_1 = ((N - k - 1) / (N - 1)) * u(S1, S1) + (k / (N - 1)) * u(S1, S2)
-
-    Parameters
-    ----------
-    resident : tuple
-        A reactive resident.
-    mutant : tuple
-        A reactive mutant.
-    resident_state : function
-        State of resident in the last round.
-    mutant_state : function
-        State of mutant in the last round.
-    N : int
-        Number of individuals in the population
-    k : int
-        Number of mutants in the population
-    delta : float
-        The probability that the match will go on for another round.
-    payoffs: tuple
-        The payoffs of the game the players play.
-
-    Returns
-    -------
-    expected_payoff: float
-        The expected payoff pi_1
-    """
-    against_residents = formulation.utility(resident, resident, delta, payoffs)
-    against_mutants = formulation.utility(resident, mutant, delta, payoffs)
-
-    return ((N - k - 1) / (N - 1)) * against_residents + (
-        k / (N - 1)
-    ) * against_mutants
-
-
-def expected_payoffs_of_mutant(resident, mutant, N, k, delta, payoffs):
-    """
-    The expected payoff the mutant.
-
-    There are N individuals in the population, k of them are mutants and N - k
-    are residents.
-
-    The expected payoff the mutant is defined as pi_2 in the written material
-    and is given by:
-
-
-    pi_2 = ((N - k) / (N - 1)) * u(S2, S1) + ((k - 1)/ (N - 1)) * u(S2, S2)
-
-    Parameters
-    ----------
-    resident : tuple
-        A reactive resident.
-    mutant : tuple
-        A reactive mutant.
-    resident_state : function
-        State of resident in the last round.
-    mutant_state : function
-        State of mutant in the last round.
-    N : int
-        Number of individuals in the population
-    k : int
-        Number of mutants in the population
-    delta : float
-        The probability that the match will go on for another round.
-    payoffs: tuple
-        The payoffs of the game the players play.
-
-    Returns
-    -------
-    expected_payoff: float
-        The expected payoff pi_2
-    """
-    against_residents = formulation.utility(mutant, resident, delta, payoffs)
-    against_mutants = formulation.utility(mutant, mutant, delta, payoffs)
-
-    return ((N - k) * against_residents + (k - 1) * against_mutants) / (N - 1)
-
-
-def ratio_of_expected_payoffs(resident, mutant, N, k, delta, beta, payoffs):
-    """Returns the ration of:
-        pi_1 / pi_2
-
-    The expected payoff of the resident divided by the expected payoff of
-    the mutant.
-    """
-    return expected_payoffs_of_resident(
-        resident, mutant, N, k, delta, payoffs
-    ) / expected_payoffs_of_mutant(resident, mutant, N, k, delta, payoffs)
+            x.append(expr)
+    return np.array(x).reshape(4, 4)
