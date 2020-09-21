@@ -55,13 +55,15 @@ def fixation_probability_for_expected_payoffs(
     steady_states = [
         formulation.steady_state(p1, p2, delta) for p1, p2 in combinations
     ]
-    payoff_MM, payoff_MR, payoff_RM, payoff_RR = [state @ payoff_vector for state in steady_states]
+    payoff_MM, payoff_MR, payoff_RM, payoff_RR = [
+        state @ payoff_vector for state in steady_states
+    ]
 
     lminus, lplus = [], []
     for k in range(1, N):
-        expected_payoff_mutant = (
-            (k - 1) / (N - 1) * payoff_MM
-        ) + ((N - k) / (N - 1)) * payoff_MR
+        expected_payoff_mutant = ((k - 1) / (N - 1) * payoff_MM) + (
+            (N - k) / (N - 1)
+        ) * payoff_MR
         expected_payoff_resident = (k / (N - 1) * payoff_RM) + (
             (N - k - 1) / (N - 1)
         ) * payoff_RR
@@ -134,7 +136,8 @@ def fixation_probability_for_stochastic_payoffs(
 
     elements = [
         float(imitation_probability(payoff_vector[i], payoff_vector[j], beta))
-        for i in range(4) for j in range(4)
+        for i in range(4)
+        for j in range(4)
     ]
     rhos = np.array(elements).reshape(4, 4)
 
