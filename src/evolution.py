@@ -30,9 +30,9 @@ def fixation_probability_for_expected_payoffs(
     The function also returns two other measures which are calculated during
     the calculation of the fixation probability:
 
-    - cooperation rate, which is the probability of CC and CD of the mutant
-    against a mutant.
-    - the average payoff a mutant receives against another mutant.
+    - cooperation rate of a mutant against another mutant (which is the
+    probability of CC and CD).
+    - the payoff of a mutant against another mutant.
 
     Parameters
     ----------
@@ -55,16 +55,16 @@ def fixation_probability_for_expected_payoffs(
     steady_states = [
         formulation.steady_state(p1, p2, delta) for p1, p2 in combinations
     ]
-    combination_payoffs = [state @ payoff_vector for state in steady_states]
+    payoff_MM, payoff_MR, payoff_RM, payoff_RR = [state @ payoff_vector for state in steady_states]
 
     lminus, lplus = [], []
     for k in range(1, N):
         expected_payoff_mutant = (
-            (k - 1) / (N - 1) * combination_payoffs[0]
-        ) + ((N - k) / (N - 1)) * combination_payoffs[1]
-        expected_payoff_resident = (k / (N - 1) * combination_payoffs[2]) + (
+            (k - 1) / (N - 1) * payoff_MM
+        ) + ((N - k) / (N - 1)) * payoff_MR
+        expected_payoff_resident = (k / (N - 1) * payoff_RM) + (
             (N - k - 1) / (N - 1)
-        ) * combination_payoffs[3]
+        ) * payoff_RR
 
         lplus.append(
             1
@@ -96,7 +96,7 @@ def fixation_probability_for_expected_payoffs(
     return (
         1 / (1 + np.sum(np.cumprod(gammas))),
         cooperation_rate,
-        combination_payoffs[0][0],
+        payoff_MM,
     )
 
 
@@ -109,9 +109,10 @@ def fixation_probability_for_stochastic_payoffs(
     The function also returns two other measures which are calculated during
     the calculation of the fixation probability:
 
-    - cooperation rate, which is the probability of CC and CD of the mutant
-    against a mutant.
-    - the average payoff a mutant receives against another mutant.
+    - cooperation rate of a mutant against another mutant (which is the
+    probability of CC and CD).
+    - the payoff of a mutant against another mutant.
+
 
     Parameters
     ----------
@@ -130,10 +131,10 @@ def fixation_probability_for_stochastic_payoffs(
     """
 
     payoff_vector = np.array(payoffs)
-    payoff_combinations = itertools.product(payoff_vector, repeat=2)
 
     elements = [
-        float(imitation_probability(*pairs, 1)) for pairs in payoff_combinations
+        float(imitation_probability(payoff_vector[i], payoff_vector[j], beta))
+        for i in range(4) for j in range(4)
     ]
     rhos = np.array(elements).reshape(4, 4)
 

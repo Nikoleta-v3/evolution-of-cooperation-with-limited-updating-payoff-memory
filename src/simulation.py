@@ -68,7 +68,7 @@ def main(
                 resident, mutant, N, delta, beta, payoffs
             )
 
-        if random_.random() < abs(fixation_probability):
+        if random_.random() < fixation_probability:
             resident = mutant
             data[-3:] = resident
             data[-4] = score
@@ -91,7 +91,7 @@ def _reshape_data(df):
 
 if __name__ == "__main__":  # pragma: no cover
 
-    number_of_steps = 10 ** 4
+    number_of_steps = 10 ** 5
     mode = sys.argv[1]
     filename = sys.argv[2]
 
