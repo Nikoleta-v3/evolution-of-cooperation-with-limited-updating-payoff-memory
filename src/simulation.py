@@ -83,7 +83,7 @@ def main(
 
 def _reshape_data(df):
     """Returns the points p and q that occurred at each time step of the 4."""
-    history = df.values[:,-3:]
+    history = df.values[:, -3:]
     points = [(p, q) for _, p, q in history]
     ps, qs = zip(*points)
     return ps, qs
