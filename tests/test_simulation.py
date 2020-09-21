@@ -1,11 +1,10 @@
 import itertools
+import os
 from importlib.machinery import SourceFileLoader
 
 import numpy as np
 import pandas as pd
 import sympy as sym
-
-import os
 
 simulation = SourceFileLoader("simulation", "src/simulation.py").load_module()
 formulation = SourceFileLoader(
@@ -85,6 +84,7 @@ def test_simulation_stochastic():
 
     os.remove(filename)
 
+
 def test_simulation_success():
 
     filename = "test_simulation.csv"
@@ -108,6 +108,9 @@ def test_simulation_success():
     assert len(df.columns) == 13
     assert len(df.values) == 4
     assert df.values[0][7] == "expected"
-    assert all(df.values[-1][-3:] == [0.5680445610939323, 0.9255966382926608, 0.07103605819788694])
+    assert all(
+        df.values[-1][-3:]
+        == [0.5680445610939323, 0.9255966382926608, 0.07103605819788694]
+    )
 
     os.remove(filename)
