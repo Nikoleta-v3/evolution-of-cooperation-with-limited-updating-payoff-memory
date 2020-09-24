@@ -98,7 +98,7 @@ def fixation_probability_for_expected_payoffs(
     return (
         1 / (1 + np.sum(np.cumprod(gammas))),
         cooperation_rate,
-        payoff_MM,
+        payoff_MM[0],
     )
 
 
@@ -151,7 +151,6 @@ def fixation_probability_for_stochastic_payoffs(
         x = probability_of_receiving_payoffs(vMM, vMR, vRM, vRR, k, N)
         lplus.append(sum(sum(x * rhos)))
         lminus.append(sum(sum(x * rhos.T)))
-
     gammas = np.array(lminus) / np.array(lplus)
     cooperation_rate = vMM[0] + vMM[1]
     return (
@@ -174,7 +173,7 @@ def probability_of_receiving_payoffs(
     was at state u1 in the last round of their respective game, and
     that the mutant was at state u2.
     """
-    feasible_states = [(1, 1), (2, 3), (3, 2), (4, 4)]
+    feasible_states = [(0, 0), (1, 2), (2, 1), (3, 3)]
     x = []
     for i in range(4):
         for j in range(4):
