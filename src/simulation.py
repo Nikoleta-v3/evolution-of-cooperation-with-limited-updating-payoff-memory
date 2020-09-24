@@ -17,6 +17,10 @@ formulation = SourceFileLoader(
 def donation_game(c, b):
     """The donation game
 
+    In the donation game the payoffs follow the constrain:
+
+    T > R > P > S.
+
     Parameters
     ----------
     c : int
@@ -30,6 +34,58 @@ def donation_game(c, b):
         The payoff vector for the donation game.
     """
     return (b - c, -c, b, 0)
+
+
+def snowdrift_game(c, b):
+    """The snowdrift game
+
+    In the snowdrift game the payoffs follow the constrain:
+
+    T > R > S > P.
+
+    Parameters
+    ----------
+    c : int
+        The resident's personal cost.
+    b : int
+        The mutant's benefit.
+
+    Returns
+    -------
+    tuple
+        The payoff vector for the snowdrift game.
+    """
+    return ((b - c) / 2, (b / 2) - c, (b / 2), 0)
+
+
+def stag_hunt_game():
+    """The stag hunt game
+
+    In the stag hunt game the payoffs follow the constrain:
+
+    R > T > P > S.
+
+    Returns
+    -------
+    tuple
+        The payoff vector for the stag hunt game.
+    """
+    return (3, 0, 2, 1)
+
+
+def harmony_game():
+    """The harmony game
+
+    In the harmony game the payoffs follow the constrain:
+
+    R > T, S > P.
+
+    Returns
+    -------
+    tuple
+        The payoff vector for the harmony game.
+    """
+    return (3, 2, 1, 0)
 
 
 def main(
@@ -91,7 +147,7 @@ def _reshape_data(df):
 
 if __name__ == "__main__":  # pragma: no cover
 
-    number_of_steps = 10 ** 5
+    number_of_steps = 10 ** 4
     mode = sys.argv[1]
     filename = sys.argv[2]
 

@@ -18,6 +18,22 @@ def test_donation_game():
     assert (2, -1, 3, 0) == simulation.donation_game(1, 3)
 
 
+def test_snowdrift_game():
+    c, b = sym.symbols("c, b")
+    assert ((b - c) / 2, (b / 2) - c, b / 2, 0) == simulation.snowdrift_game(
+        c, b
+    )
+    assert (1, 0, 2, 0) == simulation.snowdrift_game(2, 4)
+
+
+def test_stag_hunt():
+    assert simulation.stag_hunt_game() == (3, 0, 2, 1)
+
+
+def test_harmony_game():
+    assert simulation.harmony_game() == (3, 2, 1, 0)
+
+
 def test_reshape_data():
     df = pd.DataFrame(
         np.random.random(size=(10, 13)), columns=list("RSTPNdbmcsypq")
