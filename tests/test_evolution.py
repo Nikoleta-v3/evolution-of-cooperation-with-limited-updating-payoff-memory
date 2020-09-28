@@ -85,8 +85,6 @@ def test_fixation_probability_for_stochastic_payoffs():
         beta=1,
         payoffs=simulation.donation_game(1, 3),
     )
-
-    assert np.isclose(fixation_probability, 0.1130068344)
     assert fixation_probability <= 1
     assert cooperation == 1
     assert score == 2
