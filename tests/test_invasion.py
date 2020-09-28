@@ -25,14 +25,30 @@ def test_invasion():
     assert os.path.exists(filename) == True
 
     df = pd.read_csv(filename, header=None)
-    df.columns = ['R', 'S', 'T', 'P', 'N', 'delta', 'beta', 'mode', 't', 'cooperation', 'score', 'y', 'p', 'q']
+    df.columns = [
+        "R",
+        "S",
+        "T",
+        "P",
+        "N",
+        "delta",
+        "beta",
+        "mode",
+        "t",
+        "cooperation",
+        "score",
+        "y",
+        "p",
+        "q",
+    ]
 
     assert len(df.columns) == 14
     assert len(df.values) == 2
-    assert df.iloc[-1]['mode'] == "expected"
-    assert df.iloc[-1]['t'] == 3
+    assert df.iloc[-1]["mode"] == "expected"
+    assert df.iloc[-1]["t"] == 3
 
     os.remove(filename)
+
 
 def test_invasion_stochastic():
 
@@ -52,11 +68,26 @@ def test_invasion_stochastic():
     assert os.path.exists(filename) == True
 
     df = pd.read_csv(filename, header=None)
-    df.columns = ['R', 'S', 'T', 'P', 'N', 'delta', 'beta', 'mode', 't', 'cooperation', 'score', 'y', 'p', 'q']
+    df.columns = [
+        "R",
+        "S",
+        "T",
+        "P",
+        "N",
+        "delta",
+        "beta",
+        "mode",
+        "t",
+        "cooperation",
+        "score",
+        "y",
+        "p",
+        "q",
+    ]
 
     assert len(df.columns) == 14
     assert len(df.values) == 2
-    assert df.iloc[-1]['mode'] == "stochastic"
-    assert df.iloc[-1]['t'] == 3
+    assert df.iloc[-1]["mode"] == "stochastic"
+    assert df.iloc[-1]["t"] == 3
 
     os.remove(filename)
