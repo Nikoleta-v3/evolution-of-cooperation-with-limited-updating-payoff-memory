@@ -69,6 +69,7 @@ if __name__ == "__main__":  # pragma: no cover
 
     mode = sys.argv[1]
     game = sys.argv[2]
+    num_of_cores = sys.argv[3]
     folders = ["invade_GTFT", "invade_ALLD"]
     max_seed = 1000
     N_val = 100
@@ -79,7 +80,7 @@ if __name__ == "__main__":  # pragma: no cover
         "donation": simulation.donation_game(1, 3),
         "snowdrift": simulation.snowdrift_game(1, 3),
         "stag": simulation.stag_hunt_game(),
-        "harmony": simulation.harmony(),
+        "harmony": simulation.harmony_game(),
     }
 
     payoffs = list_of_games[game]
@@ -103,3 +104,4 @@ if __name__ == "__main__":  # pragma: no cover
                 starting_resident=starting_resident,
             )
         )
+    _ = dask.compute(*jobs, num_of_workers=num_of_cores)
