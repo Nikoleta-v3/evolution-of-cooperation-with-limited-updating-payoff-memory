@@ -3,6 +3,8 @@ from importlib.machinery import SourceFileLoader
 import numpy as np
 import sympy as sym
 
+import dask
+
 formulation = SourceFileLoader(
     "formulation", "src/formulation.py"
 ).load_module()
@@ -146,11 +148,16 @@ def fixation_probability_for_stochastic_payoffs(
         formulation.steady_state(p1, p2, delta) for p1, p2 in combinations
     ]
 
-    lminus, lplus = [], []
+    job_xs = []
     for k in range(1, N):
-        x = probability_of_receiving_payoffs(vMM, vMR, vRM, vRR, k, N)
-        lplus.append(sum(sum(x * rhos)))
-        lminus.append(sum(sum(x * rhos.T)))
+        job_xs.append(dask.delayed(probability_of_receiving_payoffs)(vMM, vMR, vRM, vRR, k, N))
+    
+    xs = dask.compute(*job_xs, number_of_workers=0)
+    print(xs)
+
+    lplus = [sum(sum(x * rhos)) for x in xs]
+    lminus = [sum(sum(x * rhos.T)) for x in xs]
+
     gammas = np.array(lminus) / np.array(lplus)
     cooperation_rate = vMM[0] + vMM[1]
     return (
