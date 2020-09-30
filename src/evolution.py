@@ -4,6 +4,7 @@ import numpy as np
 import sympy as sym
 
 import dask
+import time
 
 formulation = SourceFileLoader(
     "formulation", "src/formulation.py"
@@ -60,7 +61,7 @@ def fixation_probability_for_expected_payoffs(
     payoff_MM, payoff_MR, payoff_RM, payoff_RR = [
         state @ payoff_vector for state in steady_states
     ]
-
+    start_time = time.time()
     lminus, lplus = [], []
     for k in range(1, N):
         expected_payoff_mutant = ((k - 1) / (N - 1) * payoff_MM) + (
@@ -96,6 +97,7 @@ def fixation_probability_for_expected_payoffs(
         )
 
     gammas = np.array(lminus) / np.array(lplus)
+    print("--- %s seconds ---" % (time.time() - start_time))
     cooperation_rate = steady_states[0][0] + steady_states[0][1]
     return (
         1 / (1 + np.sum(np.cumprod(gammas))),
@@ -105,7 +107,7 @@ def fixation_probability_for_expected_payoffs(
 
 
 def fixation_probability_for_stochastic_payoffs(
-    resident, mutant, N, delta, beta, payoffs
+    resident, mutant, N, delta, beta, payoffs, pool
 ):
     """Returns the fixation probability of a mutant based on the stochastic
     payoffs.
@@ -136,29 +138,49 @@ def fixation_probability_for_stochastic_payoffs(
 
     payoff_vector = np.array(payoffs)
 
-    elements = [
-        float(imitation_probability(payoff_vector[i], payoff_vector[j], beta))
-        for i in range(4)
-        for j in range(4)
-    ]
-    rhos = np.array(elements).reshape(4, 4)
+    rhos = np.array(
+        [
+            [
+                float(
+                    imitation_probability(
+                        payoff_vector[i], payoff_vector[j], beta
+                    )
+                )
+                for i in range(4)
+            ]
+            for j in range(4)
+        ]
+    )
 
     combinations = itertools.product([mutant, resident], repeat=2)
-    vMM, vMR, vRM, vRR = [
-        formulation.steady_state(p1, p2, delta) for p1, p2 in combinations
-    ]
+    vMM, vMR, vRM, vRR = pool.starmap(
+        formulation.steady_state, [(p1, p2, delta) for p1, p2 in combinations]
+    )
 
     job_xs = []
     for k in range(1, N):
-        job_xs.append(dask.delayed(probability_of_receiving_payoffs)(vMM, vMR, vRM, vRR, k, N))
-    
-    xs = dask.compute(*job_xs, number_of_workers=0)
-    print(xs)
+        job_xs.append(
+            dask.delayed(probability_of_receiving_payoffs)(
+                vMM, vMR, vRM, vRR, k, N
+            )
+        )
+    start_time = time.time()
+    xs = dask.compute(*job_xs, number_of_workers=4)
+    print("--- %s seconds ---" % (time.time() - start_time))
+    # lplus = [sum(sum(x * rhos)) for x in xs]
+    # lminus = [sum(sum(x * rhos.T)) for x in xs]
+
+    # xs = []
+    # for k in range(1, N):
+    #     start_time = time.time()
+    #     xs.append(probability_of_receiving_payoffs(vMM, vMR, vRM, vRR, k, N))
+    #     print("--- %s seconds ---" % (time.time() - start_time))
 
     lplus = [sum(sum(x * rhos)) for x in xs]
     lminus = [sum(sum(x * rhos.T)) for x in xs]
-
+    # print("--- %s seconds ---" % (time.time() - start_time))
     gammas = np.array(lminus) / np.array(lplus)
+
     cooperation_rate = vMM[0] + vMM[1]
     return (
         float(1 / (1 + np.sum(np.cumprod(gammas)))),
