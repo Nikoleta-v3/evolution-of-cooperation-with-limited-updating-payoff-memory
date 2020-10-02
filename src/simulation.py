@@ -158,7 +158,7 @@ if __name__ == "__main__":  # pragma: no cover
         "harmony": harmony_game(),
     }
     payoffs = list_of_games[game]
-    filename = f"data_{mode}_{game}_payoffs.csv"
+    filename = f"data/{mode}_{game}_payoffs.csv"
 
     _ = main(
         N=100,
