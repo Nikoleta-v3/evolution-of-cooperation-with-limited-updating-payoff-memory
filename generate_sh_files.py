@@ -59,3 +59,6 @@ def write_simulation_sh(games=games, modes=modes):
         with open("sh/%s" % name, "w") as textfile:
             textfile.write(skeleton)
 
+
+write_invasion_sh()
+write_simulation_sh()
