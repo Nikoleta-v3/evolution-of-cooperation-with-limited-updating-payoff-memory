@@ -152,10 +152,10 @@ if __name__ == "__main__":  # pragma: no cover
     game = sys.argv[2]
 
     list_of_games = {
-        "donation": simulation.donation_game(1, 3),
-        "snowdrift": simulation.snowdrift_game(1, 3),
-        "stag": simulation.stag_hunt_game(),
-        "harmony": simulation.harmony_game(),
+        "donation": donation_game(1, 3),
+        "snowdrift": snowdrift_game(1, 3),
+        "stag": stag_hunt_game(),
+        "harmony": harmony_game(),
     }
     payoffs = list_of_games[game]
     filename = f"data_{mode}_{game}_payoffs.csv"
