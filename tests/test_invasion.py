@@ -88,6 +88,6 @@ def test_invasion_stochastic():
     assert len(df.columns) == 14
     assert len(df.values) == 2
     assert df.iloc[-1]["mode"] == "stochastic"
-    assert df.iloc[-1]["t"] == 2
+    assert df.iloc[-1]["t"] == 3
 
     os.remove(filename)

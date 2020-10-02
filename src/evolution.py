@@ -60,6 +60,7 @@ def fixation_probability_for_expected_payoffs(
     payoff_MM, payoff_MR, payoff_RM, payoff_RR = [
         state @ payoff_vector for state in steady_states
     ]
+    print(payoff_MM, payoff_MR, payoff_RM, payoff_RR)
     lminus, lplus = [], []
     for k in range(1, N):
         expected_payoff_mutant = ((k - 1) / (N - 1) * payoff_MM) + (
@@ -93,7 +94,6 @@ def fixation_probability_for_expected_payoffs(
                 )
             )
         )
-
     gammas = np.array(lminus) / np.array(lplus)
     cooperation_rate = steady_states[0][0] + steady_states[0][1]
     return (
@@ -158,15 +158,13 @@ def fixation_probability_for_stochastic_payoffs(
         for p1, p2 in combinations
     ]
 
-    xs = [
-        probability_of_receiving_payoffs(vMM, vMR, vRM, vRR, k, N)
-        for k in range(1, N)
-    ]
+    lminus, lplus = [], []
+    for k in range(1, N):
+        x = probability_of_receiving_payoffs(vMM, vMR, vRM, vRR, k, N)
+        lplus.append(sum(sum(x * rhos.T)))
+        lminus.append(sum(sum(x * rhos)))
 
-    lplus = [sum(sum(x * rhos)) for x in xs]
-    lminus = [sum(sum(x * rhos.T)) for x in xs]
     gammas = np.array(lminus) / np.array(lplus)
-
     cooperation_rate = vMM[0] + vMM[1]
     return (
         float(1 / (1 + np.sum(np.cumprod(gammas)))),

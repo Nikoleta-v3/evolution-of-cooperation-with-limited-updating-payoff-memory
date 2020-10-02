@@ -88,3 +88,40 @@ def test_fixation_probability_for_stochastic_payoffs():
     assert fixation_probability <= 1
     assert np.isclose(cooperation, 1)
     assert np.isclose(score, 2)
+
+
+def test_fixation_probability_for_stochastic_test_case():
+    """
+    This is inline with the MatLab code given to me by Dr Hilbe.
+    More specifically:
+
+    ```
+    >> u = [2, -1, 3, 0]
+    >> beta = 1
+    >> Rho=zeros(4,4);
+       for i1=1:4
+           for i2=1:4
+               Rho(i1,i2)=1/(1+exp(-beta*(u(i2)-u(i1)))); 
+           end
+       end
+
+    >> CalcRho([0, 0, 0], [1 / 3, 1 / 7, 1 / 6], Rho, 10, u, 0.999, beta, 0, 1)
+    0.1814
+    ```
+    """
+    mutant = (0, 0, 0)
+    resident = (1 / 3, 1 / 7, 1 / 6)
+
+    (
+        fixation_probability,
+        _,
+        _,
+    ) = evolution.fixation_probability_for_stochastic_payoffs(
+        resident=resident,
+        mutant=mutant,
+        N=10,
+        delta=0.999,
+        beta=1,
+        payoffs=simulation.donation_game(1, 3),
+    )
+    assert np.isclose(fixation_probability, 0.1814, rtol=10 ** - 3)
