@@ -65,8 +65,8 @@ def test_fixation_probability_for_expected_payoffs():
 
     assert isinstance(fixation_probability, float)
     assert fixation_probability <= 1
-    assert cooperation == 1
-    assert score == 2
+    assert np.isclose(cooperation, 1)
+    assert np.isclose(score, 2)
 
 
 def test_fixation_probability_for_stochastic_payoffs():
