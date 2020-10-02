@@ -147,7 +147,7 @@ def _reshape_data(df):
 
 if __name__ == "__main__":  # pragma: no cover
 
-    number_of_steps = 10 ** 4
+    number_of_steps = 10 ** 7
     mode = sys.argv[1]
     filename = sys.argv[2]
 

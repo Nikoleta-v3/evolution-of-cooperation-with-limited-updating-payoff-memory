@@ -1,9 +1,9 @@
 import itertools
+import multiprocessing
 import os.path
 import sys
 from importlib.machinery import SourceFileLoader
 
-import dask
 import numpy as np
 from tqdm import tqdm
 
@@ -69,8 +69,16 @@ if __name__ == "__main__":  # pragma: no cover
 
     mode = sys.argv[1]
     game = sys.argv[2]
-    num_of_cores = sys.argv[3]
-    folders = ["invade_GTFT", "invade_ALLD"]
+    number_of_process = sys.argv[3]
+
+    if number_of_process == "None":
+        number_of_process = multiprocessing.cpu_count()
+    p = multiprocessing.Pool(number_of_process)
+
+    resident_parameters = [
+        ("invade_GTFT", (1, 1, 1 / 3)),
+        ("invade_ALLD", (0, 0, 0)),
+    ]
     max_seed = 1000
     N_val = 100
     delta = 1 - (10 ** -3)
@@ -82,26 +90,22 @@ if __name__ == "__main__":  # pragma: no cover
         "stag": simulation.stag_hunt_game(),
         "harmony": simulation.harmony_game(),
     }
-
     payoffs = list_of_games[game]
+    parameters = itertools.product(resident_parameters, range(max_seed))
 
-    parameters = itertools.product(folders, range(max_seed))
-    jobs = []
-    for folder, seed in parameters:
-        if folder == "invade_GTFT":
-            starting_resident = (1, 1, 1 / 3)
-        else:
-            starting_resident = (0, 0, 0)
-        jobs.append(
-            dask.delayed(simulate_until_invasion)(
+    _ = p.starmap(
+        simulate_until_invasion,
+        [
+            (
                 N_val,
                 delta,
                 beta,
                 payoffs,
                 mode,
-                "data/{}/{}/{}_seed_{}.csv".format(folder, game, mode, seed),
-                seed=seed,
-                starting_resident=starting_resident,
+                f"data/{opponent_meta[0]}/{game}/{mode}_seed_{seed}.csv",
+                seed,
+                opponent_meta[1],
             )
-        )
-    _ = dask.compute(*jobs, num_of_workers=num_of_cores)
+            for opponent_meta, seed in parameters
+        ],
+    )
