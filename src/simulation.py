@@ -149,14 +149,23 @@ if __name__ == "__main__":  # pragma: no cover
 
     number_of_steps = 10 ** 7
     mode = sys.argv[1]
-    filename = sys.argv[2]
+    game = sys.argv[2]
+
+    list_of_games = {
+        "donation": simulation.donation_game(1, 3),
+        "snowdrift": simulation.snowdrift_game(1, 3),
+        "stag": simulation.stag_hunt_game(),
+        "harmony": simulation.harmony_game(),
+    }
+    payoffs = list_of_games[game]
+    filename = f"data_{mode}_{game}_payoffs.csv"
 
     _ = main(
         N=100,
         delta=1 - (10 ** -3),
         beta=1,
         number_of_steps=number_of_steps,
-        payoffs=donation_game(1, 3),
+        payoffs=payoffs,
         mode=mode,
         filename=filename,
     )
