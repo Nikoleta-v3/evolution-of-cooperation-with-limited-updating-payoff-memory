@@ -56,5 +56,31 @@ python src/{experiment}.py {mode} {game}"""
             textfile.write(skeleton)
 
 
+def write_multi_simulations_sh(games=games):
+    number_of_cores = 10
+    experiment = "mutli_interactions"
+
+    for game in games:
+        name = experiment + "_" + game + ".sh"
+
+        skeleton = f"""#!/bin/bash
+#SBATCH -p amd  # partition (queue)
+#SBATCH -J {experiment[:3] + "-" + game[:3]} # job name
+#SBATCH -N 1 # number of nodes, use 1-1 if you need exactly one node
+#SBATCH -n {number_of_cores} # number of cores
+#SBATCH -t 1-00:00  # time (D-HH:MM)
+#SBATCH -o slurm.%j.out # STDOUT
+#SBATCH -e slurm.%j.err # STDERR
+
+module load python/3.6.6
+source ../venvs/payoffs/bin/activate
+
+python src/{experiment}.py None"""
+
+        with open("sh/%s" % name, "w") as textfile:
+            textfile.write(skeleton)
+
+
 write_invasion_sh()
 write_simulation_sh()
+write_multi_simulations_sh()

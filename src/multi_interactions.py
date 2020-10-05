@@ -1,10 +1,11 @@
-import random
-import tqdm
-import axelrod as axl
-import numpy as np
 import itertools
 import multiprocessing
+import random
 import time
+
+import axelrod as axl
+import numpy as np
+import tqdm
 
 
 def introduce_mutant(population, resident, random_state):
