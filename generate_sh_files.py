@@ -58,7 +58,7 @@ python src/{experiment}.py {mode} {game}"""
 
 def write_multi_simulations_sh(games=games):
     number_of_cores = 10
-    experiment = "mutli_interactions"
+    experiment = "multi_interactions"
 
     for game in games:
         name = experiment + "_" + game + ".sh"
@@ -81,6 +81,6 @@ python src/{experiment}.py None"""
             textfile.write(skeleton)
 
 
-write_invasion_sh()
-write_simulation_sh()
+# write_invasion_sh()
+# write_simulation_sh()
 write_multi_simulations_sh()
