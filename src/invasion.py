@@ -73,7 +73,7 @@ if __name__ == "__main__":  # pragma: no cover
 
     if number_of_process == "None":
         number_of_process = multiprocessing.cpu_count()
-    p = multiprocessing.Pool(number_of_process)
+    p = multiprocessing.Pool(int(number_of_process))
 
     resident_parameters = [
         ("invade_GTFT", (1, 1, 1 / 3)),
