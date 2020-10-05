@@ -241,7 +241,7 @@ if __name__ == "__main__":  # pragma: no cover
     N = 100
     delta = 0.999
     strength_of_selection = 1
-    number_of_steps = 10 ** 0
+    number_of_steps = 10 ** 7
 
     opponents = range(2, 10)
     interactions = range(2, 100)
