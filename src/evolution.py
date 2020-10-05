@@ -55,12 +55,12 @@ def fixation_probability_for_expected_payoffs(
     combinations = itertools.product([mutant, resident], repeat=2)
 
     steady_states = [
-        formulation.expected_distribution_last_round(p1, p2, delta) for p1, p2 in combinations
+        formulation.expected_distribution_last_round(p1, p2, delta)
+        for p1, p2 in combinations
     ]
     payoff_MM, payoff_MR, payoff_RM, payoff_RR = [
         state @ payoff_vector for state in steady_states
     ]
-    print(payoff_MM, payoff_MR, payoff_RM, payoff_RR)
     lminus, lplus = [], []
     for k in range(1, N):
         expected_payoff_mutant = ((k - 1) / (N - 1) * payoff_MM) + (

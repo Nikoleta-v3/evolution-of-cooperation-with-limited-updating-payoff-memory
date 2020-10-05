@@ -8,7 +8,6 @@ def write_invasion_sh(games=games, modes=modes):
     number_of_cores = 4
     experiment = "invasion"
 
-
     combinations = itertools.product(games, modes)
     for game, mode in combinations:
         name = experiment + "_" + game + "_" + mode[:5] + ".sh"
@@ -34,7 +33,6 @@ python src/{experiment}.py {mode} {game} None"""
 def write_simulation_sh(games=games, modes=modes):
     number_of_cores = 1
     experiment = "simulation"
-
 
     combinations = itertools.product(games, modes)
     for game, mode in combinations:

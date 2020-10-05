@@ -101,7 +101,7 @@ def test_fixation_probability_for_stochastic_test_case():
     >> Rho=zeros(4,4);
        for i1=1:4
            for i2=1:4
-               Rho(i1,i2)=1/(1+exp(-beta*(u(i2)-u(i1)))); 
+               Rho(i1,i2)=1/(1+exp(-beta*(u(i2)-u(i1))));
            end
        end
 
@@ -124,4 +124,4 @@ def test_fixation_probability_for_stochastic_test_case():
         beta=1,
         payoffs=simulation.donation_game(1, 3),
     )
-    assert np.isclose(fixation_probability, 0.1814, rtol=10 ** - 3)
+    assert np.isclose(fixation_probability, 0.1814, rtol=10 ** -3)
