@@ -247,7 +247,6 @@ if __name__ == "__main__":  # pragma: no cover
     interactions = [5]
     parameters = itertools.product(opponents, interactions)
 
-    start = time.perf_counter()
     _ = p.starmap(
         simulation,
         [
@@ -265,5 +264,3 @@ if __name__ == "__main__":  # pragma: no cover
             for num_of_opponents, num_of_interactions in parameters
         ],
     )
-    final = time.perf_counter()
-    print(f"{final - start} seconds.")
