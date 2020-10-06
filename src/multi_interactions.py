@@ -7,6 +7,8 @@ import axelrod as axl
 import numpy as np
 import tqdm
 
+import os
+
 
 def introduce_mutant(population, resident, random_state):
     """Introduces a mutant in a population of residents.
@@ -26,7 +28,7 @@ def introduce_mutant(population, resident, random_state):
         The mutant as a tuple but also the updated list of the population
     """
     mutant = tuple(random_state.random() for _ in range(3))
-    population.append({resident: population[-1][resident] - 1, mutant: 1})
+    population = {resident: population[resident] - 1, mutant: 1}
 
     return mutant, population
 
@@ -105,7 +107,7 @@ def get_opponents_of_mutant(
 
         p = (
             N
-            - population[-1][mutant]
+            - population[mutant]
             - (int(play_again_role_model) + sum(choices))
         ) / (N - 1 - len(opponents_of_mutant))
 
@@ -131,7 +133,7 @@ def get_opponents_of_resident(
 
         p = (
             N
-            - population[-1][mutant]
+            - population[mutant]
             - 1
             - (int(play_again_role_model) + sum(choices))
         ) / (N - 1 - len(opponents_of_resident))
@@ -159,14 +161,17 @@ def simulation(
     filename,
 ):
 
-    population = [{resident: N}]
+    population = {resident: N}
     random_ = np.random.RandomState(seed)
+
+    if os.path.exists(filename):
+        os.remove(filename)
 
     for t in tqdm.tqdm(range(number_of_steps)):
 
         # A mutation occurs when the population consists
         # only by residents.
-        if N in population[-1].values():
+        if N in population.values():
             mutant, population = introduce_mutant(population, resident, random_)
 
         else:
@@ -186,14 +191,12 @@ def simulation(
                 N,
                 population,
             )
-
             mutant_score = get_score_for_last_n_turns(
                 mutant, opponents_of_mutant, num_of_interactions, delta
             )
             resident_score = get_score_for_last_n_turns(
                 resident, opponents_of_resident, num_of_interactions, delta
             )
-
             imitation_probability = 1 / (
                 1
                 + np.exp(
@@ -202,29 +205,26 @@ def simulation(
             )
 
             if random_.random() < imitation_probability:
-                population.append(
-                    {
-                        resident: population[-1][resident] - 1,
-                        mutant: population[-1][mutant] + 1,
+                population = {
+                        resident: population[resident] - 1,
+                        mutant: population[mutant] + 1,
                     }
-                )
 
             else:
-                population.append(
-                    {
-                        resident: population[-1][resident] + 1,
-                        mutant: population[-1][mutant] - 1,
+                population = {
+                        resident: population[resident] + 1,
+                        mutant: population[mutant] - 1,
                     }
-                )
+
             # A mutant that takes over the population,
             # becomes the resident.
-            if population[-1][mutant] == N:
+            if population[mutant] == N:
                 resident = mutant
 
             data = (
                 [t]
-                + list(population[-1].keys())
-                + list(population[-1].values())
+                + list(population.keys())
+                + list(population.values())
             )
             with open(filename, "a") as textfile:
                 textfile.write(",".join([str(elem) for elem in data]) + "\n")
@@ -241,12 +241,13 @@ if __name__ == "__main__":  # pragma: no cover
     N = 100
     delta = 0.999
     strength_of_selection = 1
-    number_of_steps = 10 ** 7
+    number_of_steps = 10 ** 5
 
-    opponents = range(2, 10)
-    interactions = range(2, 100)
+    opponents = [2]
+    interactions = [5]
     parameters = itertools.product(opponents, interactions)
 
+    start = time.perf_counter()
     _ = p.starmap(
         simulation,
         [
@@ -264,3 +265,5 @@ if __name__ == "__main__":  # pragma: no cover
             for num_of_opponents, num_of_interactions in parameters
         ],
     )
+    final = time.perf_counter()
+    print(f"{final - start} seconds.")
