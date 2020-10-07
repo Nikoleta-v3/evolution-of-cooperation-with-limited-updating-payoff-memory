@@ -223,8 +223,8 @@ if __name__ == "__main__":  # pragma: no cover
     strength_of_selection = 1
     number_of_steps = 10 ** 5
 
-    opponents = [2]
-    interactions = range(2, 100)
+    opponents = range(2, 6)
+    interactions = range(2, 6)
     parameters = itertools.product(opponents, interactions)
 
     _ = p.starmap(
@@ -239,7 +239,7 @@ if __name__ == "__main__":  # pragma: no cover
                 num_of_opponents,
                 num_of_interactions,
                 0,
-                f"data/simulations/opponents_{num_of_opponents}_interactions_{num_of_interactions}.csv",
+                f"data/simulations_up_to_five/opponents_{num_of_opponents}_interactions_{num_of_interactions}.csv",
             )
             for num_of_opponents, num_of_interactions in parameters
         ],
