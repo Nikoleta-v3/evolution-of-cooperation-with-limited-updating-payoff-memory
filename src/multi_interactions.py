@@ -75,26 +75,6 @@ def get_opponents_of_mutant(
     resident, mutant, num_of_opponents, N, population, random_state
 ):
     """Returns the list of opponents for the mutant.
-
-    Parameters
-    ----------
-    resident : [type]
-        [description]
-    mutant : [type]
-        [description]
-    num_of_opponents : [type]
-        [description]
-    N : [type]
-        [description]
-    population : [type]
-        [description]
-    random_state : [type]
-        [description]
-
-    Returns
-    -------
-    [type]
-        [description]
     """
     play_again_role_model = False
     opponents_of_mutant = []
@@ -115,7 +95,7 @@ def get_opponents_of_mutant(
 
         opponents_of_mutant = (
             [resident] * sum(choices)
-            + [mutant] * (num_of_opponents - sum(choices))
+            
             + [resident] * int(play_again_role_model)
         )
 
@@ -142,7 +122,7 @@ def get_opponents_of_resident(
 
         opponents_of_resident = (
             [resident] * sum(choices)
-            + [mutant] * (num_of_opponents - sum(choices))
+            + [mutant] * sum([1 - c for c in choices])
             + [resident] * int(play_again_role_model)
         )
 
@@ -244,7 +224,7 @@ if __name__ == "__main__":  # pragma: no cover
     number_of_steps = 10 ** 5
 
     opponents = [2]
-    interactions = [5]
+    interactions = range(2, 100)
     parameters = itertools.product(opponents, interactions)
 
     _ = p.starmap(
@@ -264,3 +244,4 @@ if __name__ == "__main__":  # pragma: no cover
             for num_of_opponents, num_of_interactions in parameters
         ],
     )
+
