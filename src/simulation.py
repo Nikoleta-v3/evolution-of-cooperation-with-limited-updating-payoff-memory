@@ -104,6 +104,13 @@ def main(
     history = [resident]
     random_ = np.random.RandomState(seed)
 
+    if os.path.exists(filename):
+        os.remove(filename)
+
+    with open(filename, "w") as textfile:
+        textfile.write(",".join([str(elem) for elem in data]) + "\n")
+    textfile.close()
+
     for _ in tqdm(range(number_of_steps)):
         mutant = [random_.random() for _ in range(3)]
 
