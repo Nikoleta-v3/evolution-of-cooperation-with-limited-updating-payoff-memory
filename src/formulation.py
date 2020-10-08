@@ -253,8 +253,9 @@ def steady_state(player, opponent, delta):
 
     The probability of being at each state in steady state.
     """
-    v_zero = expected_distribution_opening_round(player, opponent)
+    v_zero = np.array(expected_distribution_opening_round(player, opponent))
     M = markov_chain_for_reactive_strategies(player, opponent)
-    inverse = sym.Matrix(np.identity(4) - delta * M).inverse_ADJ()
+    num = (1 - delta) * v_zero
+    ss = np.dot(num, np.linalg.pinv((np.eye(4) - delta * M)))
 
-    return (1 - delta) * sym.Matrix(v_zero).reshape(1, 4) @ inverse
+    return ss

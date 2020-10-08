@@ -120,15 +120,17 @@ def test_expected_distribution_last_round_opening_with_c():
     ) == (0, d, 0, 1 - d)
 
 
-def test_steady_state():
-    d = sym.symbols("delta")
-    player = (1 / 2, 1 / 2, 1 / 2)
-    opponent = (1, 1, 3 / 8)
+def test_steady_state_inline_with_matlab_code():
+    """
+    Tests that the results are the same as the ones given by the MatLab code
+    produced by CH.
+    """
+    player = (0, 0, 0)
+    opponent = (1 / 3, 1 / 7, 1 / 6)
+    delta = 0.999
 
-    last_round = formulation.expected_distribution_last_round(
-        player, opponent, d
-    )
-    steady_state = formulation.steady_state(player, opponent, d)
+    steady_states = formulation.steady_state(player, opponent, delta)
+    expected_steady_states = [0, 0, 0.1668, 0.8332]
 
-    for states in zip(last_round, steady_state):
-        assert (states[0] - states[1]).factor() == 0
+    for state, expected_state in zip(steady_states, expected_steady_states):
+        assert np.isclose(state, expected_state, 10 ** (-3))
