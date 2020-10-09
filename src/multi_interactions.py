@@ -81,7 +81,7 @@ def get_score_for_last_n_turns(
         match = axl.Match(
             [ReactivePlayer(player), ReactivePlayer(opponent)],
             prob_end=(1 - delta),
-            seed=1,
+            seed=seed,
         )
         _ = match.play()
 
