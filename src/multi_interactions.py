@@ -33,7 +33,26 @@ def introduce_mutant(population, resident, random_state):
     return mutant, population
 
 
-def get_score_for_last_n_turns(player, opponents, num_of_interactions, delta):
+class ReactivePlayer(axl.MemoryOnePlayer):
+    """
+    A generic reactive player. Defined by 2 probabilities conditional on the
+    opponent's last move (P(C|C), P(C|D)) and the opening probability.
+    """
+
+    name = "Reactive Player"
+
+    def __init__(self, probabilities):
+        self.initial = np.random.choice(
+            [axl.Action.C, axl.Action.D],
+            p=(probabilities[0], 1 - probabilities[0]),
+        )
+        self.four_vector = (*probabilities[1:], *probabilities[1:])
+        super().__init__(self.four_vector, self.initial)
+
+
+def get_score_for_last_n_turns(
+    player, opponents, num_of_interactions, delta, seed=None
+):
     """Score an individual against their opponents. The score is based on the
     last number of interactions.
 
@@ -60,13 +79,14 @@ def get_score_for_last_n_turns(player, opponents, num_of_interactions, delta):
     for opponent in opponents:
 
         match = axl.Match(
-            [axl.ReactivePlayer(player), axl.ReactivePlayer(opponent)],
+            [ReactivePlayer(player), ReactivePlayer(opponent)],
             prob_end=(1 - delta),
+            seed=1,
         )
         _ = match.play()
 
         scores, _ = zip(*match.scores()[-num_of_interactions:])
-        score_per_turn.append(sum(scores) / num_of_interactions)
+        score_per_turn.append(sum(scores) / len(scores))
 
     return sum(score_per_turn) / len(opponents)
 
@@ -74,8 +94,7 @@ def get_score_for_last_n_turns(player, opponents, num_of_interactions, delta):
 def get_opponents_of_mutant(
     resident, mutant, num_of_opponents, N, population, random_state
 ):
-    """Returns the list of opponents for the mutant.
-    """
+    """Returns the list of opponents for the mutant."""
     play_again_role_model = False
     opponents_of_mutant = []
     choices = []
@@ -86,17 +105,13 @@ def get_opponents_of_mutant(
             play_again_role_model = (1 / N) > random_state.random()
 
         p = (
-            N
-            - population[mutant]
-            - (int(play_again_role_model) + sum(choices))
+            N - population[mutant] - (int(play_again_role_model) + sum(choices))
         ) / (N - 1 - len(opponents_of_mutant))
 
         choices.append(np.random.choice([1, 0], p=(p, 1 - p)))
 
-        opponents_of_mutant = (
-            [resident] * sum(choices)
-            
-            + [resident] * int(play_again_role_model)
+        opponents_of_mutant = [resident] * sum(choices) + [resident] * int(
+            play_again_role_model
         )
 
     return opponents_of_mutant, play_again_role_model
@@ -186,26 +201,22 @@ def simulation(
 
             if random_.random() < imitation_probability:
                 population = {
-                        resident: population[resident] - 1,
-                        mutant: population[mutant] + 1,
-                    }
+                    resident: population[resident] - 1,
+                    mutant: population[mutant] + 1,
+                }
 
             else:
                 population = {
-                        resident: population[resident] + 1,
-                        mutant: population[mutant] - 1,
-                    }
+                    resident: population[resident] + 1,
+                    mutant: population[mutant] - 1,
+                }
 
             # A mutant that takes over the population,
             # becomes the resident.
             if population[mutant] == N:
                 resident = mutant
 
-            data = (
-                [t]
-                + list(population.keys())
-                + list(population.values())
-            )
+            data = [t] + list(population.keys()) + list(population.values())
             with open(filename, "a") as textfile:
                 textfile.write(",".join([str(elem) for elem in data]) + "\n")
             textfile.close()
@@ -244,4 +255,3 @@ if __name__ == "__main__":  # pragma: no cover
             for num_of_opponents, num_of_interactions in parameters
         ],
     )
-

@@ -1,5 +1,7 @@
 from importlib.machinery import SourceFileLoader
 
+import axelrod as axl
+
 import numpy as np
 
 mutli = SourceFileLoader("mutli", "src/multi_interactions.py").load_module()
@@ -24,4 +26,20 @@ def test_introduce_mutant():
     assert population[mutant] == 1
 
 
-# def test_get_score_for_last_n_rounds():
+def test_reactive_player():
+
+    player = mutli.ReactivePlayer((0, 0, 0))
+    assert player.name == 'Reactive Player'
+    assert player.initial == axl.Action.D
+    assert player.four_vector == (0, 0, 0, 0)
+
+    opponent = mutli.ReactivePlayer((1, 1, 0))
+    assert opponent.name == 'Reactive Player'
+    assert opponent.initial == axl.Action.C
+    assert opponent.four_vector == (1, 0, 1, 0)
+
+    match = axl.Match([player, opponent], turns=5)
+    results = match.play()
+
+    assert results[0] == (axl.Action.D, axl.Action.C)
+    assert results[-1] == (axl.Action.D, axl.Action.D)
