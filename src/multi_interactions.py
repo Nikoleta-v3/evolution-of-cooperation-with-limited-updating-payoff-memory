@@ -95,26 +95,31 @@ def get_opponents_of_mutant(
     resident, mutant, num_of_opponents, N, population, random_state
 ):
     """Returns the list of opponents for the mutant."""
-    play_again_role_model = False
+    play_against_role_model = False
     opponents_of_mutant = []
-    choices = []
 
     while len(opponents_of_mutant) < num_of_opponents:
 
-        if play_again_role_model is False:
-            play_again_role_model = (1 / N) > random_state.random()
+        if play_against_role_model is False:
+            play_against_role_model = (1 / N) > random_state.random()
+            if play_against_role_model:
+                opponents_of_mutant.append(resident)
 
-        p = (
-            N - population[mutant] - (int(play_again_role_model) + sum(choices))
-        ) / (N - 1 - len(opponents_of_mutant))
-
-        choices.append(np.random.choice([1, 0], p=(p, 1 - p)))
-
-        opponents_of_mutant = [resident] * sum(choices) + [resident] * int(
-            play_again_role_model
+        p = (N - population[mutant] - opponents_of_mutant.count(resident)) / (
+            N - 1 - len(opponents_of_mutant)
         )
+        choice = np.random.choice([1, 0], p=(p, 1 - p))
+        if choice == 1:
+            opponents_of_mutant.append(resident)
+        else:
+            opponents_of_mutant.append(mutant)
 
-    return opponents_of_mutant, play_again_role_model
+    if (opponents_of_mutant.count(resident) == population[resident]) and (
+        play_against_role_model == False
+    ):
+        play_against_role_model = True
+
+    return opponents_of_mutant, play_against_role_model
 
 
 def get_opponents_of_resident(

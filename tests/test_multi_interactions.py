@@ -3,6 +3,7 @@ from importlib.machinery import SourceFileLoader
 import axelrod as axl
 
 import numpy as np
+import pytest
 
 multi = SourceFileLoader("mutli", "src/multi_interactions.py").load_module()
 
@@ -65,3 +66,88 @@ def test_get_score_for_last_n_turns_last_hundred_interactions():
     )
 
     assert np.isclose(score, (sum([3.0, 2.83333, 0.83333, 2.5]) / 4))
+
+
+def test_mutant_opponents_single_mutant():
+    """
+    The mutant never interacts with another mutant when there is a single mutant in the population.
+    """
+    resident = (0, 0, 0)
+    N = 6
+    population = {resident: N}
+    interactions = 5
+
+    # get different mutant each time tests run
+    seed = np.random.randint(100)
+    random_ = np.random.RandomState(seed)
+
+    mutant, population = multi.introduce_mutant(population, resident, random_)
+
+    opponents, _ = multi.get_opponents_of_mutant(
+        resident, mutant, interactions, N, population, random_
+    )
+
+    assert mutant not in opponents
+
+
+def test_mutant_opponents_error_when_interactions_exceed_population_size():
+
+    resident = (0, 0, 0)
+    N = 6
+    population = {resident: N}
+    interactions = N
+
+    # get different mutant each time tests run
+    seed = np.random.randint(100)
+    random_ = np.random.RandomState(seed)
+
+    mutant, population = multi.introduce_mutant(population, resident, random_)
+
+    with pytest.raises(ZeroDivisionError):
+        multi.get_opponents_of_mutant(
+            resident, mutant, interactions, N, population, random_
+        )
+
+
+def test_mutant_opponents_interacts_with_all_residents():
+
+    resident = (0, 0, 0)
+    N = 6
+    population = {resident: N}
+    interactions = 5
+
+    # get different mutant each time tests run
+    seed = np.random.randint(100)
+    random_ = np.random.RandomState(seed)
+
+    mutant, population = multi.introduce_mutant(population, resident, random_)
+
+    opponents, play_again_role_model = multi.get_opponents_of_mutant(
+        resident, mutant, interactions, N, population, random_
+    )
+
+    for opponent in opponents:
+        assert opponent == resident
+    assert play_again_role_model
+
+
+def test_that_mutant_interacts_with_other_mutant_and_role_model():
+    resident = (0, 0, 0)
+    N = 6
+    population = {resident: N}
+    random_ = np.random.RandomState(0)
+
+    mutant, population = multi.introduce_mutant(population, resident, random_)
+
+    population = {
+        resident: population[resident] - 1,
+        mutant: population[mutant] + 1,
+    }
+
+    opponents, interacts = multi.get_opponents_of_mutant(
+        resident, mutant, 5, N, population, random_
+    )
+
+    assert interacts
+    assert sum([mutant == opponent for opponent in opponents]) == 1
+    assert sum([resident == opponent for opponent in opponents]) == 4
