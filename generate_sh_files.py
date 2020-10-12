@@ -61,9 +61,10 @@ def write_multi_simulations_sh(games=games):
     experiment = "multi_interactions"
 
     for game in games:
-        name = experiment + "_" + game + ".sh"
+        for resident, resident_name in zip(["0, 0, 0", "1/3, 1/3, 1/3"], ["ALLD", "GTFT"]):
+            name = experiment + "_" + game + resident_name + ".sh"
 
-        skeleton = f"""#!/bin/bash
+            skeleton = f"""#!/bin/bash
 #SBATCH -p amd  # partition (queue)
 #SBATCH -J {experiment[:3] + "-" + game[:3]} # job name
 #SBATCH -N 1 # number of nodes, use 1-1 if you need exactly one node
@@ -75,10 +76,10 @@ def write_multi_simulations_sh(games=games):
 module load python/3.6.6
 source ../venvs/payoffs/bin/activate
 
-python src/{experiment}.py None"""
+python src/{experiment}.py {resident} {resident_name}"""
 
-        with open("sh/%s" % name, "w") as textfile:
-            textfile.write(skeleton)
+            with open("sh/%s" % name, "w") as textfile:
+                textfile.write(skeleton)
 
 
 # write_invasion_sh()

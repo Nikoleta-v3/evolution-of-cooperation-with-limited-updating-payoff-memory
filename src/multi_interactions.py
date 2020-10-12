@@ -1,6 +1,7 @@
 import itertools
 import multiprocessing
 import os
+import sys
 import random
 import time
 
@@ -229,8 +230,13 @@ def simulation(
                 [t]
                 + list(population.keys())
                 + list(population.values())
-                + [num_of_interactions]
-                + [num_of_opponents]
+                + [
+                    num_of_interactions,
+                    num_of_opponents,
+                    N,
+                    delta,
+                    strength_of_selection,
+                ]
             )
             with open(filename, "a") as textfile:
                 textfile.write(
@@ -251,8 +257,8 @@ if __name__ == "__main__":  # pragma: no cover
     number_of_process = multiprocessing.cpu_count()
     p = multiprocessing.Pool(int(number_of_process))
 
-    residents = {"ALLD": (0, 0, 0), "GTFT": (1, 1, 1 / 3)}
-    residents_names = ["ALLD", "GTFT"]
+    resident = [float(element) for element in sys.argv[1].split(",")]
+    resident_name = sys.argv[2]
 
     N = 100
     delta = 0.999
@@ -261,13 +267,13 @@ if __name__ == "__main__":  # pragma: no cover
 
     opponents = range(2, 6)
     interactions = range(2, 6)
-    parameters = itertools.product(opponents, interactions, residents_names)
+    parameters = itertools.product(opponents, interactions)
 
     _ = p.starmap(
         simulation,
         [
             (
-                residents[name],
+                resident,
                 N,
                 delta,
                 strength_of_selection,
@@ -275,8 +281,8 @@ if __name__ == "__main__":  # pragma: no cover
                 num_of_opponents,
                 num_of_interactions,
                 0,
-                f"data/simulations_up_to_five/opponents_{num_of_opponents}_interactions_{num_of_interactions}.csv",
+                f"data/simulations_up_to_five/opponents_{num_of_opponents}_interactions_{num_of_interactions}_resident_{resident_name}.csv",
             )
-            for num_of_opponents, num_of_interactions, name in parameters
+            for num_of_opponents, num_of_interactions in parameters
         ],
     )
