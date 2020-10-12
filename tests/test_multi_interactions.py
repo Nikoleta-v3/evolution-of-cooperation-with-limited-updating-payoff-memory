@@ -358,7 +358,7 @@ def test_mutant_becomes_the_resident():
     N = 6
     delta = 0.999
     strength_of_selection = 1
-    num_of_steps = 10
+    num_of_steps = 11
     num_of_opponents = 2
     num_of_interactions = 1
     seed = 2
