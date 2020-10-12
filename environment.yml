@@ -17,3 +17,4 @@ dependencies:
     - isort==5.5.1
     - pandas==1.1.2
     - tqdm==4.48.2
+    - axelrod==4.10.0
