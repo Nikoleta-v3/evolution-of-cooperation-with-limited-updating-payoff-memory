@@ -186,11 +186,12 @@ def simulation(
                 N,
                 population,
             )
+            seeds = [random_.randint(10000) for _ in range(2)]
             mutant_score = get_score_for_last_n_turns(
-                mutant, opponents_of_mutant, num_of_interactions, delta
+                mutant, opponents_of_mutant, num_of_interactions, delta, seeds[0]
             )
             resident_score = get_score_for_last_n_turns(
-                resident, opponents_of_resident, num_of_interactions, delta
+                resident, opponents_of_resident, num_of_interactions, delta, seeds[1]
             )
             imitation_probability = 1 / (
                 1
