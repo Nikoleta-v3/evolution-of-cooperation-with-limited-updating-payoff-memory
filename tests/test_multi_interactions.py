@@ -384,3 +384,5 @@ def test_mutant_becomes_the_resident():
 
     assert (resident in population) == False
     assert expected_resident in population
+
+    os.remove(filename)
