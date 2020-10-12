@@ -311,9 +311,12 @@ def test_simulation_for_multiple_runs():
         "mutant count",
         "num of interactions",
         "num of opponents",
+        "N",
+        "delta",
+        "strength_of_selection",
     ]
 
-    assert len(df.columns) == 11
+    assert len(df.columns) == 14
     assert df.iloc[-1]["num of interactions"] == num_of_interactions
 
     os.remove(filename)
@@ -348,7 +351,7 @@ def test_simulation_previous_experiment_file_is_delete():
 
     df = pd.read_csv(filename, header=None)
 
-    assert len(df.columns) == 11
+    assert len(df.columns) == 14
     assert len(df.values) <= num_of_steps
 
 
