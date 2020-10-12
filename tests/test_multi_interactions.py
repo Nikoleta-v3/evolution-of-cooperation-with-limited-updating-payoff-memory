@@ -165,7 +165,7 @@ def test_get_opponents_of_resident_one_mutant_interaction_true():
     mutant, population = multi.introduce_mutant(population, resident, random_)
 
     opponents = multi.get_opponents_of_resident(
-        resident, mutant, play_against_role_model, 4, N, population
+        resident, mutant, play_against_role_model, 4, N, population, random_
     )
 
     assert sum([mutant == opponent for opponent in opponents]) == 1
@@ -186,7 +186,7 @@ def test_get_opponents_of_resident_two_mutants_interaction_true():
     }
 
     opponents = multi.get_opponents_of_resident(
-        resident, mutant, play_against_role_model, 5, N, population
+        resident, mutant, play_against_role_model, 5, N, population, random_
     )
 
     assert sum([mutant == opponent for opponent in opponents]) == 2
@@ -207,7 +207,7 @@ def test_get_opponents_of_resident_three_mutants_interaction_true():
     }
 
     opponents = multi.get_opponents_of_resident(
-        resident, mutant, play_against_role_model, 5, N, population
+        resident, mutant, play_against_role_model, 5, N, population, random_
     )
 
     assert sum([mutant == opponent for opponent in opponents]) == 3
@@ -235,6 +235,7 @@ def test_resident_opponents_error_when_interactions_exceed_population_size():
             interactions,
             N,
             population,
+            random_
         )
 
 
