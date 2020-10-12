@@ -251,7 +251,9 @@ if __name__ == "__main__":  # pragma: no cover
     number_of_process = multiprocessing.cpu_count()
     p = multiprocessing.Pool(int(number_of_process))
 
-    resident = (0, 0, 0)
+    residents = {"ALLD": (0, 0, 0), "GTFT": (1, 1, 1 / 3)}
+    residents_names = ["ALLD", "GTFT"]
+
     N = 100
     delta = 0.999
     strength_of_selection = 1
@@ -259,13 +261,13 @@ if __name__ == "__main__":  # pragma: no cover
 
     opponents = range(2, 6)
     interactions = range(2, 6)
-    parameters = itertools.product(opponents, interactions)
+    parameters = itertools.product(opponents, interactions, residents_names)
 
     _ = p.starmap(
         simulation,
         [
             (
-                resident,
+                residents[name],
                 N,
                 delta,
                 strength_of_selection,
@@ -275,6 +277,6 @@ if __name__ == "__main__":  # pragma: no cover
                 0,
                 f"data/simulations_up_to_five/opponents_{num_of_opponents}_interactions_{num_of_interactions}.csv",
             )
-            for num_of_opponents, num_of_interactions in parameters
+            for num_of_opponents, num_of_interactions, name in parameters
         ],
     )
