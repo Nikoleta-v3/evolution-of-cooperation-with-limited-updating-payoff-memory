@@ -68,7 +68,7 @@ def test_simulation():
     df = pd.read_csv(filename, header=None)
 
     assert len(df.columns) == 13
-    assert len(df.values) == 1
+    assert len(df.values) == 2
     assert df.values[0][7] == "expected"
 
     os.remove(filename)
@@ -95,7 +95,7 @@ def test_simulation_stochastic():
     df = pd.read_csv(filename, header=None)
 
     assert len(df.columns) == 13
-    assert len(df.values) == 1
+    assert len(df.values) == 2
     assert df.values[0][7] == "stochastic"
 
     os.remove(filename)
@@ -122,7 +122,7 @@ def test_simulation_success():
     df = pd.read_csv(filename, header=None)
 
     assert len(df.columns) == 13
-    assert len(df.values) == 4
+    assert len(df.values) == 5
     assert df.values[0][7] == "expected"
     assert all(
         df.values[-1][-3:]
@@ -130,3 +130,28 @@ def test_simulation_success():
     )
 
     os.remove(filename)
+
+
+def test_simulation_previous_experiment_file_is_delete():
+    """
+    This ensures that the results on new experiment are not appended to a file
+    of previous results.
+    """
+    filename = "tests/example_simulation.csv"
+
+    _ = simulation.main(
+        10,
+        delta=0.999,
+        beta=1,
+        number_of_steps=1,
+        payoffs=simulation.donation_game(1, 3),
+        mode="expected",
+        filename=filename,
+        seed=0,
+        starting_resident=(1, 1, 1),
+    )
+
+    df = pd.read_csv(filename, header=None)
+
+    assert len(df.columns) == 13
+    assert len(df.values) == 2

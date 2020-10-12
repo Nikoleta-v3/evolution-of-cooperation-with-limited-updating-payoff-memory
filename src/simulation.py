@@ -104,9 +104,6 @@ def main(
     history = [resident]
     random_ = np.random.RandomState(seed)
 
-    if os.path.exists(filename):
-        os.remove(filename)
-
     with open(filename, "w") as textfile:
         textfile.write(",".join([str(elem) for elem in data]) + "\n")
     textfile.close()

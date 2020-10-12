@@ -364,7 +364,8 @@ def test_mutant_becomes_the_resident():
     seed = 2
     filename = "test_multi_interactions_simulation.csv"
 
-    population = multi.simulation(resident,
+    population = multi.simulation(
+        resident,
         N,
         delta,
         strength_of_selection,
@@ -372,9 +373,14 @@ def test_mutant_becomes_the_resident():
         num_of_opponents,
         num_of_interactions,
         seed,
-        filename,)
-    
-    expected_resident = (0.43599490214200376, 0.025926231827891333, 0.5496624778787091)
+        filename,
+    )
+
+    expected_resident = (
+        0.43599490214200376,
+        0.025926231827891333,
+        0.5496624778787091,
+    )
 
     assert (resident in population) == False
     assert expected_resident in population
