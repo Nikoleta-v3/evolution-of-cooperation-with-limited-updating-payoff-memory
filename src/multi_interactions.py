@@ -257,7 +257,7 @@ if __name__ == "__main__":  # pragma: no cover
     number_of_process = multiprocessing.cpu_count()
     p = multiprocessing.Pool(int(number_of_process))
 
-    resident = [float(element) for element in sys.argv[1].split(",")]
+    resident = tuple(float(element) for element in sys.argv[1].split(","))
     resident_name = sys.argv[2]
 
     N = 100

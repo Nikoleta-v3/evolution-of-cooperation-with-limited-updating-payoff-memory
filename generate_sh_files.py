@@ -57,11 +57,11 @@ python src/{experiment}.py {mode} {game}"""
 
 
 def write_multi_simulations_sh(games=games):
-    number_of_cores = 10
+    number_of_cores = 16
     experiment = "multi_interactions"
 
     for game in games:
-        for resident, resident_name in zip(["0, 0, 0", "1/3, 1/3, 1/3"], ["ALLD", "GTFT"]):
+        for resident, resident_name in zip(["0,0,0", "1/3,1/3,1/3"], ["ALLD", "GTFT"]):
             name = experiment + "_" + game + resident_name + ".sh"
 
             skeleton = f"""#!/bin/bash
@@ -69,7 +69,7 @@ def write_multi_simulations_sh(games=games):
 #SBATCH -J {experiment[:3] + "-" + game[:3]} # job name
 #SBATCH -N 1 # number of nodes, use 1-1 if you need exactly one node
 #SBATCH -n {number_of_cores} # number of cores
-#SBATCH -t 1-00:00  # time (D-HH:MM)
+#SBATCH -t 10-00:00  # time (D-HH:MM)
 #SBATCH -o slurm.%j.out # STDOUT
 #SBATCH -e slurm.%j.err # STDERR
 
