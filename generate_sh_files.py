@@ -61,8 +61,8 @@ def write_multi_simulations_sh(games=games):
     experiment = "multi_interactions"
 
     for game in games:
-        for resident, resident_name in zip(["0,0,0", "1/3,1/3,1/3"], ["ALLD", "GTFT"]):
-            name = experiment + "_" + game + resident_name + ".sh"
+        for resident_name in ["ALLD", "GTFT"]:
+            name = experiment + "_" + game + "_" + resident_name + ".sh"
 
             skeleton = f"""#!/bin/bash
 #SBATCH -p amd  # partition (queue)
@@ -76,7 +76,7 @@ def write_multi_simulations_sh(games=games):
 module load python/3.6.6
 source ../venvs/payoffs/bin/activate
 
-python src/{experiment}.py {resident} {resident_name}"""
+python src/{experiment}.py {resident_name}"""
 
             with open("sh/%s" % name, "w") as textfile:
                 textfile.write(skeleton)

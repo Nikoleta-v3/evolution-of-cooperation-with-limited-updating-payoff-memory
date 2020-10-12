@@ -113,7 +113,7 @@ def get_opponents_of_mutant(
             p = (
                 N - population[mutant] - opponents_of_mutant.count(resident)
             ) / (N - 1 - len(opponents_of_mutant))
-            choice = np.random.choice([1, 0], p=(p, 1 - p))
+            choice = random_state.choice([1, 0], p=(p, 1 - p))
 
             if choice == 1:
                 opponents_of_mutant.append(resident)
@@ -124,7 +124,7 @@ def get_opponents_of_mutant(
 
 
 def get_opponents_of_resident(
-    resident, mutant, play_against_role_model, num_of_opponents, N, population
+    resident, mutant, play_against_role_model, num_of_opponents, N, population, random_state
 ):
     opponents_of_resident = []
     if play_against_role_model:
@@ -136,7 +136,7 @@ def get_opponents_of_resident(
             N - 1 - len(opponents_of_resident)
         )
 
-        choice = np.random.choice([1, 0], p=(1 - p, p))
+        choice = random_state.choice([1, 0], p=(1 - p, p))
         if choice == 1:
             opponents_of_resident.append(resident)
         else:
@@ -186,6 +186,7 @@ def simulation(
                 num_of_opponents,
                 N,
                 population,
+                random_
             )
             seeds = [random_.randint(10000) for _ in range(2)]
             mutant_score = get_score_for_last_n_turns(
@@ -257,8 +258,10 @@ if __name__ == "__main__":  # pragma: no cover
     number_of_process = multiprocessing.cpu_count()
     p = multiprocessing.Pool(int(number_of_process))
 
-    resident = tuple(float(element) for element in sys.argv[1].split(","))
-    resident_name = sys.argv[2]
+    resident_name = sys.argv[1]
+
+    resident_dict = {'ALLD': (0, 0 ,0), 'GTFT': (1/3, 1/3, 1/3)}
+    resident = resident_dict[resident_name]
 
     N = 100
     delta = 0.999
