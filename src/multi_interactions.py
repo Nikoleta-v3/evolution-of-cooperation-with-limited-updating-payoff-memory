@@ -1,13 +1,12 @@
 import itertools
 import multiprocessing
+import os
 import random
 import time
 
 import axelrod as axl
 import numpy as np
 import tqdm
-
-import os
 
 
 def introduce_mutant(population, resident, random_state):
@@ -150,7 +149,7 @@ def simulation(
     N,
     delta,
     strength_of_selection,
-    number_of_steps,
+    num_of_steps,
     num_of_opponents,
     num_of_interactions,
     seed,
@@ -163,7 +162,7 @@ def simulation(
     if os.path.exists(filename):
         os.remove(filename)
 
-    for t in tqdm.tqdm(range(number_of_steps)):
+    for t in tqdm.tqdm(range(num_of_steps)):
 
         # A mutation occurs when the population consists
         # only by residents.
@@ -217,9 +216,23 @@ def simulation(
             if population[mutant] == N:
                 resident = mutant
 
-            data = [t] + list(population.keys()) + list(population.values())
+            data = (
+                [t]
+                + list(population.keys())
+                + list(population.values())
+                + [num_of_interactions]
+                + [num_of_opponents]
+            )
             with open(filename, "a") as textfile:
-                textfile.write(",".join([str(elem) for elem in data]) + "\n")
+                textfile.write(
+                    ",".join(
+                        [
+                            str(elem).replace("(", "").replace(")", "")
+                            for elem in data
+                        ]
+                    )
+                    + "\n"
+                )
             textfile.close()
     return population
 

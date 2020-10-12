@@ -1,8 +1,9 @@
+import os
 from importlib.machinery import SourceFileLoader
 
 import axelrod as axl
-
 import numpy as np
+import pandas as pd
 import pytest
 
 multi = SourceFileLoader("mutli", "src/multi_interactions.py").load_module()
@@ -228,5 +229,152 @@ def test_resident_opponents_error_when_interactions_exceed_population_size():
 
     with pytest.raises(ZeroDivisionError):
         multi.get_opponents_of_resident(
-        resident, mutant, play_against_role_model, interactions, N, population
+            resident,
+            mutant,
+            play_against_role_model,
+            interactions,
+            N,
+            population,
+        )
+
+
+def test_simulation_for_one_run():
+    resident = (1, 1, 1)
+    N = 6
+    delta = 0.999
+    strength_of_selection = 1
+    num_of_steps = 1
+    num_of_opponents = 2
+    num_of_interactions = 2
+    seed = 0
+    filename = "test_multi_interactions_simulation.csv"
+
+    assert os.path.exists(filename) == False
+
+    population = multi.simulation(
+        resident,
+        N,
+        delta,
+        strength_of_selection,
+        num_of_steps,
+        num_of_opponents,
+        num_of_interactions,
+        seed,
+        filename,
     )
+
+    assert isinstance(population, dict)
+    assert len(population.keys()) == 2
+    assert list(population.values()) == [5, 1]
+
+    assert os.path.exists(filename) == False
+
+
+def test_simulation_for_multiple_runs():
+    resident = (1, 1, 1)
+    N = 6
+    delta = 0.999
+    strength_of_selection = 1
+    num_of_steps = 10
+    num_of_opponents = 2
+    num_of_interactions = 2
+    seed = 0
+    filename = "test_multi_interactions_simulation.csv"
+
+    assert os.path.exists(filename) == False
+
+    population = multi.simulation(
+        resident,
+        N,
+        delta,
+        strength_of_selection,
+        num_of_steps,
+        num_of_opponents,
+        num_of_interactions,
+        seed,
+        filename,
+    )
+
+    assert isinstance(population, dict)
+
+    assert os.path.exists(filename) == True
+    df = pd.read_csv(filename)
+    df.columns = [
+        "timestep",
+        "$y_1$",
+        "$p_1$",
+        "$q_1$",
+        "$y_2$",
+        "$p_2$",
+        "$q_2$",
+        "resident count",
+        "mutant count",
+        "num of interactions",
+        "num of opponents",
+    ]
+
+    assert len(df.columns) == 11
+    assert df.iloc[-1]["num of interactions"] == num_of_interactions
+
+    os.remove(filename)
+
+
+def test_simulation_previous_experiment_file_is_delete():
+    """
+    This ensures that the results on new experiment are not appended to a file
+    of previous results.
+    """
+    filename = "tests/example_multi_simulation.csv"
+    resident = (1, 1, 1)
+    N = 6
+    delta = 0.999
+    strength_of_selection = 1
+    num_of_steps = 10
+    num_of_opponents = 2
+    num_of_interactions = 2
+    seed = 0
+
+    _ = multi.simulation(
+        resident,
+        N,
+        delta,
+        strength_of_selection,
+        num_of_steps,
+        num_of_opponents,
+        num_of_interactions,
+        seed,
+        filename,
+    )
+
+    df = pd.read_csv(filename, header=None)
+
+    assert len(df.columns) == 11
+    assert len(df.values) <= num_of_steps
+
+
+def test_mutant_becomes_the_resident():
+
+    resident = (1, 1, 1)
+    N = 6
+    delta = 0.999
+    strength_of_selection = 1
+    num_of_steps = 10
+    num_of_opponents = 2
+    num_of_interactions = 1
+    seed = 2
+    filename = "test_multi_interactions_simulation.csv"
+
+    population = multi.simulation(resident,
+        N,
+        delta,
+        strength_of_selection,
+        num_of_steps,
+        num_of_opponents,
+        num_of_interactions,
+        seed,
+        filename,)
+    
+    expected_resident = (0.43599490214200376, 0.025926231827891333, 0.5496624778787091)
+
+    assert (resident in population) == False
+    assert expected_resident in population
