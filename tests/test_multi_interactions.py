@@ -151,3 +151,82 @@ def test_that_mutant_interacts_with_other_mutant_and_role_model():
     assert interacts
     assert sum([mutant == opponent for opponent in opponents]) == 1
     assert sum([resident == opponent for opponent in opponents]) == 4
+
+
+def test_get_opponents_of_resident_one_mutant_interaction_true():
+
+    resident = (0, 0, 0)
+    N = 6
+    population = {resident: N}
+    random_ = np.random.RandomState(0)
+    play_against_role_model = True
+
+    mutant, population = multi.introduce_mutant(population, resident, random_)
+
+    opponents = multi.get_opponents_of_resident(
+        resident, mutant, play_against_role_model, 4, N, population
+    )
+
+    assert sum([mutant == opponent for opponent in opponents]) == 1
+
+
+def test_get_opponents_of_resident_two_mutants_interaction_true():
+
+    resident = (0, 0, 0)
+    N = 6
+    population = {resident: N}
+    random_ = np.random.RandomState(0)
+    play_against_role_model = True
+
+    mutant, population = multi.introduce_mutant(population, resident, random_)
+    population = {
+        resident: population[resident] - 1,
+        mutant: population[mutant] + 1,
+    }
+
+    opponents = multi.get_opponents_of_resident(
+        resident, mutant, play_against_role_model, 5, N, population
+    )
+
+    assert sum([mutant == opponent for opponent in opponents]) == 2
+
+
+def test_get_opponents_of_resident_three_mutants_interaction_true():
+
+    resident = (0, 0, 0)
+    N = 6
+    population = {resident: N}
+    random_ = np.random.RandomState(0)
+    play_against_role_model = True
+
+    mutant, population = multi.introduce_mutant(population, resident, random_)
+    population = {
+        resident: population[resident] - 2,
+        mutant: population[mutant] + 2,
+    }
+
+    opponents = multi.get_opponents_of_resident(
+        resident, mutant, play_against_role_model, 5, N, population
+    )
+
+    assert sum([mutant == opponent for opponent in opponents]) == 3
+
+
+def test_resident_opponents_error_when_interactions_exceed_population_size():
+
+    resident = (0, 0, 0)
+    N = 6
+    population = {resident: N}
+    interactions = N
+    play_against_role_model = False
+
+    # get different mutant each time tests run
+    seed = np.random.randint(100)
+    random_ = np.random.RandomState(seed)
+
+    mutant, population = multi.introduce_mutant(population, resident, random_)
+
+    with pytest.raises(ZeroDivisionError):
+        multi.get_opponents_of_resident(
+        resident, mutant, play_against_role_model, interactions, N, population
+    )

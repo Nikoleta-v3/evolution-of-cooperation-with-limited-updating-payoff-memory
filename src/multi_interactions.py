@@ -98,53 +98,49 @@ def get_opponents_of_mutant(
     play_against_role_model = False
     opponents_of_mutant = []
 
-    while len(opponents_of_mutant) < num_of_opponents:
+    for interactions in range(num_of_opponents):
+        probability_interacting_with_role_model = (
+            1 / (N - 1 - interactions)
+        ) * (1 - int(play_against_role_model))
 
-        if play_against_role_model is False:
-            play_against_role_model = (1 / N) > random_state.random()
-            if play_against_role_model:
-                opponents_of_mutant.append(resident)
+        if probability_interacting_with_role_model > random_state.random():
 
-        p = (N - population[mutant] - opponents_of_mutant.count(resident)) / (
-            N - 1 - len(opponents_of_mutant)
-        )
-        choice = np.random.choice([1, 0], p=(p, 1 - p))
-        if choice == 1:
+            play_against_role_model = True
             opponents_of_mutant.append(resident)
-        else:
-            opponents_of_mutant.append(mutant)
 
-    if (opponents_of_mutant.count(resident) == population[resident]) and (
-        play_against_role_model == False
-    ):
-        play_against_role_model = True
+        else:
+
+            p = (
+                N - population[mutant] - opponents_of_mutant.count(resident)
+            ) / (N - 1 - len(opponents_of_mutant))
+            choice = np.random.choice([1, 0], p=(p, 1 - p))
+
+            if choice == 1:
+                opponents_of_mutant.append(resident)
+            else:
+                opponents_of_mutant.append(mutant)
 
     return opponents_of_mutant, play_against_role_model
 
 
 def get_opponents_of_resident(
-    resident, mutant, play_again_role_model, num_of_opponents, N, population
+    resident, mutant, play_against_role_model, num_of_opponents, N, population
 ):
-
     opponents_of_resident = []
-    choices = []
+    if play_against_role_model:
+        opponents_of_resident.append(mutant)
 
     while len(opponents_of_resident) < num_of_opponents:
 
-        p = (
-            N
-            - population[mutant]
-            - 1
-            - (int(play_again_role_model) + sum(choices))
-        ) / (N - 1 - len(opponents_of_resident))
-
-        choices.append(np.random.choice([1, 0], p=(p, 1 - p)))
-
-        opponents_of_resident = (
-            [resident] * sum(choices)
-            + [mutant] * sum([1 - c for c in choices])
-            + [resident] * int(play_again_role_model)
+        p = (population[mutant] - opponents_of_resident.count(mutant)) / (
+            N - 1 - len(opponents_of_resident)
         )
+
+        choice = np.random.choice([1, 0], p=(1 - p, p))
+        if choice == 1:
+            opponents_of_resident.append(resident)
+        else:
+            opponents_of_resident.append(mutant)
 
     return opponents_of_resident
 
