@@ -235,7 +235,7 @@ def test_resident_opponents_error_when_interactions_exceed_population_size():
             interactions,
             N,
             population,
-            random_
+            random_,
         )
 
 

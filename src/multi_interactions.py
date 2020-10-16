@@ -1,8 +1,8 @@
 import itertools
 import multiprocessing
 import os
-import sys
 import random
+import sys
 import time
 
 import axelrod as axl
@@ -124,7 +124,13 @@ def get_opponents_of_mutant(
 
 
 def get_opponents_of_resident(
-    resident, mutant, play_against_role_model, num_of_opponents, N, population, random_state
+    resident,
+    mutant,
+    play_against_role_model,
+    num_of_opponents,
+    N,
+    population,
+    random_state,
 ):
     opponents_of_resident = []
     if play_against_role_model:
@@ -186,7 +192,7 @@ def simulation(
                 num_of_opponents,
                 N,
                 population,
-                random_
+                random_,
             )
             seeds = [random_.randint(10000) for _ in range(2)]
             mutant_score = get_score_for_last_n_turns(
@@ -260,7 +266,7 @@ if __name__ == "__main__":  # pragma: no cover
 
     resident_name = sys.argv[1]
 
-    resident_dict = {'ALLD': (0, 0 ,0), 'GTFT': (1/3, 1/3, 1/3)}
+    resident_dict = {"ALLD": (0, 0, 0), "GTFT": (1 / 3, 1 / 3, 1 / 3)}
     resident = resident_dict[resident_name]
 
     N = 100
