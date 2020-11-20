@@ -2,16 +2,12 @@ import itertools
 import os.path
 import sys
 from collections import Counter
-from importlib.machinery import SourceFileLoader
 
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
-evolution = SourceFileLoader("evolution", "src/evolution.py").load_module()
-formulation = SourceFileLoader(
-    "formulation", "src/formulation.py"
-).load_module()
+import evol_dynamics
 
 
 def donation_game(c, b):
@@ -116,7 +112,7 @@ def main(
                 fixation_probability,
                 cooperation,
                 score,
-            ) = evolution.fixation_probability_for_expected_payoffs(
+            ) = evol_dynamics.fixation_probability_for_expected_payoffs(
                 resident, mutant, N, delta, beta, payoffs
             )
         if mode == "stochastic":
@@ -124,7 +120,7 @@ def main(
                 fixation_probability,
                 cooperation,
                 score,
-            ) = evolution.fixation_probability_for_stochastic_payoffs(
+            ) = evol_dynamics.fixation_probability_for_stochastic_payoffs(
                 resident, mutant, N, delta, beta, payoffs
             )
 
@@ -173,5 +169,5 @@ if __name__ == "__main__":  # pragma: no cover
         payoffs=payoffs,
         mode=mode,
         filename=filename,
-        seed=seed
+        seed=seed,
     )

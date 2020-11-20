@@ -1,18 +1,15 @@
 import itertools
-from importlib.machinery import SourceFileLoader
 
 import numpy as np
 import sympy as sym
 
-evolution = SourceFileLoader("evolution", "src/evolution.py").load_module()
-numerical = SourceFileLoader("numerical", "src/numerical.py").load_module()
-formulation = SourceFileLoader(
-    "formulation", "src/formulation.py"
-).load_module()
+import evol_dynamics
 
 
 def test_imitation_probability():
-    assert np.isclose(float(evolution.imitation_probability(0, 5, 1)), 0.993307)
+    assert np.isclose(
+        float(evol_dynamics.imitation_probability(0, 5, 1)), 0.993307
+    )
 
 
 def test_probability_of_receiving_payoffs():
@@ -23,12 +20,12 @@ def test_probability_of_receiving_payoffs():
 
     all_pairs = itertools.product([ALLD, GTFT], repeat=2)
     states = [
-        formulation.expected_distribution_last_round(*pair, d)
+        evol_dynamics.formulation.expected_distribution_last_round(*pair, d)
         for pair in all_pairs
     ]
     assert len(states) == 4
 
-    xs = evolution.probability_of_receiving_payoffs(*states, 1, N)
+    xs = evol_dynamics.evolution.probability_of_receiving_payoffs(*states, 1, N)
     assert isinstance(xs, (np.ndarray, np.generic))
     assert xs.shape == (4, 4)
 
@@ -37,13 +34,13 @@ def test_fixation_probability_for_expected_payoffs():
     ALLD = (0, 0, 0)
     GTFT = (1, 1, 3 / 8)
 
-    output = evolution.fixation_probability_for_expected_payoffs(
+    output = evol_dynamics.evolution.fixation_probability_for_expected_payoffs(
         GTFT,
         ALLD,
         10,
         delta=0.999,
         beta=1,
-        payoffs=numerical.donation_game(1, 3),
+        payoffs=evol_dynamics.numerical.donation_game(1, 3),
     )
 
     assert len(output) == 3
@@ -54,13 +51,13 @@ def test_fixation_probability_for_expected_payoffs():
         fixation_probability,
         cooperation,
         score,
-    ) = evolution.fixation_probability_for_expected_payoffs(
+    ) = evol_dynamics.fixation_probability_for_expected_payoffs(
         ALLD,
         GTFT,
         10,
         delta=0.999,
         beta=1,
-        payoffs=numerical.donation_game(1, 3),
+        payoffs=evol_dynamics.numerical.donation_game(1, 3),
     )
 
     assert isinstance(fixation_probability, float)
@@ -77,54 +74,17 @@ def test_fixation_probability_for_stochastic_payoffs():
         fixation_probability,
         cooperation,
         score,
-    ) = evolution.fixation_probability_for_stochastic_payoffs(
+    ) = evol_dynamics.fixation_probability_for_stochastic_payoffs(
         ALLD,
         GTFT,
         10,
         delta=0.999,
         beta=1,
-        payoffs=numerical.donation_game(1, 3),
+        payoffs=evol_dynamics.donation_game(1, 3),
     )
     assert fixation_probability <= 1
     assert np.isclose(cooperation, 1)
     assert np.isclose(score, 2)
-
-
-def test_fixation_probability_for_stochastic_test_case():
-    """
-    This is inline with the MatLab code given to me by Dr Hilbe.
-    More specifically:
-
-    ```
-    >> u = [2, -1, 3, 0]
-    >> beta = 1
-    >> Rho=zeros(4,4);
-       for i1=1:4
-           for i2=1:4
-               Rho(i1,i2)=1/(1+exp(-beta*(u(i2)-u(i1))));
-           end
-       end
-
-    >> CalcRho([0, 0, 0], [1 / 3, 1 / 7, 1 / 6], Rho, 10, u, 0.999, beta, 0, 1)
-    0.1814
-    ```
-    """
-    mutant = (0, 0, 0)
-    resident = (1 / 3, 1 / 7, 1 / 6)
-
-    (
-        fixation_probability,
-        _,
-        _,
-    ) = evolution.fixation_probability_for_stochastic_payoffs(
-        resident=resident,
-        mutant=mutant,
-        N=10,
-        delta=0.999,
-        beta=1,
-        payoffs=numerical.donation_game(1, 3),
-    )
-    assert np.isclose(fixation_probability, 0.1814, rtol=10 ** -3)
 
 
 def test_fixation_probability_for_stochastic_test_case():
@@ -164,13 +124,13 @@ def test_fixation_probability_for_stochastic_test_case():
         fixation_probability,
         coop_rate,
         score,
-    ) = evolution.fixation_probability_for_expected_payoffs(
+    ) = evol_dynamics.fixation_probability_for_expected_payoffs(
         resident=resident,
         mutant=mutant,
         N=10,
         delta=0.999,
         beta=1,
-        payoffs=numerical.donation_game(1, 3),
+        payoffs=evol_dynamics.donation_game(1, 3),
     )
     assert np.isclose(fixation_probability, 0.2268, rtol=10 ** -3)
     assert np.isclose(coop_rate, 0, rtol=10 ** -3)
@@ -189,13 +149,13 @@ def test_fixation_probability_for_stochastic_test_case():
         fixation_probability,
         coop_rate,
         score,
-    ) = evolution.fixation_probability_for_expected_payoffs(
+    ) = evol_dynamics.fixation_probability_for_expected_payoffs(
         resident=resident,
         mutant=mutant,
         N=10,
         delta=0.999,
         beta=1,
-        payoffs=numerical.donation_game(1, 3),
+        payoffs=evol_dynamics.donation_game(1, 3),
     )
     assert np.isclose(fixation_probability, expected_fixation, rtol=10 ** -3)
     assert np.isclose(coop_rate, expected_coop_rate, rtol=10 ** -3)

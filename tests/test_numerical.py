@@ -1,37 +1,35 @@
 import itertools
 import os
-from importlib.machinery import SourceFileLoader
-
 import numpy as np
 import pandas as pd
 import sympy as sym
 
-numerical = SourceFileLoader("numerical", "src/numerical.py").load_module()
-formulation = SourceFileLoader(
-    "formulation", "src/formulation.py"
-).load_module()
+import evol_dynamics
 
 
 def test_donation_game():
     c, b = sym.symbols("c, b")
-    assert (b - c, -c, b, 0) == numerical.donation_game(c, b)
-    assert (2, -1, 3, 0) == numerical.donation_game(1, 3)
+    assert (b - c, -c, b, 0) == evol_dynamics.donation_game(c, b)
+    assert (2, -1, 3, 0) == evol_dynamics.donation_game(1, 3)
 
 
 def test_snowdrift_game():
     c, b = sym.symbols("c, b")
-    assert ((b - c) / 2, (b / 2) - c, b / 2, 0) == numerical.snowdrift_game(
-        c, b
-    )
-    assert (1, 0, 2, 0) == numerical.snowdrift_game(2, 4)
+    assert (
+        (b - c) / 2,
+        (b / 2) - c,
+        b / 2,
+        0,
+    ) == evol_dynamics.snowdrift_game(c, b)
+    assert (1, 0, 2, 0) == evol_dynamics.snowdrift_game(2, 4)
 
 
 def test_stag_hunt():
-    assert numerical.stag_hunt_game() == (3, 0, 2, 1)
+    assert evol_dynamics.stag_hunt_game() == (3, 0, 2, 1)
 
 
 def test_harmony_game():
-    assert numerical.harmony_game() == (3, 2, 1, 0)
+    assert evol_dynamics.harmony_game() == (3, 2, 1, 0)
 
 
 def test_reshape_data():
@@ -39,7 +37,7 @@ def test_reshape_data():
         np.random.random(size=(10, 13)), columns=list("RSTPNdbmcsypq")
     )
 
-    ps, qs = numerical._reshape_data(df)
+    ps, qs = evol_dynamics.numerical._reshape_data(df)
 
     assert type(ps) == tuple
     assert type(qs) == tuple
@@ -52,12 +50,12 @@ def test_simulation():
     filename = "test_simulation.csv"
     assert os.path.exists(filename) == False
 
-    _ = numerical.main(
+    _ = evol_dynamics.numerical.main(
         10,
         delta=0.999,
         beta=1,
         number_of_steps=1,
-        payoffs=numerical.donation_game(1, 3),
+        payoffs=evol_dynamics.donation_game(1, 3),
         mode="expected",
         filename=filename,
         seed=0,
@@ -79,12 +77,12 @@ def test_simulation_stochastic():
     filename = "test_simulation.csv"
     assert os.path.exists(filename) == False
 
-    _ = numerical.main(
+    _ = evol_dynamics.numerical.main(
         10,
         delta=0.999,
         beta=1,
         number_of_steps=1,
-        payoffs=numerical.donation_game(1, 3),
+        payoffs=evol_dynamics.donation_game(1, 3),
         mode="stochastic",
         filename=filename,
         seed=0,
@@ -106,12 +104,12 @@ def test_simulation_success():
     filename = "test_simulation.csv"
     assert os.path.exists(filename) == False
 
-    _ = numerical.main(
+    _ = evol_dynamics.numerical.main(
         10,
         delta=0.999,
         beta=1,
         number_of_steps=4,
-        payoffs=numerical.donation_game(1, 3),
+        payoffs=evol_dynamics.donation_game(1, 3),
         mode="expected",
         filename=filename,
         seed=0,
@@ -139,12 +137,12 @@ def test_simulation_previous_experiment_file_is_delete():
     """
     filename = "tests/example_simulation.csv"
 
-    _ = numerical.main(
+    _ = evol_dynamics.numerical.main(
         10,
         delta=0.999,
         beta=1,
         number_of_steps=1,
-        payoffs=numerical.donation_game(1, 3),
+        payoffs=evol_dynamics.donation_game(1, 3),
         mode="expected",
         filename=filename,
         seed=0,

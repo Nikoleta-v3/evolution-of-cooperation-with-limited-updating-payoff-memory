@@ -9,3 +9,6 @@ tests/__pycache__/
 data/*
 *dask-worker-space/
 sh/*
+
+src/evol_dynamics.egg-info/*
+src/evol_dynamics/__pycache__/*

@@ -1,10 +1,7 @@
 import os
-from importlib.machinery import SourceFileLoader
-
 import pandas as pd
 
-invasion = SourceFileLoader("invasion", "src/invasion.py").load_module()
-numerical = SourceFileLoader("numerical", "src/numerical.py").load_module()
+import evol_dynamics
 
 
 def test_invasion():
@@ -12,11 +9,11 @@ def test_invasion():
     filename = "test_invasion.csv"
     assert os.path.exists(filename) == False
 
-    _ = invasion.simulate_until_invasion(
+    _ = evol_dynamics.simulate_until_invasion(
         10,
         delta=0.999,
         beta=1,
-        payoffs=numerical.donation_game(1, 3),
+        payoffs=evol_dynamics.numerical.donation_game(1, 3),
         mode="expected",
         filename=filename,
         seed=0,
@@ -55,11 +52,11 @@ def test_invasion_stochastic():
     filename = "test_invasion.csv"
     assert os.path.exists(filename) == False
 
-    _ = invasion.simulate_until_invasion(
+    _ = evol_dynamics.simulate_until_invasion(
         10,
         delta=0.999,
         beta=1,
-        payoffs=numerical.donation_game(1, 3),
+        payoffs=evol_dynamics.numerical.donation_game(1, 3),
         mode="stochastic",
         filename=filename,
         seed=0,

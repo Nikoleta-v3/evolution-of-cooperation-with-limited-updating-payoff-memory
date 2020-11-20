@@ -1,15 +1,12 @@
 import concurrent.futures
 import time
-from importlib.machinery import SourceFileLoader
 
 import numpy as np
 import sympy as sym
 
-formulation = SourceFileLoader(
-    "formulation", "src/formulation.py"
-).load_module()
-
 import itertools
+
+import evol_dynamics
 
 
 def imitation_probability(
@@ -55,7 +52,7 @@ def fixation_probability_for_expected_payoffs(
     combinations = itertools.product([mutant, resident], repeat=2)
 
     steady_states = [
-        formulation.steady_state(p1, p2, delta) for p1, p2 in combinations
+        evol_dynamics.steady_state(p1, p2, delta) for p1, p2 in combinations
     ]
     payoff_MM, payoff_MR, payoff_RM, payoff_RR = [
         state @ payoff_vector for state in steady_states
@@ -153,7 +150,7 @@ def fixation_probability_for_stochastic_payoffs(
     )
     combinations = itertools.product([mutant, resident], repeat=2)
     vMM, vMR, vRM, vRR = [
-        formulation.expected_distribution_last_round(p1, p2, delta)
+        evol_dynamics.expected_distribution_last_round(p1, p2, delta)
         for p1, p2 in combinations
     ]
 

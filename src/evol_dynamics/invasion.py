@@ -2,14 +2,11 @@ import itertools
 import multiprocessing
 import os.path
 import sys
-from importlib.machinery import SourceFileLoader
 
 import numpy as np
 from tqdm import tqdm
 
-evolution = SourceFileLoader("evolution", "src/evolution.py").load_module()
-numerical = SourceFileLoader("numerical", "src/numerical.py").load_module()
-
+import evol_dynamics
 
 def simulate_until_invasion(
     N,
@@ -38,7 +35,7 @@ def simulate_until_invasion(
                 fixation_probability,
                 cooperation,
                 score,
-            ) = evolution.fixation_probability_for_expected_payoffs(
+            ) = evol_dynamics.fixation_probability_for_expected_payoffs(
                 resident, mutant, N, delta, beta, payoffs
             )
         if mode == "stochastic":
@@ -46,7 +43,7 @@ def simulate_until_invasion(
                 fixation_probability,
                 cooperation,
                 score,
-            ) = evolution.fixation_probability_for_stochastic_payoffs(
+            ) = evol_dynamics.fixation_probability_for_stochastic_payoffs(
                 resident, mutant, N, delta, beta, payoffs
             )
 
@@ -85,10 +82,10 @@ if __name__ == "__main__":  # pragma: no cover
     beta = 1
 
     list_of_games = {
-        "donation": numerical.donation_game(1, 3),
-        "snowdrift": numerical.snowdrift_game(1, 3),
-        "stag": numerical.stag_hunt_game(),
-        "harmony": numerical.harmony_game(),
+        "donation": evol_dynamics.donation_game(1, 3),
+        "snowdrift": evol_dynamics.snowdrift_game(1, 3),
+        "stag": evol_dynamics.stag_hunt_game(),
+        "harmony": evol_dynamics.harmony_game(),
     }
     payoffs = list_of_games[game]
     parameters = itertools.product(resident_parameters, range(max_seed))
