@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-multi = SourceFileLoader("mutli", "src/multi_interactions.py").load_module()
+simulation = SourceFileLoader("simulation", "src/simulation.py").load_module()
 
 
 def test_introduce_mutant():
@@ -15,7 +15,7 @@ def test_introduce_mutant():
     population = {resident: N}
     random_ = np.random.RandomState(0)
 
-    mutant, population = multi.introduce_mutant(population, resident, random_)
+    mutant, population = simulation.introduce_mutant(population, resident, random_)
     expected_mutant = [
         0.5488135039273248,
         0.7151893663724195,
@@ -30,12 +30,12 @@ def test_introduce_mutant():
 
 def test_reactive_player():
 
-    player = multi.ReactivePlayer((0, 0, 0))
+    player = simulation.ReactivePlayer((0, 0, 0))
     assert player.name == "Reactive Player"
     assert player.initial == axl.Action.D
     assert player.four_vector == (0, 0, 0, 0)
 
-    opponent = multi.ReactivePlayer((1, 1, 0))
+    opponent = simulation.ReactivePlayer((1, 1, 0))
     assert opponent.name == "Reactive Player"
     assert opponent.initial == axl.Action.C
     assert opponent.four_vector == (1, 0, 1, 0)
@@ -51,7 +51,7 @@ def test_get_score_for_last_n_turns_last_two_interactions():
     player = (1, 1, 0)
     opponents = [(1, 1, 1), (0, 1, 1), (0, 0, 0), (0, 1, 0)]
 
-    score = multi.get_score_for_last_n_turns(
+    score = simulation.get_score_for_last_n_turns(
         player, opponents, num_of_interactions=2, delta=0.90, seed=1
     )
 
@@ -62,7 +62,7 @@ def test_get_score_for_last_n_turns_last_hundred_interactions():
     player = (1, 1, 0)
     opponents = [(1, 1, 1), (0, 1, 1), (0, 0, 0), (0, 1, 0)]
 
-    score = multi.get_score_for_last_n_turns(
+    score = simulation.get_score_for_last_n_turns(
         player, opponents, num_of_interactions=100, delta=0.90, seed=1
     )
 
@@ -82,9 +82,9 @@ def test_mutant_opponents_single_mutant():
     seed = np.random.randint(100)
     random_ = np.random.RandomState(seed)
 
-    mutant, population = multi.introduce_mutant(population, resident, random_)
+    mutant, population = simulation.introduce_mutant(population, resident, random_)
 
-    opponents, _ = multi.get_opponents_of_mutant(
+    opponents, _ = simulation.get_opponents_of_mutant(
         resident, mutant, interactions, N, population, random_
     )
 
@@ -102,10 +102,10 @@ def test_mutant_opponents_error_when_interactions_exceed_population_size():
     seed = np.random.randint(100)
     random_ = np.random.RandomState(seed)
 
-    mutant, population = multi.introduce_mutant(population, resident, random_)
+    mutant, population = simulation.introduce_mutant(population, resident, random_)
 
     with pytest.raises(ZeroDivisionError):
-        multi.get_opponents_of_mutant(
+        simulation.get_opponents_of_mutant(
             resident, mutant, interactions, N, population, random_
         )
 
@@ -121,9 +121,9 @@ def test_mutant_opponents_interacts_with_all_residents():
     seed = np.random.randint(100)
     random_ = np.random.RandomState(seed)
 
-    mutant, population = multi.introduce_mutant(population, resident, random_)
+    mutant, population = simulation.introduce_mutant(population, resident, random_)
 
-    opponents, play_again_role_model = multi.get_opponents_of_mutant(
+    opponents, play_again_role_model = simulation.get_opponents_of_mutant(
         resident, mutant, interactions, N, population, random_
     )
 
@@ -138,14 +138,14 @@ def test_that_mutant_interacts_with_other_mutant_and_role_model():
     population = {resident: N}
     random_ = np.random.RandomState(0)
 
-    mutant, population = multi.introduce_mutant(population, resident, random_)
+    mutant, population = simulation.introduce_mutant(population, resident, random_)
 
     population = {
         resident: population[resident] - 1,
         mutant: population[mutant] + 1,
     }
 
-    opponents, interacts = multi.get_opponents_of_mutant(
+    opponents, interacts = simulation.get_opponents_of_mutant(
         resident, mutant, 5, N, population, random_
     )
 
@@ -162,9 +162,9 @@ def test_get_opponents_of_resident_one_mutant_interaction_true():
     random_ = np.random.RandomState(0)
     play_against_role_model = True
 
-    mutant, population = multi.introduce_mutant(population, resident, random_)
+    mutant, population = simulation.introduce_mutant(population, resident, random_)
 
-    opponents = multi.get_opponents_of_resident(
+    opponents = simulation.get_opponents_of_resident(
         resident, mutant, play_against_role_model, 4, N, population, random_
     )
 
@@ -179,13 +179,13 @@ def test_get_opponents_of_resident_two_mutants_interaction_true():
     random_ = np.random.RandomState(0)
     play_against_role_model = True
 
-    mutant, population = multi.introduce_mutant(population, resident, random_)
+    mutant, population = simulation.introduce_mutant(population, resident, random_)
     population = {
         resident: population[resident] - 1,
         mutant: population[mutant] + 1,
     }
 
-    opponents = multi.get_opponents_of_resident(
+    opponents = simulation.get_opponents_of_resident(
         resident, mutant, play_against_role_model, 5, N, population, random_
     )
 
@@ -200,13 +200,13 @@ def test_get_opponents_of_resident_three_mutants_interaction_true():
     random_ = np.random.RandomState(0)
     play_against_role_model = True
 
-    mutant, population = multi.introduce_mutant(population, resident, random_)
+    mutant, population = simulation.introduce_mutant(population, resident, random_)
     population = {
         resident: population[resident] - 2,
         mutant: population[mutant] + 2,
     }
 
-    opponents = multi.get_opponents_of_resident(
+    opponents = simulation.get_opponents_of_resident(
         resident, mutant, play_against_role_model, 5, N, population, random_
     )
 
@@ -225,10 +225,10 @@ def test_resident_opponents_error_when_interactions_exceed_population_size():
     seed = np.random.randint(100)
     random_ = np.random.RandomState(seed)
 
-    mutant, population = multi.introduce_mutant(population, resident, random_)
+    mutant, population = simulation.introduce_mutant(population, resident, random_)
 
     with pytest.raises(ZeroDivisionError):
-        multi.get_opponents_of_resident(
+        simulation.get_opponents_of_resident(
             resident,
             mutant,
             play_against_role_model,
@@ -252,7 +252,7 @@ def test_simulation_for_one_run():
 
     assert os.path.exists(filename) == False
 
-    population = multi.simulation(
+    population = simulation.simulation(
         resident,
         N,
         delta,
@@ -284,7 +284,7 @@ def test_simulation_for_multiple_runs():
 
     assert os.path.exists(filename) == False
 
-    population = multi.simulation(
+    population = simulation.simulation(
         resident,
         N,
         delta,
@@ -338,7 +338,7 @@ def test_simulation_previous_experiment_file_is_delete():
     num_of_interactions = 2
     seed = 0
 
-    _ = multi.simulation(
+    _ = simulation.simulation(
         resident,
         N,
         delta,
@@ -368,7 +368,7 @@ def test_mutant_becomes_the_resident():
     seed = 2
     filename = "test_multi_interactions_simulation.csv"
 
-    population = multi.simulation(
+    population = simulation.simulation(
         resident,
         N,
         delta,
