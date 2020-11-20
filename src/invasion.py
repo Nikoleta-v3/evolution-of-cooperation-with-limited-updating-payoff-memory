@@ -8,7 +8,7 @@ import numpy as np
 from tqdm import tqdm
 
 evolution = SourceFileLoader("evolution", "src/evolution.py").load_module()
-simulation = SourceFileLoader("simulation", "src/simulation.py").load_module()
+numerical = SourceFileLoader("numerical", "src/numerical.py").load_module()
 
 
 def simulate_until_invasion(
@@ -85,10 +85,10 @@ if __name__ == "__main__":  # pragma: no cover
     beta = 1
 
     list_of_games = {
-        "donation": simulation.donation_game(1, 3),
-        "snowdrift": simulation.snowdrift_game(1, 3),
-        "stag": simulation.stag_hunt_game(),
-        "harmony": simulation.harmony_game(),
+        "donation": numerical.donation_game(1, 3),
+        "snowdrift": numerical.snowdrift_game(1, 3),
+        "stag": numerical.stag_hunt_game(),
+        "harmony": numerical.harmony_game(),
     }
     payoffs = list_of_games[game]
     parameters = itertools.product(resident_parameters, range(max_seed))

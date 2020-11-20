@@ -4,7 +4,7 @@ from importlib.machinery import SourceFileLoader
 import pandas as pd
 
 invasion = SourceFileLoader("invasion", "src/invasion.py").load_module()
-simulation = SourceFileLoader("simulation", "src/simulation.py").load_module()
+numerical = SourceFileLoader("numerical", "src/numerical.py").load_module()
 
 
 def test_invasion():
@@ -16,7 +16,7 @@ def test_invasion():
         10,
         delta=0.999,
         beta=1,
-        payoffs=simulation.donation_game(1, 3),
+        payoffs=numerical.donation_game(1, 3),
         mode="expected",
         filename=filename,
         seed=0,
@@ -59,7 +59,7 @@ def test_invasion_stochastic():
         10,
         delta=0.999,
         beta=1,
-        payoffs=simulation.donation_game(1, 3),
+        payoffs=numerical.donation_game(1, 3),
         mode="stochastic",
         filename=filename,
         seed=0,

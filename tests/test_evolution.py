@@ -5,7 +5,7 @@ import numpy as np
 import sympy as sym
 
 evolution = SourceFileLoader("evolution", "src/evolution.py").load_module()
-simulation = SourceFileLoader("simulation", "src/simulation.py").load_module()
+numerical = SourceFileLoader("numerical", "src/numerical.py").load_module()
 formulation = SourceFileLoader(
     "formulation", "src/formulation.py"
 ).load_module()
@@ -43,7 +43,7 @@ def test_fixation_probability_for_expected_payoffs():
         10,
         delta=0.999,
         beta=1,
-        payoffs=simulation.donation_game(1, 3),
+        payoffs=numerical.donation_game(1, 3),
     )
 
     assert len(output) == 3
@@ -60,7 +60,7 @@ def test_fixation_probability_for_expected_payoffs():
         10,
         delta=0.999,
         beta=1,
-        payoffs=simulation.donation_game(1, 3),
+        payoffs=numerical.donation_game(1, 3),
     )
 
     assert isinstance(fixation_probability, float)
@@ -83,7 +83,7 @@ def test_fixation_probability_for_stochastic_payoffs():
         10,
         delta=0.999,
         beta=1,
-        payoffs=simulation.donation_game(1, 3),
+        payoffs=numerical.donation_game(1, 3),
     )
     assert fixation_probability <= 1
     assert np.isclose(cooperation, 1)
@@ -122,7 +122,7 @@ def test_fixation_probability_for_stochastic_test_case():
         N=10,
         delta=0.999,
         beta=1,
-        payoffs=simulation.donation_game(1, 3),
+        payoffs=numerical.donation_game(1, 3),
     )
     assert np.isclose(fixation_probability, 0.1814, rtol=10 ** -3)
 
@@ -170,7 +170,7 @@ def test_fixation_probability_for_stochastic_test_case():
         N=10,
         delta=0.999,
         beta=1,
-        payoffs=simulation.donation_game(1, 3),
+        payoffs=numerical.donation_game(1, 3),
     )
     assert np.isclose(fixation_probability, 0.2268, rtol=10 ** -3)
     assert np.isclose(coop_rate, 0, rtol=10 ** -3)
@@ -195,7 +195,7 @@ def test_fixation_probability_for_stochastic_test_case():
         N=10,
         delta=0.999,
         beta=1,
-        payoffs=simulation.donation_game(1, 3),
+        payoffs=numerical.donation_game(1, 3),
     )
     assert np.isclose(fixation_probability, expected_fixation, rtol=10 ** -3)
     assert np.isclose(coop_rate, expected_coop_rate, rtol=10 ** -3)
