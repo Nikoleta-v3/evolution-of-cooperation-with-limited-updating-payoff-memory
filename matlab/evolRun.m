@@ -1,0 +1,31 @@
+function evolRun();
+
+starting_resident = [0, 0, 0];
+N = 100;
+delta = 0.999;
+beta = 1;
+numberIterations= 10 ^ 4;
+stochastic = 0;
+
+n = 11;
+Ss = linspace(-2, 2, n);
+Ts = linspace(-1, 3, n);
+
+payoffs = zeros(n * n, 2);
+
+for i=1:n
+    for j=1:n
+        payoffs(j + (i - 1) + (i -1) * 10, 1) = Ss(i);
+        payoffs(j + (i - 1) + (i -1) * 10, 2) = Ts(j);
+    end
+end
+
+N = n * n;
+parfor (i = 1:N)
+    S = payoffs(i, 1);
+    T = payoffs(i, 2);
+    u = [1, S, T, 0];
+    filename = "data/S_" + S + "_T_" + T;
+    evolSimulation(starting_resident, u, N, delta, beta, numberIterations, stochastic, filename);
+end
+end
