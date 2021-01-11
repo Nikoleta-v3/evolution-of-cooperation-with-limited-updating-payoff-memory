@@ -1,8 +1,8 @@
+import numpy as np
+from tqdm import tqdm
+
 import evol_dynamics
 
-import numpy as np
-
-from tqdm import tqdm
 
 def main(
     N,
@@ -45,7 +45,6 @@ def main(
             data[-3:] = resident
             data[-4] = score
             data[-5] = cooperation
-
 
         history[t + 1] = data
 

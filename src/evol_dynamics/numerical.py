@@ -51,7 +51,7 @@ def snowdrift_game(c, b):
     tuple
         The payoff vector for the snowdrift game.
     """
-    return (b - (c / 2), b - c, b , 0)
+    return (b - (c / 2), b - c, b, 0)
 
 
 def stag_hunt_game():
@@ -160,7 +160,7 @@ if __name__ == "__main__":  # pragma: no cover
     payoffs = list_of_games[game]
     seed = 0
     filename = f"data/{mode}_{game}_{seed}_payoffs.csv"
-    starting_resident=(0, 0, 0)
+    starting_resident = (0, 0, 0)
 
     _ = main(
         N=100,
@@ -171,5 +171,5 @@ if __name__ == "__main__":  # pragma: no cover
         mode=mode,
         filename=filename,
         seed=seed,
-        starting_resident=starting_resident
+        starting_resident=starting_resident,
     )

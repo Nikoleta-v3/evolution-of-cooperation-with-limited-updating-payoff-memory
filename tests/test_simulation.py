@@ -130,10 +130,7 @@ def test_mutant_opponents_interacts_with_all_residents():
         population, resident, random_
     )
 
-    (
-        opponents,
-        play_again_role_model,
-    ) = evol_dynamics.get_opponents_of_mutant(
+    (opponents, play_again_role_model,) = evol_dynamics.get_opponents_of_mutant(
         resident, mutant, interactions, N, population, random_
     )
 

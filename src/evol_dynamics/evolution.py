@@ -1,10 +1,9 @@
 import concurrent.futures
+import itertools
 import time
 
 import numpy as np
 import sympy as sym
-
-import itertools
 
 import evol_dynamics
 

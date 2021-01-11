@@ -8,6 +8,7 @@ from tqdm import tqdm
 
 import evol_dynamics
 
+
 def simulate_until_invasion(
     N,
     delta,
