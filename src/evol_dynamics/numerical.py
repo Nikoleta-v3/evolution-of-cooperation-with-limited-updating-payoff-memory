@@ -51,7 +51,7 @@ def snowdrift_game(c, b):
     tuple
         The payoff vector for the snowdrift game.
     """
-    return ((b - c) / 2, (b / 2) - c, (b / 2), 0)
+    return (b - (c / 2), b - c, b , 0)
 
 
 def stag_hunt_game():
@@ -139,7 +139,7 @@ def main(
 
 def _reshape_data(df):
     """Returns the points p and q that occurred at each time step of the 4."""
-    history = df.values[:, -3:]
+    history = df[["y", "p", "q"]].values
     points = [(p, q) for _, p, q in history]
     ps, qs = zip(*points)
     return ps, qs
@@ -158,8 +158,9 @@ if __name__ == "__main__":  # pragma: no cover
         "harmony": harmony_game(),
     }
     payoffs = list_of_games[game]
-    seed = 3
+    seed = 0
     filename = f"data/{mode}_{game}_{seed}_payoffs.csv"
+    starting_resident=(0, 0, 0)
 
     _ = main(
         N=100,
@@ -170,4 +171,5 @@ if __name__ == "__main__":  # pragma: no cover
         mode=mode,
         filename=filename,
         seed=seed,
+        starting_resident=starting_resident
     )

@@ -16,12 +16,12 @@ def test_donation_game():
 def test_snowdrift_game():
     c, b = sym.symbols("c, b")
     assert (
-        (b - c) / 2,
-        (b / 2) - c,
-        b / 2,
+        b - (c / 2),
+        b - c,
+        b,
         0,
     ) == evol_dynamics.snowdrift_game(c, b)
-    assert (1, 0, 2, 0) == evol_dynamics.snowdrift_game(2, 4)
+    assert (3, 2, 4, 0) == evol_dynamics.snowdrift_game(2, 4)
 
 
 def test_stag_hunt():
