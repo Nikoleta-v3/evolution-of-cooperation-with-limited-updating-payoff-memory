@@ -1,8 +1,6 @@
-jupyter==1.0.0
-numpy>=1.15.4
-sympy==1.6.2
-matplotlib==3.3.1
-pandas==1.1.2
 tqdm==4.48.2
-dask==2.27.0
-axelrod==4.10.0
+pytest==6.0.1
+Axelrod==4.10.0
+sympy==1.6.2
+pandas==1.1.4
+numpy==1.19.1
