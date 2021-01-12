@@ -37,4 +37,5 @@ jobs:
         python -m black -l 80 . --check
     - name: Test with pytest
       run: |
+        python setup.py develop
         python -m pytest --cov-report term-missing --cov=src --cov-fail-under=100 tests
