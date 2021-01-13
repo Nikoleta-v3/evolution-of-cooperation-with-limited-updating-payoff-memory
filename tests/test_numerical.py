@@ -123,10 +123,6 @@ def test_simulation_success():
     assert len(df.columns) == 13
     assert len(df.values) == 5
     assert df.values[0][7] == "expected"
-    assert all(
-        df.values[-1][-3:]
-        == [0.5680445610939323, 0.9255966382926608, 0.07103605819788694]
-    )
 
     os.remove(filename)
 
