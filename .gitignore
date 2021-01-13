@@ -14,3 +14,6 @@ sh/*
 
 src/evol_dynamics.egg-info/*
 src/evol_dynamics/__pycache__/*
+
+*.aux
+*.log
