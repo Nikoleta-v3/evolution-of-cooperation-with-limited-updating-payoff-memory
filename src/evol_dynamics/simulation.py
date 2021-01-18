@@ -1,36 +1,12 @@
+import copy
 import itertools
-import multiprocessing
-import os
-import random
 import sys
-import time
 
 import axelrod as axl
 import numpy as np
 import tqdm
 
-
-def introduce_mutant(population, resident, random_state):
-    """Introduces a mutant in a population of residents.
-
-    Parameters
-    ----------
-    population : list
-        A list of dictionaries. Each dictionary described the population at a
-        given time step.
-    resident : tuple
-        A reactive tuple for the strategy which is currently the resident in the
-        population.
-
-    Returns
-    -------
-    tuple, list
-        The mutant as a tuple but also the updated list of the population
-    """
-    mutant = tuple(random_state.random() for _ in range(3))
-    population = {resident: population[resident] - 1, mutant: 1}
-
-    return mutant, population
+import evol_dynamics
 
 
 class ReactivePlayer(axl.MemoryOnePlayer):
@@ -39,259 +15,163 @@ class ReactivePlayer(axl.MemoryOnePlayer):
     opponent's last move (P(C|C), P(C|D)) and the opening probability.
     """
 
-    name = "Reactive Player"
+    def __init__(self, probabilities, role):
 
-    def __init__(self, probabilities):
         self.initial = np.random.choice(
             [axl.Action.C, axl.Action.D],
             p=(probabilities[0], 1 - probabilities[0]),
         )
         self.four_vector = (*probabilities[1:], *probabilities[1:])
+        self.name = role
+
         super().__init__(self.four_vector, self.initial)
 
 
-def get_score_for_last_n_turns(
-    player, opponents, num_of_interactions, delta, seed=None
-):
-    """Score an individual against their opponents. The score is based on the
-    last number of interactions.
+class StochasticScores:
+    def __init__(
+        self,
+        resident,
+        mutant,
+        delta,
+        population_size,
+        number_of_mutants,
+        repetitions,
+        random_state,
+    ):
+        self.resident = resident
+        self.mutant = mutant
+        self.delta = delta
+        self.population_size = population_size
+        self.number_of_mutants = number_of_mutants
+        self.repetitions = repetitions
+        self.random = random_state
 
-    The individual is being scored on a probabilistic ending against each
-    opponent. The match lengths can vary at this point.
+    def create_population(self):
+        population = [
+            ReactivePlayer(self.resident, role="resident"),
+            ReactivePlayer(self.mutant, role="mutant"),
+        ]
 
-    Parameters
-    ----------
-    player : tuple
-        A reactive player tuple
-    opponents : list of tuples
-        A list of reactive opponents
-    num_of_interactions : int
-        The number of scores the player remembers
-    delta : float
-        The probability of the match continuing.
+        population += [
+            ReactivePlayer(self.resident, role="generic")
+            for _ in range(self.population_size - self.number_of_mutants - 1)
+        ]
+        population += [
+            ReactivePlayer(self.mutant, role="generic")
+            for _ in range(self.number_of_mutants - 1)
+        ]
 
-    Returns
-    -------
-    float
-        The sum of the scores per turns the player achieved against the opponents.
-    """
-    score_per_turn = []
-    for opponent in opponents:
+        self.random.shuffle(population)
+        return population
 
-        match = axl.Match(
-            [ReactivePlayer(player), ReactivePlayer(opponent)],
-            prob_end=(1 - delta),
-            seed=seed,
-        )
-        _ = match.play()
+    def match_pairs(self, population):
+        pairs = {}
+        while len(population) > 0:
+            player = population.pop()
+            index = self.random.randint(low=0, high=len(population))
+            opponent = population.pop(index)
 
-        scores, _ = zip(*match.scores()[-num_of_interactions:])
-        score_per_turn.append(sum(scores) / len(scores))
+            if player.name in ["resident", "mutant"] and opponent.name in [
+                "resident",
+                "mutant",
+            ]:
+                pairs[player.name] = (player, opponent)
+                return pairs
 
-    return sum(score_per_turn) / len(opponents)
+            if player.name in ["resident", "mutant"]:
+                pairs[player.name] = (player, opponent)
 
+            if opponent.name in ["resident", "mutant"]:
+                pairs[opponent.name] = (opponent, player)
 
-def get_opponents_of_mutant(
-    resident, mutant, num_of_opponents, N, population, random_state
-):
-    """Returns the list of opponents for the mutant."""
-    play_against_role_model = False
-    opponents_of_mutant = []
+        return pairs
 
-    for interactions in range(num_of_opponents):
-        probability_interacting_with_role_model = (
-            1 / (N - 1 - interactions)
-        ) * (1 - int(play_against_role_model))
+    def get_scores(self, population):
+        scores = {"mutant": 0, "resident": 0}
 
-        if probability_interacting_with_role_model > random_state.random():
+        for _ in range(self.repetitions):
+            population_copy = copy.deepcopy(population)
+            pairs = self.match_pairs(population_copy)
 
-            play_against_role_model = True
-            opponents_of_mutant.append(resident)
+            if len(pairs) == 1:
+                match = axl.Match(*pairs.values(), prob_end=(1 - self.delta))
+                _ = match.play()
 
-        else:
-
-            p = (
-                N - population[mutant] - opponents_of_mutant.count(resident)
-            ) / (N - 1 - len(opponents_of_mutant))
-            choice = random_state.choice([1, 0], p=(p, 1 - p))
-
-            if choice == 1:
-                opponents_of_mutant.append(resident)
+                for player, score in zip(*pairs.values(), match.scores()[-1]):
+                    scores[player.name] += score
             else:
-                opponents_of_mutant.append(mutant)
+                for pair in pairs:
+                    match = axl.Match(pairs[pair], prob_end=(1 - self.delta))
+                    _ = match.play()
 
-    return opponents_of_mutant, play_against_role_model
+                    scores[pair] += match.scores()[-1][0]
+
+        return {k: v / self.repetitions for k, v in scores.items()}
 
 
-def get_opponents_of_resident(
-    resident,
-    mutant,
-    play_against_role_model,
-    num_of_opponents,
-    N,
-    population,
-    random_state,
+def theoretical_utility(
+    mutant, resident, delta, number_of_mutants, population_size
 ):
-    opponents_of_resident = []
-    if play_against_role_model:
-        opponents_of_resident.append(mutant)
+    combinations = itertools.product([mutant, resident], repeat=2)
+    vMM, vMR, vRM, vRR = [
+        evol_dynamics.expected_distribution_last_round(p1, p2, delta)
+        for p1, p2 in combinations
+    ]
 
-    while len(opponents_of_resident) < num_of_opponents:
+    x = evol_dynamics.evolution.probability_of_receiving_payoffs(
+        vMM, vMR, vRM, vRR, number_of_mutants, population_size
+    )
 
-        p = (population[mutant] - opponents_of_resident.count(mutant)) / (
-            N - 1 - len(opponents_of_resident)
-        )
+    payoff_vector = np.array([3, 0, 5, 1])
 
-        choice = random_state.choice([1, 0], p=(1 - p, p))
-        if choice == 1:
-            opponents_of_resident.append(resident)
-        else:
-            opponents_of_resident.append(mutant)
+    rhos = np.array([[payoff_vector[i] for i in range(4)] for j in range(4)])
 
-    return opponents_of_resident
-
-
-def simulation(
-    resident,
-    N,
-    delta,
-    strength_of_selection,
-    num_of_steps,
-    num_of_opponents,
-    num_of_interactions,
-    seed,
-    filename,
-):
-
-    population = {resident: N}
-    random_ = np.random.RandomState(seed)
-
-    if os.path.exists(filename):
-        os.remove(filename)
-
-    for t in tqdm.tqdm(range(num_of_steps)):
-
-        # A mutation occurs when the population consists
-        # only by residents.
-        if N in population.values():
-            mutant, population = introduce_mutant(population, resident, random_)
-
-        else:
-            # The invasion phase
-            (
-                opponents_of_mutant,
-                play_again_role_model,
-            ) = get_opponents_of_mutant(
-                resident, mutant, num_of_opponents, N, population, random_
-            )
-
-            opponents_of_resident = get_opponents_of_resident(
-                resident,
-                mutant,
-                play_again_role_model,
-                num_of_opponents,
-                N,
-                population,
-                random_,
-            )
-            seeds = [random_.randint(10000) for _ in range(2)]
-            mutant_score = get_score_for_last_n_turns(
-                mutant,
-                opponents_of_mutant,
-                num_of_interactions,
-                delta,
-                seeds[0],
-            )
-            resident_score = get_score_for_last_n_turns(
-                resident,
-                opponents_of_resident,
-                num_of_interactions,
-                delta,
-                seeds[1],
-            )
-            imitation_probability = 1 / (
-                1
-                + np.exp(
-                    -strength_of_selection * (mutant_score - resident_score)
-                )
-            )
-
-            if random_.random() < imitation_probability:
-                population = {
-                    resident: population[resident] - 1,
-                    mutant: population[mutant] + 1,
-                }
-
-            else:
-                population = {
-                    resident: population[resident] + 1,
-                    mutant: population[mutant] - 1,
-                }
-
-            # A mutant that takes over the population,
-            # becomes the resident.
-            if population[mutant] == N:
-                resident = mutant
-
-            data = (
-                [t]
-                + list(population.keys())
-                + list(population.values())
-                + [
-                    num_of_interactions,
-                    num_of_opponents,
-                    N,
-                    delta,
-                    strength_of_selection,
-                ]
-            )
-            with open(filename, "a") as textfile:
-                textfile.write(
-                    ",".join(
-                        [
-                            str(elem).replace("(", "").replace(")", "")
-                            for elem in data
-                        ]
-                    )
-                    + "\n"
-                )
-            textfile.close()
-    return population
+    return round(sum(sum(x * rhos)), 3), round(sum(sum(x * rhos.T)), 3)
 
 
 if __name__ == "__main__":  # pragma: no cover
-
-    number_of_process = multiprocessing.cpu_count()
-    p = multiprocessing.Pool(int(number_of_process))
-
-    resident_name = sys.argv[1]
-
-    resident_dict = {"ALLD": (0, 0, 0), "GTFT": (1 / 3, 1 / 3, 1 / 3)}
-    resident = resident_dict[resident_name]
-
-    N = 100
+    filename = "data/soup_for_theoretical_utility.csv"
+    number_of_checks = 10000
     delta = 0.999
-    strength_of_selection = 1
-    number_of_steps = 10 ** 10
 
-    opponents = range(2, 6)
-    interactions = range(2, 6)
-    parameters = itertools.product(opponents, interactions)
+    seed = int(sys.argv[1])
+    number_of_repetitions = int(sys.argv[2])
+    random_state = np.random.RandomState(seed)
 
-    _ = p.starmap(
-        simulation,
-        [
-            (
-                resident,
-                N,
-                delta,
-                strength_of_selection,
-                number_of_steps,
-                num_of_opponents,
-                num_of_interactions,
-                0,
-                f"data/simulations_up_to_five/opponents_{num_of_opponents}_interactions_{num_of_interactions}_resident_{resident_name}.csv",
-            )
-            for num_of_opponents, num_of_interactions in parameters
-        ],
-    )
+    for i in tqdm.tqdm(range(number_of_checks)):
+        mutant = [np.random.random() for _ in range(3)]
+        resident = [np.random.random() for _ in range(3)]
+        population_size = 2 * (np.random.randint(5, 100) // 2)
+        number_of_mutants = np.random.randint(1, population_size)
+
+        stochastic_scores = evol_dynamics.StochasticScores(
+            resident,
+            mutant,
+            delta,
+            population_size,
+            number_of_mutants,
+            number_of_repetitions,
+            random_state,
+        )
+
+        population = stochastic_scores.create_population()
+        simulation_scores = stochastic_scores.get_scores(population)
+        theoretical_scores = evol_dynamics.theoretical_utility(
+            mutant, resident, delta, number_of_mutants, population_size
+        )
+
+        data = [
+            i,
+            number_of_repetitions,
+            *mutant,
+            *resident,
+            population_size,
+            number_of_mutants,
+            delta,
+            *simulation_scores.values(),
+            *theoretical_scores,
+        ]
+
+        with open(filename, "a") as textfile:
+            textfile.write(",".join([str(elem) for elem in data]) + "\n")
+        textfile.close()
