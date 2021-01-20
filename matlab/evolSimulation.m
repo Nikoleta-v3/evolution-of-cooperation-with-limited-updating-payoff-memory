@@ -5,7 +5,7 @@ Data=['R=',num2str(u(1)),'; S=',num2str(u(2)),'; T=',num2str(u(3)), '; P=',num2s
 AvCoop=0; AvPay=0; Res=starting_resident;
 
 sdim=3; 
-xDat=zeros(numberIterations + 1, 6); 
+xDat=zeros(numberIterations/100,6);
 xDat(1,:)=[Res, 0, u(4), 0]; 
 
 %% Calculating all possible pairwise imitation probabilities based on one payoff
@@ -18,13 +18,13 @@ end
 
 
 %% Running the evolutionary process
+j = 2;
 for t = progress(1:numberIterations)
     Mut=rand(1,sdim); 
     [rho,coopM,piM]=CalcRho(Mut, Res, Rho, N, u, delta, beta, stochastic); 
     if rand(1)<rho
-        Res=Mut; 
+        Res=Mut; xDat(j,:)=[Res,coopM,piM,t]; j=j+1;
     end
-    xDat(t + 1,:)=[Res,coopM,piM,t];
 end
 
 csvwrite(filename + ".csv", xDat);
