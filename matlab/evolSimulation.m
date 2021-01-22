@@ -28,7 +28,7 @@ for t = progress(1:numberIterations)
 end
 
 csvwrite(filename + ".csv", xDat);
-writematrix(Data, filename + ".txt");
+csvwrite(filename + ".txt", Data);
 
 AvCoop = mean(xDat(:,end-2));
 AvPay = mean(xDat(:,end-1));
