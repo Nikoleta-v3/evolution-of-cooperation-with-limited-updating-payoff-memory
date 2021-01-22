@@ -48,7 +48,6 @@ class StochasticScores:
         self.random = random_state
         self.scoring_turns = scoring_turns
 
-
     def create_population(self):
         population = [
             ReactivePlayer(self.resident, role="resident"),
@@ -100,17 +99,28 @@ class StochasticScores:
                 match = axl.Match(*pairs.values(), prob_end=(1 - self.delta))
                 _ = match.play()
 
-                for player, score in zip(
-                    *pairs.values(), match.scores()[-self.scoring_turns:]
-                ):
-                    scores[player.name] += sum(score) / self.scoring_turns
+                for i, player in enumerate(*pairs.values()):
+                    scores[player.name] += (
+                        sum(
+                            [
+                                s[i]
+                                for s in match.scores()[-self.scoring_turns :]
+                            ]
+                        )
+                        / self.scoring_turns
+                    )
             else:
                 for pair in pairs:
                     match = axl.Match(pairs[pair], prob_end=(1 - self.delta))
                     _ = match.play()
 
                     scores[pair] += (
-                        sum([s[0] for s in match.scores()[-self.scoring_turns:]])
+                        sum(
+                            [
+                                s[0]
+                                for s in match.scores()[-self.scoring_turns :]
+                            ]
+                        )
                         / self.scoring_turns
                     )
 

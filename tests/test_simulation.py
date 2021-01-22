@@ -65,7 +65,7 @@ def test_stochastic_scores_initialization_with_scoring_turns():
         number_of_mutants,
         repetitions,
         random_state,
-        scoring_turns
+        scoring_turns,
     )
 
     assert isinstance(stochastic_scores.resident, list)
@@ -212,27 +212,58 @@ def test_theoretical_utility_example_one():
     assert scores[1] == 2.25
 
 
-# def test_scoring_turns_five():
-#     population_size = 10
-#     repetitions = 1
-#     seed = 5
-#     random_state = np.random.RandomState(seed)
+def test_scoring_turns_five():
+    population_size = 2
+    number_of_mutants = 1
+    repetitions = 1
+    seed = 5
+    random_state = np.random.RandomState(seed)
+    scoring_turns = 5
 
-#     resident = [np.random.random() for _ in range(3)]
-#     mutant = [np.random.random() for _ in range(3)]
+    resident = [1, 1, 0]
+    mutant = [0, 1, 0]
 
-#     stochastic_scores = evol_dynamics.StochasticScores(
-#             resident,
-#             mutant,
-#             delta,
-#             population_size,
-#             number_of_mutants,
-#             repetitions,
-#             random_state,
-#         )
+    stochastic_scores = evol_dynamics.StochasticScores(
+        resident,
+        mutant,
+        delta,
+        population_size,
+        number_of_mutants,
+        repetitions,
+        random_state,
+        scoring_turns,
+    )
 
-#     scores = evol_dynamics.theoretical_utility(
-#         mutant, resident, delta, number_of_mutants, population_size
-#     )
+    population = stochastic_scores.create_population()
+    scores = stochastic_scores.get_scores(population)
 
-#     assert scores[0] == 
+    assert set(scores.values()) == {2.0, 3.0}
+
+
+def test_scoring_turns():
+    population_size = 10
+    repetitions = 1
+    number_of_mutants = 3
+    seed = 6
+    random_state = np.random.RandomState(seed)
+    scoring_turns = 5
+    delta = 0.7
+
+    resident = [0, 1, 1]
+    mutant = [1, 0, 1]
+
+    stochastic_scores = evol_dynamics.StochasticScores(
+        resident,
+        mutant,
+        delta,
+        population_size,
+        number_of_mutants,
+        repetitions,
+        random_state,
+        scoring_turns,
+    )
+
+    population = stochastic_scores.create_population()
+    scores = stochastic_scores.get_scores(population)
+
+    assert isinstance(scores, dict)
