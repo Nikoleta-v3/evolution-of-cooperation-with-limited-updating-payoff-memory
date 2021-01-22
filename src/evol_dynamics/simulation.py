@@ -86,7 +86,7 @@ class StochasticScores:
 
         return pairs
 
-    def get_scores(self, population):
+    def get_scores(self, population, scoring_turns=1):
         scores = {"mutant": 0, "resident": 0}
 
         for _ in range(self.repetitions):
@@ -97,14 +97,19 @@ class StochasticScores:
                 match = axl.Match(*pairs.values(), prob_end=(1 - self.delta))
                 _ = match.play()
 
-                for player, score in zip(*pairs.values(), match.scores()[-1]):
-                    scores[player.name] += score
+                for player, score in zip(
+                    *pairs.values(), match.scores()[-scoring_turns:]
+                ):
+                    scores[player.name] += sum(score) / scoring_turns
             else:
                 for pair in pairs:
                     match = axl.Match(pairs[pair], prob_end=(1 - self.delta))
                     _ = match.play()
 
-                    scores[pair] += match.scores()[-1][0]
+                    scores[pair] += (
+                        sum([s[0] for s in match.scores()[-scoring_turns:]])
+                        / scoring_turns
+                    )
 
         return {k: v / self.repetitions for k, v in scores.items()}
 
