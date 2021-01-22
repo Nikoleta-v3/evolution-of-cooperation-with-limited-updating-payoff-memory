@@ -52,6 +52,30 @@ def test_stochastic_scores_initialization():
     assert stochastic_scores.number_of_mutants == number_of_mutants
     assert stochastic_scores.repetitions == repetitions
     assert isinstance(stochastic_scores.random, np.random.RandomState)
+    assert stochastic_scores.scoring_turns == 1
+
+
+def test_stochastic_scores_initialization_with_scoring_turns():
+    scoring_turns = 5
+    stochastic_scores = evol_dynamics.StochasticScores(
+        resident,
+        mutant,
+        delta,
+        population_size,
+        number_of_mutants,
+        repetitions,
+        random_state,
+        scoring_turns
+    )
+
+    assert isinstance(stochastic_scores.resident, list)
+    assert isinstance(stochastic_scores.mutant, list)
+    assert stochastic_scores.delta == delta
+    assert stochastic_scores.population_size == population_size
+    assert stochastic_scores.number_of_mutants == number_of_mutants
+    assert stochastic_scores.repetitions == repetitions
+    assert isinstance(stochastic_scores.random, np.random.RandomState)
+    assert stochastic_scores.scoring_turns == 5
 
 
 def test_create_population():
@@ -186,3 +210,29 @@ def test_theoretical_utility_example_one():
 
     assert scores[0] == 5.0
     assert scores[1] == 2.25
+
+
+# def test_scoring_turns_five():
+#     population_size = 10
+#     repetitions = 1
+#     seed = 5
+#     random_state = np.random.RandomState(seed)
+
+#     resident = [np.random.random() for _ in range(3)]
+#     mutant = [np.random.random() for _ in range(3)]
+
+#     stochastic_scores = evol_dynamics.StochasticScores(
+#             resident,
+#             mutant,
+#             delta,
+#             population_size,
+#             number_of_mutants,
+#             repetitions,
+#             random_state,
+#         )
+
+#     scores = evol_dynamics.theoretical_utility(
+#         mutant, resident, delta, number_of_mutants, population_size
+#     )
+
+#     assert scores[0] == 
