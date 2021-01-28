@@ -38,6 +38,7 @@ class StochasticScores:
         repetitions,
         random_state,
         scoring_turns=1,
+        number_of_opponents=1,
     ):
         self.resident = resident
         self.mutant = mutant
