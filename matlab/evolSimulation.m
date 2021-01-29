@@ -63,8 +63,8 @@ if stochastic==1
                     + (1-1/(N-1))/(N-2)/(N-3) * ((k-1)*(k-2)*vRM(i1)*vMM(i2) + (k-1)*(N-k-1)*vRM(i1)*vMR(i2) + (N-k-1)*(k-1)*vRR(i1)*vMM(i2) + (N-k-1)*(N-k-2)*vRR(i1)*vMR(i2)); 
             end
         end
-        laplus(k)=sum(sum(x.*Rho)); 
-        laminus(k)=sum(sum(x.*Rho')); 
+        laplus(k)=sum(sum(x.*Rho));
+        laminus(k)=sum(sum(x.*Rho'));
     end
 else
     for k=1:N-1
