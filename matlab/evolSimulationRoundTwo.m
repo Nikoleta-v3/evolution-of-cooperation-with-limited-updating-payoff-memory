@@ -28,7 +28,7 @@ for t = progress(1:numberIterations)
 end
 
 csvwrite(filename + ".csv", xDat);
-writematrix(Data, filename + ".txt");
+csvwrite(filename + ".txt", Data);
 end
 
 function [rho,coopMM]=CalcRhoRoundTwo(Mut, Res, N, u, delta, beta, Rho);
