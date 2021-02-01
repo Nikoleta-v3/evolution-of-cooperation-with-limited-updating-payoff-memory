@@ -20,7 +20,7 @@ for i=1:n
 end
 
 N=n * n;
-parfor (i = 1:N, 24)
+parfor i = 1:N
     S=payoffs(i, 1);
     T=payoffs(i, 2);
     u=[1, S, T, 0];
