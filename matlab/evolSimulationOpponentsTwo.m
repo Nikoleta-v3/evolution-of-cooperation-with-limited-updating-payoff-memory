@@ -1,4 +1,4 @@
-function [xDat,AvCoop,AvPay,Rho,stochastic,Data]=evolSimulationOpponentsTwo(starting_resident, u, N, delta, beta, numberIterations, filename);
+function [xDat,AvCoop,AvPay,Rho,Data]=evolSimulationOpponentsTwo(starting_resident, u, N, delta, beta, numberIterations, filename);
 
 %% Preparations for the output
 Data=['R=',num2str(u(1)),'; S=',num2str(u(2)),'; T=',num2str(u(3)), '; P=',num2str(u(4)),'; N=',num2str(N),'; beta=',num2str(beta), '; nIt=',num2str(numberIterations)];
@@ -21,7 +21,7 @@ end
 j = 2;
 for t = progress(1:numberIterations)
     Mut=rand(1,sdim);
-    [rho,coopM,piM]=CalcRho(Mut, Res, Rho, N, u, delta, beta, stochastic); 
+    [rho,coopM,piM]=CalcRho(Mut, Res, Rho, N, u, delta, beta);
     if rand(1)<rho
         Res=Mut; xDat(j,:)=[Res,coopM,piM,t]; j=j+1;
     end
@@ -35,7 +35,7 @@ AvPay = mean(xDat(:, end-1));
 %time=toc
 end
 
-function [rho,coopMM,piMM]=CalcRho(Mut, Res, Rho, N, u, delta, beta, stochastic); 
+function [rho,coopMM,piMM]=CalcRho(Mut, Res, Rho, N, u, delta, beta);
 
 %% Preparations: Calculating outcome probabilities and expected payoffs
 
