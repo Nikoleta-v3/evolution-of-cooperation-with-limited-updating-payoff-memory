@@ -51,7 +51,7 @@ piRM=vRM*u';
 piRR=vRR*u';
 
 %% Calculating the fixation probability
-laplus = zeros(1,N-1); laminus=laplus;
+laplus=zeros(1,N-1); laminus=laplus;
 
 for k=1:N-1
     x=zeros(4,4);
@@ -62,7 +62,7 @@ for k=1:N-1
   ((k-1) * (k-2) * vRM(i1) * vMM(i2)) / (N - 3) / (N - 4) * ((k-2)*(k-3)*vRM(i1)*vMM(i2) + (k-2)*(N-k-1)*VRR(i1)*vMM(i2) + (N-k-1)*(k-2)*vRM(i1)*vMR(i2) + (N-k-1)*(N-k-2)*vRR(i1)*vMR(i2)) ...
 + ((k-1) * (N-k-1) * vRM(i1) * vMR(i2)) / (N - 3) / (N - 4) * ((k-1)*(k-3)*vRM(i1)*vMM(i2) + (k-1)*(N-k-1)*vRR(i1)*vMM(i2) + (N-k-2)*(k-2)*vRM(i1)*vMR(i2) + (N-k-2)*(N-k-2)*vRR(i1)*vMR(i2)) ...
 + ((N-k-1) * (k-1) * vRR(i1) * vMM(i2)) / (N - 3) / (N - 4) *  ((k-2)*(k-2)*vRM(i1)*vMM(i2) + (k-2)*(N-k-2)*vRR(i1)*vMM(i2) + (N-k-1)*(k-1)*vRM(i1)*vMR(i2) + (N-k-1)*(N-k-3)*vRR(i1)*vMR(i2)) ...
-=+ (N-k-1) * (N-k-2) * vRR(i1) * vMR(i2) / (N - 3) / (N - 4) * ((k-1)*(k-2)*vRM(i1)*vMM(i2) + (k-1)*(N-k-2)*vRR(i1)*vMM(i2) + (N-k-2)*(k-1)*vRM(i1)*vMR(i2) + (N-k-2)*(N-k-3)*vRR(i1)*vMR(i2)));
++ (N-k-1) * (N-k-2) * vRR(i1) * vMR(i2) / (N - 3) / (N - 4) * ((k-1)*(k-2)*vRM(i1)*vMM(i2) + (k-1)*(N-k-2)*vRR(i1)*vMM(i2) + (N-k-2)*(k-1)*vRM(i1)*vMR(i2) + (N-k-2)*(N-k-3)*vRR(i1)*vMR(i2)));
         end
     end
     laplus(k)=sum(sum(x.*Rho));
