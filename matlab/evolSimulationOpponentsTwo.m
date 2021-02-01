@@ -4,15 +4,15 @@ function [xDat,AvCoop,AvPay,Rho,stochastic,Data]=evolSimulationOpponentsTwo(star
 Data=['R=',num2str(u(1)),'; S=',num2str(u(2)),'; T=',num2str(u(3)), '; P=',num2str(u(4)),'; N=',num2str(N),'; beta=',num2str(beta), '; nIt=',num2str(numberIterations)];
 AvCoop=0; AvPay=0; Res=starting_resident;
 
-sdim = 3;
-xDat = zeros(numberIterations/100, 6);
+sdim=3;
+xDat=zeros(numberIterations/100, 6);
 xDat(1, :)=[Res, 0, u(4), 0];
 
 %% Calculating all possible pairwise imitation probabilities based on one payoff
 Rho=zeros(4,4);
 for i1=1:4
     for i2=1:4
-        Rho(i1,i2) = 1 / (1 + exp(-beta * (u(i2) - u(i1))));
+        Rho(i1,i2)=1 / (1 + exp(-beta * (u(i2) - u(i1))));
     end
 end
 
@@ -39,16 +39,16 @@ function [rho,coopMM,piMM]=CalcRho(Mut, Res, Rho, N, u, delta, beta, stochastic)
 
 %% Preparations: Calculating outcome probabilities and expected payoffs
 
-vMM = stationary(Mut,Mut,delta);
-vMR = stationary(Mut,Res,delta);
-vRM = [vMR(1) vMR(3) vMR(2) vMR(4)];
-vRR = stationary(Res,Res,delta);
+vMM=stationary(Mut,Mut,delta);
+vMR=stationary(Mut,Res,delta);
+vRM=[vMR(1) vMR(3) vMR(2) vMR(4)];
+vRR=stationary(Res,Res,delta);
 
-coopMM = vMM(1)+vMM(2);
-piMM = vMM*u';
-piMR = vMR*u';
-piRM = vRM*u';
-piRR = vRR*u';
+coopMM=vMM(1)+vMM(2);
+piMM=vMM*u';
+piMR=vMR*u';
+piRM=vRM*u';
+piRR=vRR*u';
 
 %% Calculating the fixation probability
 laplus = zeros(1,N-1); laminus=laplus;
