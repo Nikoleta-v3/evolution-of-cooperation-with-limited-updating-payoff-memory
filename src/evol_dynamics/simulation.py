@@ -27,6 +27,54 @@ class ReactivePlayer(axl.MemoryOnePlayer):
         super().__init__(self.four_vector, self.initial)
 
 
+def create_population(population_size, number_of_mutants, random_state):
+
+    population = ["role model", "learner"]
+
+    population += [
+        "resident" for _ in range(population_size - number_of_mutants - 1)
+    ]
+
+    population += ["mutant" for _ in range(number_of_mutants - 1)]
+
+    random_state.shuffle(population)
+    assert len(population) == population_size
+    return population
+
+
+def match_pairs(
+    population_size,
+    number_of_mutants,
+    random_state,
+    num_of_opponents,
+):
+    population = create_population(
+        population_size, number_of_mutants, random_state
+    )
+
+    pairs = {i: [] for i in range(population_size)}
+
+    for _ in range(num_of_opponents):
+
+        population_numbers = list(range(population_size))
+
+        while len(population_numbers) > 0:
+            player = population_numbers.pop()
+            opponent = random_state.choice(
+                [i for i in population_numbers if i not in pairs[player]]
+            )
+            population_numbers.remove(opponent)
+
+            pairs[player] += [opponent]
+            pairs[opponent] += [player]
+
+    pairs_to_types = {
+        population[i]: [population[j] for j in pairs[i]] for i in pairs.keys()
+    }
+
+    return pairs_to_types
+
+
 class StochasticScores:
     def __init__(
         self,
