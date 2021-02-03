@@ -39,7 +39,7 @@ def create_population(population_size, number_of_mutants, random_state):
 
     population += ["mutant" for _ in range(number_of_mutants - 1)]
 
-    random_state.shuffle(population)
+    # random_state.shuffle(population)
     assert len(population) == population_size
     return population
 
@@ -85,73 +85,90 @@ def get_probabilities_for_opponents(
     random_state,
     num_of_opponents,
 ):
-    role_model_pairs = []
-    learner_pairs = []
+    probabilities = {
+        "learner-role-model": 0,
+        "learner-resident-role-model-resident": 0,
+        "learner-resident-role-model-mutant": 0,
+        "learner-mutant-role-model-resident": 0,
+        "learner-mutant-role-model-mutant": 0,
+        "learner-resident-resident-role-model-resident-resident": 0,
+        "learner-resident-mutant-role-model-resident-resident": 0,
+        "learner-mutant-resident-role-model-resident-resident": 0,
+        "learner-mutant-mutant-role-model-resident-resident": 0,
+        "learner-resident-resident-role-model-resident-mutant": 0,
+        "learner-resident-mutant-role-model-resident-mutant": 0,
+        "learner-mutant-resident-role-model-resident-mutant": 0,
+        "learner-mutant-mutant-role-model-resident-mutant": 0,
+        "learner-resident-resident-role-model-mutant-resident": 0,
+        "learner-resident-mutant-role-model-mutant-resident": 0,
+        "learner-mutant-resident-role-model-mutant-resident": 0,
+        "learner-mutant-mutant-role-model-mutant-resident": 0,
+        "learner-resident-resident-role-model-mutant-mutant": 0,
+        "learner-resident-mutant-role-model-mutant-mutant": 0,
+        "learner-mutant-resident-role-model-mutant-mutant": 0,
+        "learner-mutant-mutant-role-model-mutant-mutant": 0,
+        "learner-role-model-resident-role-model-learner-resident": 0,
+        "learner-role-model-resident-role-model-learner-mutant": 0,
+        "learner-role-model-mutant-role-model-learner-resident": 0,
+        "learner-role-model-mutant-role-model-learner-mutant": 0,
+        "learner-resident-role-model-role-model-resident-learner": 0,
+        "learner-resident-role-model-role-model-mutant-learner": 0,
+        "learner-mutant-role-model-role-model-resident-learner": 0,
+        "learner-mutant-role-model-role-model-mutant-learner": 0,
+    }
 
     for _ in range(num_of_repetitions):
 
-        pairs = match_pairs(
-            population_size, number_of_mutants, random_state, num_of_opponents
+        pairs = None
+        while pairs is None:
+            try:
+                pairs = evol_dynamics.match_pairs(
+                        population_size, number_of_mutants, random_state, num_of_opponents
+                    )
+            except ValueError:
+                pass
+
+        if pairs["learner"][0] == "role-model":
+            probabilities["learner-role-model"] += 1 / num_of_repetitions
+
+        if pairs["learner"][0] == pairs["role-model"][0] == "mutant":
+            probabilities["learner-mutant-role-model-mutant"] += (
+                1 / num_of_repetitions
+            )
+
+        if pairs["learner"][0] == pairs["role-model"][0] == "resident":
+            probabilities["learner-resident-role-model-resident"] += (
+                1 / num_of_repetitions
+            )
+
+        if (
+            pairs["learner"][0] == "resident"
+            and pairs["role-model"][0] == "mutant"
+        ):
+            probabilities["learner-resident-role-model-mutant"] += (
+                1 / num_of_repetitions
+            )
+
+        if (
+            pairs["learner"][0] == "mutant"
+            and pairs["role-model"][0] == "resident"
+        ):
+            probabilities["learner-mutant-role-model-resident"] += (
+                1 / num_of_repetitions
+            )
+
+        label = (
+            "learner"
+            + "-"
+            + "-".join([v for v in pairs["learner"]])
+            + "-"
+            + "role-model"
+            + "-"
+            + "-".join([v for v in pairs["role-model"]])
         )
-        role_model_pairs.append(pairs["role-model"])
-        learner_pairs.append(pairs["learner"])
+        probabilities[label] += 1 / num_of_repetitions
 
-    # ToDo change this to depend on `num_of_opponents`
-    probabilities_of_role_mode = {
-        "learner": 0,
-        "resident": 0,
-        "mutant": 0,
-        "role-model": 0,
-        "resident-resident": 0,
-        "mutant-resident": 0,
-        "learner-resident": 0,
-        "role-model-resident": 0,
-        "resident-mutant": 0,
-        "mutant-mutant": 0,
-        "learner-mutant": 0,
-        "role-model-mutant": 0,
-        "resident-learner": 0,
-        "mutant-learner": 0,
-        "learner-learner": 0,
-        "role-model-learner": 0,
-        "resident-role-model": 0,
-        "mutant-role-model": 0,
-        "learner-role-model": 0,
-        "role-model-role-model": 0,
-    }
-
-    probabilities_of_learner = {
-        "learner": 0,
-        "resident": 0,
-        "mutant": 0,
-        "role-model": 0,
-        "resident-resident": 0,
-        "mutant-resident": 0,
-        "learner-resident": 0,
-        "role-model-resident": 0,
-        "resident-mutant": 0,
-        "mutant-mutant": 0,
-        "learner-mutant": 0,
-        "role-model-mutant": 0,
-        "resident-learner": 0,
-        "mutant-learner": 0,
-        "learner-learner": 0,
-        "role-model-learner": 0,
-        "resident-role-model": 0,
-        "mutant-role-model": 0,
-        "learner-role-model": 0,
-        "role-model-role-model": 0,
-    }
-
-    for pair in role_model_pairs:
-        probabilities_of_role_mode[pair[0]] += 1 / num_of_repetitions
-        probabilities_of_role_mode["-".join(pair)] += 1 / num_of_repetitions
-
-    for pair in learner_pairs:
-        probabilities_of_learner[pair[0]] += 1 / num_of_repetitions
-        probabilities_of_learner["-".join(pair)] += 1 / num_of_repetitions
-
-    return probabilities_of_learner, probabilities_of_role_mode
+    return probabilities
 
 
 def stationary_for_16_states(player, opponent, delta):

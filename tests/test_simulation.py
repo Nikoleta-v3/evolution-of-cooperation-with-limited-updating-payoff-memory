@@ -92,10 +92,7 @@ def get_probabilities_for_opponents():
     random_state = np.random.RandomState(seed)
     num_of_opponents = 2
 
-    (
-        learner_opponents,
-        role_model_opponents,
-    ) = evol_dynamics.get_probabilities_for_opponents(
+    probabilities_of_opponents = evol_dynamics.get_probabilities_for_opponents(
         num_of_repetitions,
         population_size,
         number_of_mutants,
@@ -103,13 +100,20 @@ def get_probabilities_for_opponents():
         num_of_opponents,
     )
 
-    assert isinstance(learner_opponents, dict)
-    assert isinstance(role_model_opponents, dict)
-    assert len(learner_opponents) == 20
-    assert len(role_model_opponents) == 20
+    assert isinstance(probabilities_of_opponents, dict)
+    assert len(probabilities_of_opponents) == 29
 
-    assert isinstance(role_model_opponents["learner"], float)
-    assert isinstance(learner_opponents["role-model-mutant"], float)
+    one_opponent_combinations = [
+        "learner-role-model" "learner-resident-role-model-resident",
+        "learner-resident-role-model-mutant",
+        "learner-mutant-role-model-resident",
+        "learner-mutant-role-model-mutant",
+    ]
+
+    assert (
+        sum([probabilities_of_opponents[p] for p in one_opponent_combinations])
+        == 1
+    )
 
 
 def test_stationary_for_16_states():
@@ -131,8 +135,8 @@ def test_simulated_states():
     number_of_repetitions = 100
     rounds_of_history = 2
 
-    ss = evol_dynamics.simulated_states(player, opponent, delta, number_of_repetitions, rounds_of_history)
+    ss = evol_dynamics.simulated_states(
+        player, opponent, delta, number_of_repetitions, rounds_of_history
+    )
 
-    assert ss['RR'] == 1.0
-    assert ss['R'] == 1.0
-    assert ss["TT"] == 0.0
+    assert len(ss) == 20

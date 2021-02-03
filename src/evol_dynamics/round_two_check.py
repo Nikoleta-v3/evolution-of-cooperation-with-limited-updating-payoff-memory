@@ -31,7 +31,8 @@ def steady_state_for_16_states(player, opponent, delta):
 def simulated_states(
     player, opponent, delta, number_of_repetitions, rounds_of_history
 ):
-    history_to_state = {
+
+    history_two_to_state = {
         "CCCC": "RR",
         "CCCD": "RS",
         "CCDC": "RT",
@@ -48,6 +49,13 @@ def simulated_states(
         "DDCD": "PS",
         "DDDC": "PT",
         "DDDD": "PP",
+    }
+
+    history_one_to_state = {
+        "CC": "R",
+        "CD": "S",
+        "DC": "T",
+        "DD": "P",
     }
     ss = []
     for _ in range(number_of_repetitions):
@@ -66,11 +74,22 @@ def simulated_states(
             [str(v) for history in histories for v in history]
         )
         try:
-            ss.append(history_to_state[histories_in_characters])
+            ss.append(history_two_to_state[histories_in_characters])
         except KeyError:
             pass
 
-    states = {name: 0 for name in history_to_state.values()}
+        last_round = [match.result[-1]]
+        last_round_in_characters = "".join([str(v) for v in last_round])
+        try:
+            ss.append(history_one_to_state[last_round_in_characters])
+        except KeyError:
+            pass
+
+    states = {
+        name: 0
+        for name in list(history_two_to_state.values())
+        + list(history_one_to_state.values())
+    }
     for key, value in zip(Counter(ss).keys(), Counter(ss).values()):
         states[key] = value / number_of_repetitions
 
