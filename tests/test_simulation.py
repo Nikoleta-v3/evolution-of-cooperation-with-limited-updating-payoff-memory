@@ -34,236 +34,105 @@ def test_reactive_player():
     assert results[-1] == (axl.Action.D, axl.Action.D)
 
 
-def test_stochastic_scores_initialization():
-    stochastic_scores = evol_dynamics.StochasticScores(
-        resident,
-        mutant,
-        delta,
-        population_size,
-        number_of_mutants,
-        repetitions,
-        random_state,
-    )
-
-    assert isinstance(stochastic_scores.resident, list)
-    assert isinstance(stochastic_scores.mutant, list)
-    assert stochastic_scores.delta == delta
-    assert stochastic_scores.population_size == population_size
-    assert stochastic_scores.number_of_mutants == number_of_mutants
-    assert stochastic_scores.repetitions == repetitions
-    assert isinstance(stochastic_scores.random, np.random.RandomState)
-    assert stochastic_scores.scoring_turns == 1
-
-
-def test_stochastic_scores_initialization_with_scoring_turns():
-    scoring_turns = 5
-    stochastic_scores = evol_dynamics.StochasticScores(
-        resident,
-        mutant,
-        delta,
-        population_size,
-        number_of_mutants,
-        repetitions,
-        random_state,
-        scoring_turns,
-    )
-
-    assert isinstance(stochastic_scores.resident, list)
-    assert isinstance(stochastic_scores.mutant, list)
-    assert stochastic_scores.delta == delta
-    assert stochastic_scores.population_size == population_size
-    assert stochastic_scores.number_of_mutants == number_of_mutants
-    assert stochastic_scores.repetitions == repetitions
-    assert isinstance(stochastic_scores.random, np.random.RandomState)
-    assert stochastic_scores.scoring_turns == 5
-
-
 def test_create_population():
-    stochastic_scores = evol_dynamics.StochasticScores(
-        resident,
-        mutant,
-        delta,
-        population_size,
-        number_of_mutants,
-        repetitions,
-        random_state,
+
+    population = evol_dynamics.create_population(
+        population_size, number_of_mutants, random_state
     )
 
-    population = stochastic_scores.create_population()
     assert len(population) == population_size
-    assert (
-        len([member for member in population if member.name == "mutant"]) == 1
+    assert len([member for member in population if member == "role-model"]) == 1
+    assert len([member for member in population if member == "learner"]) == 1
+    assert len([member for member in population if member == "resident"]) == (
+        population_size - 1 - number_of_mutants
     )
-    assert (
-        len([member for member in population if member.name == "resident"]) == 1
+    assert len([member for member in population if member == "mutant"]) == (
+        number_of_mutants - 1
     )
-    assert len(
-        [member for member in population if member.name == "generic"]
-    ) == (population_size - 2)
 
 
 def test_match_pairs():
     population_size = 100
     seed = 2
     random_state = np.random.RandomState(seed)
+    num_of_opponents = 2
 
-    stochastic_scores = evol_dynamics.StochasticScores(
-        resident,
-        mutant,
-        delta,
-        population_size,
-        number_of_mutants,
-        repetitions,
-        random_state,
+    pairs = evol_dynamics.match_pairs(
+        population_size, number_of_mutants, random_state, num_of_opponents
     )
 
     population = stochastic_scores.create_population()
     pairs = stochastic_scores.match_pairs(population)
 
     assert isinstance(pairs, dict)
-    assert isinstance(pairs["resident"], tuple)
-    assert isinstance(pairs["mutant"], tuple)
+    assert isinstance(pairs["role-model"], list)
+    assert len(pairs["role-model"]) == num_of_opponents
+    assert len(pairs) == 4
 
 
 def test_match_pairs_resident_plays_mutant():
     population_size = 10
     seed = 2
     random_state = np.random.RandomState(seed)
+    num_of_opponents = 1
 
-    stochastic_scores = evol_dynamics.StochasticScores(
-        resident,
-        mutant,
-        delta,
-        population_size,
-        number_of_mutants,
-        repetitions,
-        random_state,
+    pairs = evol_dynamics.match_pairs(
+        population_size, number_of_mutants, random_state, num_of_opponents
     )
-
-    population = stochastic_scores.create_population()
-    pairs = stochastic_scores.match_pairs(population)
 
     assert isinstance(pairs, dict)
-    assert isinstance(pairs["resident"], tuple)
-    with pytest.raises(KeyError):
-        assert pairs["mutant"]
+    assert len(pairs) == 4
+    assert pairs["role-model"] == ["learner"]
+    assert pairs["learner"] == ["role-model"]
 
 
-def test_match_pairs_mutant_plays_role_model():
-    population_size = 10
-    seed = 1
+def get_probabilities_for_opponents():
+    num_of_repetitions = 100
+    seed = 2
     random_state = np.random.RandomState(seed)
+    num_of_opponents = 2
 
-    stochastic_scores = evol_dynamics.StochasticScores(
-        resident,
-        mutant,
-        delta,
+    (
+        learner_opponents,
+        role_model_opponents,
+    ) = evol_dynamics.get_probabilities_for_opponents(
+        num_of_repetitions,
         population_size,
         number_of_mutants,
-        repetitions,
         random_state,
+        num_of_opponents,
     )
 
-    population = stochastic_scores.create_population()
-    pairs = stochastic_scores.match_pairs(population)
+    assert isinstance(learner_opponents, dict)
+    assert isinstance(role_model_opponents, dict)
+    assert len(learner_opponents) == 20
+    assert len(role_model_opponents) == 20
 
-    assert isinstance(pairs, dict)
-    assert isinstance(pairs["mutant"], tuple)
-    with pytest.raises(KeyError):
-        assert pairs["resident"]
-
-
-def test_score():
-    population_size = 10
-    repetitions = 1
-    seed = 1
-    random_state = np.random.RandomState(seed)
-    mutant = [0, 0, 0]
-    resident = [1, 1, 1]
-
-    stochastic_scores = evol_dynamics.StochasticScores(
-        resident,
-        mutant,
-        delta,
-        population_size,
-        number_of_mutants,
-        repetitions,
-        random_state,
-    )
-
-    population = stochastic_scores.create_population()
-    scores = stochastic_scores.get_scores(population)
-    assert isinstance(scores, dict)
-    assert scores["mutant"] == 5.0
-    assert scores["resident"] == 0.0
+    assert isinstance(role_model_opponents["learner"], float)
+    assert isinstance(learner_opponents["role-model-mutant"], float)
 
 
-def test_theoretical_utility_example_one():
-    mutant = (0, 0, 0)
-    resident = (1, 1, 1)
+def test_stationary_for_16_states():
+    player = [1, 1, 1]
+    opponent = [0, 1, 1]
     delta = 0.999
-    number_of_mutants = 1
-    population_size = 5
-    scores = evol_dynamics.theoretical_utility(
-        mutant, resident, delta, number_of_mutants, population_size
-    )
 
-    assert scores[0] == 5.0
-    assert scores[1] == 2.25
+    ss = evol_dynamics.stationary_for_16_states(player, opponent, delta)
+
+    assert len(ss) == 16
+    assert np.isclose(sum(ss), 1, atol=10 ** -2)
 
 
-def test_scoring_turns_five():
-    population_size = 2
-    number_of_mutants = 1
-    repetitions = 1
-    seed = 5
-    random_state = np.random.RandomState(seed)
-    scoring_turns = 5
+def test_simulated_states():
+    player = [1, 1, 1]
+    opponent = [0, 1, 1]
+    delta = 0.999
 
-    resident = [1, 1, 0]
-    mutant = [0, 1, 0]
+    number_of_repetitions = 100
+    rounds_of_history = 2
 
-    stochastic_scores = evol_dynamics.StochasticScores(
-        resident,
-        mutant,
-        delta,
-        population_size,
-        number_of_mutants,
-        repetitions,
-        random_state,
-        scoring_turns,
-    )
+    ss = evol_dynamics.simulated_states(player, opponent, delta, number_of_repetitions, rounds_of_history)
 
-    population = stochastic_scores.create_population()
-    scores = stochastic_scores.get_scores(population)
-
-    assert set(scores.values()) == {2.0, 3.0}
-
-
-def test_scoring_turns():
-    population_size = 10
-    repetitions = 1
-    number_of_mutants = 3
-    seed = 6
-    random_state = np.random.RandomState(seed)
-    scoring_turns = 5
-    delta = 0.7
-
-    resident = [0, 1, 1]
-    mutant = [1, 0, 1]
-
-    stochastic_scores = evol_dynamics.StochasticScores(
-        resident,
-        mutant,
-        delta,
-        population_size,
-        number_of_mutants,
-        repetitions,
-        random_state,
-        scoring_turns,
-    )
-
-    population = stochastic_scores.create_population()
-    scores = stochastic_scores.get_scores(population)
-
-    assert isinstance(scores, dict)
+    assert ss['RR'] == 1.0
+    assert ss['R'] == 1.0
+    assert ss["TT"] == 0.0
