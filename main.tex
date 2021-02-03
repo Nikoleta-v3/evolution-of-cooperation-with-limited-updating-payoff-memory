@@ -6,6 +6,7 @@
 \usepackage[top=2.2cm,left=2.4cm,right=2.4cm,bottom=3cm]{geometry}
 \smallskip % Erlaubt kleine Abstaende zwischen Paragraphen, falls es dem Seitenlayout hilft
 \renewcommand{\baselinestretch}{1.3}
+\newcommand{\R}{\mathbb{R}}
 
 \definecolor{darkblue}{rgb}{0,0,.8}
 \definecolor{darkgreen}{rgb}{0,0.5,0.1}
@@ -56,23 +57,146 @@
 \theoremstyle{plainCl2}
 \newtheorem{Claim2}{Claim}
 
-
-
-
-
 \title{\begin{center}
 \bf  \sffamily \LARGE Prisoner's dilemma with stochastic payoffs\\[-1cm]
 \end{center}}
-\date{\today}
+\date{}
 \author{}
-
 
 \begin{document}
 \maketitle
 
+\section{Introduction}
 
-%\section*{Extended Data Figures}
+In the evolutionary dynamics literature it is common that the expected payoffs are
+used in order to estimate individuals payoffs, and as a result, their fixation
+probabilities.
 
+The aim of this work is to understand the effect of the payoffs on the evolution
+of the population. More specifically, this works evaluates the evolution for differently
+calculated stochastic payoffs.
+
+\section{Model}
+
+The Prisoner's Dilemma (PD) is a two player no-cooperative game. The players
+simultaneously and independently make a decision to Cooperate (C) or to defect
+(D). The payoffs for both players depend on their actions and the actions of
+their opponents. More specifically, the payoffs are given by:
+
+\begin{equation}\label{eq:pd_normal_form}
+    \begin{pmatrix}
+        R & S  \\
+        T & P
+    \end{pmatrix}
+\end{equation}
+
+The payoffs, \((R, P, S, T)\), are constrained by \(T > R > P > S\) and \(2R > T + S\).
+A special case of the PD is that of the donation game where the matrix~(\ref{eq:pd_normal_form})
+is now written as:
+
+A special case is the donation game,” where each player can cooperate by providing 
+a benefit \(b\) to the other player at their cost \(c\), with \(0 < c < b\).
+Then, \(T=b, R=b-c, S=-c, P=0\), and matrix~(\ref{eq:pd_normal_form}) is give by:
+
+\begin{equation}\label{eq:donation_normal_form}
+    \begin{pmatrix}
+        b-c & -c  \\
+        b & 0
+    \end{pmatrix}
+\end{equation}
+
+where \(c\) is the cost inflicted to an individual for cooperating and \(b\) is
+the benefit.
+
+The game becomes more interesting once repetition is taken into account, and
+now te history of play is taken into account when making decisions. The iterated
+form of the game is called the Iterated Prisoner's Dilemma (IPD). There are other
+two players repeated games such as the Snowdrift game, Harmony and the Stag Hunt
+game. These games are also taken into account in the numerical simulations section.
+
+The space of strategies is infinite in the IPD. In this work we assume that
+the individuals of our population can only follow a reactive strategy.
+
+Reactive strategy are a set of memory-one strategies that only take into account
+the previous action of the opponent. An example of a reactive strategy is Tit
+For Tat. Reactive strategies can be written explicitly as a vector \(\in
+\R_{3}\). More specifically a reactive strategy \(s\) is given by \(s=(y, p,
+q)\) where \(y\) is the probability that the strategy opens with a cooperation
+and \(p, q\) are the probabilities that the strategy cooperates given that the
+opponent cooperated and defected equivalently.
+
+Two players with reactive strategies takes the form of a Markov chain
+with four possible states CC, CD, DC, DD (the possible outcomes of each round).
+Given two reactive strategies \(s_{1}=(y_{1}, p_{1}, q_{1})\) and 
+\(s_{2}=(y_{2}, p_{2}, q_{2})\), the transition matrix \(M\) of this Markov chain
+is given by:
+
+\begin{equation}
+    \input{static/matrix}
+\end{equation}
+
+The long run steady state probability
+vector \(\mathbf{v}\), which is the solution to \(\mathbf{v} M = \mathbf{v}\), can be
+combined with the payoff of matrix (\ref{eq:pd_normal_form}) to give the expected
+payoffs for each player. More specifically, the payoffs for a reactive
+strategy \(s_1\) against an opponent \(s_2\), is given by:
+
+\begin{equation}
+    \mathbf{v}(s_1, s_2) \cdot u
+\end{equation}
+
+The basic setup is a population of \(N\)
+individuals, where \(N\) is even, and where mutations are sufficiently rare such
+that at any point in time at most two different strategies are present in the
+population. Suppose there are \(N - k\) players who use the strategy \(s_{1}=(y_{1},
+p_{1}, q_{1})\), whereas \(k\) players use the strategy \(s_{2}=(y_{2}, p_{2},
+q_{2})\). We refer to these two player types as ‘residents’ and ‘mutants’,
+respectively.
+
+Each step of the evolutionary process consists of two stages, a game stage and
+an updating stage. In the game stage, each player is randomly matched with some
+other player in the population to interact in one instance of the repeated
+prisoner's dilemma. In the updating stage, two players are randomly drawn from
+the population, a `learner' and a `role model'. Given that the learner's payoff
+in the last round is $u_L\!\in\! \mathcal{U}$ and that the role model's last
+round's payoff $u_M\!\in\! \mathcal{U}$, we assume the learner adopts the role
+model's strategy with probability 
+
+\begin{equation} \label{Eq:rho}
+\rho(u_L, u_M) = \frac{1}{1\!+\!\exp\big[ \!-\!\beta (u_M\!-\!u_L) \big]}. 
+\end{equation}
+
+The parameter $\beta\!\ge\!0$ corresponds to the strength of selection.
+
+We iterate this basic evolutionary step until either the mutant strategy goes
+extinct, or until it fixes in the population (in which case the mutant strategy
+becomes the new resident strategy). After either outcome, we introduce a new
+mutant strategy $S'_2\!=\!(y_2',p_2',q_2')$ (uniformly chosen from all reactive
+strategies at random), and we set the number of mutants to $k\!=\!1$. This
+process of mutation and fixation/extinction is then iterated many times. 
+
+We compare this process for stochastic payoff evaluation with the analogous
+process where players update their strategies with respect to their {\it
+expected} payoffs,
+\begin{equation} \label{Eq:ExpPay}
+\begin{array}{lcrcr}
+\displaystyle \pi_1	&=	&\displaystyle \frac{N\!-\!k\!-\!1}{N-1}\cdot \langle\mathbf{v}(S_1,S_1),\mathbf{u}\rangle	&+	&\displaystyle\frac{k}{N-1}\cdot \langle\mathbf{v}(S_1,S_2),\mathbf{u}\rangle,\\[0.5cm]
+\displaystyle \pi_2	&=	&\displaystyle\frac{N-k}{N-1}\cdot \langle\mathbf{v}(S_2,S_1),\mathbf{u}\rangle&+	&\displaystyle\frac{k-1}{N-1}\cdot \langle\mathbf{v}(S_2,S_2),\mathbf{u}\rangle.\\
+\end{array}
+\end{equation}
+In the limit of no discounting, $\delta\!\rightarrow\! 1$, this process based on
+expected payoffs has been considered in~\cite{imhof:prsb:2010}. 
+
+
+
+% \begin{equation}\label{eq:transition_matrix}
+%     \resizebox{.5\hsize}{!}{$\input{tex/m_matrix.tex}$}
+% \end{equation}
+
+
+% \begin{equation}\label{eq:press_dyson_utility}
+%     u_q(p) = v \cdot (R, S, T, P).
+% \end{equation}
 
 \section{Games dynamics between reactive strategies}
 
