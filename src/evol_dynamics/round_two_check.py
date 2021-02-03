@@ -70,9 +70,9 @@ def simulated_states(
         except KeyError:
             pass
 
-        states = {name: 0 for name in history_to_state.values()}
-        for key, value in zip(Counter(ss).keys(), Counter(ss).values()):
-            states[key] = value / number_of_repetitions
+    states = {name: 0 for name in history_to_state.values()}
+    for key, value in zip(Counter(ss).keys(), Counter(ss).values()):
+        states[key] = value / number_of_repetitions
 
     return states
 

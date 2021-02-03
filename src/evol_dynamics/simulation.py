@@ -29,7 +29,7 @@ class ReactivePlayer(axl.MemoryOnePlayer):
 
 def create_population(population_size, number_of_mutants, random_state):
 
-    population = ["role model", "learner"]
+    population = ["role-model", "learner"]
 
     population += [
         "resident" for _ in range(population_size - number_of_mutants - 1)
@@ -57,6 +57,7 @@ def match_pairs(
     for _ in range(num_of_opponents):
 
         population_numbers = list(range(population_size))
+        random_state.shuffle(population_numbers)
 
         while len(population_numbers) > 0:
             player = population_numbers.pop()
@@ -75,125 +76,79 @@ def match_pairs(
     return pairs_to_types
 
 
-class StochasticScores:
-    def __init__(
-        self,
-        resident,
-        mutant,
-        delta,
-        population_size,
-        number_of_mutants,
-        repetitions,
-        random_state,
-        scoring_turns=1,
-        number_of_opponents=1,
-    ):
-        self.resident = resident
-        self.mutant = mutant
-        self.delta = delta
-        self.population_size = population_size
-        self.number_of_mutants = number_of_mutants
-        self.repetitions = repetitions
-        self.random = random_state
-        self.scoring_turns = scoring_turns
-
-    def create_population(self):
-        population = [
-            ReactivePlayer(self.resident, role="resident"),
-            ReactivePlayer(self.mutant, role="mutant"),
-        ]
-
-        population += [
-            ReactivePlayer(self.resident, role="generic")
-            for _ in range(self.population_size - self.number_of_mutants - 1)
-        ]
-        population += [
-            ReactivePlayer(self.mutant, role="generic")
-            for _ in range(self.number_of_mutants - 1)
-        ]
-
-        self.random.shuffle(population)
-        return population
-
-    def match_pairs(self, population):
-        pairs = {}
-        while len(population) > 0:
-            player = population.pop()
-            index = self.random.randint(low=0, high=len(population))
-            opponent = population.pop(index)
-
-            if player.name in ["resident", "mutant"] and opponent.name in [
-                "resident",
-                "mutant",
-            ]:
-                pairs[player.name] = (player, opponent)
-                return pairs
-
-            if player.name in ["resident", "mutant"]:
-                pairs[player.name] = (player, opponent)
-
-            if opponent.name in ["resident", "mutant"]:
-                pairs[opponent.name] = (opponent, player)
-
-        return pairs
-
-    def get_scores(self, population):
-        scores = {"mutant": 0, "resident": 0}
-
-        for _ in range(self.repetitions):
-            population_copy = copy.deepcopy(population)
-            pairs = self.match_pairs(population_copy)
-
-            if len(pairs) == 1:
-                match = axl.Match(*pairs.values(), prob_end=(1 - self.delta))
-                _ = match.play()
-
-                for i, player in enumerate(*pairs.values()):
-                    scores[player.name] += (
-                        sum(
-                            [
-                                s[i]
-                                for s in match.scores()[-self.scoring_turns :]
-                            ]
-                        )
-                        / self.scoring_turns
-                    )
-            else:
-                for pair in pairs:
-                    match = axl.Match(pairs[pair], prob_end=(1 - self.delta))
-                    _ = match.play()
-
-                    scores[pair] += (
-                        sum(
-                            [
-                                s[0]
-                                for s in match.scores()[-self.scoring_turns :]
-                            ]
-                        )
-                        / self.scoring_turns
-                    )
-
-        return {k: v / self.repetitions for k, v in scores.items()}
-
-
-def theoretical_utility(
-    mutant, resident, delta, number_of_mutants, population_size
+def get_probabilities_for_opponents(
+    num_of_repetitions,
+    population_size,
+    number_of_mutants,
+    random_state,
+    num_of_opponents,
 ):
-    combinations = itertools.product([mutant, resident], repeat=2)
-    vMM, vMR, vRM, vRR = [
-        evol_dynamics.expected_distribution_last_round(p1, p2, delta)
-        for p1, p2 in combinations
-    ]
+    role_model_pairs = []
+    learner_pairs = []
 
-    x = evol_dynamics.evolution.probability_of_receiving_payoffs(
-        vMM, vMR, vRM, vRR, number_of_mutants, population_size
-    )
+    for _ in range(num_of_repetitions):
 
-    payoff_vector = np.array([3, 0, 5, 1])
+        pairs = match_pairs(
+            population_size, number_of_mutants, random_state, num_of_opponents
+        )
+        role_model_pairs.append(pairs["role-model"])
+        learner_pairs.append(pairs["learner"])
 
-    rhos = np.array([[payoff_vector[i] for i in range(4)] for j in range(4)])
+    probabilities_of_role_mode = {
+        "learner": 0,
+        "resident": 0,
+        "mutant": 0,
+        "role-model": 0,
+        "resident-resident": 0,
+        "mutant-resident": 0,
+        "learner-resident": 0,
+        "role-model-resident": 0,
+        "resident-mutant": 0,
+        "mutant-mutant": 0,
+        "learner-mutant": 0,
+        "role-model-mutant": 0,
+        "resident-learner": 0,
+        "mutant-learner": 0,
+        "learner-learner": 0,
+        "role-model-learner": 0,
+        "resident-role-model": 0,
+        "mutant-role-model": 0,
+        "learner-role-model": 0,
+        "role-model-role-model": 0,
+    }
 
-    return round(sum(sum(x * rhos)), 3), round(sum(sum(x * rhos.T)), 3)
+    probabilities_of_learner = {
+        "learner": 0,
+        "resident": 0,
+        "mutant": 0,
+        "role-model": 0,
+        "resident-resident": 0,
+        "mutant-resident": 0,
+        "learner-resident": 0,
+        "role-model-resident": 0,
+        "resident-mutant": 0,
+        "mutant-mutant": 0,
+        "learner-mutant": 0,
+        "role-model-mutant": 0,
+        "resident-learner": 0,
+        "mutant-learner": 0,
+        "learner-learner": 0,
+        "role-model-learner": 0,
+        "resident-role-model": 0,
+        "mutant-role-model": 0,
+        "learner-role-model": 0,
+        "role-model-role-model": 0,
+    }
+
+    for pair in role_model_pairs:
+        probabilities_of_role_mode[pair[0]] += 1 / num_of_repetitions
+        probabilities_of_role_mode["-".join(pair)] += 1 / num_of_repetitions
+
+    for pair in learner_pairs:
+        probabilities_of_learner[pair[0]] += 1 / num_of_repetitions
+        probabilities_of_learner["-".join(pair)] += 1 / num_of_repetitions
+
+    return probabilities_of_role_mode, probabilities_of_learner
 
 
 if __name__ == "__main__":  # pragma: no cover
