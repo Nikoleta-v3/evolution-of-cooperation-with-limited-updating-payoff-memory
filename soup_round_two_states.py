@@ -20,7 +20,12 @@ if __name__ == "__main__":  # pragma: no cover
         mutant = [random_state.random() for _ in range(3)]
         resident = [random_state.random() for _ in range(3)]
 
-        v = evol_dynamics.stationary_for_16_states(mutant, resident, delta)
+        v_last_two_rounds = evol_dynamics.stationary_for_16_states(
+            mutant, resident, delta
+        )
+        v_last_round = evol_dynamics.expected_distribution_last_round(
+            mutant, resident, delta
+        )
         v_simulated = evol_dynamics.simulated_states(
             mutant, resident, delta, number_of_repetitions, rounds_of_history=2
         )
@@ -31,7 +36,8 @@ if __name__ == "__main__":  # pragma: no cover
             *mutant,
             *resident,
             delta,
-            *v,
+            *v_last_two_rounds,
+            *v_last_round,
             *v_simulated.values(),
         ]
 
