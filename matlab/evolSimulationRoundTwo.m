@@ -8,14 +8,23 @@ sdim = 3;
 xDat = zeros(numberIterations/100, 5);
 xDat(1, :)=[Res, 0, 0];
 
+Us = zeros(16, 16);
+
+for i=1:16
+    for j=1:16
+        Us(i, j) = (u(1 + fix((i - 1) / 4)) + u(1 + mod(i - 1, 4)) - u(1 + fix((j - 1) / 4)) + u(1 + mod(j - 1, 4)));
+    end
+end
+
+Us = Us / 2
+
 Rho = zeros(16, 16);
 
 for i=1:16
     for j=1:16
-        Rho(i, j) = 1 / (1 + exp(-beta * (u(1 + fix((i - 1) / 4)) + u(1 + mod(i - 1, 4)) - u(1 + fix((j - 1) / 4)) + u(1 + mod(j - 1, 4)))));
+        Rho(i, j) = 1 / (1 + exp(-beta * Us(i, j)));
     end
 end
-
 
 %% Running the evolutionary process
 j = 2;
