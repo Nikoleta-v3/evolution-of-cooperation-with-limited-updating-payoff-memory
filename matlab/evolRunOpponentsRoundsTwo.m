@@ -1,4 +1,4 @@
-function evolRun();
+function evolRunOpponentsRoundsTwo();
 
 starting_resident = [0, 0, 0];
 N = 100;
@@ -24,7 +24,7 @@ parfor i = 1:N
     S = payoffs(i, 1);
     T = payoffs(i, 2);
     u = [1, S, T, 0];
-    filename = "data/round_two/S_" + S + "_T_" + T;
-    evolSimulationRoundTwo(starting_resident, u, N, delta, beta, numberIterations, filename);
+    filename = "data/rounds_opponents_two/S_" + S + "_T_" + T;
+    evolSimulationOpponentsRoundsTwo(starting_resident, u, N, delta, beta, numberIterations, filename);
 end
 end
