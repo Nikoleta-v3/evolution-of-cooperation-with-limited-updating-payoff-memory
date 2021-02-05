@@ -16,7 +16,7 @@ for i=1:16
     end
 end
 
-Us = Us / 2
+Us = Us / 2;
 
 Rho = zeros(16, 16);
 

@@ -1,4 +1,4 @@
-function evolRun();
+function evolRunRoundTwo();
 
 starting_resident = [0, 0, 0];
 N = 100;
