@@ -60,9 +60,6 @@ def test_match_pairs():
         population_size, number_of_mutants, random_state
     )
 
-    population = stochastic_scores.create_population()
-    pairs = stochastic_scores.match_pairs(population)
-
     assert isinstance(pairs, dict)
     assert isinstance(pairs["role-model"], list)
     assert len(pairs["role-model"]) == 2
