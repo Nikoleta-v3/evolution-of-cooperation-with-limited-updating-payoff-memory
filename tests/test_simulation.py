@@ -55,10 +55,9 @@ def test_match_pairs():
     population_size = 100
     seed = 2
     random_state = np.random.RandomState(seed)
-    num_of_opponents = 2
 
     pairs = evol_dynamics.match_pairs(
-        population_size, number_of_mutants, random_state, num_of_opponents
+        population_size, number_of_mutants, random_state
     )
 
     population = stochastic_scores.create_population()
@@ -66,24 +65,8 @@ def test_match_pairs():
 
     assert isinstance(pairs, dict)
     assert isinstance(pairs["role-model"], list)
-    assert len(pairs["role-model"]) == num_of_opponents
+    assert len(pairs["role-model"]) == 2
     assert len(pairs) == 4
-
-
-def test_match_pairs_resident_plays_mutant():
-    population_size = 10
-    seed = 2
-    random_state = np.random.RandomState(seed)
-    num_of_opponents = 1
-
-    pairs = evol_dynamics.match_pairs(
-        population_size, number_of_mutants, random_state, num_of_opponents
-    )
-
-    assert isinstance(pairs, dict)
-    assert len(pairs) == 4
-    assert pairs["role-model"] == ["learner"]
-    assert pairs["learner"] == ["role-model"]
 
 
 def get_probabilities_for_opponents():
@@ -140,3 +123,65 @@ def test_simulated_states():
     )
 
     assert len(ss) == 20
+
+
+def test_opponents_probabilities():
+    number_of_repetitions = 1
+    number_of_mutants = 10
+    population_size = 100
+    random_state = np.random.RandomState(0)
+    num_of_opponents = 2
+
+    simulated_opponents = evol_dynamics.get_probabilities_for_opponents(
+        number_of_repetitions,
+        population_size,
+        number_of_mutants,
+        random_state,
+        num_of_opponents,
+    )
+
+    theoretical_opponents = (
+        evol_dynamics.theoretical_probabilities_for_opponents(
+            population_size, number_of_mutants
+        )
+    )
+
+    assert simulated_opponents.keys() == theoretical_opponents.keys()
+
+
+def test_theoretical_opponents_probabilities():
+    N = 10
+    k = 2
+
+    probabilities = evol_dynamics.theoretical_probabilities_for_opponents(N, k)
+
+    assert np.isclose(probabilities["learner-role-model"], 0.11111)
+    assert np.isclose(
+        probabilities["learner-resident-role-model-resident"], 0.66666
+    )
+    assert np.isclose(
+        probabilities["learner-resident-role-model-mutant"], 0.11111
+    )
+    assert np.isclose(
+        probabilities["learner-mutant-role-model-resident"], 0.11111
+    )
+    assert np.isclose(probabilities["learner-mutant-role-model-mutant"], 0.0)
+
+    assert np.isclose(
+        probabilities["learner-resident-resident-role-model-resident-resident"],
+        0.40816,
+    )
+    assert np.isclose(
+        probabilities["learner-resident-mutant-role-model-resident-resident"],
+        0.081632,
+    )
+    assert np.isclose(
+        probabilities["learner-resident-resident-role-model-mutant-resident"],
+        0.081632,
+    )
+    assert np.isclose(
+        probabilities[
+            "learner-resident-role-model-role-model-resident-learner"
+        ],
+        0.095238,
+    )
