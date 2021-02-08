@@ -4,7 +4,7 @@ starting_resident = [0, 0, 0];
 N = 100;
 delta = 0.999;
 beta = 1;
-numberIterations= 10 ^ 7;
+numberIterations= 10 ^ 8;
 
 n = 11;
 Ss = linspace(-2, 2, n);
@@ -19,8 +19,8 @@ for i=1:n
     end
 end
 
-N = n * n;
-parfor i = 1:N
+lenght = n * n;
+parfor i = 1:lenght
     S = payoffs(i, 1);
     T = payoffs(i, 2);
     u = [1, S, T, 0];

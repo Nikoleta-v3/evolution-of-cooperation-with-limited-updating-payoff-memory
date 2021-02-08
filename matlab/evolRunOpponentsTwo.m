@@ -19,8 +19,8 @@ for i=1:n
     end
 end
 
-N=n * n;
-parfor i = 1:N
+lenght =n * n;
+parfor i = 1:lenght
     S=payoffs(i, 1);
     T=payoffs(i, 2);
     u=[1, S, T, 0];
