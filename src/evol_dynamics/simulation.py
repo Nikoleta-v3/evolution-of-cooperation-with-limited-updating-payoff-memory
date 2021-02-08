@@ -212,25 +212,25 @@ def theoretical_probabilities_for_opponents(N, k):
 
     probabilities["learner-resident-resident-role-model-resident-resident"] = (
         probabilities["learner-resident-role-model-resident"]
-        * ((N - 4) / (N - 3))
+        * ((N - 3) / (N - 2))
         * ((N - k - 2) * (N - k - 3))
         / ((N - 3) * (N - 4))
     )
     probabilities["learner-resident-mutant-role-model-resident-resident"] = (
         probabilities["learner-resident-role-model-resident"]
-        * ((N - 4) / (N - 3))
+        * ((N - 3) / (N - 2))
         * ((k - 1) * (N - k - 2))
         / ((N - 3) * (N - 4))
     )
     probabilities["learner-resident-resident-role-model-resident-mutant"] = (
         probabilities["learner-resident-role-model-resident"]
-        * ((N - 4) / (N - 3))
+        * ((N - 3) / (N - 2))
         * ((N - k - 2) * (k - 1))
         / ((N - 3) * (N - 4))
     )
     probabilities["learner-resident-mutant-role-model-resident-mutant"] = (
         probabilities["learner-resident-role-model-resident"]
-        * ((N - 4) / (N - 3))
+        * ((N - 3) / (N - 2))
         * ((k - 1) * (k - 2))
         / ((N - 3) * (N - 4))
     )
@@ -240,25 +240,25 @@ def theoretical_probabilities_for_opponents(N, k):
 
     probabilities["learner-resident-resident-role-model-mutant-resident"] = (
         probabilities["learner-resident-role-model-mutant"]
-        * ((N - 4) / (N - 3))
+        * ((N - 3) / (N - 2))
         * ((N - k - 2) * (N - k - 2))
         / ((N - 3) * (N - 4))
     )
     probabilities["learner-resident-mutant-role-model-mutant-resident"] = (
         probabilities["learner-resident-role-model-mutant"]
-        * ((N - 4) / (N - 3))
+        * ((N - 3) / (N - 2))
         * ((k - 1) * (N - k - 1))
         / ((N - 3) * (N - 4))
     )
     probabilities["learner-resident-resident-role-model-mutant-mutant"] = (
         probabilities["learner-resident-role-model-mutant"]
-        * ((N - 4) / (N - 3))
+        * ((N - 3) / (N - 2))
         * ((k - 2) * (N - k - 2))
         / ((N - 3) * (N - 4))
     )
     probabilities["learner-resident-mutant-role-model-mutant-mutant"] = (
         probabilities["learner-resident-role-model-mutant"]
-        * ((N - 4) / (N - 3))
+        * ((N - 3) / (N - 2))
         * ((k - 1) * (k - 3))
         / ((N - 3) * (N - 4))
     )
@@ -268,25 +268,25 @@ def theoretical_probabilities_for_opponents(N, k):
 
     probabilities["learner-mutant-resident-role-model-resident-resident"] = (
         probabilities["learner-mutant-role-model-resident"]
-        * ((N - 4) / (N - 3))
+        * ((N - 3) / (N - 2))
         * ((N - k - 1) * (N - k - 3))
         / ((N - 3) * (N - 4))
     )
     probabilities["learner-mutant-mutant-role-model-resident-resident"] = (
         probabilities["learner-mutant-role-model-resident"]
-        * ((N - 4) / (N - 3))
+        * ((N - 3) / (N - 2))
         * ((k - 2) * (N - k - 2))
         / ((N - 3) * (N - 4))
     )
     probabilities["learner-mutant-resident-role-model-resident-mutant"] = (
         probabilities["learner-mutant-role-model-resident"]
-        * ((N - 4) / (N - 3))
+        * ((N - 3) / (N - 2))
         * ((k - 1) * (N - k - 1))
         / ((N - 3) * (N - 4))
     )
     probabilities["learner-mutant-mutant-role-model-resident-mutant"] = (
         probabilities["learner-mutant-role-model-resident"]
-        * ((N - 4) / (N - 3))
+        * ((N - 3) / (N - 2))
         * ((k - 2) * (k - 2))
         / ((N - 3) * (N - 4))
     )
@@ -296,25 +296,25 @@ def theoretical_probabilities_for_opponents(N, k):
 
     probabilities["learner-mutant-resident-role-model-mutant-resident"] = (
         probabilities["learner-mutant-role-model-mutant"]
-        * ((N - 4) / (N - 3))
+        * ((N - 3) / (N - 2))
         * ((N - k - 1) * (N - k - 2))
         / ((N - 3) * (N - 4))
     )
     probabilities["learner-mutant-mutant-role-model-mutant-resident"] = (
         probabilities["learner-mutant-role-model-mutant"]
-        * ((N - 4) / (N - 3))
+        * ((N - 3) / (N - 2))
         * ((k - 2) * (N - k - 1))
         / ((N - 3) * (N - 4))
     )
     probabilities["learner-mutant-resident-role-model-mutant-mutant"] = (
         probabilities["learner-mutant-role-model-mutant"]
-        * ((N - 4) / (N - 3))
+        * ((N - 3) / (N - 2))
         * ((k - 2) * (N - k - 1))
         / ((N - 3) * (N - 4))
     )
     probabilities["learner-mutant-mutant-role-model-mutant-mutant"] = (
         probabilities["learner-mutant-role-model-mutant"]
-        * ((N - 4) / (N - 3))
+        * ((N - 3) / (N - 2))
         * ((k - 2) * (k - 3))
         / ((N - 3) * (N - 4))
     )
