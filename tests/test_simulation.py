@@ -166,15 +166,15 @@ def test_theoretical_opponents_probabilities():
 
     assert np.isclose(
         probabilities["learner-resident-resident-role-model-resident-resident"],
-        0.40816,
+        0.416666,
     )
     assert np.isclose(
         probabilities["learner-resident-mutant-role-model-resident-resident"],
-        0.081632,
+        0.083333,
     )
     assert np.isclose(
         probabilities["learner-resident-resident-role-model-mutant-resident"],
-        0.081632,
+        0.083333,
     )
     assert np.isclose(
         probabilities[
