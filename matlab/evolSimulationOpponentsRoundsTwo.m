@@ -12,7 +12,7 @@ Us = zeros(16, 16);
 
 for i=1:16
     for j=1:16
-        Us(i, j) = (u(1 + fix((i - 1) / 4)) + u(1 + mod(i - 1, 4)) - u(1 + fix((j - 1) / 4)) + u(1 + mod(j - 1, 4)));
+        Us(i, j) = (u(1 + fix((j - 1) / 4)) + u(1 + mod(j - 1, 4))) - (u(1 + fix((i - 1) / 4)) + u(1 + mod(i - 1, 4)));
     end
 end
 
@@ -49,7 +49,7 @@ vMR = stationaryRoundTwo(Mut, Res, delta);
 vRM = stationaryRoundTwo(Res, Mut, delta);
 vRR = stationaryRoundTwo(Res, Res, delta);
 
-coopMM = vMM(1) + vMM(2) + vMM(5) + vMM(6);
+coopMM = 2 * (vMM(1) + vMM(2) + vMM(5) + vMM(6)) + (vMM(3) + vMM(4) + vMM(7) + vMM(8) + vMM(9) + vMM(10) + vMM(13) + vMM(14));
 
 laplus = zeros(1, N-1); laminus=laplus;
 for k=1:N-1
