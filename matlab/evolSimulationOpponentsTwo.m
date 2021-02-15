@@ -27,7 +27,7 @@ for t = progress(1:numberIterations)
     end
 end
 
-csvwrite(filename + ".csv", xDat);
+dlmwrite(filename + ".csv", xDat, 'precision', 9);
 csvwrite(filename + ".txt", Data);
 
 AvCoop = mean(xDat(:, end-2));
