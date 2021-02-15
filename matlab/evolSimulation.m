@@ -6,10 +6,10 @@ AvCoop=0; AvPay=0; Res=starting_resident;
 
 sdim=3; 
 xDat=zeros(numberIterations/100,6);
-xDat(1,:)=[Res, 0, u(4), 0]; 
+xDat(1,:)=[Res, 0, u(4), 0];
 
 %% Calculating all possible pairwise imitation probabilities based on one payoff
-Rho=zeros(4,4); 
+Rho=zeros(4,4);
 for i1=1:4
     for i2=1:4
         Rho(i1,i2) = 1 / (1 + exp(-beta * (u(i2) - u(i1)))); 
@@ -19,7 +19,7 @@ end
 
 %% Running the evolutionary process
 j = 2;
-for t = progress(1:numberIterations)
+for t = 1:numberIterations
     Mut=rand(1,sdim); 
     [rho,coopM,piM]=CalcRho(Mut, Res, Rho, N, u, delta, beta, stochastic); 
     if rand(1)<rho
@@ -75,5 +75,6 @@ else
     end
 end
     
-rho=1/(1+sum(cumprod(laminus./laplus))); 
+rho=1/(1+sum(cumprod(laminus./laplus)));
+disp('Job Done')
 end

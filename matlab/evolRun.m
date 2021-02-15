@@ -5,7 +5,7 @@ N = 100;
 delta = 0.999;
 beta = 1;
 numberIterations= 10 ^ 7;
-stochastic = 1;
+stochastic = 0;
 
 n = 11;
 Ss = linspace(-2, 2, n);
@@ -20,12 +20,12 @@ for i=1:n
     end
 end
 
-lenght = n * n;
-parfor i = 1:lenght
+length_ = n * n;
+parfor i = 1:length_
     S = payoffs(i, 1);
     T = payoffs(i, 2);
     u = [1, S, T, 0];
-    filename = "data/stochastic/S_" + S + "_T_" + T + "_stochastic_" + stochastic;
+    filename = "data/expected/S_" + S + "_T_" + T + "_stochastic_" + stochastic;
     evolSimulation(starting_resident, u, N, delta, beta, numberIterations, stochastic, filename);
 end
 end
