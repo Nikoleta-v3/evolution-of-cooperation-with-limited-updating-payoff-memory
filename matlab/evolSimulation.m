@@ -76,5 +76,4 @@ else
 end
     
 rho=1/(1+sum(cumprod(laminus./laplus)));
-disp('Job Done')
 end

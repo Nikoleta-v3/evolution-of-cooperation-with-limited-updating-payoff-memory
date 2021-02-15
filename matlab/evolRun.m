@@ -27,5 +27,6 @@ parfor i = 1:length_
     u = [1, S, T, 0];
     filename = "data/expected/S_" + S + "_T_" + T + "_stochastic_" + stochastic;
     evolSimulation(starting_resident, u, N, delta, beta, numberIterations, stochastic, filename);
+    disp('Job Done')
 end
 end
