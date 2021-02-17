@@ -19,7 +19,7 @@ end
 
 %% Running the evolutionary process
 j = 2;
-for t = 1:numberIterations
+for t = progress(1:numberIterations)
     Mut=rand(1,sdim); 
     [rho,coopM,piM]=CalcRho(Mut, Res, Rho, N, u, delta, beta, stochastic); 
     if rand(1)<rho
