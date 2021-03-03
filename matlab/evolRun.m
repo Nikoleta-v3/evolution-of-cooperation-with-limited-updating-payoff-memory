@@ -1,5 +1,8 @@
 function evolRun();
 
+num_workers = 16;
+my_pool = parpool(num_workers);
+
 starting_resident = [0, 0, 0];
 N = 100;
 delta = 0.999;
