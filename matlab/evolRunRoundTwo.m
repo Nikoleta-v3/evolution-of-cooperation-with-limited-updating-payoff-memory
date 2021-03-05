@@ -1,5 +1,6 @@
 function evolRunRoundTwo();
 
+num_workers = 12;
 starting_resident = [0, 0, 0];
 N = 100;
 delta = 0.999;
