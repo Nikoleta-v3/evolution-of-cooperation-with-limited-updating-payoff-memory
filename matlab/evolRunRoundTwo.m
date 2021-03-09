@@ -1,11 +1,17 @@
-function evolRunRoundTwo(S, T);
+function evolRunRoundTwo(S);
 
+
+num_workers = 11;
 starting_resident = [0, 0, 0];
 N = 100;
 delta = 0.999;
-beta = 1;
-numberIterations= 10 ^ 8;
+beta = 10;
+numberIterations= 10 ^ 7;
 
-u = [1, S, T, 0];
-filename = "data/round_two/S_" + S + "_T_" + T;
-evolSimulationRoundTwo(starting_resident, u, N, delta, beta, numberIterations, filename);
+n=11;
+Ts=linspace(-1, 3, n);
+
+parfor i = 1:n
+    u = [1, S, T, 0];
+    filename = "data/round_two/S_" + S + "_T_" + T;
+    evolSimulationRoundTwo(starting_resident, u, N, delta, beta, numberIterations, filename);
