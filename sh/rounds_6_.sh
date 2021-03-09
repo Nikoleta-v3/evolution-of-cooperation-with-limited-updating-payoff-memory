@@ -1,7 +1,8 @@
 #!/bin/sh
 #SBATCH -p medium  # partition (queue)
 #SBATCH -J S6 # job name
-#SBATCH -n 1 # number of cores
+#SBATCH -N 1 # number of nodes
+#SBATCH -n 11 # number of cores
 #SBATCH -t 2-00:00  # time (D-HH:MM)
 #SBATCH -o S6.out # STDOUT
 #SBATCH -e S6.err # STDERR
