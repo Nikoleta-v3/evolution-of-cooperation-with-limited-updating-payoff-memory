@@ -1,4 +1,3 @@
-
 #!/bin/sh
 #SBATCH -p medium  # partition (queue)
 #SBATCH -J 0.0-2.2 # job name

@@ -1,4 +1,3 @@
-
 #!/bin/sh
 #SBATCH -p medium  # partition (queue)
 #SBATCH -J -0.4-0.2 # job name
@@ -10,4 +9,4 @@
 module load matlab
 cd matlab
 
-matlab -nodisplay -r 'evolRunRoundTwo(-0.3999999999999999,0.20000000000000018);exit;'
+matlab -nodisplay -r 'evolRunRoundTwo(-0.4,0.2);exit;'
