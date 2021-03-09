@@ -1,31 +1,11 @@
-function evolRunRoundTwo();
+function evolRunRoundTwo(S, T);
 
-num_workers = 12;
 starting_resident = [0, 0, 0];
 N = 100;
 delta = 0.999;
 beta = 1;
 numberIterations= 10 ^ 8;
 
-n = 11;
-Ss = linspace(-2, 2, n);
-Ts = linspace(-1, 3, n);
-
-payoffs = zeros(n * n, 2);
-
-for i=1:n
-    for j=1:n
-        payoffs(j + (i - 1) + (i -1) * 10, 1) = Ss(i);
-        payoffs(j + (i - 1) + (i -1) * 10, 2) = Ts(j);
-    end
-end
-
-lenght = n * n;
-parfor i = 1:lenght
-    S = payoffs(i, 1);
-    T = payoffs(i, 2);
-    u = [1, S, T, 0];
-    filename = "data/round_two/S_" + S + "_T_" + T;
-    evolSimulationRoundTwo(starting_resident, u, N, delta, beta, numberIterations, filename);
-end
-end
+u = [1, S, T, 0];
+filename = "data/round_two/S_" + S + "_T_" + T;
+evolSimulationRoundTwo(starting_resident, u, N, delta, beta, numberIterations, filename);
