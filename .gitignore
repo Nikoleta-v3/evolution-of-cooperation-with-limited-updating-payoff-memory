@@ -10,7 +10,6 @@ data/*
 */data/*
 *dask-worker-space/
 */images/*
-sh/*
 
 src/evol_dynamics.egg-info/*
 src/evol_dynamics/__pycache__/*
