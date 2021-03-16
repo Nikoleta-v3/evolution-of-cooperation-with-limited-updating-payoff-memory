@@ -32,6 +32,16 @@ def donation_game(c, b):
     return (b - c, -c, b, 0)
 
 
+def is_donation(payoffs, dis=False):
+    c = -payoffs[1]
+    b = payoffs[2]
+
+    if dis:
+        return (payoffs[0] == b - c, "c:{c} and b:{b}")
+
+    return payoffs[0] == b - c
+
+
 def snowdrift_game(c, b):
     """The snowdrift game
 
@@ -52,6 +62,14 @@ def snowdrift_game(c, b):
         The payoff vector for the snowdrift game.
     """
     return (b - (c / 2), b - c, b, 0)
+
+
+def is_snowdrift(payoffs):
+    b = payoffs[2]
+    c = b - payoffs[1]
+
+    return payoffs[0] == b - (c / 2)
+
 
 
 def stag_hunt_game():

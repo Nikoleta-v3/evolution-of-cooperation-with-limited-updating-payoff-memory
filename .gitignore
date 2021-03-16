@@ -17,3 +17,5 @@ src/evol_dynamics/__pycache__/*
 
 *.aux
 *.log
+*.bbl
+*.blg
