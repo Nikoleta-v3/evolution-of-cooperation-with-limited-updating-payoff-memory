@@ -71,7 +71,6 @@ def is_snowdrift(payoffs):
     return payoffs[0] == b - (c / 2)
 
 
-
 def stag_hunt_game():
     """The stag hunt game
 
