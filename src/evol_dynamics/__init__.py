@@ -15,8 +15,6 @@ from .numerical import (
     harmony_game,
     snowdrift_game,
     stag_hunt_game,
-    is_donation,
-    is_snowdrift
 )
 from .simulation import (
     ReactivePlayer,
