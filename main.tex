@@ -7,6 +7,7 @@
 \usepackage{standalone}
 \usepackage{tikz}
 \usepackage{subcaption}
+\usepackage{hyperref}
 \smallskip % Erlaubt kleine Abstaende zwischen Paragraphen, falls es dem Seitenlayout hilft
 \renewcommand{\baselinestretch}{1.3}
 \newcommand{\R}{\mathbb{R}}
@@ -61,9 +62,9 @@
 \newtheorem{Claim2}{Claim}
 
 \title{
-\bf  \sffamily \LARGE Prisoner's dilemma with stochastic payoffs\\}
+\bf  \sffamily \LARGE Evolution of cooperation among individuals with limited payoff memory\\}
 \date{}
-\author{Christian Hilbe, Nikoleta E. Glynatsi}
+\author{Christian Hilbe, Nikoleta E. Glynatsi, Alex McAvoy}
 
 \begin{document}
 \maketitle
@@ -72,59 +73,76 @@
 
 Evolutionary game theory is a mathematical framework for modeling evolution in
 biological, social and economical systems. %ToDo references
-The success of individuals is not constant, but depends on the composition of
-the population. Individuals interact according to rules of the game and their
-payoff is translated into reproductive fitness.
+In evolutionary models, the success of an individual is not constant but it
+depends on the composition of the population. Individuals interact according to
+the rules of a pre defined game and they payoffs they achieved are translated
+into fitness.
 
-Traditionally, evolutionary game studies work with idealized assumptions when
-calculating fitness. As stated in~\cite{Roca2006}, it is commonly assumed that
-individuals play many times and with all other players before reproduction takes
-place, so that payoffs, equivalently fitness, are given by the mean distribution
-of types in the population. Initially, this implies that selection occurs much
-more slowly than the interaction between individuals, even experimental studies
-show that this may not always be the case in biology. Based on %ToDo references
-it is clear that in cultural evolution or social learning the time scale of
-selection is much closer to the time scale of interaction. The work
-of~\cite{Roca2006} relaxed this assumption and showed that rapid selection
+Evolutionary models often work with idealized assumptions when estimating the
+fitness of a individual. It is commonly assumed that an individual will interact
+several times and with all other players in the population. Equivalently their
+fitness is given by the mean payoff they achieved over the different types in
+the population after multiple intercalations. These payoff is referred to as the
+\textit{expected} payoff.
+
+Initially this assumption implies that selection occurs much more slowly than
+the interaction between individuals. However, experimental studies show that
+this may not always be the case in biology %ToDo references.
+In~\cite{Roca2006} this assumption is realized and it shows that rapid selection
 affects evolutionary dynamics in such a dramatic way that for some games it even
 changes the stability of equilibria.
 
-Furthermore, the second assumption implies that individuals have the time to
-interact with with all other players. Moreover, this implies that individuals
-when update their strategies over time, individuals are assumed to have perfect
-memory. However, when modeling how individuals make decisions in each round,
-these models assume that players only remember the last
-round~\cite{Traulsen2007, Baek2016, Ye2017}. The aim of this work is too relax
-this assumption, and to further the work of~\cite{Roca2006} by also considering
-strategies that interact to the past interactions.
+Moreover, estimating expected payoffs assume that individuals have a perfect a
+memory. Their recall several of their interactions with each player in the
+population. This creates a curious inconsistency. With a only few notable
+exceptions~\cite{Hauert1997, Stewart2016}, evolutionary models focus on naive
+subjects who can only choose from a restricted set of
+strategies~\cite{Nowak1992tit}, or who do not remember anything beyond the
+outcome of the very last round~\cite{Baek2016} when modeling how individuals
+make decisions in each round. However, when modeling how individuals update
+their strategies over time, individuals are assumed to have perfect memory.
 
-In literature, when individuals update their strategies over time they interact
-with all other players so that the are given by the mean distribution of types
-in the population. These payoffs are referred to as the \textit{expected}
-payoffs of individuals. We contrast this standard scenario with an alternative
-scenario where individuals update their strategies when remembering several of
-their past interactions but not all of them. We refer to these as the \textit{stochastic}
-payoffs of individuals.
+We will explore how robust our understanding of cooperation is as models deviate
+from the perfect memory assumption. We start by considering two extreme
+scenarios. The first is the classical scenario of the expected payoffs and the
+alternative scenario where individuals update their strategies only based on the
+very last payoff they obtained. For our second approach we allow individuals to
+use more memory. We refer to these as the \textit{stochastic} payoffs of
+individuals.
 
-Evolutionary game dynamics have extensively been studied from mostly
-deterministic models based on rate equations to stochastic individual-based
-models. These more sophisticated models make use of different rules to determine
-how successful strategies spread. As stated in~\cite{Wu2015} there are two
-classes have been used extensively, \textit{fitness-based processes} in which an
+Early results for the repeated prisoner’s dilemma and for the snowdrift game
+suggest that memory size can have a considerable effect on the evolutionary
+dynamics. As a rule of thumb, we observe that individuals with limited memory
+tend to adopt less generous strategies and they achieve less cooperation than in
+the classical scenario. In contrast, in the stag-hunt and the harmony game, the
+impact of memory is less striking. Here individuals with limited memory perform
+nearly as well as individuals with full memory.
+
+\section{Model Setup}
+
+Evolutionary game dynamics have extensively been studied using stochastic
+individual-based models that make use of different rules to determine how
+successful strategies spread. There are two classes have been used extensively
+based on~\cite{Wu2015} (i) \textit{fitness-based processes} in which an
 individual chosen proportional to fitness reproduces and the offspring replaces
-a randomly chosen individual and \textit{pairwise comparison} processes in which
-a pair of individuals is chosen, and where subsequently one of these individuals
-may adopt the strategy of the other. This adoption occurs with a probability
-that depends on the payoff of both individuals, such that better players are
-more likely to be imitated than those who do worse.
+a randomly chosen individual (ii) \textit{pairwise comparison} processes in
+which a pair of individuals is chosen, and where subsequently one of these
+individuals may adopt the strategy of the other. This adoption occurs with a
+probability that depends on the fitness of both individuals, such that better
+players are more likely to be imitated than those who do worse.
 
-In this we work we follow a pairwise comparison processes. We consider a well
-mixed population of $N$ individuals. In our model mutation happens rarely and
-such each individual can be of one of the two types, either of the
-\textit{resident} or either of the \textit{mutant}.
+We us a pairwise comparison processes with a population of $N$ individuals. In
+our model mutation happens rarely and such each individual can be of one of the
+two types, either of the \textit{resident} or either of the \textit{mutant}.
 
-Regarding the game, we the important case of symmetric \(2 \times 2\) games,
-in which the payoffs are given by the following matrix:
+The fitness of the individuals will be based on the payoffs they receive from
+their interactions. he individuals of our population do not interact for a given
+number of turns, on the contrast, we consider that each match has a probability
+$\delta$ to continue following each turn. In each turn individuals can decide whether
+to cooperate (C) or to defect (D). The
+payoffs in a given round depend on the player's and co players decisions. We
+consider all the important case of symmetric \(2 \times 2\) games, in which the
+payoffs are given by the following matrix:
 
 \begin{equation}\label{eq:game}
     \begin{pmatrix}
@@ -133,14 +151,15 @@ in which the payoffs are given by the following matrix:
     \end{pmatrix}
 \end{equation}
 
-These cases include the Snowdrift~\cite{sugden2004economics}, Stag Hunt~\cite{skyrms2001stag},
-Harmony~\cite{Licht1999} and the Prisoner's Dilemma games. These results are 
-presented in Section~\ref{section:2_by_2_games}.
+These cases include the Snowdrift~\cite{sugden2004economics} ($T>R>P>S$), Stag
+Hunt~\cite{skyrms2001stag} ($T>R>P>S$), Harmony~\cite{Licht1999} ($T>R>P>S$) and
+the Prisoner's Dilemma ($T>R>P>S$) games. The results based on these well know
+\(2 \times 2\) games are discussed in Section~\ref{section:2_by_2_games}.
 
-Moreover, we will specifically consider the donation game where each player can
-cooperate by providing a benefit \(b\) to the other player at their cost \(c\),
-with \(0 < c < b\). Then, \(T=b, R=b-c, S=-c, P=0\), and matrix~(\ref{eq:games})
-is give by:
+In Section~\ref{section:donation}, we will specifically consider the donation
+game where each player can cooperate by providing a benefit \(b\) to the other
+player at their cost \(c\), with \(0 < c < b\). Then, \(T=b, R=b-c, S=-c, P=0\),
+and matrix~(\ref{eq:game}) is give by:
 
 \begin{equation}\label{eq:donation_normal_form}
     \begin{pmatrix}
@@ -149,40 +168,48 @@ is give by:
     \end{pmatrix}
 \end{equation}
 
-These results are presented in Section~\ref{section:donation}. The relative
-influence of the game is controlled by an external parameter, the so called
-intensity of selection $\beta$.
+The relative influence of the payoffs on the adopt the strategy of the other is
+controlled by an external parameter, the so called intensity of selection
+$\beta$.
 
 The space of strategies in repeated is infinite. To continue with our
 evolutionary analysis, we assume herein that individuals at most make use of
 simple \textit{reactive strategies}. Reactive strategy are a set of memory-one
-strategies that only take into account the previous action of the opponent. An
-example of a reactive strategy is Tit For Tat. Reactive strategies can be
-written explicitly as a vector \(\in \R_{3}\). More specifically a reactive
-strategy \(s\) is given by \(s=(y, p, q)\) where \(y\) is the probability that
-the strategy opens with a cooperation and \(p, q\) are the probabilities that
-the strategy cooperates given that the opponent cooperated and defected
-equivalently. The individuals of our population do not interact for a given
-number of turns, on the contrast, we consider that each match has a probability
-$\delta$ to continue following each turn.
+strategies that only take into account the previous action of the opponent.
+Reactive strategies can be written explicitly as a vector \(\in \R_{3}\). More
+specifically a reactive strategy \(s\) is given by \(s=(y, p, q)\) where \(y\)
+is the probability that the strategy opens with a cooperation and \(p, q\) are
+the probabilities that the strategy cooperates given that the opponent
+cooperated and defected equivalently.
 
+\section{Analysis of Stochastic Payoffs in the Donation game}\label{section:donation}
 
-\section{Expected and stochastic payoffs in the donation game}\label{section:donation}
+We first explore the effect of stochastic payoffs on the cooperative behaviour
+by considering the extreme case that an individual's fitness is based on their
+last interaction with one other individual. We compare this to the expected
+payoffs. Figure~\ref{fig:expected_and_stochastic_for_donation} shows simulation
+results for the described process of Section~\ref{section:methods}.
 
-Figure~\ref{fig:expected_and_stochastic_for_donation} shows simulation results
-for the above described process. Figure~\ref{fig:expected_and_stochastic_for_donation}~depicts the evolving conditional
-cooperation probabilities $p$ and $q$ (assuming that the discount
+Figure~\ref{fig:expected_and_stochastic_for_donation}~depicts the evolving
+conditional cooperation probabilities $p$ and $q$ (assuming that the discount
 factor~$\delta$ and the benefit $b$ are comparably high). The left panel
 corresponds to the standard scenario considered in the previous literature. It
-considers players who use expected payoffs to update their
-strategies. The right panel shows the scenario considered herein, in which
-players update their strategies based on their last round's payoff. The figure
-suggests that when updating is based on expected payoffs, players tend to be
-more generous (their $q$-values are higher on average). In addition, players are
-generally more cooperative.
+considers players who use expected payoffs to update their strategies. The right
+panel shows the scenario considered herein, in which players update their
+strategies based on their last round's payoff. The figure suggests that when
+updating is based on expected payoffs, players tend to be more generous (their
+$q$-values are higher on average). In addition, players are generally more
+cooperative.
+
+There is a statistically significant different in the cooperation distribution of
+the population over time. The cooperation rate falls significantly yo under 50\%.
+There results are true for a strong selection strength ($\beta=10$). The follow
+up question that arises is what effect does the selection strength have on the
+cooperation rate?
 
 \begin{figure}[!htbp]
-    \includegraphics[width=\textwidth]{static/expected_and_stochastic_for_donation_game.pdf}
+    \centering
+    \includegraphics[width=\textwidth]{static/expected_and_stochastic_for_donation_game_b_10.pdf}
     \caption{{\bf Evolutionary dynamics under expected payoffs and stochastic payoffs.} 
     We have run two simulations of the evolutionary process described in
     Section~\ref{section:methods} for $T\!=\!10^7$ time steps. For each time step,
@@ -206,32 +233,54 @@ generally more cooperative.
     \label{fig:expected_and_stochastic_for_donation}
 \end{figure}
 
-The difference in the cooperation rates becomes more and more obvious as the
-temptation to defect increases, Figure~\ref{fig:expected_and_stochastic_for_donation_b_10}.
+Figure~\ref{fig:cooperation_rate_over_betas} illustrates the results for
+different runs of the evolutionary process where $\beta\in\{10 ^ -2, 10 ^ - 1, 10
+^ 0, 10 ^ 1, 10 ^ 2\}$. In the case where $\beta=10 ^ -2$ the process is almost
+random, as the effect of the payoffs is very small. The cooperation rate for
+this case and the case of $\beta=10 ^ -1$ between the stochastic and expected
+payoffs are the same. However, it is clear that this does not apply given 
+$\beta \geq 1$. The difference in the cooperation rate increases, in the case
+where for the stochastic payoffs it can drop to 10\%.
 
 \begin{figure}[!htbp]
-    \includegraphics[width=\textwidth]{static/expected_and_stochastic_for_donation_game_b_10.pdf}
-    \caption{{\bf Evolutionary dynamics under expected payoffs and stochastic payoffs.} 
-    Parameters:
-    $N\!=\!100$, $b\!=\!10$, $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.999$.}
-    \label{fig:expected_and_stochastic_for_donation_b_10}
-\end{figure}
-
-We explored how the evolving cooperation rates change as we vary the benefit $b$
-and the selection strength $\beta$
-(Figure~\ref{fig:cooration_under_parameters}). In all cases, we find that the
-two scenarios yield similar cooperation rates when the respective parameters are
-small. Once there is a high benefit to cooperation, strong selection, or a high
-expected number of rounds, updating based on expected payoffs yields higher
-cooperation rates.
-
-\begin{figure}
     \centering
     \begin{subfigure}{.5\textwidth}
       \centering
-      \includegraphics[width=\textwidth]{static/cooperation_rate_over_b.pdf}
+      \includegraphics[width=\textwidth]{static/expected_for_beta.pdf}
+      \includegraphics[width=\textwidth]{static/stochastic_for_beta.pdf}
     \end{subfigure}%
     \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{static/cooperation_rate_over_b.pdf}
+    \end{subfigure}
+\caption{{\bf The evolution of cooperation for different parameter values.} 
+While the previous figures depict the evolutionary outcome for fixed parameter
+values, here we vary the benefit of cooperation $b$ and the strength of
+selection $\beta$. In all cases, stochastic payoff evaluation tends to reduce
+the evolving cooperation rates. Unless explicitly varied, the parameters of the
+simulation are $N\!=\!100$, $b\!=\!3$, $c\!=\!1$, $\beta\!=\!1$,
+$\delta\!=\!0.99$. Simulations are run for $T\!=\!5\times 10^6$ time steps for
+each parameter combination.}\label{fig:cooperation_rate_over_betas}
+\end{figure}
+
+Figure~\ref{fig:cooperation_rate_over_betas} illustrates the results for
+different runs of the evolutionary process where $\beta\in\{10 ^ -2, 10 ^ - 1, 10
+^ 0, 10 ^ 1, 10 ^ 2\}$. In the case where $\beta=10 ^ -2$ the process is almost
+random, as the effect of the payoffs is very small. The cooperation rate for
+this case and the case of $\beta=10 ^ -1$ between the stochastic and expected
+payoffs are the same. However, it is clear that this does not apply given 
+$\beta \geq 1$. The difference in the cooperation rate increases, in the case
+where for the stochastic payoffs it can drop to 10\%.
+
+
+\begin{figure}[!htbp]
+    \centering
+    \begin{subfigure}{.65\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{static/expected_for_selection_strenght.pdf}
+      \includegraphics[width=\textwidth]{static/stochastic_for_selection_strenght.pdf}
+    \end{subfigure}%
+    \begin{subfigure}{.35\textwidth}
       \centering
       \includegraphics[width=\textwidth]{static/cooperation_rate_over_betas.pdf}
     \end{subfigure}
@@ -242,12 +291,14 @@ selection $\beta$. In all cases, stochastic payoff evaluation tends to reduce
 the evolving cooperation rates. Unless explicitly varied, the parameters of the
 simulation are $N\!=\!100$, $b\!=\!3$, $c\!=\!1$, $\beta\!=\!1$,
 $\delta\!=\!0.99$. Simulations are run for $T\!=\!5\times 10^6$ time steps for
-each parameter combination.}\label{fig:cooration_under_parameters}
+each parameter combination.}
 \end{figure}
 
 \section{Expected and stochastic payoffs in $2 \times 2$ games}\label{section:2_by_2_games}
 
-\section{Methods}\label{section:methods}
+\appendix
+
+\section{Model Setup}\label{section:methods}
 
 In evolution context we consider a population of \(N\) players,
 where \(N\) is even, and where mutations are sufficiently rare. At any point
@@ -283,6 +334,8 @@ mutant strategy $s'_2\!=\!(y_2',p_2',q_2')$ (uniformly chosen from all reactive
 strategies at random), and we set the number of mutants to $k\!=\!1$. This
 process of mutation and fixation/extinction is then iterated many times.
 
+\section{Expected Payoffs}
+
 We compare this process for what we defined as {\bf stochastic payoff
 evaluation} with the analogous process where players update their strategies
 with respect to their {\bf expected} payoffs,
@@ -296,6 +349,8 @@ with respect to their {\bf expected} payoffs,
 
 In the limit of no discounting, $\delta\!\rightarrow\! 1$, this process based on
 expected payoffs has been considered in~\cite{imhof2010stochastic}.
+
+\section{Stochastic Payoffs}
 
 We define {\bf stochastic payoff} as the average payoff $u\!\in\! \mathcal{U}$ a player
 receives in the last \(n\) rounds of the game given that they interact with
