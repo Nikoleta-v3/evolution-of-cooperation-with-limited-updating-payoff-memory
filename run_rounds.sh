@@ -9,3 +9,14 @@ sbatch sh/rounds_1_.sh
 # sbatch sh/rounds_8_.sh
 # sbatch sh/rounds_9_.sh
 # sbatch sh/rounds_10_.sh
+sbatch sh/opponents_rounds_0_.sh
+sbatch sh/opponents_rounds_1_.sh
+# sbatch sh/opponents_rounds_2_.sh
+# sbatch sh/opponents_rounds_3_.sh
+# sbatch sh/opponents_rounds_4_.sh
+# sbatch sh/opponents_rounds_5_.sh
+# sbatch sh/opponents_rounds_6_.sh
+# sbatch sh/opponents_rounds_7_.sh
+# sbatch sh/opponents_rounds_8_.sh
+# sbatch sh/opponents_rounds_9_.sh
+# sbatch sh/opponents_rounds_10_.sh
