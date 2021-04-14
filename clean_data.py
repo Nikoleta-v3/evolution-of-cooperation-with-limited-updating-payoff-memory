@@ -8,17 +8,18 @@ import pandas as pd
 
 if __name__ == "__main__":  # pragma: no cover
     folder = sys.argv[1]
-    starting_characters = sys.argv[1]
+    starting_characters = sys.argv[2]
 
     in_columns = [
         "y",
         "p",
         "q",
         "average cooperation rate",
-        "average score",
+        # "average score",
         "t",
     ]
 
+    print(f"{folder}/{starting_characters}*csv")
     csv_files = glob.glob(f"{folder}/{starting_characters}*csv")
 
     for file in tqdm.tqdm(csv_files):
@@ -35,4 +36,4 @@ if __name__ == "__main__":  # pragma: no cover
 
         df["frequencies"] = frequencies
 
-        df.to_csv(f"{folder}/clean_{file[len(folder + 1):]}", index=False)
+        df.to_csv(f"{folder}/clean_{file[len(folder) + 1:]}", index=False)
