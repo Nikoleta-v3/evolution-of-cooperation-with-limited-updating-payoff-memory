@@ -28,6 +28,19 @@
 \titleformat{\section}{\sffamily \fontsize{12}{14}\bfseries}{\thesection}{1em}{}
 \titleformat{\subsection}{\sffamily \fontsize{11.5}{11.5}\bfseries}{\thesubsection}{1em}{}
 
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
+\tikzset{
+  treenode/.style = {align=center, inner sep=0pt, text centered,
+    font=\sffamily},
+  arn_n/.style = {treenode, circle, white, font=\sffamily\bfseries, draw=black, inner sep=-6pt,
+    fill=black, text width=1.5em},% arbre rouge noir, noeud noir
+  arn_r/.style = {treenode, circle, red, fill=red, 
+    text width=1.5em, very thick, inner sep=-6pt},% arbre rouge noir, noeud rouge
+  arn_x/.style = {treenode, rectangle, draw=black,
+    minimum width=0.5em, minimum height=0.5em}% arbre rouge noir, nil
+}
 
 \newtheoremstyle{plainCl1}% name
 {9pt}%      Space above, empty = 'usual value'
@@ -69,92 +82,197 @@
 \begin{document}
 \maketitle
 
+\begin{abstract}
+
+\end{abstract}
+
 \section{Introduction}
 
 Evolutionary game theory is a mathematical framework for modeling evolution in
 biological, social and economical systems. %ToDo references
-In evolutionary models, the success of an individual is not constant but it
-depends on the composition of the population. Individuals interact according to
-the rules of a pre defined game and they payoffs they achieved are translated
-into fitness.
+Compared to classical game theory where it is assumed that players are rational,
+evolutionary game theory does not require individuals to be rational. Instead
+individuals adapt their strategies based on exploration and mutation. In this
+context, strategies spread based on fitness either because the individuals who
+adopt them have more offspring (fitness-based processes), or they are imitated
+more often (pairwise comparison processes)~\cite{Wu2015}. Fitness is not
+constant but it depends on the composition of the population. Individuals
+interact with members of the population according to pre-define games, and their
+payoffs are then translated into fitness.
 
-Evolutionary models often work with idealized assumptions when estimating the
-fitness of a individual. It is commonly assumed that an individual will interact
-several times and with all other players in the population. Equivalently their
-fitness is given by the mean payoff they achieved over the different types in
-the population after multiple intercalations. These payoff is referred to as the
-\textit{expected} payoff.
-
-Initially this assumption implies that selection occurs much more slowly than
-the interaction between individuals. However, experimental studies show that
-this may not always be the case in biology %ToDo references.
-In~\cite{Roca2006} this assumption is realized and it shows that rapid selection
-affects evolutionary dynamics in such a dramatic way that for some games it even
-changes the stability of equilibria.
-
-Moreover, estimating expected payoffs assume that individuals have a perfect a
-memory. Their recall several of their interactions with each player in the
-population. This creates a curious inconsistency. With a only few notable
-exceptions~\cite{Hauert1997, Stewart2016}, evolutionary models focus on naive
-subjects who can only choose from a restricted set of
-strategies~\cite{Nowak1992tit}, or who do not remember anything beyond the
+Evolutionary models often work with idealized assumptions when estimating
+fitness. It is commonly assumed that fitness is given by the mean payoff an
+individual achieved over the different types in the population following
+multiple intercalations. Referred to as the \textit{expected payoffs}. Expected
+payoffs imply that individuals have a perfect a memory, as they are able to
+recall several of their interactions with each player in the population. However
+most evolutionary models, with a few notable exceptions~\cite{Hauert1997,
+Stewart2016}, focus on naive subjects who can only choose from a restricted set
+of strategies~\cite{Nowak1992tit}, or who do not remember anything beyond the
 outcome of the very last round~\cite{Baek2016} when modeling how individuals
-make decisions in each round. However, when modeling how individuals update
-their strategies over time, individuals are assumed to have perfect memory.
+make decisions in each round. This creates a curious inconsistency. Individuals
+make decisions in each round whist having very limited memory, however, when
+modeling how individuals update their strategies over time, individuals are
+assumed to have perfect memory.
 
-We will explore how robust our understanding of cooperation is as models deviate
-from the perfect memory assumption. We start by considering two extreme
-scenarios. The first is the classical scenario of the expected payoffs and the
-alternative scenario where individuals update their strategies only based on the
-very last payoff they obtained. For our second approach we allow individuals to
-use more memory. We refer to these as the \textit{stochastic} payoffs of
-individuals.
+One of the most important applications of evolutionary game theory is the
+evolution of cooperation. Though cooperation can been seen to be at odd, several
+mechanisms can allow for cooperation to emerge. One of these mechanisms is
+direct reciprocity. However, given these idealized assumptions it feels like our
+understanding of reciprocity is thus still incomplete. In this work we will
+explore how robust our understanding of cooperation is as models deviate from
+the perfect memory assumption.
 
-Early results for the repeated prisoner’s dilemma and for the snowdrift game
-suggest that memory size can have a considerable effect on the evolutionary
-dynamics. As a rule of thumb, we observe that individuals with limited memory
-tend to adopt less generous strategies and they achieve less cooperation than in
-the classical scenario. In contrast, in the stag-hunt and the harmony game, the
-impact of memory is less striking. Here individuals with limited memory perform
-nearly as well as individuals with full memory.
+This work is not the first to relax assumption made at the fitness level.
+In~\cite{Roca2006} relax the assumption that selection occurs much more slowly
+than the interaction between individuals. They results shows that rapid
+selection affects evolutionary dynamics in such a dramatic way that for some
+games it even changes the stability of equilibria.
+
+We start by considering two extreme scenarios. The first is the classical
+scenario of the expected payoffs and the alternative scenario where individuals
+update their strategies only based on the very last payoff they obtained. We
+refer to these as the \textit{stochastic} payoffs of individuals. In
+Section~\ref{section:donation}, we explore the effect of the payoffs in the
+cooperation rate given the donation game. We explore the difference between the
+ratios as well as the effect of different model parameters. In
+Section~\ref{section:2_by_2_games} we explore the cooperation rate for all the
+important case of symmetric \(2 \times 2\) games. For the later part of the
+section we also allow individuals to use more memory.
+
+% Early results for the repeated prisoner’s dilemma and for the snowdrift game
+% suggest that memory size can have a considerable effect on the evolutionary
+% dynamics. As a rule of thumb, we observe that individuals with limited memory
+% tend to adopt less generous strategies and they achieve less cooperation than in
+% the classical scenario. In contrast, in the stag-hunt and the harmony game, the
+% impact of memory is less striking. Here individuals with limited memory perform
+% nearly as well as individuals with full memory.
 
 \section{Model Setup}
 
-Evolutionary game dynamics have extensively been studied using stochastic
-individual-based models that make use of different rules to determine how
-successful strategies spread. There are two classes have been used extensively
-based on~\cite{Wu2015} (i) \textit{fitness-based processes} in which an
-individual chosen proportional to fitness reproduces and the offspring replaces
-a randomly chosen individual (ii) \textit{pairwise comparison} processes in
-which a pair of individuals is chosen, and where subsequently one of these
-individuals may adopt the strategy of the other. This adoption occurs with a
-probability that depends on the fitness of both individuals, such that better
-players are more likely to be imitated than those who do worse.
+In order to account for the difference in the robustness of cooperation among
+individuals based on their payoff memory, we consider a population of \(N\)
+players, where \(N\) is even, and where mutations are sufficiently rare. At any
+point in time the there are at most two different strategies are present in the
+population. A \textit{resident} strategy and a \textit{mutant} strategy. Suppose
+there are \(N - k\) players who use the resident strategy whereas \(k\) players
+use the mutant strategy. Each step of the evolutionary process consists of two
+stages, a game stage and an updating stage.
 
-We us a pairwise comparison processes with a population of $N$ individuals. In
-our model mutation happens rarely and such each individual can be of one of the
-two types, either of the \textit{resident} or either of the \textit{mutant}.
+1. In the game stage, each player is randomly matched with some other player in
+the population to interact in a number of instances of the game
+\(\begin{pmatrix} R & S  \\ T & P \end{pmatrix}\). The number of interactions is
+not fixed, on the contrast we consider that another interaction has a
+probability $\delta$ to continue following each turn. We assume herein that
+individuals at most make use of simple \textit{reactive strategies} make
+decisions in each round. Reactive strategy are a set of memory-one strategies
+that only take into account the previous action of the opponent. Reactive
+strategies can be written explicitly as a vector \(\in \R_{3}\). More
+specifically a reactive strategy \(s\) is given by \(s=(y, p, q)\) where \(y\)
+is the probability that the strategy opens with a cooperation and \(p, q\) are
+the probabilities that the strategy cooperates given that the opponent
+cooperated and defected equivalently.
 
-The fitness of the individuals will be based on the payoffs they receive from
-their interactions. he individuals of our population do not interact for a given
-number of turns, on the contrast, we consider that each match has a probability
-$\delta$ to continue following each turn. In each turn individuals can decide whether
-to cooperate (C) or to defect (D). The
-payoffs in a given round depend on the player's and co players decisions. We
-consider all the important case of symmetric \(2 \times 2\) games, in which the
-payoffs are given by the following matrix:
+2. In the updating stage, two players are randomly drawn from the population, a
+`learner' and a `role model'. Given that the learner's payoff $u_L\!\in\!
+\mathcal{U}$ and that the role model's payoff $u_{RL}\!\in\! \mathcal{U}$, we
+assume the learner adopts the role model's strategy with probability
 
-\begin{equation}\label{eq:game}
-    \begin{pmatrix}
-        R & S  \\
-        T & P
-    \end{pmatrix}
+\begin{equation} \label{Eq:rho}
+\rho(u_L, u_{RL}) = \frac{1}{1\!+\!\exp\big[ \!-\!\beta (u_E\!-\!u_{RL}) \big]}.
 \end{equation}
 
-These cases include the Snowdrift~\cite{sugden2004economics} ($T>R>P>S$), Stag
-Hunt~\cite{skyrms2001stag} ($T>R>P>S$), Harmony~\cite{Licht1999} ($T>R>P>S$) and
-the Prisoner's Dilemma ($T>R>P>S$) games. The results based on these well know
-\(2 \times 2\) games are discussed in Section~\ref{section:2_by_2_games}.
+where $\beta\!\ge\!0$ corresponds  to relative influence of the payoffs on the
+adopt the strategy of the other is controlled by an external parameter, the so
+called intensity of selection.
+
+We iterate this basic evolutionary step until either the mutant strategy goes
+extinct, or until it fixes in the population (in which case the mutant strategy
+becomes the new resident strategy). After either outcome, we introduce a new
+mutant strategy $S'_2\!=\!(y_2',p_2',q_2')$ (uniformly chosen from all reactive
+strategies at random), and we set the number of mutants to $k\!=\!1$. This
+process of mutation and fixation/extinction is then iterated many times.xw The
+fixation probability of the mutant strategy then takes the standard form
+\cite{nowak2004emergence},
+
+\begin{equation}
+\varphi = \frac{1}{1+\sum_{i=1}^{N-1}\prod_k^i \frac{\lambda^-_k}{\lambda^+_k}}.
+\end{equation}
+
+where \(\lambda^-_k, \lambda^+_k\) are the probabilities that the number of
+mutants decreases and increases respectively.
+
+We compare this process for stochastic payoff evaluation with the analogous
+process where players update their strategies with respect to their {\it
+expected} payoffs,
+
+\begin{equation} \label{Eq:ExpPay}
+  \begin{array}{lcrcr}
+  \displaystyle \pi_1	&=	&\displaystyle \frac{N\!-\!k\!-\!1}{N-1}\cdot \langle\mathbf{v}(S_1,S_1),\mathbf{u}\rangle	&+	&\displaystyle\frac{k}{N-1}\cdot \langle\mathbf{v}(S_1,S_2),\mathbf{u}\rangle,\\[0.5cm]
+  \displaystyle \pi_2	&=	&\displaystyle\frac{N-k}{N-1}\cdot \langle\mathbf{v}(S_2,S_1),\mathbf{u}\rangle&+	&\displaystyle\frac{k-1}{N-1}\cdot \langle\mathbf{v}(S_2,S_2),\mathbf{u}\rangle.\\
+  \end{array}
+\end{equation}
+
+In the limit of no discounting, $\delta\!\rightarrow\! 1$, this process based on
+expected payoffs has been considered in~\cite{imhof2010stochastic}.
+
+% \subsection{Fixation probabilities under stochastic payoff evaluation}
+% Given that $N\!-\!k$ players use the resident strategy $S_1\!=\!(y_1,p_1,q_1)$ and that the remaining $k$ players use the mutant strategy $S_2\!=\!(y_2,p_2,q_2)$, the probability that the number of mutants increases by one in one step of the evolutionary process can be written as
+% \begin{equation}
+% \lambda^+_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N}\cdot \sum_{u_1,u_2\in\mathcal{U}} x(u_1,u_2)\cdot \rho(u_1,u_2).
+% \end{equation}
+% In this expression, $(N\!-\!k)/N$ is the probability that the randomly chosen learner is a resident, and $k/N$ is the probability that the role model is a mutant. The sum corresponds to the total probability that the learner adopts the role model's strategy over all possible payoffs $u_1$ and $u_2$ that the two player may have received in their respective last rounds. We use $x(u_1,u_2)$ to denote the probability that the randomly chosen resident obtained a payoff of $u_1$ in the last round of his respective game, and that the mutant obtained a payoff of $u_2$. Given that the payoffs are $u_1$ and $u_2$, the imitation probability is then given by $\rho(u_1,u_2)$, as specified by Eq.~(\ref{Eq:rho}). The probability that the respective payoffs of the players are given by $u_1$ and $u_2$ can be calculated as
+% \begin{equation}
+% \setlength{\arraycolsep}{1pt}
+% \begin{array}{llrl}
+% x(u_1,u_2)	 &=&\displaystyle \frac{1}{N\!-\!1}\cdot  &v_{u_1}(S_1,S_2)\cdot 1_{(u_1,u_2)\in \mathcal{U}^2_F}\\[0.5cm]
+% &+	
+% &\displaystyle \left(1\!-\!\frac{1}{N\!-\!1}\right)  
+% &\left[ \frac{k\!-\!1}{N\!-\!2}\frac{k\!-\!2}{N\!-\!3} v_{u_1}(S_1,S_2) v_{u_2}(S_2,S_2) + 
+%  \frac{k\!-\!1}{N\!-\!2}\frac{N\!-\!k\!-\!1}{N\!-\!3} v_{u_1}(S_1,S_2) v_{u_2}(S_2,S_1)\right.\\[0.5cm]
+% &&&\left. +\frac{N\!-\!k\!-\!1}{N\!-\!2}\frac{k\!-\!1}{N\!-\!3} v_{u_1}(S_1,S_1) v_{u_2}(S_2,S_2) + 
+%  \frac{N\!-\!k\!-\!1}{N\!-\!2}\frac{N\!-\!k\!-\!2}{N\!-\!3} v_{u_1}(S_1,S_1) v_{u_2}(S_2,S_1)\right].
+% \end{array}
+% \end{equation}
+%  The first term on the right side corresponds to the case that the learner and
+%  the role model happened to be matched during the game stage, which happens
+%  with probability $1/(N\!-\!1)$. In that case, we note that only those payoff
+%  pairs can occur that are feasible in a direct interaction, $(u_1,u_2)\in
+%  \mathcal{U}^2_F:=\big\{ (R,R), (S,T), (T,S), (P,P) \big\}$, as represented by
+%  the respective indicator function. Otherwise, if the learner and the role
+%  model did not interact directly, we need to distinguish four different cases,
+%  depending on whether the learner was matched with a resident or a mutant, and
+%  depending on whether the role model was matched with a resident or a mutant. 
+
+% Analogously, we can calculate the probability that the number of mutants decreases by one in one step of the evolutionary process. This probability is
+% \begin{equation}
+% \lambda^-_k=\frac{N\!-\!k}{N}\cdot\frac{k}{N} \sum_{u_1,u_2\in\mathcal{U}} x(u_1,u_2)\cdot \rho(u_2,u_1).
+% \end{equation}
+% The fixation probability of the mutant strategy then takes the standard form \cite{nowak2004emergence},
+% \begin{equation}
+% \varphi = \frac{1}{1+\sum_{i=1}^{N-1}\prod_k^i \frac{\lambda^-_k}{\lambda^+_k}}.
+% \end{equation}
+
+
+% \begin{equation}\label{eq:game}
+%     \begin{pmatrix}
+%         R & S  \\
+%         T & P
+%     \end{pmatrix}
+% \end{equation}
+
+% These cases include the Snowdrift~\cite{sugden2004economics} ($T>R>P>S$), Stag
+% Hunt~\cite{skyrms2001stag} ($T>R>P>S$), Harmony~\cite{Licht1999} ($T>R>P>S$) and
+% the Prisoner's Dilemma ($T>R>P>S$) games. The results based on these well know
+% \(2 \times 2\) games are discussed in Section~\ref{section:2_by_2_games}.
+
+\section{Analysis of Stochastic Payoffs in the Donation game}\label{section:donation}
+
+We first explore the effect of stochastic payoffs on the cooperative behaviour
+by considering the extreme case that an individual's fitness is based on their
+last interaction with one other individual. We compare this to the expected
+payoffs. Figure~\ref{fig:expected_and_stochastic_for_donation} shows simulation
+results for the described process of Section~\ref{section:methods}.
 
 In Section~\ref{section:donation}, we will specifically consider the donation
 game where each player can cooperate by providing a benefit \(b\) to the other
@@ -167,28 +285,6 @@ and matrix~(\ref{eq:game}) is give by:
         b & 0
     \end{pmatrix}
 \end{equation}
-
-The relative influence of the payoffs on the adopt the strategy of the other is
-controlled by an external parameter, the so called intensity of selection
-$\beta$.
-
-The space of strategies in repeated is infinite. To continue with our
-evolutionary analysis, we assume herein that individuals at most make use of
-simple \textit{reactive strategies}. Reactive strategy are a set of memory-one
-strategies that only take into account the previous action of the opponent.
-Reactive strategies can be written explicitly as a vector \(\in \R_{3}\). More
-specifically a reactive strategy \(s\) is given by \(s=(y, p, q)\) where \(y\)
-is the probability that the strategy opens with a cooperation and \(p, q\) are
-the probabilities that the strategy cooperates given that the opponent
-cooperated and defected equivalently.
-
-\section{Analysis of Stochastic Payoffs in the Donation game}\label{section:donation}
-
-We first explore the effect of stochastic payoffs on the cooperative behaviour
-by considering the extreme case that an individual's fitness is based on their
-last interaction with one other individual. We compare this to the expected
-payoffs. Figure~\ref{fig:expected_and_stochastic_for_donation} shows simulation
-results for the described process of Section~\ref{section:methods}.
 
 Figure~\ref{fig:expected_and_stochastic_for_donation}~depicts the evolving
 conditional cooperation probabilities $p$ and $q$ (assuming that the discount
@@ -401,10 +497,50 @@ is \(M\) such that,
 
 \[\dots\]
 
-It can shown that, \(!(1\!-\!\delta)\mathbf{v_0}(I_4-\delta M)^{-1}\) and with
+It can shown that, \((1\!-\!\delta)\mathbf{v_0}(I_4-\delta M)^{-1}\) and with
 some algebraic manipulation we derive to Equation~\ref{Eq:LastRound}.
 
 \end{proof}
+
+Equation~\ref{Eq:LastRound} is the probability vector that players \(S_1, S_2\)
+are in each of the possible states of the last round. Given the population \(N\)
+with \(k\) mutants in the last round there only possible combinations of interactions
+are:
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.65\textwidth]{static/last_rounds_matches.tex}
+\end{figure}
+
+We compare this process for stochastic payoff evaluation with the analogous process where players update their strategies with respect to their {\it expected} payoffs,
+\begin{equation} \label{Eq:ExpPay}
+\begin{array}{lcrcr}
+\displaystyle \pi_1	&=	&\displaystyle \frac{N\!-\!k\!-\!1}{N-1}\cdot \langle\mathbf{v}(S_1,S_1),\mathbf{u}\rangle	&+	&\displaystyle\frac{k}{N-1}\cdot \langle\mathbf{v}(S_1,S_2),\mathbf{u}\rangle,\\[0.5cm]
+\displaystyle \pi_2	&=	&\displaystyle\frac{N-k}{N-1}\cdot \langle\mathbf{v}(S_2,S_1),\mathbf{u}\rangle&+	&\displaystyle\frac{k-1}{N-1}\cdot \langle\mathbf{v}(S_2,S_2),\mathbf{u}\rangle.\\
+\end{array}
+\end{equation}
+In the limit of no discounting, $\delta\!\rightarrow\! 1$, this process based on expected payoffs has been considered in~\cite{imhof2010stochastic}. 
+
+\subsection{Fixation probabilities under stochastic payoff evaluation}
+Given that $N\!-\!k$ players use the resident strategy $S_1\!=\!(y_1,p_1,q_1)$ and that the remaining $k$ players use the mutant strategy $S_2\!=\!(y_2,p_2,q_2)$, the probability that the number of mutants increases by one in one step of the evolutionary process can be written as
+\begin{equation}
+\lambda^+_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N}\cdot \sum_{u_1,u_2\in\mathcal{U}} x(u_1,u_2)\cdot \rho(u_1,u_2).
+\end{equation}
+In this expression, $(N\!-\!k)/N$ is the probability that the randomly chosen learner is a resident, and $k/N$ is the probability that the role model is a mutant. The sum corresponds to the total probability that the learner adopts the role model's strategy over all possible payoffs $u_1$ and $u_2$ that the two player may have received in their respective last rounds. We use $x(u_1,u_2)$ to denote the probability that the randomly chosen resident obtained a payoff of $u_1$ in the last round of his respective game, and that the mutant obtained a payoff of $u_2$. Given that the payoffs are $u_1$ and $u_2$, the imitation probability is then given by $\rho(u_1,u_2)$, as specified by Eq.~(\ref{Eq:rho}). The probability that the respective payoffs of the players are given by $u_1$ and $u_2$ can be calculated as
+\begin{equation}
+\setlength{\arraycolsep}{1pt}
+\begin{array}{llrl}
+x(u_1,u_2)	 &=&\displaystyle \frac{1}{N\!-\!1}\cdot  &v_{u_1}(S_1,S_2)\cdot 1_{(u_1,u_2)\in \mathcal{U}^2_F}\\[0.5cm]
+&+	
+&\displaystyle \left(1\!-\!\frac{1}{N\!-\!1}\right)  
+&\left[ \frac{k\!-\!1}{N\!-\!2}\frac{k\!-\!2}{N\!-\!3} v_{u_1}(S_1,S_2) v_{u_2}(S_2,S_2) + 
+ \frac{k\!-\!1}{N\!-\!2}\frac{N\!-\!k\!-\!1}{N\!-\!3} v_{u_1}(S_1,S_2) v_{u_2}(S_2,S_1)\right.\\[0.5cm]
+&&&\left. +\frac{N\!-\!k\!-\!1}{N\!-\!2}\frac{k\!-\!1}{N\!-\!3} v_{u_1}(S_1,S_1) v_{u_2}(S_2,S_2) + 
+ \frac{N\!-\!k\!-\!1}{N\!-\!2}\frac{N\!-\!k\!-\!2}{N\!-\!3} v_{u_1}(S_1,S_1) v_{u_2}(S_2,S_1)\right].
+\end{array}
+\end{equation}
+The first term on the right side corresponds to the case that the learner and the role model happened to be matched during the game stage, which happens with probability $1/(N\!-\!1)$. In that case, we note that only those payoff pairs can occur that are feasible in a direct interaction, $(u_1,u_2)\in \mathcal{U}^2_F:=\big\{ (R,R), (S,T), (T,S), (P,P) \big\}$, as represented by the respective indicator function. Otherwise, if the learner and the role model did not interact directly, we need to distinguish four different cases, depending on whether the learner was matched with a resident or a mutant, and depending on whether the role model was matched with a resident or a mutant. 
+
 
 % \section{Evolutionary dynamics in finite population}
 
