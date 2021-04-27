@@ -284,7 +284,7 @@ the evolving rate to be at 90\%.
     \includegraphics[width=\textwidth]{static/cooperation_rate_over_betas.pdf}
   \end{subfigure}
 \caption{{\bf The evolution of cooperation for different benefit values.} 
-Here, we vary the benefit of cooperation $b$. In all cases, stochastic payoff
+Here, we vary the benefit of defection $b$. In all cases, stochastic payoff
 evaluation tends to reduce the evolving cooperation rates. Unless explicitly
 varied, the parameters of the simulation are $N\!=\!100$, $b\!=\!3$, $c\!=\!1$,
 $\beta\!=\!1$, $\delta\!=\!0.99$. Simulations are run for $T\!=\!5\times 10^6$
@@ -310,14 +310,13 @@ overestimating the evolved cooperation rate.
     \centering
     \includegraphics[width=\textwidth]{static/cooperation_rate_over_b.pdf}
   \end{subfigure}
-\caption{{\bf The evolution of cooperation for different parameter values.} 
-While the previous figures depict the evolutionary outcome for fixed parameter
-values, here we vary the benefit of cooperation $b$ and the strength of
-selection $\beta$. In all cases, stochastic payoff evaluation tends to reduce
-the evolving cooperation rates. Unless explicitly varied, the parameters of the
-simulation are $N\!=\!100$, $b\!=\!3$, $c\!=\!1$, $\beta\!=\!1$,
-$\delta\!=\!0.99$. Simulations are run for $T\!=\!5\times 10^6$ time steps for
-each parameter combination.}\label{fig:cooperation_rate_over_betas}
+\caption{{\bf The evolution of cooperation for different selection strength values.} 
+Here, we vary the selection strength $\beta$. In all cases, stochastic payoff
+evaluation tends to reduce the evolving cooperation rates. Unless explicitly
+varied, the parameters of the simulation are $N\!=\!100$, $b\!=\!3$, $c\!=\!1$,
+$\beta\!=\!1$, $\delta\!=\!0.99$. Simulations are run for $T\!=\!5\times 10^6$
+time steps for each parameter
+combination.}\label{fig:cooperation_rate_over_betas}
 \end{figure}
 
 \section{Expected and stochastic payoffs in $2 \times 2$ games}\label{section:2_by_2_games}
@@ -326,69 +325,102 @@ each parameter combination.}\label{fig:cooperation_rate_over_betas}
 
 \section{Model Setup}\label{appendix:methods}
 
-In evolution context we consider a population of \(N\) players,
-where \(N\) is even, and where mutations are sufficiently rare. At any point
-in time the there are at most two different strategies are present in
-the population. Suppose there are \(N - k\) players who use the strategy \(s_{1}=(y_{1},
-p_{1}, q_{1})\), whereas \(k\) players use the strategy \(s_{2}=(y_{2}, p_{2},
-q_{2})\). We refer to these two player types as ‘residents’ and ‘mutants’,
-respectively.
+In order to account for the difference in the robustness of cooperation among
+individuals based on their payoff memory, we consider a population of \(N\)
+players, where \(N\) is even, and where mutations are sufficiently rare. At any
+point in time the there are at most two different strategies are present in the
+population. A \textit{resident} strategy and a \textit{mutant} strategy. Suppose
+there are \(N - k\) players who use the resident strategy whereas \(k\) players
+use the mutant strategy. Each step of the evolutionary process consists of two
+stages, a game stage and an updating stage.
 
-Each step of the evolutionary process consists of two stages, a game stage and
-an updating stage.
+In the game stage, each player is randomly matched with some other player in
+the population to interact in a number of instances of the game
+\(\begin{pmatrix} R & S  \\ T & P \end{pmatrix}\). The number of interactions is
+not fixed, on the contrast we consider that another interaction has a
+probability $\delta$ to continue following each turn. We assume herein that
+individuals at most make use of simple \textit{reactive strategies} make
+decisions in each round. Reactive strategy are a set of memory-one strategies
+that only take into account the previous action of the opponent. Reactive
+strategies can be written explicitly as a vector \(\in \R_{3}\). More
+specifically a reactive strategy \(s\) is given by \(s=(y, p, q)\) where \(y\)
+is the probability that the strategy opens with a cooperation and \(p, q\) are
+the probabilities that the strategy cooperates given that the opponent
+cooperated and defected equivalently.
 
-\begin{enumerate}
-    \item In the game stage, each player is randomly matched with some
-    other player in the population to interact in one instance of the IPD.
-    \item In the updating stage, two players are randomly drawn from
-    the population, a `learner' and a `exemplar'. Given that the learner's payoff
-    in the last round is $u_L\!\in\! \mathcal{U}$ and that the exemplar's last
-    round's payoff $u_E\!\in\! \mathcal{U}$, we assume the learner adopts the role
-    model's strategy with probability 
+In the updating stage, two players are randomly drawn from the population, a
+`learner' and a `role model'. Given that the learner's payoff $u_L\!\in\!
+\mathcal{U}$ and that the role model's payoff $u_{RL}\!\in\! \mathcal{U}$, we
+assume the learner adopts the role model's strategy with probability
 
-    \begin{equation} \label{Eq:rho}
-    \rho(u_L, u_E) = \frac{1}{1\!+\!\exp\big[ \!-\!\beta (u_E\!-\!u_L) \big]}. 
-    \end{equation}
+\begin{equation} \label{Eq:rho}
+\rho(u_L, u_{RL}) = \frac{1}{1\!+\!\exp\big[ \!-\!\beta (u_E\!-\!u_{RL}) \big]}.
+\end{equation}
 
-    where $\beta\!\ge\!0$ corresponds to the strength of selection.
-\end{enumerate}
+where $\beta\!\ge\!0$ corresponds  to relative influence of the payoffs on the
+adopt the strategy of the other is controlled by an external parameter, the so
+called intensity of selection.
 
 We iterate this basic evolutionary step until either the mutant strategy goes
 extinct, or until it fixes in the population (in which case the mutant strategy
 becomes the new resident strategy). After either outcome, we introduce a new
-mutant strategy $s'_2\!=\!(y_2',p_2',q_2')$ (uniformly chosen from all reactive
+mutant strategy (uniformly chosen from all reactive
 strategies at random), and we set the number of mutants to $k\!=\!1$. This
-process of mutation and fixation/extinction is then iterated many times.
+process of mutation and fixation/extinction is then iterated many times.xw The
+fixation probability of the mutant strategy then takes the standard form
+\cite{nowak2004emergence},
 
-\section{Expected Payoffs}
+\begin{equation}
+\varphi = \frac{1}{1+\sum_{i=1}^{N-1}\prod_k^i \frac{\lambda^-_k}{\lambda^+_k}}.
+\end{equation}
 
-We compare this process for what we defined as {\bf stochastic payoff
-evaluation} with the analogous process where players update their strategies
-with respect to their {\bf expected} payoffs,
+where \(\lambda^-_k, \lambda^+_k\) are the probabilities that the number of
+mutants decreases and increases respectively.
 
-\begin{equation} \label{eq:ExpPay}
-\begin{array}{lcrcr}
-\pi_1 &= &\displaystyle \frac{N\!-\!k\!-\!1}{N-1}\cdot \langle\mathbf{v}(s_1,s_1),\mathbf{U}\rangle	& + &\displaystyle\frac{k}{N-1}\cdot \langle\mathbf{v}(s_1,s_2),\mathbf{U}\rangle,\\[0.5cm]
-\pi_2 &= &\displaystyle\frac{N-k}{N-1}\cdot \langle\mathbf{v}(s_2,s_1),\mathbf{U}\rangle & + &\displaystyle\frac{k-1}{N-1}\cdot \langle\mathbf{v}(s_2,s_2),\mathbf{U}\rangle.\\
-\end{array}
+We compare this process for stochastic payoff evaluation with the analogous
+process where players update their strategies with respect to their {\it
+expected} payoffs.
+
+\subsection{Expected Payoffs}
+
+Consider two players with reactive strategies $s_1\!=\!(y_1, p_1, q_1$) and
+$s_2\!=\!(y_2,p_2,q_2)$ who interact in a repeated prisoner's dilemma with
+continuation probability $\delta$, the probability that are in each of the
+four possible states in the last round is given by the stationary distribution
+\(\langle\mathbf{v}\) of the transition matrix \(M\).
+
+\begin{equation}\label{eq:transition_matrix}
+  \input{static/matrix.tex}.
+\end{equation}
+
+The long run steady state probability vector \(\langle\mathbf{v}\) is the solution
+to \(\langle\mathbf{v}M=\langle\mathbf{v}\), can be combined with the payoff
+\(u\) to give the payoffs for each player. More specifically,
+
+\[\langle\mathbf{v}(s_1,s_2),\mathbf{u}\rangle\]
+
+is the payoff that \(s_1\) achieves when interacting with \(s_2\). In
+the evolutionary process given \(k\) individuals with mutant strategy \(s_M\)
+and \(N - k\) individuals with the resident strategy \(s_R\) the expected
+payoffs are,
+
+\begin{equation} \label{Eq:ExpPay}
+  \begin{array}{lcrcr}
+  \displaystyle \pi_R	&=	&\displaystyle \frac{N\!-\!k\!-\!1}{N-1}\cdot \langle\mathbf{v}(s_R,s_R),\mathbf{u}\rangle	&+	&\displaystyle\frac{k}{N-1}\cdot \langle\mathbf{v}(s_R,s_M),\mathbf{u}\rangle,\\[0.5cm]
+  \displaystyle \pi_M	&=	&\displaystyle\frac{N-k}{N-1}\cdot \langle\mathbf{v}(s_M,s_R),\mathbf{u}\rangle&+	&\displaystyle\frac{k-1}{N-1}\cdot \langle\mathbf{v}(s_M,s_M),\mathbf{u}\rangle.\\
+  \end{array}
 \end{equation}
 
 In the limit of no discounting, $\delta\!\rightarrow\! 1$, this process based on
 expected payoffs has been considered in~\cite{imhof2010stochastic}.
 
-\section{Stochastic Payoffs}
+\subsection{Stochastic Payoffs}
 
-We define {\bf stochastic payoff} as the average payoff $u\!\in\! \mathcal{U}$ a player
-receives in the last \(n\) rounds of the game given that they interact with
-\(m\) players.
-
-\subsubsection*{Case \(n=m=1\).}
-
-Initially, consider the situation where \(n=m=1\). The player's stochastic
-payoff is what they receive in the last round against a single opponent. There
+Initially, we consider the case that an individual's fitness is based on their
+last interaction with one other individual. There
 only four possible outcomes for the last round, those are \(CC, CD, DC, DD\).
-Consider two players with reactive strategies $S_1\!=\!(y_1, p_1, q_1$) and
-$S_2\!=\!(y_2,p_2,q_2)$ who interact in a repeated prisoner's dilemma with
+Consider two players with reactive strategies $s_1\!=\!(y_1, p_1, q_1$) and
+$s_2\!=\!(y_2,p_2,q_2)$ who interact in a repeated prisoner's dilemma with
 continuation probability $\delta$, the probability that are in each of the
 four possible states in the last round is given by:
 
@@ -432,7 +464,10 @@ some algebraic manipulation we derive to Equation~\ref{Eq:LastRound}.
 
 \end{proof}
 
-Equation~\ref{Eq:LastRound} is the probability vector that players \(S_1, S_2\)
+Equation~\ref{Eq:LastRound} can be generalised to all cases where we consider
+the last \()
+
+Equation~\ref{Eq:LastRound} is the probability vector that players \(s_1, s_2\)
 are in each of the possible states of the last round. Given the population \(N\)
 with \(k\) mutants in the last round there only possible combinations of interactions
 are:
@@ -441,15 +476,6 @@ are:
     \centering
     \includegraphics[width=.65\textwidth]{static/last_rounds_matches.tex}
 \end{figure}
-
-We compare this process for stochastic payoff evaluation with the analogous process where players update their strategies with respect to their {\it expected} payoffs,
-\begin{equation} \label{Eq:ExpPay}
-\begin{array}{lcrcr}
-\displaystyle \pi_1	&=	&\displaystyle \frac{N\!-\!k\!-\!1}{N-1}\cdot \langle\mathbf{v}(S_1,S_1),\mathbf{u}\rangle	&+	&\displaystyle\frac{k}{N-1}\cdot \langle\mathbf{v}(S_1,S_2),\mathbf{u}\rangle,\\[0.5cm]
-\displaystyle \pi_2	&=	&\displaystyle\frac{N-k}{N-1}\cdot \langle\mathbf{v}(S_2,S_1),\mathbf{u}\rangle&+	&\displaystyle\frac{k-1}{N-1}\cdot \langle\mathbf{v}(S_2,S_2),\mathbf{u}\rangle.\\
-\end{array}
-\end{equation}
-In the limit of no discounting, $\delta\!\rightarrow\! 1$, this process based on expected payoffs has been considered in~\cite{imhof2010stochastic}. 
 
 \subsection{Fixation probabilities under stochastic payoff evaluation}
 Given that $N\!-\!k$ players use the resident strategy $S_1\!=\!(y_1,p_1,q_1)$ and that the remaining $k$ players use the mutant strategy $S_2\!=\!(y_2,p_2,q_2)$, the probability that the number of mutants increases by one in one step of the evolutionary process can be written as
@@ -469,7 +495,16 @@ x(u_1,u_2)	 &=&\displaystyle \frac{1}{N\!-\!1}\cdot  &v_{u_1}(S_1,S_2)\cdot 1_{(
  \frac{N\!-\!k\!-\!1}{N\!-\!2}\frac{N\!-\!k\!-\!2}{N\!-\!3} v_{u_1}(S_1,S_1) v_{u_2}(S_2,S_1)\right].
 \end{array}
 \end{equation}
-The first term on the right side corresponds to the case that the learner and the role model happened to be matched during the game stage, which happens with probability $1/(N\!-\!1)$. In that case, we note that only those payoff pairs can occur that are feasible in a direct interaction, $(u_1,u_2)\in \mathcal{U}^2_F:=\big\{ (R,R), (S,T), (T,S), (P,P) \big\}$, as represented by the respective indicator function. Otherwise, if the learner and the role model did not interact directly, we need to distinguish four different cases, depending on whether the learner was matched with a resident or a mutant, and depending on whether the role model was matched with a resident or a mutant. 
+
+The first term on the right side corresponds to the case that the learner and
+the role model happened to be matched during the game stage, which happens with
+probability $1/(N\!-\!1)$. In that case, we note that only those payoff pairs
+can occur that are feasible in a direct interaction, $(u_1,u_2)\in
+\mathcal{U}^2_F:=\big\{ (R,R), (S,T), (T,S), (P,P) \big\}$, as represented by
+the respective indicator function. Otherwise, if the learner and the role model
+did not interact directly, we need to distinguish four different cases,
+depending on whether the learner was matched with a resident or a mutant, and
+depending on whether the role model was matched with a resident or a mutant. 
 
 
 % \section{Evolutionary dynamics in finite population}
