@@ -99,56 +99,50 @@
 \section{Introduction}
 
 One of the most important applications of evolutionary game theory is the
-evolution of cooperation. Why is it that some individuals choose to help others
-(increasing their payoff) at the expense of decreasing one's own payoff? During
-the past decade, the literature on mechanisms that allow for cooperation, even
-though it's seen to be at odd has been fruitful. One such mechanism is
-repetition; the so called direct reciprocity. Theoretical researchers have been
-using evolutionary models to understand how direct reciprocity allows
-cooperation to evolve and which strategies are important for sustaining
-cooperation.
+evolution of cooperation. Why is it that some individuals choose to help others,
+increasing their payoff, at the expense of decreasing one's own payoff? In
+evolutionary game theory individuals are not required to be rational, instead
+they adapt strategies based on mutation and exploration. Strategies are more
+likely to spread if they have a high fitness either because the individuals who
+adopt them have more offsprings, or because they are imitated more often. The
+fitness of a strategy is not constant but depends on the composition of the
+population. Individuals interact based on their strategies with other
+members of the population and the payoffs they yield are translated into
+fitness.
 
-Evolutionary game theory does not require individuals to be rational, instead
-they adapt strategies based on mutation and exploration. Strategies with
-high fitness are more likely to spread, either because the individuals who
-adopt them have more offspring (fitness-based processes), or they are imitated
-more often (pairwise comparison processes)~\cite{Wu2015}. The fitness of strategies,
-and subsequently of the individuals, is not constant. Instead it depends on the
-composition of the population. Individuals interact with other members of the
-population according to their strategies. Their yielded payoffs, according to
-pre defined games, are translated into fitness.
+It is commonly assumed that fitness is equivalent to the mean payoff an
+individual achieves over the different types in the population, over multiple
+interactions. These payoffs assume that individuals can interact with the entire
+population several times and remember each and every outcome. Thus, they imply
+that individuals have a perfect memory.
+However, in their pairwise interactions when they make decisions in each turn
+they are assumed to have very limited memory. To be precise most of
+the works in the literature,  with a few notable exceptions~\cite{Hauert1997,
+Stewart2016}, focus on naive subjects who can only choose from a restricted set
+of strategies~\cite{Nowak1992tit}, or who do not remember anything beyond the
+outcome of the very last round~\cite{Baek2016}.
 
-It is commonly assumed that fitness assimilates to the \textit{expected payoff},
-which the mean payoff an individual achieved over the different types in the
-population after multiple intercalations. Expected payoffs imply that
-individuals have a perfect a memory. In order to estimate expected payoffs
-individuals must be able to recall several of their interactions with each
-player in the population. However, when modeling how they make decisions in each
-round they assumed to have very limited memory. To be precise, most work on this
-models focuses on naive subjects who can only choose from a restricted set of
-strategies~\cite{Nowak1992tit}, or who do not remember anything beyond the
-outcome of the very last round~\cite{Baek2016}, with a few notable
-exceptions~\cite{Hauert1997, Stewart2016}.
+The perfect memory assumption is not only unrealistic but it also creates this
+curious inconsistency. This has lead us to question how robust is our
+understanding of cooperation. In this work we explore whether direct
+reciprocity can evolve if individuals only remember a minimum of social
+information. Though we are not the first to question the assumptions of
+estimating fitness~\cite{Roca2006}, we are the first to explore the effect
+of payoff memory.
 
-This creates a curious inconsistency, which raises the following question: how
-robust is our understanding of cooperation? We are not the first to question the
-assumptions of models when estimating fitness. In~\cite{Roca2006} relax the
-assumption that selection occurs much more slowly than the interaction between
-individuals. They results shows that rapid selection affects evolutionary
-dynamics in such a dramatic way that for some games it even changes the
-stability of equilibria.
+Initially, we consider two extreme scenarios. The first is the classical
+scenario of the expected payoffs and the alternative scenario where individuals
+update their strategies only based on the very last payoff they obtained. In the
+later sections, we allow individuals more memory. More specifically, they can
+remember up to two turns and up to two interactions.
+We present results on  several social dilemmas which include the prisoner's
+dilemma and the donation game, the snowdrift game, the stag hunt game and the
+harmony game.
 
-We consider two cases. Initially, we start by considering two extreme scenarios.
-The first is the classical scenario of the expected payoffs and the alternative
-scenario where individuals update their strategies only based on the very last
-payoff they obtained. We refer to these as the \textit{stochastic} payoffs of
-individuals. We do this for the donation games but also the important cases of
-symmetric \(2 \times 2\) games. These include the prisoner's dilemma, the
-snowdrift game, the stag hunt game and the harmony game.
-
-In the later sections we allow individuals to use more memory. More specifically,
-individuals update their strategies by considering up to the last two rounds,
-whilst interacting with up to two different players.
+The remainder of the paper is organized as follows. Section~\ref{section:model}
+describes the model. Section~\ref{section:results} presents the results of the
+simulations. Finally, section~\ref{section:conclusions} outlines the main
+conclusions.
 
 % Early results for the repeated prisoner’s dilemma and for the snowdrift game
 % suggest that memory size can have a considerable effect on the evolutionary
@@ -160,100 +154,104 @@ whilst interacting with up to two different players.
 
 \section{Model Setup}\label{section:model}
 
-In order to account for the difference in the robustness of cooperation among
-individuals based on their payoff memory, we consider a population of \(N\)
-players, where \(N\) is even, and where mutations are sufficiently rare. At any
-point in time the there are at most two different strategies are present in the
-population. A \textit{resident} strategy and a \textit{mutant} strategy. Suppose
-there are \(N - k\) players who use the resident strategy whereas \(k\) players
-use the mutant strategy. Each step of the evolutionary process consists of two
-stages, a game stage and an updating stage.
+We consider a population of \(N\) players (\(N\) is even) where mutations are
+sufficiently rare. Thus, at any point in time there are at most two
+different strategies present in the population; a \textit{resident} strategy
+and a \textit{mutant} strategy. We assume a pairwise process where
+strategies spread because they are imitated more often.
 
-In the game stage, each player is randomly matched with some other player in
-the population to interact in a number of turns.  The number of turns is
-not fixed, on the contrast we consider that another interaction has a
-probability $\delta$ to continue following each turn. At each turn the players can
-choose to either cooperate (C) or to defect (D). The payoffs in a given round
-depend on both player's decisions and are given by:
+Each step of the evolutionary process consists of two stages, a game stage and
+an updating stage. In the game stage each individual is randomly matched with
+some other individual in the population to interact for a number of turns, where
+subsequent turns occur with a fixed probability $\delta$. At each turn they
+can choose to either cooperate (\(C\)) or to defect (\(D\)), and thus, at
+each turn the possible outcomes are \(CC, CD, DC\) and \(DD\). The payoffs
+depend on the outcome. If both cooperate they receive the reward payoff
+\(R\), whereas if both defect they receive the punishment payoff \(P\).
+If one cooperates but the other defects, the defector receives the temptation to
+defect, \(T\), whereas the cooperator receives the sucker's payoff, \(S\).
+We denote the payoffs of an individual as \(\mathcal{U} = (R, S, T, P)\).
 
-\begin{equation*}\label{eq:game}
-  U = \begin{pmatrix} R & S  \\ T & P \end{pmatrix}
-\end{equation*}
-
-We assume herein that
-individuals at most make use of simple \textit{reactive strategies} make
-decisions in each round. Reactive strategy are a set of memory-one strategies
-that only take into account the previous action of the opponent. Reactive
-strategies can be written explicitly as a vector \(\in \R_{3}\). More
-specifically a reactive strategy \(s\) is given by \(s=(y, p, q)\) where \(y\)
-is the probability that the strategy opens with a cooperation and \(p, q\) are
-the probabilities that the strategy cooperates given that the opponent
-cooperated and defected equivalently.
+We assume herein that individuals use \textit{reactive strategies} to make
+decisions in each turn. Reactive strategies are a set of memory-one strategies
+that only take into account the previous action of the opponent. They can be
+written explicitly as a vector \(\in \R_{3}\), more specifically, a reactive
+strategy \(s\) is given by \(s=(y, p, q)\) where \(y\) is the probability that
+the strategy opens with a cooperation and \(p, q\) are the probabilities that
+the strategy cooperates given that the opponent cooperated and defected
+equivalently.
 
 In the updating stage, two players are randomly drawn from the population, a
 `learner' and a `role model'. Given that the learner's payoff $u_L\!\in\!
 \mathcal{U}$ and that the role model's payoff $u_{RL}\!\in\! \mathcal{U}$, we
 assume the learner adopts the role model's strategy based on the Fermi
-distribution function. The relative influence of the payoffs on the
-adopt the strategy of the other is controlled by an external parameter. The so
-called intensity of selection,  $\beta\!\ge\!0$.
+distribution function,
+
+\begin{equation} \label{Eq:rho}
+  \rho(u_{L}, u_{RM}) = \frac{1}{1\!+\! \exp^{\!-\!\beta (u_{RM}\!-\!u_{L})}}.
+\end{equation}
+
+where $\beta\!\ge\!0$ is the relative influence of the payoffs on adopting the 
+strategy of the other. We refer to $\beta$ as the intensity of selection.
 
 This basic evolutionary step is repeated until either the mutant strategy goes
-extinct, or until it fixes in the population, in which case the mutant strategy
-becomes the new resident strategy. After either outcome, we introduce a new
-mutant strategy, uniformly chosen from all reactive strategies at random, and we
-set the number of mutants to $k\!=\!1$. This process of mutation and
-fixation/extinction is then iterated many times.
+extinct, or until it fixes in the population. If the mutant fixes in the
+population then the mutant strategy becomes the new resident strategy. After
+either outcome we introduce a new mutant strategy uniformly chosen from all
+reactive strategies at random, and we set the number of mutants to $1$. This
+process of mutation and fixation/extinction is then iterated many times.
 
-In this work we explore the effect on the payoffs in the updating stage. The
-details of the process described in this section can be found in
-appendix~\ref{appendix:methods}.
+The perfect memory assumption occurs at the updating stage. The learner and the
+role model are assumed to interact with a representative sample of the
+population, and they remember all interactions they participate in. Thus, they
+are updating payoffs are based on the mean payoff they achieved over all the
+interactions. These payoffs are refer to as the expected payoffs. We will
+compare the expected payoffs to payoffs that are calculated when the role model
+and learner do not remember all their interactions. In order to account for the
+effect of these different methods we explore the cooperation rate within the
+resident population over multiple generations. More details on our methodology
+are found in Appendix~\ref{appendix:methods}.
 
-\section{Analysis of Stochastic Payoffs in the Donation game}\label{section:donation}
 
-We first explore the effect of stochastic payoffs on the cooperative behaviour
-by considering the extreme case that an individual's fitness is based on their
-last interaction with one other individual. We compare this to the expected
-payoffs. In this section we consider the donation game.
-Each player can cooperate by providing a benefit \(b\) to the other
-player at their cost \(c\), with \(0 < c < b\). Then, \(T=b, R=b-c, S=-c, P=0\),
-and matrix~(\ref{eq:game}) is give by:
+\section{Results}\label{section:results}
+\subsection{Updating payoffs based on the last round with another member of the population}\label{section:donation}
 
-\begin{equation}\label{eq:donation_normal_form}
-    \begin{pmatrix}
-        b-c & -c  \\
-        b & 0
-    \end{pmatrix}
-\end{equation}
+In this section we explore the case where the updating payoffs are based on the
+last round payoff achieved against another member of the population. We compare
+this to the expected payoffs. We assume that individuals interact in a donation
+game  where each can cooperate by providing a benefit \(b\) to the other
+player at their cost \(c\), with \(0 < c < b\). Thus, \(T=b, R=b-c, S=-c, P=0\).
 
 Figure~\ref{fig:expected_and_stochastic_for_donation} shows simulations results
 for the described process of section~\ref{section:model}.
 Figure~\ref{fig:expected_and_stochastic_for_donation}~depicts the evolving
-conditional cooperation probabilities $p$ and $q$. Assuming that the discount
-factor~$\delta$ is comparably high, the opening move \(y\) is a transient effect
-and has not effect on the outcome.
-The left panels corresponds to the standard scenario considered in the previous
-literature. It considers players who use expected payoffs to update their
-strategies. The right panel shows the scenario considered herein, in which
-players update their strategies based on their last round's payoff. The top
-panels assume a benefit of 3, whereas the bottom assume that the benefit is 10.
+conditional cooperation probabilities $p$ and $q$. The discount factor~$\delta$
+is comparably high, thus the opening move \(y\) is a transient effect and has
+not effect on the outcome. The left panels corresponds to the standard scenario
+considered in the literature. It considers players who use expected payoffs to
+update their strategies. The right panel shows the scenario considered herein,
+in which players update their strategies based on their last round's payoff. The
+top panels assume a benefit \(b\) of 3, whereas the bottom assume a benefit of
+10.
 
 The figure suggests that when updating is based on expected payoffs, players
-tend to be more generous. The $q$-values are higher on average which suggests
-that individuals tend to cooperating more after they are at the receiving end
-of a defection. In addition, for both cases of \(b\), individuals tend to
-be more cooperative. The average cooperation rate is strictly higher for expected
-payoffs. This difference is statistically important, abd the effect is even more
-obvious when the benefit is higher. More specifically, for \(b=10\) the average
-cooperation rate drops from 97\% to 51\%.
+tend to be more generous and more cooperative. The $q$-values are higher on
+average which suggests that individuals tend to be more generous when it comes
+to cooperating after being at the receiving end of a defection. %This is a known result no? Nowak 1992
+The average cooperation rate within the resident population is strictly higher
+when expected payoffs are considered. The difference between the two methods for
+both the values of \(b\) are statistically significant. This contrast becomes
+more obvious for \(b=10\). More specifically the average cooperation drops from
+97\% to 51\%. The residents of the population cooperated on average 97\% of the
+times in one case and only 57\% in the other.
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=.75\textwidth]{static/expected_and_stochastic_for_donation_game.pdf}\vspace{-3cm}
     \includegraphics[width=.75\textwidth]{static/expected_and_stochastic_for_donation_game_b_10.pdf}
-    \caption{{\bf Evolutionary dynamics under expected payoffs and stochastic payoffs.} 
+    \caption{{\bf Evolutionary dynamics under expected payoffs and last round with one interaction payoffs.} 
     We have run two simulations of the evolutionary process described in
-    Section~\ref{section:methods} for $T\!=\!10^7$ time steps. For each time step,
+    section~\ref{section:model} for $T\!=\!10^7$ time steps. For each time step,
     we have recorded the current resident population ($y,p,q$). Since simulations
     are run for a relatively high continuation probability of $\delta\!=\!0.999$, we
     do not report the players' initial cooperation probability $y$. The graphs show
@@ -261,53 +259,26 @@ cooperation rate drops from 97\% to 51\%.
     conditional cooperation probabilities in the subsequent rounds. ({\bf A}) If
     players update based on their expected payoffs, the resident population
     typically applies a strategy for which $p\!\approx\!1$ and
-    $q\!\le\!1\!-\!c/b\!=\!0.9$. The cooperation rate within the resident population
-    (averaged over all games and over all time steps) is close to 100\%. ({\bf B})
+    $q\!\le\!1\!-\!c/b\!=\!0.9$. ({\bf B})
     When players update their strategies based on their realized payoffs in the last
     round, there are two different predominant behaviors. The resident population
     either consists of defectors (with $p\!\approx\!q\!\approx\!0$) or of
     conditional cooperators. In the latter case, the maximum level of $q$ consistent
     with stable cooperation is somewhat smaller compared to the expected-payoff
-    setting, $q\!<\!0.5$. Also the resulting cooperation rate is smaller. On
-    average, players cooperate roughly in half of all rounds. Parameters:
-    $N\!=\!100$, $b\!=\!3$, $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.999$.}
+    setting, $q\!<\!0.5$. The cooperation rate within the resident population
+    (averaged over all games and over all time steps) is close to 100\%. Parameters:
+    $N\!=\!100$, $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.999$.}
     \label{fig:expected_and_stochastic_for_donation}
 \end{figure}
 
-Figure~\ref{fig:cooperation_rate_over_benefit} further explores the effect of the
-benefit on the cooperation rate. In all cases, the stochastic payoffs evolution
-tends to reduce the evolving cooperation rate. For the stochastic payoffs,
-benefit appears to not make a difference once \(b > 5\), and on average
-the evolving cooperation rate is at 50\%. The effect of benefit on the expected
-payoffs smooths out after \(b > 6\), and the expected payoffs estimating
-the evolving rate to be at 90\%.
-
-\begin{figure}[!htbp]
-  \centering
-  \begin{subfigure}{.65\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{static/expected_for_selection_strenght.pdf}
-    \includegraphics[width=\textwidth]{static/stochastic_for_selection_strenght.pdf}
-  \end{subfigure}%
-  \begin{subfigure}{.35\textwidth}
-    \vspace{.3cm}
-    \includegraphics[width=\textwidth]{static/cooperation_rate_over_betas.pdf}
-  \end{subfigure}
-\caption{{\bf The evolution of cooperation for different benefit values.} 
-Here, we vary the benefit of defection $b$. In all cases, stochastic payoff
-evaluation tends to reduce the evolving cooperation rates. Unless explicitly
-varied, the parameters of the simulation are $N\!=\!100$, $b\!=\!3$, $c\!=\!1$,
-$\beta\!=\!1$, $\delta\!=\!0.99$. Simulations are run for $T\!=\!5\times 10^6$
-time steps for each parameter
-combination.}\label{fig:cooperation_rate_over_benefit}
-\end{figure}
-
-Figure~\ref{fig:cooperation_rate_over_betas} illustrates the results for
-different runs of the evolutionary process where we vary the strength of
-selection. In the case of a very small \(\beta < \beta=10 ^ -1\) he process is
-almost random, as the effect of the payoffs is very small. Once payoff begin to
-matter the difference is once again evident, with the expected payoffs always
-overestimating the evolved cooperation rate.
+We further explore the effect of the benefit,
+Figure~\ref{fig:cooperation_rate_over_benefit}. The figure suggests that the
+expected payoffs always overestimate cooperation. For the limited memory payoffs
+the cooperation rate remains unchanged at approximately 50\% once \(b = 5\). In
+specific simulations we have performed, if only the last round payoff is
+considered then the highest average cooperation rate that was achieved was 0.51.
+In comparison, when the expected payoffs were used the highest average
+cooperation rate was 0.97.
 
 \begin{figure}[!htbp]
   \centering
@@ -320,16 +291,53 @@ overestimating the evolved cooperation rate.
     \centering
     \includegraphics[width=\textwidth]{static/cooperation_rate_over_b.pdf}
   \end{subfigure}
+  \caption{{\bf The evolution of cooperation for different benefit values.} 
+  We vary the benefit of defection $b$. In all cases, expected payoffs appear to
+  overestimate the average cooperation rate the population achieves. ({\bf A})
+  the probabilities \(p, q\) for resident population over \(10^7\) time steps
+  for each benefit value. ({\bf B}) The cooperation rate within the resident population
+  (averaged over all games and over all time steps) over the benefit.
+  Unless
+  explicitly varied, the parameters of the simulation are $N\!=\!100$,
+  $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.99$. Simulations are run
+  for $T\!=\!5\times 10^6$ time steps for each parameter
+  combination.}\label{fig:cooperation_rate_over_benefit}
+\end{figure}
+
+Figure~\ref{fig:cooperation_rate_over_betas} illustrates results for various
+runs of the evolutionary process where we vary the strength of selection. For
+weak selection, \(\beta < 1\), the updating payoffs have no effect. The evolved
+population and the average cooperating rate are the same for both approaches.
+However for strong selection, it can be seen that the cooperating rate increases
+with \(beta\), when expected payoffs are used. However, when limited memory
+payoffs are used. the cooperating rate decreases.
+
+\begin{figure}[!htbp]
+  \centering
+  \begin{subfigure}{.65\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{static/expected_for_selection_strenght.pdf}
+    \includegraphics[width=\textwidth]{static/stochastic_for_selection_strenght.pdf}
+  \end{subfigure}%
+  \begin{subfigure}{.35\textwidth}
+    \vspace{.3cm}
+    \includegraphics[width=\textwidth]{static/cooperation_rate_over_betas.pdf}
+  \end{subfigure}
 \caption{{\bf The evolution of cooperation for different selection strength values.} 
-Here, we vary the selection strength $\beta$. In all cases, stochastic payoff
-evaluation tends to reduce the evolving cooperation rates. Unless explicitly
-varied, the parameters of the simulation are $N\!=\!100$, $b\!=\!3$, $c\!=\!1$,
-$\beta\!=\!1$, $\delta\!=\!0.99$. Simulations are run for $T\!=\!5\times 10^6$
-time steps for each parameter
+We vary the selection strength $\beta$. In all cases, stochastic payoff
+evaluation tends to reduce the evolving cooperation rates. ({\bf A}) the
+probabilities \(p, q\) for resident population over \(10^7\) time steps for each
+\(\beta\) value. ({\bf B}) The cooperation rate within the resident population
+(averaged over all games and over all time steps) over \(\beta\).
+Unless explicitly varied, the parameters of the simulation are $N\!=\!100$,
+$b\!=\!3$, $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.99$. Simulations are run for
+$T\!=\!5\times 10^6$ time steps for each parameter
 combination.}\label{fig:cooperation_rate_over_betas}
 \end{figure}
 
-\section{Expected and stochastic payoffs in $2 \times 2$ games}\label{section:2_by_2_games}
+\subsection{Expected and stochastic payoffs in $2 \times 2$ games}\label{section:2_by_2_games}
+
+\section{Conclusions}\label{section:conclusions}
 
 \appendix
 
