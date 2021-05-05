@@ -7,7 +7,7 @@
     level 2/.style = {sibling distance = 2cm, level distance=2.8cm},
     every node/.style = {font=\tiny}]
 \node [arn_n] {} 
-    child{ node [arn_r, label={[align=center, yshift=-.8cm]$S_{R} - S_{M}$\\$S_{R} - S_{R}$}] {} edge from parent node[above left, rotate=30] {$\frac{1}{N - 1}$}}
+    child{ node [arn_r, label={[align=center, yshift=-.8cm]$S_{R} - S_{M}$] {} edge from parent node[above left, rotate=30] {$\frac{1}{N - 1}$}}
     child{ node [arn_n, rotate=-30] {} 
             child{ node [arn_r, label={[align=center, yshift=-.8cm]$S_{R} - S_{R}$\\$S_{M} - S_{R}$}] {} edge from parent node[above, yshift=-.1cm, rotate=39] {$\frac{(N-k-1)(N-k-2)}{(N-2)(N-3)}$}}
             child{ node [arn_r, label={[align=center, yshift=-.8cm]$S_{R} - S_{R}$\\$S_{R} - S_{M}$}] {} edge from parent node[above, yshift=-.2cm, rotate=67] {$\frac{(N-k-1)(k-1)}{(N-2)(N-3)}$}}

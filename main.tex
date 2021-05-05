@@ -123,7 +123,7 @@ of strategies~\cite{Nowak1992tit}, or who do not remember anything beyond the
 outcome of the very last round~\cite{Baek2016}.
 
 The perfect memory assumption is not only unrealistic but it also creates this
-curious inconsistency. This has lead us to question how robust is our
+curious inconsistency. This has led us to question how robust is our
 understanding of cooperation. In this work we explore whether direct
 reciprocity can evolve if individuals only remember a minimum of social
 information. Though we are not the first to question the assumptions of
@@ -343,26 +343,27 @@ combination.}\label{fig:cooperation_rate_over_betas}
 
 \section{Model Setup}\label{appendix:methods}
 
-We consider a pairwise comparison process. We assume a population of \(N\)
-individuals (\(N\) is even) where at any point in time there are at most two
-different strategies in present. There are \(k\) individuals who play the mutant
-strategy and \(N - k\) individuals who play the resident strategy. Each step of
-the evolutionary process consists of two stages; a game stage and an update
-stage.
+Consider a population of \(N\) individuals where \(N\) is even. At any point in
+time there are at most two different strategies in present in the population.
+More specifically, a mutant strategy played by \(k\) individuals and a resident
+strategy played by \(N - k\) individuals. We assume a pairwise process in which
+strategies spread because they are imitated more often. Each step of the
+evolutionary process consists of two stages; a game stage and an update stage.
 
 In the game stage, each individual is randomly matched with some other
 individual in the population. Their interaction lasts for a number of turns
 which is not fixed but depends on the continuation probability \(\delta\). At
-each turn the individuals have choose between cooperation (C) and defection (D).
-If both players cooperate they receive the reward payoff \(R\), whereas if both
-players defect they receive the punishment payoff \(P\). If one cooperates but
-the other defects, the defector receives the temptation to defect, \(T\),
-whereas the cooperator receives the sucker's payoff, \(S\).
+each turn the individuals choose between cooperation (\(C\)) and defection
+(\(D\)). Thus, there are four possible outcomes in each turn \(CC, CD, DC\) and
+\(DD\). If both players cooperate they receive the reward payoff \(R\), whereas
+if both players defect they receive the punishment payoff \(P\). If one
+cooperates but the other defects, the defector receives the temptation to
+defect, \(T\), whereas the cooperator receives the sucker's payoff, \(S\).
+Let $\mathcal{U}=\{R,S,T,P\}$ denote the set of feasible payoffs in each round,
+and let $\mathbf{u}\!=\!(R,S,T,P)$ be the corresponding payoff vector.
 
-In this work we consider different social dilemmas represented by the harmony
-game, the stag hunt game, the snowdrift or hawk-dove game, the prisoner's
-dilemma, and a special case of the prisoner's dilemma, the donation game
-(Table~\ref{table:social_dilemmas}).
+The values of the payoffs are not only based on the prisoner's dilemma but all
+the symmetric \(2 \times 2\) games, Table~\ref{table:social_dilemmas}.
 
 \begin{table}[!htbp]
   \begin{center}
@@ -380,16 +381,15 @@ dilemma, and a special case of the prisoner's dilemma, the donation game
   \bottomrule
       \end{tabular}}
   \end{center}
-  \caption{We present results on the all of the listed social dilemmas. The payoffs'
-  constrains are different for each game.}
+  \caption{\textbf{Social dilemmas and payoffs' constrains}. The various social
+  dilemmas we explore in this work. Results for cases (i) - (iv) were presented
+  in section~\ref{section:2_by_2_games} and results for case (v) were presented
+  in section~\ref{section:donation}.}
   \label{table:social_dilemmas}
 \end{table}
 
-Results for cases (i) - (iv) were presented in section~\ref{section:2_by_2_games}
-and results for case (v) were presented in section~\ref{section:donation}.
-
 A further assumption of our model is that individuals make use of reactive
-strategies when they make decisions in each round. Reactive strategy are a set
+strategies when they make decisions in each round. Reactive strategies are a set
 of strategies that take into account only the previous action of the opponent.
 A reactive strategy can be written explicitly as a vector,
 
@@ -415,12 +415,10 @@ We iterate this basic evolutionary step until either the mutant strategy goes
 extinct, or until it fixes in the population and becomes the new resident
 strategy. After either outcome, we set $k$ to $1$ and we introduce a new mutant
 strategy which is uniformly chosen from all reactive strategies at random.
-
-This process of mutation and fixation/extinction is iterated many times.
-Instead of simulating each step of the evolutionary process, we estimate
-the probability that a newly introduced mutant fixes~\cite{nowak2004emergence}.
-This is defined as the fixation probability of the mutant, and the standard
-form is the following,
+Instead of simulating each step of the evolutionary process, we estimate the
+probability that a newly introduced mutant fixes~\cite{nowak2004emergence}. This
+is defined as the fixation probability of the mutant, and the standard form is
+the following,
 
 \begin{equation}\label{eq:appendix_fixation_probability}
 \varphi = \frac{1}{1+\sum\limits_{i=1}^{N-1}\prod\limits_k^i \frac{\lambda^-_k}{\lambda^+_k}},
@@ -429,7 +427,9 @@ form is the following,
 where \(\lambda^-_k, \lambda^+_k\) are the probabilities that the number of
 mutants decreases and increases respectively.
 
-This evolutionary process is summarized by Algorithm~\ref{algorithm:pairwise_comparison}.
+This process of mutation and fixation/extinction is iterated many times. The
+evolutionary process is summarized by
+Algorithm~\ref{algorithm:pairwise_comparison}.
 
 \begin{algorithm}[!htbp]
   \SetAlgoLined
@@ -442,112 +442,108 @@ This evolutionary process is summarized by Algorithm~\ref{algorithm:pairwise_com
     \If{$\varphi >$ random: $i \rightarrow [0, 1]$}{
       resident $\leftarrow$ mutant;
      }}
-     \caption{Pairwise comparison process}\label{algorithm:pairwise_comparison}
+     \caption{Evolutionary process}\label{algorithm:pairwise_comparison}
 \end{algorithm}
 
 The aim of this work is to explore the effect of updating memory on the
 cooperation rate of the evolved population. For this reason we consider two
 different approaches when estimating the payoffs at the updating stage. The two
-approaches we consider are those of (i) the expected payoffs and (ii) the
-stochastic payoffs.
+approaches we consider are those of (i) the expected and (ii) the limited memory
+payoffs.
 
 \subsection*{Expected Payoffs}
 
 The expected payoffs are the conventional payoffs used in the updating
-stage~\cite{imhof2010stochastic}. They are defined as the mean payoff an
+stage~\cite{imhof2010stochastic}. They are defined as the mean payoff of an
 individual in a well-mixed population that engages in repeated games with all
 other population members.
 
 We first define the payoff of two reactive strategies at the game stage. Assume
 two reactive strategies $s_1\!=\!(y_1, p_1, q_1$) and $s_2\!=\!(y_2,p_2,q_2)$.
-It is not necessary to simulate the play move by move. Instead the play between
-the two strategies is defined a Markov matrix \(M\), 
+It is not necessary to simulate the play move by move, instead the play between
+the two strategies is defined a Markov matrix \(M\),
 
 \begin{equation}\label{eq:transition_matrix}
   \input{static/matrix.tex}.
 \end{equation}
 
-whose stationary vector \(\mathbf{v}\), combined with the payoff \(U\), yields
-the expected outcome for each strategy,
-\(\langle\mathbf{v}(s_1,s_2),\mathbf{u}\rangle\).
+whose stationary vector \(\mathbf{v}\), combined with the payoff \(u\), yields
+the game stage outcome for each strategy,
+\(\langle\mathbf{v}(s_1,s_2),\mathbf{u}\rangle\)~\cite{Hauert1997}.
 
-% In each step
-Given a population of \(N\) individual with \(k\) individuals playing the mutant
-strategy, \(s_M = (y_M, p_M, q_M)\), and \(N -k\) playing the resident strategy,
-\(s_R = (y_R, p_R, q_R)\), the expected payoffs of a resident \(\pi_R\) and of
-a mutant strategy \(\pi_M\) are defined as,
+
+In the updating stage the learner adopts the strategy of the role model based on
+their updating payoffs. Given that there are only two different types in the
+population at each time step we only need to define the expected payoff for a
+resident (\(\pi_R\)) and for a mutant (\(\pi_M\)). Assume the resident strategy
+\(s_R = (y_R, p_R, q_R)\) and the mutant strategy \(s_M = (y_M, p_M, q_M)\), the
+expected payoffs are give by,
 
 \begin{equation} \label{Eq:ExpPay}
   \begin{array}{lcrcr}
-  \displaystyle \pi_R	&=	&\displaystyle \frac{N\!-\!k\!-\!1}{N-1}\cdot \langle\mathbf{v}(s_R,s_R),\mathbf{U}\rangle	&+	&\displaystyle\frac{k}{N-1}\cdot \langle\mathbf{v}(s_R,s_M),\mathbf{U}\rangle,\\[0.5cm]
-  \displaystyle \pi_M	&=	&\displaystyle\frac{N-k}{N-1}\cdot \langle\mathbf{v}(s_M,s_R),\mathbf{U}\rangle&+	&\displaystyle\frac{k-1}{N-1}\cdot \langle\mathbf{v}(s_M,s_M),\mathbf{U}\rangle.\\
+  \displaystyle \pi_R	&=	&\displaystyle \frac{N\!-\!k\!-\!1}{N-1}\cdot \langle\mathbf{v}(s_R,s_R),\mathbf{u}\rangle	&+	&\displaystyle\frac{k}{N-1}\cdot \langle\mathbf{v}(s_R,s_M),\mathbf{u}\rangle,\\[0.5cm]
+  \displaystyle \pi_M	&=	&\displaystyle\frac{N-k}{N-1}\cdot \langle\mathbf{v}(s_M,s_R),\mathbf{u}\rangle&+	&\displaystyle\frac{k-1}{N-1}\cdot \langle\mathbf{v}(s_M,s_M),\mathbf{u}\rangle.\\
   \end{array}
 \end{equation}
 
-Note that \(N\!-\!k\!-\!1\) is the number of other residents in the population,
-and \(k\) is the number of residents. The payoffs are averaged by the number of
-individuals in the population, given that interactions are not possible.
-The same applies for the payoff of a mutant.
-
-Given the expected payoff, the probabilities that the number of mutants
-decreases and increases  (Equation~(\ref{eq:appendix_fixation_probability})),
-are given by:
+The number of mutant in the population increase if a learner resident adopts the
+strategy of a mutant role model, and decreases if a mutant leaner adopts the
+strategy of a resident. The probabilities that the number of mutants decreases
+and increases, \(\lambda^-_k\) and \(\lambda^+_k\), are not explicitly define
+as,
 
 \begin{align*} 
   \lambda^-_k &\!=\!\rho(\pi_R, \pi_M) \\
   \lambda^+_k &\!=\!\rho(\pi_M, \pi_R).
 \end{align*}
 
-\subsection*{Stochastic Payoffs}
+\subsection*{Limited memory payoffs}
 
-We compare the expected payoffs with the finite memory payoffs which we refer to
-as the stochastic payoffs. Initially, we consider the case of where the payoffs
-correspond to the last round payoff an individual achieved after interacting
-with one other individual.
+Initially, we discuss the case of the last round updating payoff. At the stage
+game we define the payoff of a reactive strategy in the last round,
+Proposition~\ref{proposition:last_round}.
 
-The probability of being in any of the outcomes \(R, S, T, P\) in the last round
-is given by Equation~(\ref{Eq:LastRound})
-(Proposition~\ref{proposition:last_round}).
 
-\begin{Prop}\label{proposition:last_round}
-Assume a play between the reactive strategies \(s_1\) and \(s_2\) with a
-continuation probability \(\delta\). Then the probability of being in any of the
-four outcomes \(R, S, T, P\) are given by,
+\begin{Prop}
+    Consider a repeated prisoner's dilemma, with
+    continuation probability $\delta$, between players with reactive strategies
+    $s_1\!=\!(y_1, p_1, q_1$)  and $s_2\!=\!(y_2,p_2,q_2)$ respectively. Then the
+    probability that the $s_1$ player receives the payoff $u\!\in\! \mathcal{U}$ in
+    the very last round of the game is given by $v_{u}(s_1,s_2)$, as given by
+    Equation~(\ref{Eq:LastRound}).
 
-\begin{equation} \label{Eq:LastRound}
-  \setlength{\arraycolsep}{1pt}
-  \begin{array}{rcl}
+    \begin{equation} \label{Eq:LastRound}
+      \setlength{\arraycolsep}{1pt}
+      \begin{array}{rcl}
+    
+      v_{R}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{y_1y_2}{1\!-\!\delta^2 r_1 r_2}+\delta \frac{\Big(q_1+r_1\big((1\!-\!\delta)y_2+\delta q_2\big)\Big) \Big(q_2+r_2\big((1\!-\!\delta)y_1+\delta q_1\big)\Big)}
+      {\displaystyle(1\!-\!\delta r_1r_2)(1\!-\!\delta^2 r_1 r_2)} \times R,\\[1cm]
+    
+      v_{S}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{y_1\bar{y}_2}{1\!-\!\delta^2 r_1 r_2}+\delta \frac{\Big(q_1+r_1\big((1\!-\!\delta)y_2+\delta q_2\big)\Big) \Big(\bar{q}_2+\bar{r}_2\big((1\!-\!\delta)y_1+\delta p_1\big)\Big)}
+      {\displaystyle(1\!-\!\delta r_1r_2)(1\!-\!\delta^2 r_1 r_2)} \times S,\\[1cm]
+    
+      v_{T}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{\bar{y}_1y_2}{1\!-\!\delta^2 r_1 r_2}+\delta \frac{\Big(\bar{q}_1+\bar{r}_1\big((1\!-\!\delta)y_2+\delta p_2\big)\Big) \Big(q_2+r_2\big((1\!-\!\delta)y_1+\delta q_1\big)\Big)}
+      {\displaystyle(1\!-\!\delta r_1r_2)(1\!-\!\delta^2 r_1 r_2)} \times T,\\[1cm]
+    
+      v_{P}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{\bar{y}_1\bar{y}_2}{1\!-\!\delta^2 r_1 r_2}+\delta \frac{\Big(\bar{q}_1+\bar{r}_1\big((1\!-\!\delta)y_2+\delta p_2\big)\Big) \Big(\bar{q}_2+\bar{r}_2\big((1\!-\!\delta)y_1+\delta p_1\big)\Big)}
+      {\displaystyle(1\!-\!\delta r_1r_2)(1\!-\!\delta^2 r_1 r_2)} \times P.
+      \end{array}
+    \end{equation}
 
-  \mathbf{v}_{R}(S_1,S_2) &= &\displaystyle (1\!-\!\delta)\frac{y_1y_2}{1\!-\!\delta^2 r_1 r_2}+\delta \frac{\Big(q_1+r_1\big((1\!-\!\delta)y_2+\delta q_2\big)\Big) \Big(q_2+r_2\big((1\!-\!\delta)y_1+\delta q_1\big)\Big)}
-  {\displaystyle(1\!-\!\delta r_1r_2)(1\!-\!\delta^2 r_1 r_2)},\\[1cm]
-
-  \mathbf{v}_{S}(S_1,S_2) &= &\displaystyle (1\!-\!\delta)\frac{y_1\bar{y}_2}{1\!-\!\delta^2 r_1 r_2}+\delta \frac{\Big(q_1+r_1\big((1\!-\!\delta)y_2+\delta q_2\big)\Big) \Big(\bar{q}_2+\bar{r}_2\big((1\!-\!\delta)y_1+\delta p_1\big)\Big)}
-  {\displaystyle(1\!-\!\delta r_1r_2)(1\!-\!\delta^2 r_1 r_2)},\\[1cm]
-
-  \mathbf{v}_{T}(S_1,S_2) &= &\displaystyle (1\!-\!\delta)\frac{\bar{y}_1y_2}{1\!-\!\delta^2 r_1 r_2}+\delta \frac{\Big(\bar{q}_1+\bar{r}_1\big((1\!-\!\delta)y_2+\delta p_2\big)\Big) \Big(q_2+r_2\big((1\!-\!\delta)y_1+\delta q_1\big)\Big)}
-  {\displaystyle(1\!-\!\delta r_1r_2)(1\!-\!\delta^2 r_1 r_2)},\\[1cm]
-
-  \mathbf{v}_{P}(S_1,S_2) &= &\displaystyle (1\!-\!\delta)\frac{\bar{y}_1\bar{y}_2}{1\!-\!\delta^2 r_1 r_2}+\delta \frac{\Big(\bar{q}_1+\bar{r}_1\big((1\!-\!\delta)y_2+\delta p_2\big)\Big) \Big(\bar{q}_2+\bar{r}_2\big((1\!-\!\delta)y_1+\delta p_1\big)\Big)}
-  {\displaystyle(1\!-\!\delta r_1r_2)(1\!-\!\delta^2 r_1 r_2)}.
-  \end{array}
-\end{equation}
-
-In these expressions, we have used
-the notation $r_i:=p_i\!-\!q_i$, $\bar{y}_i\!=\!1\!-\!y_i$, $\bar{q}_i:=1\!-\!q_i$,
-and $\bar{r}_i:=\bar{p}_i\!-\!\bar{q}_i=-r_i$ for $i\!\in\!\{1,2\}$.
-Let $\mathcal{U}=\{R,S,T,P\}$ denote the set of feasible payoffs in each round,
-and let $\mathbf{u}\!=\!(R,S,T,P)$ be the corresponding payoff vector.
+In these expressions, we have used the notation $r_i:=p_i\!-\!q_i$,
+$\bar{y}_i\!=\!1\!-\!y_i$, $\bar{q}_i:=1\!-\!q_i$, and
+$\bar{r}_i:=\bar{p}_i\!-\!\bar{q}_i=-r_i$ for $i\!\in\!\{1,2\}$.
 \end{Prop}
 
 \begin{proof}
 Given a play between two reactive strategies with continuation probability
-$\delta$. The probability that the game ends on round \(t\) is given by,
+$\delta$. The outcome at turn \(t\) is given by,
 
 \begin{equation}\label{eq:}
-  (1 - \delta) \mathbf{v_0} \sum \delta^{t} M^{(t)}.
+  (1 - \delta) \mathbf{v_0} \sum \delta^{t} M^{(t)},
 \end{equation}
 
-Here, $\mathbf{v_0}$ denotes the expected distribution of the four outcomes in
+where $\mathbf{v_0}$ denotes the expected distribution of the four outcomes in
 the very first round, and \(1- \delta\) the probability that the game ends.
 It can be shown that,
 
@@ -557,28 +553,29 @@ It can be shown that,
    & = (1 - \delta)\mathbf{v_0}(I_4 - \delta M)^{-1}
 \end{align*}
 
-and with some algebraic manipulation we derive to Equation~\ref{Eq:LastRound}.
+where \((1 - \delta)\mathbf{v_0}(I_4 - \delta M)^{-1}\) is vector \(\in R^{4}\)
+and it the probabilities for being in any of the outcomes \(CC, CD, DC, DD\) in
+the last round. Combining this with the payoff vector \(u\) and some algebraic
+manipulation we derive to the Equation~\ref{Eq:LastRound}.
 \end{proof}
 
-Considering that individuals can only interact with one other individual,
-at that in each step a mutant and a resident are selected there are only five
-possible pairings:
-
-\begin{itemize}
-  \item the selected resident is paired with the selected mutant
-  \item the selected resident is paired with a resident and the selected mutant is paired with a resident
-  \item the selected resident is paired with a resident and the selected mutant is paired with a mutant
-  \item the selected resident is paired with a mutant and the selected mutant is paired with a resident
-  \item the selected resident is paired with a mutant and the selected mutant is paired with a mutant
-\end{itemize}
-
-Each of the pairings happens with a given probability and that is illustrated
-by Figure~\ref{fig:single_pairs}.
+In the updating stage we select a mutant and resident to be either the role
+model or the learner. Assume the selected mutant. Given that they can interact
+with only one other member of the population, they can interact either the
+selected resident, another resident or with another mutant. The same is true for
+the the selected resident. They can interact with the selected mutant, another
+resident, or another mutant. Thus, in each updating stage there are five
+possible combinations of pairs. These are illustrated by
+Figure~\ref{fig:single_pairs}.
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=.65\textwidth]{static/last_rounds_matches.tex}
-  \caption{The tree}\label{fig:single_pairs}
+  \caption{\textbf{Possible pairings combination in the updating stage, given
+  that individuals interact with only one other member in the population.}. We
+  distinguish between the selected resident and the rest of the residents and we
+  do the same with the mutants. There is a probability that the selected
+  resident interacts with the selected mutant.}\label{fig:single_pairs}
 \end{figure}
 
 The probability that the respective payoffs of the players
@@ -916,7 +913,12 @@ Proposition~\ref{proposition:last_two_rounds},
 % \end{array}
 % \end{equation}
 
-% In these expressions, we have used the notation $r_i:=p_i\!-\!q_i$, $\bar{y}_i\!=\!1\!-\!y_i$, $\bar{q}_i:=1\!-\!q_i$, and $\bar{r}_i:=\bar{p}_i\!-\!\bar{q}_i=-r_i$ for $i\!\in\!\{1,2\}$. Let $\mathcal{U}=\{R,S,T,P\}$ denote the set of feasible payoffs in each round, and let $\mathbf{u}\!=\!(R,S,T,P)$ be the corresponding payoff vector. Then one can show the following result.
+% In these expressions, we have used the notation $r_i:=p_i\!-\!q_i$,
+% $\bar{y}_i\!=\!1\!-\!y_i$, $\bar{q}_i:=1\!-\!q_i$, and
+% $\bar{r}_i:=\bar{p}_i\!-\!\bar{q}_i=-r_i$ for $i\!\in\!\{1,2\}$. Let
+% $\mathcal{U}=\{R,S,T,P\}$ denote the set of feasible payoffs in each round,
+% and let $\mathbf{u}\!=\!(R,S,T,P)$ be the corresponding payoff vector. Then
+% one can show the following result.
 
 % \includestandalone[width=0.35\textwidth]{static/expected_stochastic}
 
