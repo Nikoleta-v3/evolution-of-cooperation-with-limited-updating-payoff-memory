@@ -100,44 +100,40 @@
 
 One of the most important applications of evolutionary game theory is the
 evolution of cooperation. Why is it that some individuals choose to help others,
-increasing their payoff, at the expense of decreasing one's own payoff? In
-evolutionary game theory individuals are not required to be rational, instead
-they adapt strategies based on mutation and exploration. Strategies are more
-likely to spread if they have a high fitness either because the individuals who
-adopt them have more offsprings, or because they are imitated more often. The
-fitness of a strategy is not constant but depends on the composition of the
-population. Individuals interact based on their strategies with other
-members of the population and the payoffs they yield are translated into
-fitness.
+increasing their payoff, at the expense of decreasing one’s own? In evolutionary
+game theory, individuals are not required to be rational, instead they adapt
+strategies based on mutation and exploration. Strategies are more likely to
+spread if they have a high fitness either because the individuals who adopt them
+have more offspring, or because they are imitated more often. The fitness of a
+strategy is not constant but depends on the composition of the population.
+Individuals interact based on their strategies with other members of the
+population and the payoffs they yield are translated into fitness.
 
-It is commonly assumed that fitness is equivalent to the mean payoff an
-individual achieves over the different types in the population, over multiple
-interactions. These payoffs assume that individuals can interact with the entire
-population several times and remember each and every outcome. Thus, they imply
-that individuals have a perfect memory.
-However, in their pairwise interactions when they make decisions in each turn
-they are assumed to have very limited memory. To be precise most of
-the works in the literature,  with a few notable exceptions~\cite{Hauert1997,
-Stewart2016}, focus on naive subjects who can only choose from a restricted set
-of strategies~\cite{Nowak1992tit}, or who do not remember anything beyond the
-outcome of the very last round~\cite{Baek2016}.
+It is commonly assumed that fitness is equivalent to the mean distribution of
+types in the population. These payoffs assume that individuals can interact with
+the entire population several times and remember each and every outcome. Thus,
+they imply that individuals have a perfect memory. However, when they make
+decisions in each turn they are assumed to have very limited memory. To be
+precise, most of the works in the literature focus on naive subjects who can
+only choose from a restricted set of strategies~\cite{Nowak1992tit}, or who do
+not remember anything beyond the outcome of the very last round~\cite{Baek2016}.
+Note that there are a few notable exceptions~\cite{Hauert1997, Stewart2016}.
 
 The perfect memory assumption is not only unrealistic but it also creates this
 curious inconsistency. This has led us to question how robust is our
-understanding of cooperation. In this work we explore whether direct
+understanding of cooperation. In this work, we explore whether direct
 reciprocity can evolve if individuals only remember a minimum of social
 information. Though we are not the first to question the assumptions of
-estimating fitness~\cite{Roca2006}, we are the first to explore the effect
-of payoff memory.
+estimating fitness~\cite{Roca2006}, we are the first to explore the effect of
+payoff memory.
 
 Initially, we consider two extreme scenarios. The first is the classical
 scenario of the expected payoffs and the alternative scenario where individuals
 update their strategies only based on the very last payoff they obtained. In the
 later sections, we allow individuals more memory. More specifically, they can
-remember up to two turns and up to two interactions.
-We present results on  several social dilemmas which include the prisoner's
-dilemma and the donation game, the snowdrift game, the stag hunt game and the
-harmony game.
+remember up to two turns and up to two interactions. We present results on
+several social dilemmas which include the prisoner’s dilemma and the donation
+game, the snowdrift game, the stag hunt game and the harmony game.
 
 The remainder of the paper is organized as follows. Section~\ref{section:model}
 describes the model. Section~\ref{section:results} presents the results of the
@@ -203,14 +199,14 @@ process of mutation and fixation/extinction is then iterated many times.
 
 The perfect memory assumption occurs at the updating stage. The learner and the
 role model are assumed to interact with a representative sample of the
-population, and they remember all interactions they participate in. Thus, they
-are updating payoffs are based on the mean payoff they achieved over all the
-interactions. These payoffs are refer to as the expected payoffs. We will
+population, and they remember all interactions they participate in. Thus, their
+updating payoffs are based on the mean payoff they achieved over all the
+interactions. These payoffs are referred to as the expected payoffs. We will
 compare the expected payoffs to payoffs that are calculated when the role model
-and learner do not remember all their interactions. In order to account for the
-effect of these different methods we explore the cooperation rate within the
-resident population over multiple generations. More details on our methodology
-are found in Appendix~\ref{appendix:methods}.
+and learner do not remember all of their interactions. In order to account for
+the effect of these different methods, we explore the cooperation rate within
+the resident population over multiple generations. More details on our
+methodology are found in Appendix~\ref{appendix:methods}.
 
 
 \section{Results}\label{section:results}
@@ -226,13 +222,13 @@ Figure~\ref{fig:expected_and_stochastic_for_donation} shows simulations results
 for the described process of section~\ref{section:model}.
 Figure~\ref{fig:expected_and_stochastic_for_donation}~depicts the evolving
 conditional cooperation probabilities $p$ and $q$. The discount factor~$\delta$
-is comparably high, thus the opening move \(y\) is a transient effect and has
-not effect on the outcome. The left panels corresponds to the standard scenario
-considered in the literature. It considers players who use expected payoffs to
-update their strategies. The right panel shows the scenario considered herein,
-in which players update their strategies based on their last round's payoff. The
-top panels assume a benefit \(b\) of 3, whereas the bottom assume a benefit of
-10.
+is comparably high, thus the opening move \(y\) is a transient
+effect and has no effect on the outcome. The left panel corresponds to the
+standard scenario considered in the literature. It considers players who use
+expected payoffs to update their strategies. The right panel shows the scenario
+considered herein, in which players update their strategies based on their last
+round’s payoff. The top panels assume a benefit \(b\) of 3, whereas the bottom
+assume a benefit of 10.
 
 The figure suggests that when updating is based on expected payoffs, players
 tend to be more generous and more cooperative. The $q$-values are higher on
@@ -273,12 +269,11 @@ times in one case and only 57\% in the other.
 
 We further explore the effect of the benefit,
 Figure~\ref{fig:cooperation_rate_over_benefit}. The figure suggests that the
-expected payoffs always overestimate cooperation. For the limited memory payoffs
-the cooperation rate remains unchanged at approximately 50\% once \(b = 5\). In
-specific simulations we have performed, if only the last round payoff is
-considered then the highest average cooperation rate that was achieved was 0.51.
-In comparison, when the expected payoffs were used the highest average
-cooperation rate was 0.97.
+expected payoffs always overestimate cooperation. For the limited memory
+payoffs, the cooperation rate remains unchanged at approximately 50\% once \(b =
+5\). The highest cooperation rate that was achieved was 0.51 when  the last
+round payoff is considered. In comparison, when the expected payoffs were used
+the highest average cooperation rate was 0.97.
 
 \begin{figure}[!htbp]
   \centering
@@ -310,7 +305,7 @@ weak selection, \(\beta < 1\), the updating payoffs have no effect. The evolved
 population and the average cooperating rate are the same for both approaches.
 However for strong selection, it can be seen that the cooperating rate increases
 with \(beta\), when expected payoffs are used. However, when limited memory
-payoffs are used. the cooperating rate decreases.
+payoffs are used the cooperating rate decreases.
 
 \begin{figure}[!htbp]
   \centering
