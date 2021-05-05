@@ -364,13 +364,107 @@ Table~\ref{table:social_dilemmas}.
   \label{table:social_dilemmas}
 \end{table}
 
+Without loss of generality we set one of the entries of the payoff matrix to 0
+and another one to 1. A common normalization is \(R=1\) and
+\(P=0\)~\cite{Martinez2012, Roca2009}. We vary the temptation to defect \(T\)
+and the risk of cooperating \(S\). We continue the discussion of the previous
+section. We compare the expected payoffs to the last round payoffs over the
+different social dilemmas. The results of the simulation runs are given in
+Figures~\ref{fig:expected_two_by_two} and~\ref{fig:last_round_two_by_two}.
 
-% Include discussion on each game?
+At the left up quadrat (\(S > 0\) and  \(T \leq 1\)) the individuals interact
+in the harmony game at each game stage. The harmony game is a game without
+tensions. The best play in the harmony game is to always cooperate. Indeed both
+figures confirm this. The behaviour varies sightly at the case \(T = 1\). Now
+the temptation is equal to the payoff of a cooperation and thus individuals now
+tend to defect but only slightly. The cooperating rate still remains high. At
+the bottom left up quadrat (\(S \leq 0\) and  \(T < 1\)) the individuals
+interact in the stag hunt game at each game stage. In the stag hunt game
+cooperation is still favoured. The best response of individuals is to cooperate
+and this is again confirmed by both approaches.
 
+The last two cases are those of the prisoner’s dilemma and of the snowdrift
+game. At the top right quadrat we explore the snowdrift game. In the snowdrift
+game individuals want to cooperate after receiving a defection and to defect
+given that their opponent defected. This behavior is captured by the figures.
+In the case of \(q\), cooperating after receiving a cooperation, we observe
+a decrease as the suckers payoff decreases. This is to be expected. Finally,
+in the right bottom quadrat individuals interact in a prisoner’s dilemma.
+In the prisoner’s dilemma individuals tend to defect. In the case of direct
+reciprocity cooperation can emerge, as we discussed in the previous section.
+However, in the spectrum of all the different values of \(S\) and \(T\) used
+here we observe this behaviour in only a handful of cases.
 
-\begin{figure}
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\textwidth]{static/expected_two_by_two_games.pdf}
+  \caption{{\bf Evolutionary dynamics under expected payoffs for various social dilemmas.} 
+  We have run several simulations of the evolutionary process described in
+  section~\ref{section:model} for $T\!=\!10^7$ time steps. The graphs show how
+  often the resident population chooses each combination ($p,q$) of conditional
+  cooperation probabilities in the subsequent rounds. We vary the temptation
+  payoff \(T \in \{-1, -0.6, -0.2,  0.2, 0.6, 1, 1.4, 1.8, 2.2, 2.6, 3\}\)
+  across the \(x\) axis, and  \(S \in \{2, 1.6, 1.2, 0.8, 0.4, 0, -0.4, -0.8,
+  -1.2, -1.6, -2\}\) across the \(y\) axis. Parameters: $N\!=\!100$, $c\!=\!1$,
+  $\beta\!=\!1$, $\delta\!=\!0.999$.}
+  \label{fig:expected_two_by_two}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{static/stochastic_two_by_two_games.pdf}
+  \caption{{\bf Evolutionary dynamics under last round payoffs for various social dilemmas.} 
+  We have run several simulations of the evolutionary process described in
+  section~\ref{section:model} for $T\!=\!10^7$ time steps. The graphs show how
+  often the resident population chooses each combination ($p,q$) of conditional
+  cooperation probabilities in the subsequent rounds. We vary the temptation
+  payoff \(T \in \{-1, -0.6, -0.2,  0.2, 0.6, 1, 1.4, 1.8, 2.2, 2.6, 3\}\)
+  across the \(x\) axis, and  \(S \in \{2, 1.6, 1.2, 0.8, 0.4, 0, -0.4, -0.8,
+  -1.2, -1.6, -2\}\) across the \(y\) axis. Parameters: $N\!=\!100$, $c\!=\!1$,
+  $\beta\!=\!1$, $\delta\!=\!0.999$.}
+  \label{fig:last_round_two_by_two}
+\end{figure}
+
+We have discussed the expected behaviour for each social dilemma. We now want to
+account the difference in the cooperation rate given the two updating payoffs.
+The cooperation rates for each of the case of the social dilemmas we have used
+are given in Figure~\ref{fig:cooperation_rates_two_by_two_part_one}.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=.45\textwidth]{static/expected_two_by_two_games_cooperation.pdf}
+  \includegraphics[width=.45\textwidth]{static/stochastic_two_by_two_games_cooperation.pdf}
+  \caption{\textbf{Cooperation rates over various social dilemmas.} ({\bf A}) If
+  players update based on their expected payoffs. ({\bf B}) If
+  players update based on their last round payoffs.}\label{fig:cooperation_rates_two_by_two_part_one}
+\end{figure}
+
+So far we have explored the difference between the expected payoffs and the last
+round payoffs. In order to explore further the effect of limited memory we allow
+individuals to remember more. We consider the cases where individuals remember
+up two interactions, and up to the last two rounds. In total we present results
+for three more cases. These are the cases of the last round two rounds with
+another member of the population, last round with two members of the population,
+and last round two rounds with two members of the population.
+
+Similarly to the previous examples we have run the evolutionary process for
+a large number of step for each of the social dilemmas. The results remain
+the same. The behavior over the different games remains the same. We note that
+now there is more noise in the evolved populations. Due to space the figures
+have been moved to the Appendix, however, the cooperating rates for each of
+the cases are given in Figure~\ref{fig:cooperation_rates_two_by_two_part_two}.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=.33\textwidth]{static/rounds_two_by_two_games_cooperation.pdf}
+  \includegraphics[width=.33\textwidth]{static/opponents_two_by_two_games_cooperation.pdf}
+  \includegraphics[width=.33\textwidth]{static/rounds_opponents_two_by_two_games_cooperation.pdf}
+  \caption{\textbf{Cooperation rates over various social dilemmas for different
+  limited memory payoffs.} ({\bf A}) If
+  players update based on their last two rounds with another member of the population.
+  ({\bf B}) If players update based on their last round with two other members of the population.
+  ({\bf C}) If players update based on their last two rounds with two other members of the population.}
+  \label{fig:cooperation_rates_two_by_two_part_two}
 \end{figure}
 
 

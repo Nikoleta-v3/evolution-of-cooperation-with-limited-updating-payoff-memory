@@ -20,6 +20,7 @@ if __name__ == "__main__":  # pragma: no cover
     ]
 
     print(f"{folder}/{starting_characters}*csv")
+
     csv_files = glob.glob(f"{folder}/{starting_characters}*csv")
 
     for file in tqdm.tqdm(csv_files):
@@ -36,4 +37,4 @@ if __name__ == "__main__":  # pragma: no cover
 
         df["frequencies"] = frequencies
 
-        df.to_csv(f"{folder}/clean_{file[len(folder) + 1:]}", index=False)
+        df.to_csv(f"{folder}/clean_{file[len(folder):]}", index=False)
