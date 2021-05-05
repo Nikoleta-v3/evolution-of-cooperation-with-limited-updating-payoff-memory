@@ -330,7 +330,49 @@ $T\!=\!5\times 10^6$ time steps for each parameter
 combination.}\label{fig:cooperation_rate_over_betas}
 \end{figure}
 
-\subsection{Expected and stochastic payoffs in $2 \times 2$ games}\label{section:2_by_2_games}
+\subsection{Effect of updating payoffs in different social dilemmas}\label{section:2_by_2_games}
+
+By focusing on the donation game in the previous section, we have gained
+insights into the possible effects of the updating payoffs, and how parameters
+such as the benefit and the strength of selection might can exaggerate the
+effect. However, by focusing on one specific game can narrow our knowledge of
+the effects of updating payoffs on the different forms of possible human
+interactions and social dilemmas. For this reason we explore not only the 
+donation game but all the possible symmetric games. These are given by
+Table~\ref{table:social_dilemmas}.
+
+\begin{table}[!htbp]
+  \begin{center}
+    \resizebox{.6\textwidth}{!}{
+    \renewcommand{\arraystretch}{1.5}
+      \begin{tabular}{ccc}
+  \toprule
+  & \textbf{social dilemmas} & \textbf{payoffs' constrains} \\
+  \midrule
+(i) & stage hunt  & \(R > T > P > S\) \\
+(ii) & snowdrift  & \(T > R > S > P\) \\
+(iii) & harmony  & \(R > T > S > P\) \\
+(iv) & prisoner dilemma  & \(T > R > P > S\) \\
+(v)& donation game  & \(T > R > P > S\) \& \(T=b, R=b-c, S=-c, P=0\) \\
+  \bottomrule
+      \end{tabular}}
+  \end{center}
+  \caption{\textbf{Social dilemmas and payoffs' constrains}. The various social
+  dilemmas we explore in this work. Results for cases (i) - (iv) are presented
+  in section~\ref{section:2_by_2_games} and results for case (v) are presented
+  in section~\ref{section:donation}.}
+  \label{table:social_dilemmas}
+\end{table}
+
+
+% Include discussion on each game?
+
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{static/expected_two_by_two_games.pdf}
+\end{figure}
+
 
 \section{Conclusions}\label{section:conclusions}
 
@@ -356,32 +398,8 @@ cooperates but the other defects, the defector receives the temptation to
 defect, \(T\), whereas the cooperator receives the sucker's payoff, \(S\).
 Let $\mathcal{U}=\{R,S,T,P\}$ denote the set of feasible payoffs in each round,
 and let $\mathbf{u}\!=\!(R,S,T,P)$ be the corresponding payoff vector.
-
 The values of the payoffs are not only based on the prisoner's dilemma but all
 the symmetric \(2 \times 2\) games, Table~\ref{table:social_dilemmas}.
-
-\begin{table}[!htbp]
-  \begin{center}
-    \resizebox{.65\textwidth}{!}{
-    \renewcommand{\arraystretch}{1.5}
-      \begin{tabular}{ccc}
-  \toprule
-  & \textbf{social dilemmas} & \textbf{payoffs' constrains} \\
-  \midrule
-(i) & stage hunt  & \(R > T > P > S\) \\
-(ii) & snowdrift  & \(T > R > S > P\) \\
-(iii) & harmony  & \(R > T > S > P\) \\
-(iv) & prisoner dilemma  & \(T > R > P > S\) \\
-(v)& donation game  & \(T > R > P > S\) \& \(T=b, R=b-c, S=-c, P=0\) \\
-  \bottomrule
-      \end{tabular}}
-  \end{center}
-  \caption{\textbf{Social dilemmas and payoffs' constrains}. The various social
-  dilemmas we explore in this work. Results for cases (i) - (iv) were presented
-  in section~\ref{section:2_by_2_games} and results for case (v) were presented
-  in section~\ref{section:donation}.}
-  \label{table:social_dilemmas}
-\end{table}
 
 A further assumption of our model is that individuals make use of reactive
 strategies when they make decisions in each round. Reactive strategies are a set
