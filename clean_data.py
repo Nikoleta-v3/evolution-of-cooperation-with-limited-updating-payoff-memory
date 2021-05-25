@@ -15,13 +15,12 @@ if __name__ == "__main__":  # pragma: no cover
         "p",
         "q",
         "average cooperation rate",
-        # "average score",
+        "average score",
         "t",
     ]
 
-    print(f"{folder}/{starting_characters}*csv")
-
-    csv_files = glob.glob(f"{folder}/{starting_characters}*csv")
+    print(f"{folder}/{starting_characters}*_beta_10.csv")
+    csv_files = glob.glob(f"{folder}/{starting_characters}*_beta_10.csv")
 
     for file in tqdm.tqdm(csv_files):
         df = pd.read_csv(file, header=None)
@@ -37,4 +36,4 @@ if __name__ == "__main__":  # pragma: no cover
 
         df["frequencies"] = frequencies
 
-        df.to_csv(f"{folder}/clean_{file[len(folder):]}", index=False)
+        df.to_csv(f"{folder}clean_{file[len(folder):]}", index=False)

@@ -49,33 +49,33 @@
 \begin{document}
 \begin{tikzpicture}[->,>=stealth',
     level/.style={sibling distance = 7cm/#1,
-    level distance = 1.7cm},
+    level distance = 2.5cm, sibling distance = 8cm},
     level 2/.style = {sibling distance = 1.9cm, level distance=2.8cm},
     level 3/.style = {sibling distance = 2cm, level distance=1.9cm},
     level 4/.style = {sibling distance = 2cm, level distance=2.8cm},
     every node/.style = {font=\tiny}]
 \node [arn_n] {} 
-    child{ node [arn_r, label={[align=center, yshift=-.8cm] $S_{R} - S_{R}$}] {} 
-    child{ node [arn_r, label={[align=center, yshift=-.8cm]$S_{R} - S_{R}$\\$S_{M} - S_{R}$}] {} edge from parent[densely dashdotted] node[above, yshift=-.1cm, rotate=39] {$\frac{(N-k-1)(N-k-2)}{(N-2)(N-3)}$}}
-    child{ node [arn_r, label={[align=center, yshift=-.8cm]$S_{R} - S_{R}$\\$S_{R} - S_{M}$}] {} edge from parent[densely dashdotted] node[above, yshift=-.2cm, rotate=67] {$\frac{(N-k-1)(k-1)}{(N-2)(N-3)}$}}
-    child{ node [arn_r, label={[align=center, yshift=-.8cm]$S_{R} - S_{M}$\\$S_{M} - S_{R}$}] {} edge from parent[densely dashdotted] node[above, yshift=-.2cm, rotate=-67] {$\frac{(k-1)(N-k-1)}{(N-2)(N-3)}$}}
-    child{ node [arn_r, label={[align=center, yshift=-.8cm]$S_{R} - S_{R}$\\$S_{R} - S_{R}$}] {} edge from parent[densely dashdotted] node[above, yshift=-.1cm, rotate=-41] {$\frac{(k-1)(k-2)}{(N-2)(N-3)}$}}
-    edge from parent node[above left, xshift=1em, yshift=-.8em, rotate=-30] {$1 - \frac{1}{N - 1}$}}
+    child{ node [arn_r, label={[align=center, yshift=-.8cm] role model-learner}] {} 
+    child{ node [arn_r, label={[align=center, yshift=-.8cm] role model-resident\\learner-resident}] {} edge from parent[densely dashdotted] node[above, yshift=-.1cm, rotate=39] {$\frac{(N-k-1)(N-k-2)}{(N-2)(N-3)}$}}
+    child{ node [arn_r, label={[align=center, yshift=-.8cm] role model-resident\\learner-mutant}] {} edge from parent[densely dashdotted] node[above, yshift=-.2cm, rotate=67] {$\frac{(N-k-1)(k-1)}{(N-2)(N-3)}$}}
+    child{ node [arn_r, label={[align=center, yshift=-.8cm] role model-mutant  \\learner-resident}] {} edge from parent[densely dashdotted] node[above, yshift=-.2cm, rotate=-67] {$\frac{(k-1)(N-k-1)}{(N-2)(N-3)}$}}
+    child{ node [arn_r, label={[align=center, yshift=-.8cm] role model-mutant  \\learner-mutant}] {} edge from parent[densely dashdotted] node[above, yshift=-.1cm, rotate=-41] {$\frac{(k-1)(k-2)}{(N-2)(N-3)}$}}
+    edge from parent node[above left, rotate=25] {$\frac{1}{N - 1}$}}
     child{ node [arn_n, rotate=-30] {} 
-            child{ node [arn_r, label={[align=center, yshift=-.8cm] $S_{R} - S_{R}$\\$S_{M} - S_{R}$}] {} 
-            child{ node [arn_r, label={[align=center, yshift=-.8cm]$S_{R} - S_{M}$\\$S_{R} - S_{R}$}] {} edge from parent node[above left, rotate=30] {$\frac{1}{N - 1}$}}
+            child{ node [arn_r, label={[align=center, yshift=-.8cm] role model-resident\\learner-resident}] {} 
+            child{ node [arn_r, label={[align=center, yshift=-.8cm] role model-learner}] {} edge from parent node[above left, rotate=50] {$\frac{1}{N - 1}$}}
             child{ node [arn_n, rotate=-30] {} 
-                    child{ node [arn_r, label={[align=center, yshift=-.8cm]$S_{R} - S_{R}$\\$S_{M} - S_{R}$}] {} edge from parent[densely dashdotted] node[above, yshift=-.1cm, rotate=39] {$\frac{(N-k-1)(N-k-2)}{(N-2)(N-3)}$}}
-                    child{ node [arn_r, label={[align=center, yshift=-.8cm]$S_{R} - S_{R}$\\$S_{R} - S_{M}$}] {} edge from parent[densely dashdotted] node[above, yshift=-.2cm, rotate=67] {$\frac{(N-k-1)(k-1)}{(N-2)(N-3)}$}}
-                    child{ node [arn_r, label={[align=center, yshift=-.8cm]$S_{R} - S_{M}$\\$S_{M} - S_{R}$}] {} edge from parent[densely dashdotted] node[above, yshift=-.2cm, rotate=-67] {$\frac{(k-1)(N-k-1)}{(N-2)(N-3)}$}}
-                    child{ node [arn_r, label={[align=center, yshift=-.8cm]$S_{R} - S_{R}$\\$S_{R} - S_{R}$}] {} edge from parent[densely dashdotted] node[above, yshift=-.1cm, rotate=-41] {$\frac{(k-1)(k-2)}{(N-2)(N-3)}$}}
-                    edge from parent node[above left, xshift=1em, yshift=-.8em, rotate=-30] {$1 - \frac{1}{N - 1}$}
+                    child{ node [arn_r, label={[align=center, yshift=-.8cm] role model-resident\\learner-resident}] {} edge from parent[densely dashdotted] node[above, yshift=-.1cm, rotate=39] {$\frac{(N-k-1)(N-k-2)}{(N-2)(N-3)}$}}
+                    child{ node [arn_r, label={[align=center, yshift=-.8cm] role model-resident\\learner-mutant}] {} edge from parent[densely dashdotted] node[above, yshift=-.2cm, rotate=67] {$\frac{(N-k-1)(k-1)}{(N-2)(N-3)}$}}
+                    child{ node [arn_r, label={[align=center, yshift=-.8cm] role model-mutant  \\learner-resident}] {} edge from parent[densely dashdotted] node[above, yshift=-.2cm, rotate=-67] {$\frac{(k-1)(N-k-1)}{(N-2)(N-3)}$}}
+                    child{ node [arn_r, label={[align=center, yshift=-.8cm] role model-mutant  \\learner-mutant}] {} edge from parent[densely dashdotted] node[above, yshift=-.1cm, rotate=-41] {$\frac{(k-1)(k-2)}{(N-2)(N-3)}$}}
+                    edge from parent node[above left, xshift=1em, yshift=-1.1em, rotate=-55] {$1 - \frac{1}{N - 1}$}
             }
             edge from parent node[above, yshift=-.1cm, rotate=39] {$\frac{(N-k-1)(N-k-2)}{(N-2)(N-3)}$}}
-            child{ node [arn_r, label={[align=center, yshift=-.8cm]$S_{R} - S_{R}$\\$S_{R} - S_{M}$}] {} edge from parent node[above, yshift=-.2cm, rotate=67] {$\frac{(N-k-1)(k-1)}{(N-2)(N-3)}$}}
-            child{ node [arn_r, label={[align=center, yshift=-.8cm]$S_{R} - S_{M}$\\$S_{M} - S_{R}$}] {} edge from parent node[above, yshift=-.2cm, rotate=-67] {$\frac{(k-1)(N-k-1)}{(N-2)(N-3)}$}}
-            child{ node [arn_r, label={[align=center, yshift=-.8cm]$S_{R} - S_{R}$\\$S_{R} - S_{R}$}] {} edge from parent node[above, yshift=-.1cm, rotate=-41] {$\frac{(k-1)(k-2)}{(N-2)(N-3)}$}}
-            edge from parent node[above left, xshift=1em, yshift=-.8em, rotate=-30] {$1 - \frac{1}{N - 1}$}
+            child{ node [arn_r, label={[align=center, yshift=-.8cm] role model-resident\\learner-mutant}] {} edge from parent node[above, yshift=-.2cm, rotate=67] {$\frac{(N-k-1)(k-1)}{(N-2)(N-3)}$}}
+            child{ node [arn_r, label={[align=center, yshift=-.8cm] role model-mutant  \\learner-resident}] {} edge from parent node[above, yshift=-.2cm, rotate=-67] {$\frac{(k-1)(N-k-1)}{(N-2)(N-3)}$}}
+            child{ node [arn_r, label={[align=center, yshift=-.8cm] role model-mutant  \\learner-mutant}] {} edge from parent node[above, yshift=-.1cm, rotate=-41] {$\frac{(k-1)(k-2)}{(N-2)(N-3)}$}}
+            edge from parent node[above left, rotate=-30] {$1 - \frac{1}{N - 1}$}
 		}; 
 \end{tikzpicture}
 \end{document}
