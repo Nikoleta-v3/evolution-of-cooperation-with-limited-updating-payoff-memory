@@ -65,3 +65,4 @@ if payoff_type=="expected"
 else
     disp('Please check payoff type.')
 end
+end
