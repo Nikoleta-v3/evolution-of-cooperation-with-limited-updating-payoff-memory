@@ -40,8 +40,7 @@ end
 
 
 function [phi, coopMM, piMM]=calcPhi(Mut, Res, Rho, N, u, delta, payoff_type);
-
-%% Preparations: Calculating outcome probabilities and expected payoffs
+%% Calculating the fixation probability
 
 vMM=stationary(Mut, Mut, delta);
 vMR=stationary(Mut, Res, delta);
@@ -49,7 +48,6 @@ vRM=[vMR(1) vMR(3) vMR(2) vMR(4)];
 vRR=stationary(Res, Res, delta);
 piMM=vMM*u';
 
-%% Calculating the fixation probability
 if payoff_type=="last_round"
     phi = last_round(N, vRM, vMM, vMR, vRR, Rho);
     coopMM=vMM(1)+vMM(2);
@@ -59,10 +57,11 @@ if payoff_type=="expected"
     piRM=vRM*u';
     piRR=vRR*u';
 
-    phi = expected(N, piMM, piMR, piRR, piRM)
+    phi = expected(N, piMM, piMR, piRR, piRM);
     coopMM=vMM(1)+vMM(2);
 
 else
     disp('Please check payoff type.')
 end
 end
+
