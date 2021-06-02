@@ -38,7 +38,6 @@ function [Rho]=calcRho(u, beta);
     end
 end
 
-
 function [phi, coopMM, piMM]=calcPhi(Mut, Res, Rho, N, u, delta, beta, payoff_type);
 %% Calculating the fixation probability
 
@@ -47,19 +46,22 @@ vMR=stationary(Mut, Res, delta);
 vRM=[vMR(1) vMR(3) vMR(2) vMR(4)];
 vRR=stationary(Res, Res, delta);
 piMM=vMM*u';
+coopMM=vMM(1)+vMM(2);
 
 if payoff_type=="last_round"
     phi = last_round(N, vRM, vMM, vMR, vRR, Rho);
-    coopMM=vMM(1)+vMM(2);
+end
 
-elseif payoff_type=="expected"
+if payoff_type=="expected"
     piMR=vMR*u';
     piRM=vRM*u';
     piRR=vRR*u';
 
     phi = expected(N, piMM, piMR, piRR, piRM, beta);
-    coopMM=vMM(1)+vMM(2);
+end
 
+if payoff_type=="two_opponents"
+    phi = two_opponents(N, vRM, vMM, vMR, vRR, Rho);
 else
     disp('Please check payoff type.')
 end
