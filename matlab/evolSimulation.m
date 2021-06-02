@@ -14,14 +14,14 @@ Rho=calcRho(u, beta);
 j = 2;
 for t = progress(1:numberIterations)
     Mut=rand(1, sdim);
-    [rho, coopM, piM]=CalcPhi(Mut, Res, Rho, N, u, delta, payoff_type);
+    [rho, coopM, piM]=calcPhi(Mut, Res, Rho, N, u, delta, beta, payoff_type);
     if rand(1)<rho
         Res=Mut; xDat(j,:)=[Res, coopM, piM, t]; j=j+1;
     end
 end
 
 csvwrite(filename + ".csv", xDat);
-csvwrite(filename + ".txt", Data);
+writematrix(Data, filename + ".txt");
 
 AvCoop = mean(xDat(:,end-2));
 AvPay = mean(xDat(:,end-1));
@@ -39,7 +39,7 @@ function [Rho]=calcRho(u, beta);
 end
 
 
-function [phi, coopMM, piMM]=calcPhi(Mut, Res, Rho, N, u, delta, payoff_type);
+function [phi, coopMM, piMM]=calcPhi(Mut, Res, Rho, N, u, delta, beta, payoff_type);
 %% Calculating the fixation probability
 
 vMM=stationary(Mut, Mut, delta);
@@ -57,7 +57,7 @@ elseif payoff_type=="expected"
     piRM=vRM*u';
     piRR=vRR*u';
 
-    phi = expected(N, piMM, piMR, piRR, piRM);
+    phi = expected(N, piMM, piMR, piRR, piRM, beta);
     coopMM=vMM(1)+vMM(2);
 
 else
