@@ -50,6 +50,7 @@ coopMM=vMM(1)+vMM(2);
 
 if payoff_type=="last_round"
     phi = last_round(N, vRM, vMM, vMR, vRR, Rho);
+    return
 end
 
 if payoff_type=="expected"
@@ -58,6 +59,7 @@ if payoff_type=="expected"
     piRR=vRR*u';
 
     phi = expected(N, piMM, piMR, piRR, piRM, beta);
+    return
 end
 
 if payoff_type=="two_opponents"
