@@ -49,21 +49,20 @@ piMM=vMM*u';
 coopMM=vMM(1)+vMM(2);
 
 if payoff_type=="last_round"
-    phi = last_round(N, vRM, vMM, vMR, vRR, Rho);
-    return
-end
 
-if payoff_type=="expected"
+    phi = phiLastRound(N, vRM, vMM, vMR, vRR, Rho);
+
+elseif payoff_type=="expected"
+
     piMR=vMR*u';
     piRM=vRM*u';
     piRR=vRR*u';
+    phi = phiExpected(N, piMM, piMR, piRR, piRM, beta);
 
-    phi = expected(N, piMM, piMR, piRR, piRM, beta);
-    return
-end
+elseif payoff_type=="two_opponents"
 
-if payoff_type=="two_opponents"
-    phi = two_opponents(N, vRM, vMM, vMR, vRR, Rho);
+    phi = phiTwoOpponents(N, vRM, vMM, vMR, vRR, Rho);
+
 else
     disp('Please check payoff type.')
 end
