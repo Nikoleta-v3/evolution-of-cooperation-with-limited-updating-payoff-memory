@@ -18,5 +18,5 @@ for k=1:N-1
     laminus(k)=sum(sum(x.*Rho'));
 end
 
-rho = 1 / (1 + sum(cumprod(laminus./laplus)));
+phi = 1 / (1 + sum(cumprod(laminus./laplus)));
 end
