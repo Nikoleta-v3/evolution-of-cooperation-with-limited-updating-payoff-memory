@@ -14,8 +14,8 @@ Rho=calcRho(u, beta);
 j = 2;
 for t = progress(1:numberIterations)
     Mut=rand(1, sdim);
-    [rho, coopM, piM]=calcPhi(Mut, Res, Rho, N, u, delta, beta, payoff_type);
-    if rand(1)<rho
+    [phi, coopM, piM]=calcPhi(Mut, Res, Rho, N, u, delta, beta, payoff_type);
+    if rand(1)<phi
         Res=Mut; xDat(j,:)=[Res, coopM, piM, t]; j=j+1;
     end
 end
@@ -45,6 +45,7 @@ vMM=stationary(Mut, Mut, delta);
 vMR=stationary(Mut, Res, delta);
 vRM=[vMR(1) vMR(3) vMR(2) vMR(4)];
 vRR=stationary(Res, Res, delta);
+
 piMM=vMM*u';
 coopMM=vMM(1)+vMM(2);
 
