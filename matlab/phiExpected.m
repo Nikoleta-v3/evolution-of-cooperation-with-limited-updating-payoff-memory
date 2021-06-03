@@ -7,7 +7,7 @@ for k=1:N-1
     piR = k / (N-1) * piRM + (N-k-1) / (N-1) * piRR;
 
     laplus(k) = 1 / (1 + exp(-beta * (piM - piR)));
-    laminus(k) = 1 /(1 + exp(-beta * (piR - piM)));
+    laminus(k) = 1 / (1 + exp(-beta * (piR - piM)));
 end
 
 phi = 1 / (1 + sum(cumprod(laminus./laplus)));
