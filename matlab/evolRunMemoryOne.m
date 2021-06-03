@@ -12,6 +12,6 @@ u = [2, -1, 3, 0];
 parfor (i = 1:2)
     payoff_type = payoff_types(i);
     filename = "../data/memory_one_" + payoff_type;
-    evolSimulation(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
+    evolSimulationMemoryOne(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
 end
 end
