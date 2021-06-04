@@ -4,16 +4,14 @@ starting_resident = [0, 0, 0];
 N = 100;
 delta = 0.999;
 beta = 1;
-numberIterations = 5 * 10 ^ 7;
-payoff_type = "last_round";
+numberIterations = 10 ^ 7;
+payoff_types = ["two_rounds", "two_rounds_opponents"]
 
-bs = linspace(2, 10, 9);
+u = [2, -1, 3, 0];
 
-
-parfor (i = 1:9)
-    b = bs(i);
-    u = [b - 1, -1, b, 0];
-    filename = "../data/last_round_b_" + b;
-    evolSimulation(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
+parfor (i = 1:2)
+    payoff_type = payoff_types(i);
+    filename = "../data/sixteen_states_" + payoff_type;
+    evolSimulationTwoRounds(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
 end
 end
