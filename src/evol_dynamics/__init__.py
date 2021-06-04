@@ -18,9 +18,10 @@ from .numerical import (
 )
 from .simulation import (
     ReactivePlayer,
-    get_opponents_of_mutant,
-    get_opponents_of_resident,
-    get_score_for_last_n_turns,
-    introduce_mutant,
-    simulation,
+    create_population,
+    match_pairs,
+    stationary_for_16_states,
+    simulated_states,
+    get_probabilities_for_opponents,
+    theoretical_probabilities_for_opponents,
 )

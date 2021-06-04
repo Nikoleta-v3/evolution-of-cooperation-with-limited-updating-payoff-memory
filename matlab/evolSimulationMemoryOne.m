@@ -1,4 +1,4 @@
-function [xDat, AvCoop, AvPay,payoff_type, Data]=evolSimulation(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
+function [xDat, AvCoop, AvPay,payoff_type, Data]=evolSimulationMemoryOne(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
 
 rng('default')
 %% Preparations for the output
@@ -6,8 +6,8 @@ Data=['R=',num2str(u(1)),'; S=',num2str(u(2)),'; T=',num2str(u(3)), '; P=',num2s
 AvCoop=0; AvPay=0; Res=starting_resident;
 
 %% Initialization
-sdim=3;
-xDat=zeros(numberIterations/100,6);
+sdim=5;
+xDat=zeros(numberIterations/100,8);
 xDat(1,:)=[Res, 0, u(4), 0];
 Rho=calcRho(u, beta);
 
@@ -42,10 +42,10 @@ end
 function [phi, coopMM, piMM]=calcPhi(Mut, Res, Rho, N, u, delta, beta, payoff_type);
 %% Calculating the fixation probability
 
-vMM=stationary(Mut, Mut, delta);
-vMR=stationary(Mut, Res, delta);
+vMM=stationaryMemoryOne(Mut, Mut, delta);
+vMR=stationaryMemoryOne(Mut, Res, delta);
 vRM=[vMR(1) vMR(3) vMR(2) vMR(4)];
-vRR=stationary(Res, Res, delta);
+vRR=stationaryMemoryOne(Res, Res, delta);
 
 piMM=vMM*u';
 coopMM=vMM(1)+vMM(2);
@@ -60,10 +60,6 @@ elseif payoff_type=="expected"
     piRM=vRM*u';
     piRR=vRR*u';
     phi = phiExpected(N, piMM, piMR, piRR, piRM, beta);
-
-elseif payoff_type=="two_opponents"
-
-    phi = phiTwoOpponents(N, vRM, vMM, vMR, vRR, Rho);
 
 else
     disp('Please check payoff type.')

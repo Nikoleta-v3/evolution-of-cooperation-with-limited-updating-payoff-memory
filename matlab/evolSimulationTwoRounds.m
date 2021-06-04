@@ -1,6 +1,5 @@
 function [xDat, AvCoop, AvPay,payoff_type, Data]=evolSimulation(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
 
-rng('default')
 %% Preparations for the output
 Data=['R=',num2str(u(1)),'; S=',num2str(u(2)),'; T=',num2str(u(3)), '; P=',num2str(u(4)),'; N=',num2str(N),'; beta=',num2str(beta), '; nIt=',num2str(numberIterations), '; payoff=',payoff_type];
 AvCoop=0; AvPay=0; Res=starting_resident;
@@ -9,7 +8,7 @@ AvCoop=0; AvPay=0; Res=starting_resident;
 sdim=3;
 xDat=zeros(numberIterations/100,6);
 xDat(1,:)=[Res, 0, u(4), 0];
-Rho=calcRho(u, beta);
+Rho=calcRhoSixteen(u, beta);
 
 %% Running the evolutionary process
 j = 2;
@@ -21,7 +20,7 @@ for t = progress(1:numberIterations)
     end
 end
 
-dlmwrite(filename + ".csv", xDat, 'precision', 9);
+csvwrite(filename + ".csv", xDat);
 writematrix(Data, filename + ".txt");
 
 AvCoop = mean(xDat(:,end-2));
@@ -29,12 +28,12 @@ AvPay = mean(xDat(:,end-1));
 %time=toc
 end
 
-function [Rho]=calcRho(u, beta);
-%% Calculates all possible pairwise imitation probabilities based on one payoff
-    Rho=zeros(4,4);
-    for i1=1:4
-        for i2=1:4
-            Rho(i1,i2) = 1 / (1 + exp(-beta * (u(i2) - u(i1))));
+function [Rho]=calcRhoSixteen(u, beta);
+%% Calculates all possible pairwise imitation probabilities based on the last two payoffs
+    Rho = zeros(16, 16);
+    for i=1:16
+        for j=1:16
+            Rho(i, j) = 1 / (1 + exp(-beta * (u(1 + fix((i - 1) / 4)) + u(1 + mod(i - 1, 4)) - u(1 + fix((j - 1) / 4)) + u(1 + mod(j - 1, 4)))));
         end
     end
 end
@@ -42,28 +41,21 @@ end
 function [phi, coopMM, piMM]=calcPhi(Mut, Res, Rho, N, u, delta, beta, payoff_type);
 %% Calculating the fixation probability
 
-vMM=stationary(Mut, Mut, delta);
-vMR=stationary(Mut, Res, delta);
-vRM=[vMR(1) vMR(3) vMR(2) vMR(4)];
-vRR=stationary(Res, Res, delta);
+vMM = stationaryRoundTwo(Mut, Mut, delta);
+vMR = stationaryRoundTwo(Mut, Res, delta);
+vRM = stationaryRoundTwo(Res, Mut, delta);
+vRR = stationaryRoundTwo(Res, Res, delta);
 
-piMM=vMM*u';
-coopMM=vMM(1)+vMM(2);
+piMM = vMM*log(kron(exp(u),exp(u)))';
+coopMM = (2 * (vMM(1) + vMM(2) + vMM(5) + vMM(6)) + (vMM(3) + vMM(4) + vMM(7) + vMM(8) + vMM(9) + vMM(10) + vMM(13) + vMM(14))) / 2;
 
-if payoff_type=="last_round"
+if payoff_type=="two_rounds"
 
-    phi = phiLastRound(N, vRM, vMM, vMR, vRR, Rho);
+    phi = phiTwoRounds(N, vRM, vMM, vMR, vRR, Rho);
 
-elseif payoff_type=="expected"
+elseif  payoff_type=="two_rounds_opponents"
 
-    piMR=vMR*u';
-    piRM=vRM*u';
-    piRR=vRR*u';
-    phi = phiExpected(N, piMM, piMR, piRR, piRM, beta);
-
-elseif payoff_type=="two_opponents"
-
-    phi = phiTwoOpponents(N, vRM, vMM, vMR, vRR, Rho);
+    phi = phiTwoRoundsOpponents(N, vRM, vMM, vMR, vRR, Rho);
 
 else
     disp('Please check payoff type.')
