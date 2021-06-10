@@ -33,7 +33,7 @@ function [Rho]=calcRhoSixteen(u, beta);
     Rho = zeros(16, 16);
     for i=1:16
         for j=1:16
-            Rho(i, j) = 1 / (1 + exp(-beta * (u(1 + fix((i - 1) / 4)) + u(1 + mod(i - 1, 4)) - u(1 + fix((j - 1) / 4)) + u(1 + mod(j - 1, 4)))));
+            Rho(i, j) = 1 / (1 + exp(-beta * ((u(1 + fix((i - 1) / 4)) + u(1 + mod(i - 1, 4))) - (u(1 + fix((j - 1) / 4)) + u(1 + mod(j - 1, 4))))));
         end
     end
 end
