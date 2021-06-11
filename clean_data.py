@@ -19,8 +19,8 @@ if __name__ == "__main__":  # pragma: no cover
         "t",
     ]
 
-    print(f"{folder}/{starting_characters}*_beta_10.csv")
-    csv_files = glob.glob(f"{folder}/{starting_characters}*_beta_10.csv")
+    print(f"{folder}/{starting_characters}*.csv")
+    csv_files = glob.glob(f"{folder}/{starting_characters}*.csv")
 
     for file in tqdm.tqdm(csv_files):
         df = pd.read_csv(file, header=None)
