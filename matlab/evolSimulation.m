@@ -61,10 +61,6 @@ elseif payoff_type=="expected"
     piRR=vRR*u';
     phi = phiExpected(N, piMM, piMR, piRR, piRM, beta);
 
-elseif payoff_type=="two_opponents"
-
-    phi = phiTwoOpponents(N, vRM, vMM, vMR, vRR, Rho);
-
 else
     disp('Please check payoff type.')
 end
