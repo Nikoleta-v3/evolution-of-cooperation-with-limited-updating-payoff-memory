@@ -48,6 +48,7 @@ function [Rho]=calcRhoSixteen(u, beta);
     end
 end
 
+
 function [phi, coopMM, piMM]=calcPhi(Mut, Res, Rho, N, u, delta, beta, payoff_type);
 %% Calculating the fixation probability
 
@@ -75,10 +76,6 @@ elseif payoff_type=="two_opponents"
     coopMM=vMM(1)+vMM(2);
 
     phi = phiTwoOpponents(N, vRM, vMM, vMR, vRR, Rho);
-
-elseif  payoff_type=="two_rounds_opponents"
-
-    phi = phiTwoRoundsOpponents(N, vRM, vMM, vMR, vRR, Rho);
 
 else
     disp('Please check payoff type.')
