@@ -37,7 +37,7 @@ function [Rho]=calcRhoTwoFiftySix(u, beta);
             for j=1:256
                 player = new_u(1 + fix((i - 1) / 16)) + new_u(1 + mod(i - 1, 16));
                 opponent = new_u(1 + fix((j - 1) / 16)) + new_u(1 + mod(j - 1, 16));
-                Rho(i, j) =  (opponent - player) / 2;% 1 / (1 + exp(-beta *(opponent - player) / 2));
+                Rho(i, j) =  1 / (1 + exp(-beta *(opponent - player) / 2));
             end
         end
 end
@@ -53,7 +53,7 @@ vRR = stationaryRoundTwo(Res, Res, delta);
 piMM = vMM*log(kron(exp(u),exp(u)))';
 coopMM = (2 * (vMM(1) + vMM(2) + vMM(5) + vMM(6)) + (vMM(3) + vMM(4) + vMM(7) + vMM(8) + vMM(9) + vMM(10) + vMM(13) + vMM(14))) / 2;
 
-if  payoff_type=="two_rounds_opponents"
+if payoff_type=="two_rounds_opponents"
 
     phi = phiTwoRoundsOpponents(N, vRM, vMM, vMR, vRR, Rho);
 
