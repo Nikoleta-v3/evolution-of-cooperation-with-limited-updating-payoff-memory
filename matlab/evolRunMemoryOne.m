@@ -3,7 +3,7 @@ function evolRunMemoryOne();
 starting_resident = [0, 0, 0, 0, 0];
 N = 100;
 delta = 0.999;
-beta = 
+beta = 1;
 numberIterations = 10 ^ 7;
 payoff_type = "expected" % "last_round"
 
