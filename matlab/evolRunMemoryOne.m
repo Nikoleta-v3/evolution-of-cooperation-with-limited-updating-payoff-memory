@@ -19,7 +19,7 @@ us = [1, -1, 2, 0;
 
 parfor (i = 1:9)
     u = us(i, :);
-    filename = "../data/memory_one_" + payoff_type + "_b_" + u(3);
+    filename = "../data/memory_one_run_two" + payoff_type + "_b_" + u(3);
     evolSimulationMemoryOne(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
 end
 end
