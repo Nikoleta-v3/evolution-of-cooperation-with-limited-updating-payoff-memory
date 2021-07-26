@@ -121,7 +121,7 @@ def simulation(
                 )
 
             fermi = 1 / (
-                1 + np.exp(float(-beta * (resident_payoff - mutant_payoff)))
+                1 + np.exp(float(-beta * (mutant_payoff - resident_payoff)))
             )
 
             if random.random() < fermi:
