@@ -158,7 +158,7 @@ if __name__ == "__main__":  # pragma: no cover
     delta = 0.999
     beta = 1
     mutation = 0.01
-    number_of_steps = 10 ** 5
+    number_of_steps = 10 ** 7
     payoffs = np.array([2, -1, 3, 0])
     mode = "expected"
     filename = "mutation_expected.csv"
