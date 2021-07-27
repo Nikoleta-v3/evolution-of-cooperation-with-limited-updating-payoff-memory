@@ -1,4 +1,5 @@
-function [xDat, payoff_type, Data]=evolMutation(starting_resident, u, N, delta, beta, mutation, numberIterations, payoff_type, filename);
+function [xDat, population, Data]=evolMutation(starting_resident, u, N, delta, beta, mutation, numberIterations, payoff_type, filename);
+tic
 %% Preparations for the output
 Data=['R=',num2str(u(1)),'; S=',num2str(u(2)),'; T=',num2str(u(3)),'; P=',num2str(u(4)),'; N=',num2str(N),'; beta=',num2str(beta), '; mu=',num2str(mutation), '; nIt=',num2str(numberIterations),'; payoff=',payoff_type];
 writematrix(Data, filename + ".txt");
@@ -7,7 +8,10 @@ writematrix(Data, filename + ".txt");
 Res=starting_resident; sdim=3;
 
 population = Res .* ones(N, sdim);
+xDat = zeros(numberIterations/100, 6);
+xDat(1,:)=[0, Res, 0, 0];
 
+j = 2;
 %% Running the evolutionary process
 for t = progress(1:numberIterations)
     if rand(1)<mutation
@@ -39,15 +43,13 @@ for t = progress(1:numberIterations)
    h = accumarray(ic,1);
    sz = size(h, 1);
    
-   
-   xDat = zeros(sz, 6);
    for i=1:sz
        coop=cooperation(Mu(i, :), Mu, h, sz, delta);
-       xDat(i, :) = [t, Mu(i, :), h(i), coop];
+       xDat(j + i, :) = [t, Mu(i, :), h(i), coop];
    end
-
-   dlmwrite(filename + ".csv", xDat, 'precision', 9, '-append');
-
+   j = j + sz;
 end
+dlmwrite(filename + ".csv", xDat, 'precision', 9);
+toc
 end
 
