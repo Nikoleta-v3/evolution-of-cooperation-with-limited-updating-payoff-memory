@@ -6,7 +6,6 @@ exclude = zeros(1, 3);
 for i=1:2
     exclude(i)  = players_indices(i);
     opponent_id = randsample(setdiff(1:N, exclude), 1);
-    disp(opponent_id)
 
     player = population(players_indices(i), :);
     opponent = population(opponent_id, :);
