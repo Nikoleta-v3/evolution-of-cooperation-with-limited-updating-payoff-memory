@@ -1,15 +1,25 @@
 function [payoffs]=payoffsLastRound(players_indices, population, u, N, delta);
 
 payoffs = zeros(1, 2);
+exclude = zeros(1, 3);
 
 for i=1:2
-    opponent_id = randi(N - i);
-    sub_population = population(setdiff(1:N, players_indices(1:i)), :);
+    exclude(i)  = players_indices(i);
+    opponent_id = randsample(setdiff(1:N, exclude), 1);
+    disp(opponent_id)
 
     player = population(players_indices(i), :);
-    opponent = sub_population(opponent_id, :);
-
+    opponent = population(opponent_id, :);
     v=stationary(player, opponent, delta);
-    payoffs(i)  = v * u';
+    
+    if opponent_id == players_indices(2)
+        payoffs(1) = randsample(u, 1, true, v);
+        payoffs(2) = (payoffs(1) == u) * [u(1), u(3), u(2), u(4)]';
+        break
+    else
+        payoffs(i) = randsample(u, 1, true, v);
+        exclude(3) = opponent_id;
+    end
+
 end
 end

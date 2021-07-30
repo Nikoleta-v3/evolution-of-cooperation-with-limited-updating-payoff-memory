@@ -8,7 +8,7 @@ writematrix(Data, filename + ".txt");
 Res=starting_resident; sdim=3;
 
 population = Res .* ones(N, sdim);
-xDat = zeros(numberIterations/100, 6);
+xDat=zeros(numberIterations*3, 6); 
 xDat(1,:)=[0, Res, 0, 0];
 
 j = 2;
@@ -20,7 +20,8 @@ for t = progress(1:numberIterations)
         
     else
         indices = randi(N, [1, 2]);
-  
+        
+        if population(indices(1),:) ~= population(indices(2),:)
         if payoff_type == "expected"
             payoffs = payoffsExpected(indices, population, u, N, delta);
             resident_payoff = payoffs(1);
@@ -36,6 +37,7 @@ for t = progress(1:numberIterations)
         fermi = 1 / (1 + exp(-beta * (mutant_payoff - resident_payoff)));
         if rand(1)<fermi
             population(indices(1), :) = population(indices(2), :);
+        end
         end
     end
 
