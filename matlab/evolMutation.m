@@ -8,7 +8,7 @@ writematrix(Data, filename + ".txt");
 Res=starting_resident; sdim=3;
 
 population = Res .* ones(N, sdim);
-xDat=zeros(numberIterations*3, 6); 
+xDat=zeros(numberIterations*3, 6);
 xDat(1,:)=[0, Res, 0, 0];
 
 j = 2;
