@@ -18,14 +18,14 @@ data = ["expected", 10 ^ -4;
         "last_round", 10 ^ -3;
         "last_round", 10 ^ -2;
         "last_round", 10 ^ -1;
-        "last_round", 10 ^ 0;]
+        "last_round", 10 ^ 0;];
 
 u = [2, -1, 3, 0];
 
 parfor (i = 1:10)
 
-mutation = mutations(str2num(data(i, 2)));
-payoff_type = payoff_types(data(i, 1));
+mutation = str2num(data(i, 2));
+payoff_type = data(i, 1);
 
 filename = "../data/mutation_" + payoff_type + "_mutation_" + mutation;
 evolMutation(starting_resident, u, N, delta, beta, mutation, numberIterations, payoff_type, filename);
