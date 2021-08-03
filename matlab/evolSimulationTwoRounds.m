@@ -1,5 +1,4 @@
-function [xDat, AvCoop, AvPay,payoff_type, Data]=evolSimulation(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
-
+function [xDat, AvCoop, AvPay,payoff_type, Data]=evolSimulationTwoRounds(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
 %% Preparations for the output
 Data=['R=',num2str(u(1)),'; S=',num2str(u(2)),'; T=',num2str(u(3)), '; P=',num2str(u(4)),'; N=',num2str(N),'; beta=',num2str(beta), '; nIt=',num2str(numberIterations), '; payoff=',payoff_type];
 AvCoop=0; AvPay=0; Res=starting_resident;
@@ -25,7 +24,6 @@ writematrix(Data, filename + ".txt");
 
 AvCoop = mean(xDat(:,end-2));
 AvPay = mean(xDat(:,end-1));
-%time=toc
 end
 
 function [Rho]=calcRhoSixteen(u, beta);

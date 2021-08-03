@@ -8,8 +8,8 @@ writematrix(Data, filename + ".txt");
 Res=starting_resident; sdim=3;
 
 population = Res .* ones(N, sdim);
-xDat=zeros(numberIterations*3, 6);
-xDat(1,:)=[0, Res, 0, 0];
+xDat=zeros(numberIterations, 5);
+xDat(1,:)=[0, Res, 0];
 
 j = 2;
 %% Running the evolutionary process
@@ -22,34 +22,38 @@ for t = progress(1:numberIterations)
         indices = randi(N, [1, 2]);
         
         if population(indices(1),:) ~= population(indices(2),:)
-        if payoff_type == "expected"
-            payoffs = payoffsExpected(indices, population, u, N, delta);
-            resident_payoff = payoffs(1);
-            mutant_payoff = payoffs(2);          
-        end
-        if payoff_type == "last_round"
-            payoffs = payoffsLastRound(indices, population, u, N, delta);
-            resident_payoff = payoffs(1);
-            mutant_payoff = payoffs(2);
-           
-        end
-        
-        fermi = 1 / (1 + exp(-beta * (mutant_payoff - resident_payoff)));
-        if rand(1)<fermi
-            population(indices(1), :) = population(indices(2), :);
-        end
+            if payoff_type == "expected"
+                payoffs = payoffsExpected(indices, population, u, N, delta);
+                resident_payoff = payoffs(1);
+                mutant_payoff = payoffs(2);          
+            end
+            if payoff_type == "last_round"
+                payoffs = payoffsLastRound(indices, population, u, N, delta);
+                resident_payoff = payoffs(1);
+                mutant_payoff = payoffs(2);
+
+            end
+
+            fermi = 1 / (1 + exp(-beta * (mutant_payoff - resident_payoff)));
+            if rand(1)<fermi
+                population(indices(1), :) = population(indices(2), :);
+            end
         end
     end
 
    [Mu,~,ic] = unique(population, 'rows', 'stable'); 
    h = accumarray(ic,1);
    sz = size(h, 1);
+   avg_player = sum(Mu .* h / sum(h), 1);
+   coop=cooperation(Mu, h, sz, delta);
    
-   for i=1:sz
-       coop=cooperation(Mu(i, :), Mu, h, sz, delta);
-       xDat(j + i, :) = [t, Mu(i, :), h(i), coop];
-   end
-   j = j + sz;
+   xDat(j, :) = [t, avg_player, coop];
+   
+%    if coop > 0
+%        disp(coop)
+%    end
+
+   j = j + 1;
 end
 dlmwrite(filename + ".csv", xDat, 'precision', 9);
 toc
