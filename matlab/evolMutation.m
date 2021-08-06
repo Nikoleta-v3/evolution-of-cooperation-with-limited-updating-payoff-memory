@@ -1,17 +1,14 @@
-function [xDat, population, Data]=evolMutation(starting_resident, u, N, delta, beta, mutation, numberIterations, payoff_type, filename);
+function [population, avg_player, coop]=evolMutation(starting_resident, u, N, delta, beta, mutation, numberIterations, payoff_type, filename);
 tic
-%% Preparations for the output
-Data=['R=',num2str(u(1)),'; S=',num2str(u(2)),'; T=',num2str(u(3)),'; P=',num2str(u(4)),'; N=',num2str(N),'; beta=',num2str(beta), '; mu=',num2str(mutation), '; nIt=',num2str(numberIterations),'; payoff=',payoff_type];
-writematrix(Data, filename + ".txt");
 
 %% Initialization
-Res=starting_resident; sdim=3;
+Res=starting_resident; sdim=3; avg_player=0; coop=0;
 
 population = Res .* ones(N, sdim);
-xDat=zeros(numberIterations, 5);
-xDat(1,:)=[0, Res, 0];
+% xDat=zeros(numberIterations, 5);
+% xDat(1,:)=[0, Res, 0];
+% j = 1;
 
-j = 2;
 %% Running the evolutionary process
 for t = progress(1:numberIterations)
     if rand(1)<mutation
@@ -25,7 +22,7 @@ for t = progress(1:numberIterations)
             if payoff_type == "expected"
                 payoffs = payoffsExpected(indices, population, u, N, delta);
                 resident_payoff = payoffs(1);
-                mutant_payoff = payoffs(2);          
+                mutant_payoff = payoffs(2);
             end
             if payoff_type == "last_round"
                 payoffs = payoffsLastRound(indices, population, u, N, delta);
@@ -40,22 +37,35 @@ for t = progress(1:numberIterations)
             end
         end
     end
-
-   [Mu,~,ic] = unique(population, 'rows', 'stable'); 
-   h = accumarray(ic,1);
-   sz = size(h, 1);
-   avg_player = sum(Mu .* h / sum(h), 1);
-   coop=cooperation(Mu, h, sz, delta);
-   
-   xDat(j, :) = [t, avg_player, coop];
-   
-%    if coop > 0
-%        disp(coop)
-%    end
-
-   j = j + 1;
+    
+  [Mu,~,ic] = unique(population, 'rows', 'stable'); 
+  h = accumarray(ic,1);
+  sz = size(h, 1);
+  avg_player = avg_player + sum(Mu .* h / sum(h), 1);
+  coop = coop + cooperation(Mu, h, sz, delta);
+  
+%   if mod(t, 100000) == 0 
+%    xDat(j, :) = [t, avg_player, coop];
+%    j = j + 1;
+%   end    
 end
-dlmwrite(filename + ".csv", xDat, 'precision', 9);
+% dlmwrite(filename + ".csv", xDat, 'precision', 9);
+
+Data=["R", "S", "T", "P", "N", "beta", "mutation", "numberIterations", "coop", "y", "p", "q";
+      u(1),...
+      u(2),...
+      u(3),...
+      u(4),...
+      N,...
+      beta,...
+      mutation,...
+      numberIterations,...
+      coop / numberIterations,...
+      avg_player / numberIterations];
+
+writematrix(Data, filename + ".csv");
 toc
 end
+
+
 

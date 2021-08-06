@@ -6,9 +6,6 @@ delta = 0.999;
 beta = 1;
 numberIterations = 10 ^ 8;
 
-% payoff_types = ["expected", "last_round"];
-% mutations = [10 ^ -4, 10 ^ -3, 10 ^ -2, 10 ^ -1, 10 ^ 0];
-
 data = ["expected", 10 ^ -4;
         "expected", 10 ^ -3;
         "expected", 10 ^ -2;
@@ -22,8 +19,8 @@ data = ["expected", 10 ^ -4;
 
 u = [2, -1, 3, 0];
 
+parpool();
 parfor (i = 1:10)
-
 mutation = str2num(data(i, 2));
 payoff_type = data(i, 1);
 
