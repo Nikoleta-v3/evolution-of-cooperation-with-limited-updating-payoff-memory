@@ -5,7 +5,7 @@ AvCoop=0; AvPay=0; Res=starting_resident;
 
 %% Initialization
 sdim=3;
-xDat=zeros(numberIterations/100,6);
+xDat=zeros(round(numberIterations/(100 * 0.6)), 6);
 xDat(1,:)=[Res, 0, u(4), 0];
 Rho=calcRhoTwoFiftySix(u, beta);
 
