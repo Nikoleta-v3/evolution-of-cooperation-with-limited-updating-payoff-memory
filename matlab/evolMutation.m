@@ -13,8 +13,10 @@ population = Res .* ones(N, sdim);
 for t = progress(1:numberIterations)
     if rand(1)<mutation
         index = randi(N);
-        population(index, :) = rand(1, sdim);
+        lhs = [ones(min(index, N-1), sdim); zeros(1, sdim); ones(max(N - index - 1, 0), sdim)];
+        rhs = [zeros(min(index, N-1), sdim); rand(1, sdim); zeros(max(N - index - 1, 0), sdim)];
         
+        population = (population .* lhs) + rhs;
     else
         indices = randi(N, [1, 2]);
         
