@@ -5,8 +5,8 @@ AvCoop=0; AvPay=0; Res=starting_resident;
 
 %% Initialization
 sdim=3;
-xDat=zeros(round(numberIterations/(100 * 0.6)), 6);
-xDat(1,:)=[Res, 0, u(4), 0];
+xDat=zeros(round(numberIterations/(100 * 0.6)), 5);
+xDat(1,:)=[Res, 0, 0];
 Rho=calcRhoTwoFiftySix(u, beta);
 
 ps = zeros(256, 2);
@@ -34,9 +34,9 @@ end
 j = 2;
 for t = progress(1:numberIterations)
     Mut=rand(1, sdim);
-    [phi, coopM, piM]=calcPhi(Mut, Res, Rho, N, u, delta,  payoff_type, condition_round_one, condition_round_two, ps);
+    [phi, coopM]=calcPhi(Mut, Res, Rho, N, delta,  payoff_type, condition_round_one, condition_round_two, ps);
     if rand(1)<phi
-        Res=Mut; xDat(j,:)=[Res, coopM, piM, t]; j=j+1;
+        Res=Mut; xDat(j,:)=[Res, coopM, t]; j=j+1;
     end
 end
 
@@ -61,7 +61,7 @@ function [Rho]=calcRhoTwoFiftySix(u, beta);
         end
 end
 
-function [phi, coopMM, piMM]=calcPhi(Mut, Res, Rho, N, u, delta, payoff_type, condition_round_one, condition_round_two, ps);
+function [phi, coopMM]=calcPhi(Mut, Res, Rho, N, delta, payoff_type, condition_round_one, condition_round_two, ps);
 %% Calculating the fixation probability
 
 vMM = stationaryRoundTwo(Mut, Mut, delta);
@@ -69,7 +69,6 @@ vMR = stationaryRoundTwo(Mut, Res, delta);
 vRM = stationaryRoundTwo(Res, Mut, delta);
 vRR = stationaryRoundTwo(Res, Res, delta);
 
-piMM = vMM*log(kron(exp(u),exp(u)))';
 coopMM = (2 * (vMM(1) + vMM(2) + vMM(5) + vMM(6)) + (vMM(3) + vMM(4) + vMM(7) + vMM(8) + vMM(9) + vMM(10) + vMM(13) + vMM(14))) / 2;
 
 if payoff_type=="two_rounds_opponents"
