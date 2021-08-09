@@ -11,7 +11,8 @@ u = [9, -1, 10, 0];
 seeds = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 parfor (i = 1:9)
-    rng(seeds(i));
+    seed = seeds(i);
+    rng(seed);
     filename = "../data/" + payoff_type + "_seed_" + seed;
     evolSimulationTwoRoundsOpponents(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
 end
