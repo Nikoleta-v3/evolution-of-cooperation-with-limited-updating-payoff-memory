@@ -16,6 +16,6 @@ payoff_type = payoff_types(i)
 % seed = 1;
 % rng(seed);
 filename = "../data/" + payoff_type + "_b_10";
-evolSimulationTwoRoundsOpponents(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
+evolSimulationTwoRounds(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
 end
 end
