@@ -259,3 +259,17 @@ def steady_state(player, opponent, delta):
     ss = np.dot(num, np.linalg.pinv((np.eye(4) - delta * M)))
 
     return ss
+
+
+def steady_state_two_rounds(player, opponent, delta):
+    """
+    Vector v.
+
+    The probability of being at each state in steady state.
+    """
+    v_zero = np.array(expected_distribution_opening_round(player, opponent))
+    M = markov_chain_for_reactive_strategies(player, opponent)
+    num = (1 - delta) * v_zero
+    ss = np.dot(num, np.linalg.pinv((np.eye(4) - delta * M)))
+
+    return ss

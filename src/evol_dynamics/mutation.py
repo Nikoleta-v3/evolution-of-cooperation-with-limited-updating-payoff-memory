@@ -1,10 +1,12 @@
 import random
 
 import numpy as np
-import tqdm
+# import tqdm
 import copy
 
 import evol_dynamics
+
+import time
 
 
 def payoffs_expected(resident, mutant, population, payoffs, delta, N):
@@ -83,7 +85,7 @@ def simulation(
     population = {starting_resident: N}
     random.seed(seed)
 
-    for i in tqdm.tqdm(range(1, number_of_steps + 1)):
+    for i in range(1, number_of_steps + 1):
 
         if random.random() < mutation:
             to_mutate = random.sample(
@@ -153,12 +155,12 @@ def simulation(
 
 
 if __name__ == "__main__":  # pragma: no cover
-
+    start_time = time.time()
     N = 100
     delta = 0.999
     beta = 1
     mutation = 0.01
-    number_of_steps = 10 ** 7
+    number_of_steps = 10 ** 4
     payoffs = np.array([2, -1, 3, 0])
     mode = "expected"
     filename = "mutation_expected.csv"
@@ -177,3 +179,5 @@ if __name__ == "__main__":  # pragma: no cover
         seed,
         starting_resident,
     )
+
+    print("--- %s seconds ---" % (time.time() - start_time))

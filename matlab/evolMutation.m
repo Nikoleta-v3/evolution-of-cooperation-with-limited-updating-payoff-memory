@@ -4,7 +4,7 @@ tic
 %% Initialization
 Res=starting_resident; sdim=3; avg_player=0; coop=0;
 
-population = Res .* ones(N, sdim);
+population = Res .* ones(N, sdim, 'single');
 % xDat=zeros(numberIterations, 5);
 % xDat(1,:)=[0, Res, 0];
 % j = 1;
@@ -12,11 +12,9 @@ population = Res .* ones(N, sdim);
 %% Running the evolutionary process
 for t = progress(1:numberIterations)
     if rand(1)<mutation
-        index = randi(N);
-        lhs = [ones(min(index, N-1), sdim); zeros(1, sdim); ones(max(N - index - 1, 0), sdim)];
-        rhs = [zeros(min(index, N-1), sdim); rand(1, sdim); zeros(max(N - index - 1, 0), sdim)];
-        
-        population = (population .* lhs) + rhs;
+        idx = randi(N);
+%         population = population(idx, :);
+        population(idx, :) = rand;
     else
         indices = randi(N, [1, 2]);
         
