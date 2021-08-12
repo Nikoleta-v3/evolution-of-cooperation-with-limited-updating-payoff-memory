@@ -19,6 +19,17 @@ if __name__ == "__main__":  # pragma: no cover
         "t",
     ]
 
+    # in_columns = [
+    #     "p_1",
+    #     "p_2",
+    #     "p_3",
+    #     "p_4",
+    #     "y",
+    #     "average cooperation rate",
+    #     "average score",
+    #     "t",
+    # ]
+
     print(f"{folder}/{starting_characters}*.csv")
     csv_files = glob.glob(f"{folder}/{starting_characters}*.csv")
 
@@ -32,7 +43,7 @@ if __name__ == "__main__":  # pragma: no cover
         for value in df["t"][1:]:
             frequencies.append(value - previous)
             previous = value
-        frequencies.append(10 ** 7 - previous)
+        frequencies.append(10 ** 6 - previous)
 
         df["frequencies"] = frequencies
 
