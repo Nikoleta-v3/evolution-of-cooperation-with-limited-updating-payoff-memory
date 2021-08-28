@@ -10,5 +10,5 @@ for i=1:sz
     end
     coop(i) = sum(player_coop .* h / sum(h)); 
 end
-coop = sum(coop .* h / sum(h)); 
+coop = sum(coop);
 end
