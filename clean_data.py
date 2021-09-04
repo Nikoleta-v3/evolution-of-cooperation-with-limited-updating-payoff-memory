@@ -43,7 +43,7 @@ if __name__ == "__main__":  # pragma: no cover
         for value in df["t"][1:]:
             frequencies.append(value - previous)
             previous = value
-        frequencies.append(10 ** 6 - previous)
+        frequencies.append(sum(df['t']) - previous)
 
         df["frequencies"] = frequencies
 
