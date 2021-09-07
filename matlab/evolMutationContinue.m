@@ -1,13 +1,8 @@
-function [population, avg_player, coop]=evolMutation(starting_resident, u, N, delta, beta, mutation, numberIterations, payoff_type, filename);
+function [population, avg_player, coop]=evolMutationContinue(population, u, N, delta, beta, mutation, numberIterations, payoff_type, filename);
 tic
 
 %% Initialization
-Res=starting_resident; sdim=3; avg_player=0; coop=0;
-
-population = Res .* ones(N, sdim, 'single');
-% xDat=zeros(numberIterations, 5);
-% xDat(1,:)=[0, Res, 0];
-% j = 1;
+sdim=3; avg_player=0; coop=0;
 
 %% Running the evolutionary process
 for t = progress(1:numberIterations)
