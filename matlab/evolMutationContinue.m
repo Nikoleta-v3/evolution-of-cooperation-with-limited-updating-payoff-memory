@@ -59,6 +59,7 @@ Data=["R", "S", "T", "P", "N", "beta", "mutation", "numberIterations", "coop", "
       avg_player / numberIterations];
 
 writematrix(Data, filename + ".csv");
+writematrix(popultion, filename + "population_.csv");
 toc
 end
 
