@@ -23,26 +23,24 @@
 \newcommand{\alex}[1]{\textcolor{red}{\textbf{AL}: #1}}
 
 %% Adding shortcut commands to refer to our figures %%
-\newcommand{\FigEvoProc}{{\bf Fig.~1}}
-\newcommand{\FigInvAnalysis}{{\bf Fig.~2}}
-\newcommand{\FigResultsOverPara}{{\bf Fig.~3}}
+\newcommand{\FigEvoProc}{{\bf Fig.~1}} \newcommand{\FigInvAnalysis}{{\bfFig.~2}} \newcommand{\FigResultsOverPara}{{\bf Fig.~3}}
 
 
 \titleformat{\section}{\sffamily \fontsize{12}{14}\bfseries}{\thesection}{1em}{}
-\titleformat{\subsection}{\sffamily \fontsize{11.5}{11.5}\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsection}{\sffamily
+\fontsize{11.5}{11.5}\bfseries}{\thesubsection}{1em}{}
 
 \usepackage{tikz}
 \usetikzlibrary{arrows}
 
-\tikzset{
-  treenode/.style = {align=center, inner sep=0pt, text centered,
-    font=\sffamily},
-  arn_n/.style = {treenode, circle, white, font=\sffamily\bfseries, draw=black, inner sep=-6pt,
-    fill=black, text width=1.5em},% arbre rouge noir, noeud noir
-  arn_r/.style = {treenode, circle, red, 
-    text width=1.5em, very thick, inner sep=4pt},% arbre rouge noir, noeud rouge
-  arn_x/.style = {treenode, rectangle, draw=black,
-    minimum width=0.5em, minimum height=0.5em}% arbre rouge noir, nil
+\tikzset{treenode/.style = {align=center, inner sep=0pt, text centered,
+  font=\sffamily}, arn_n/.style = {treenode, circle, white,
+  font=\sffamily\bfseries, draw=black, inner sep=-6pt, fill=black, text
+  width=1.5em},% arbre rouge noir, noeud noir
+  arn_r/.style = {treenode, circle, red, text width=1.5em, very thick, inner
+    sep=4pt},% arbre rouge noir, noeud rouge
+  arn_x/.style = {treenode, rectangle, draw=black, minimum width=0.5em, minimum
+    height=0.5em}% arbre rouge noir, nil
 }
 
 \newtheoremstyle{plainCl1}% name
@@ -67,8 +65,8 @@
 
 \newcommand{\splitatcommas}[1]{%
   \begingroup
-  \begingroup\lccode`~=`, \lowercase{\endgroup
-    \edef~{\mathchar\the\mathcode`, \penalty0 \noexpand\hspace{0pt plus 1em}}%
+  \begingroup\lccode`~=`, \lowercase{\endgroup \edef~{\mathchar\the\mathcode`,
+    \penalty0 \noexpand\hspace{0pt plus 1em}}%
   }\mathcode`,="8000 #1%
   \endgroup
 }
@@ -84,120 +82,180 @@
 \theoremstyle{plainCl2}
 \newtheorem{Claim2}{Claim}
 
-\title{
-\bf  \sffamily \LARGE Evolution of cooperation among individuals with limited payoff memory\\}
+\title{\bf  \sffamily \LARGE Evolution of cooperation among individuals with
+limited payoff memory\\}
 \date{}
-\author{Christian Hilbe, Nikoleta E. Glynatsi, Alex McAvoy}
+\author{Nikoleta E. Glynatsi, Christian Hilbe, Alex McAvoy}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Repeated games are vastly used in evolutionary game theory to explain
-cooperation in a variety of environments. Although existing models have shaped
-our understanding of human cooperation, they often work with idealized
-assumptions. In an evolutionary process, individuals imitate other individuals
-of the population based on their fitness. It is commonly assumed that an
-individual computes their fitness after interacting with a representative sample
-of the population, and remembering all the interactions they participated in. In
-real life, we do not always remember all our interactions, instead we rather
-recall our most recent ones.
+% Repeated games are vastly used in evolutionary game theory to explain
+% cooperation in a variety of environments. Although existing models have shaped
+% our understanding of human cooperation, they often work with idealized
+% assumptions. In an evolutionary process, individuals imitate other individuals
+% of the population based on their fitness. It is commonly assumed that an
+% individual computes their fitness after interacting with a representative sample
+% of the population, and remembering all the interactions they participated in. In
+% real life, we do not always remember all our interactions, instead we rather
+% recall our most recent ones.
 
-Here, we introduce a framework that allows individuals to estimate their fitness
-based on a minimum of social information. We explore the difference between our
-framework and the classical framework using computer simulations. We present results for
-the most commonly used classes of symmetric \(2 \times 2\) games. The
-simulations show that, in the prisoner's dilemma individuals with limited memory
-tend to adopt less generous strategies and they achieve less cooperation than in
-the classical scenario. In contrast, in the stag-hunt and the harmony game, the
-impact of memory is less striking. Here individuals with limited memory perform
-nearly as well as individuals with full memory. Finally, we observe that the
-snowdrift game is the only game for which cooperation can be underestimated in
-the classical scenario.
+% Here, we introduce a framework that allows individuals to estimate their fitness
+% based on a minimum of social information. We explore the difference between our
+% framework and the classical framework using computer simulations. We present
+% results for the most commonly used classes of symmetric \(2 \times 2\) games.
+% The simulations show that, in the prisoner's dilemma individuals with limited
+% memory tend to adopt less generous strategies and they achieve less cooperation
+% than in the classical scenario. In contrast, in the stag-hunt and the harmony
+% game, the impact of memory is less striking. Here individuals with limited
+% memory perform nearly as well as individuals with full memory. Finally, we
+% observe that the snowdrift game is the only game for which cooperation can be
+% underestimated in the classical scenario.
 \end{abstract}
 
 \section{Introduction}
 
-One of the most important applications of evolutionary game theory is the
-evolution of cooperation. Why is it that some individuals choose to help others,
-increasing their payoff, at the expense of decreasing one's own? In evolutionary
-game theory individuals are not required to be rational, instead they adapt
-strategies based on mutation and exploration. Strategies are more likely to
-spread if they have a high fitness either because the individuals who adopt them
-have more offspring, or because they are imitated more often~\cite{Wu2015}. The
-fitness of a strategy is not constant but depends on the composition of the
-population. Individuals interact based on their strategies with other members of
-the population and the payoffs they yield are translated into fitness.
+Evolutionary game theory~\cite{smith1982evolution, hofbauer1998evolutionary,
+nowak2004evolutionary, hauert2005game} describes the evolutionary dynamics of
+populations consisting of different types of interacting individuals.
+Traditional approaches assume that individuals meet each other at random in an
+infinitely large well-mixed population. An example of such a approach in the the
+replicator dynamics. It describes how the abundance of strategic types in a
+population changes based on their fitness, identified with the payoff resulting
+from the game~\cite{cressman2014replicator}. In this deterministic formulation,
+individuals with higher fitness, such as defectors, increase in abundance.
+Ultimately, the system reaches a stable fixed point in which the population may
+consist either of a single type or of a mixture of different types.
 
-It is commonly assumed that individuals compute their fitness after interacting
-with a representative sample of the population, and remembering all the
-interactions they participated in~\cite{Nowak2006, nowak2004emergence,
-Hilbe2013, Hilbe2018,Reiter2018, garcia2018no, Nowak1992tit, Baek2016}. This
-implies that individuals have a perfect memory. However, when modelling how
-individuals make decisions in each turn they are assumed to have very limited
-memory. To be precise, most of the studies in the literature focus on naive
-subjects who can only choose from a restricted set of
-strategies~\cite{Nowak1992tit}, or who do not remember anything beyond the
-outcome of the very last round~\cite{Baek2016}. Note that there are a few
-notable exceptions~\cite{Hauert1997, Stewart2016}.
+It has been shown that the finiteness of populations may lead to fundamental
+changes in this picture due to stochastic effects In this framework
+disadvantageous mutants have a small, yet non-zero probability to reach fixation
+in a finite population.
 
-Studies that make use of this classical framework report that cooperation can
-substantially evolve. However, the inconsistency in the memory size of players
-leads us to question the robustness of our understanding of cooperation. To this end, we
-propose a framework in which individuals, similar to the decisions at each turn,
-estimate their fitness based on a minimum of information. Though we are not the
-first to question the assumptions of estimating fitness~\cite{Roca2006}, we are
-the first to explore the effect of memory.
 
-We first consider two extreme scenarios, the classical scenario
-and the alternative scenario where individuals update their strategies
-only based on the very last payoff they obtained. We observe that individuals 
-with limited memory tend to adopt less generous strategies and they achieve less
-cooperation when interacting in a prisoner's dilemma. We obtain similar results when we
-consider that individuals update their strategies based on more
-information. More specifically, up to the last two payoffs they obtained when
-interacting with up to two different members of the population. We extend our
-approach to the rest of the symmetric \(2 \times 2\) games.
+Its most prominent application is the quest for the origins and 
+evolution of cooperation.
+An important application of evolutionary game theory is the evolution of
+cooperation which remains one of the greatest problems for biological and social
+sciences.
+
+
+
+% To explain the evolution of cooperation remains one of the greatest problems for
+% biological and social sciences. Cooperation is the action of choosing to help
+% others at one's own expense. The standard game of formulating such situation is
+% the Prisoner's Dilemma~\cite{trivers1971evolution,
+% milinski1987tit, glynatsi2021bibliometric, ohtsuki2006simple}, in which two
+% players can choose to cooperate or to defect. The players are offered a certain
+% payoff, \(R\), for mutual cooperation and a lower payoff, \(P\), for mutual
+% defection. If one player cooperates while the other defects, then the cooperator
+% gets the lowest payoff, \(S\), while the defector gains the highest payoff,
+% \(T\). Thus, the payoffs have the following property \(T > R > P > S\), making
+% defection the dominant strategy in the non-repeated game.
+
+% In the repeated Prisoner's Dilemma, direct reciprocity can allow cooperators to
+% not be exploited by defectors~\cite{axelrod1981evolution, nowak1992tit,
+% nowak1992evolutionary}, however, how do such cooperators can evolve?
+
+ , and 
+in general, defectors are stable against invasion by cooperators.
+
+
+
+In this framework disadvantageous mutants have a small, yet non-zero probability
+to reach fixation in a finite population. 
+
+Two classes of microscopic processes have been used extensively: (i)
+fitness-based processes in which an individual chosen proportional to fitness
+reproduces and the offspring replaces a randomly chosen individual [11]; (ii)
+pairwise comparison processes in which a pair of individuals is chosen, and
+where subsequently one of these individuals may adopt the strategy of the other.
+
+In the pairwise process considers a finite population of fixed size.In the
+population at a time step different types of individuals can exist. 
+Each individual can be of one of two types, A and B. The state of the population
+is thus characterized by the number i of individuals of type A. 
+
+The interaction between the two types of individuals is described by the
+functions $\pi _{{\rm A}}^{i}$ and $\pi _{{\rm B}}^{i}$. These indicate the
+expected payoff for two types in a population in state i. The interaction can be
+generated from a two-player matrix game which leads to payoffs linear in i [26],
+but we keep the formalism general to include games played between an arbitrary
+number of players, which leads to payoffs that depend on i in a polynomial way
+[27–30]. In fact, our results hold for an arbitrary dependence of the payoffs on
+i.
+
+At each step an individual change their type based. This very cooperators
+can repeas.
+
+This model has several assumptions. Two assumptions are that initally it is
+assumed that time to interact is faster than the time of the population
+update. Secondly it is assumed that the indiviail can interact will every
+other population member, and recall their interaction perfecttly.
+
+The first assumption was questioned by the work of.
+
+In this work
+
+We first consider two extreme scenarios, the classical scenario and the
+alternative scenario where individuals update their strategies only based on the
+very last payoff they obtained. We observe that individuals with limited memory
+tend to adopt less generous strategies and they achieve less cooperation when
+interacting in a prisoner's dilemma. We obtain similar results when we consider
+that individuals update their strategies based on more information. More
+specifically, up to the last two payoffs they obtained when interacting with up
+to two different members of the population. We extend our approach to the rest
+of the symmetric \(2 \times 2\) games.
 
 The remainder of the paper is organized as follows. In
 section~\ref{section:model} we describe the model. In
-section~\ref{section:results} we present the results of the simulations, and
-in section~\ref{section:conclusions} we outline the main conclusions.
+section~\ref{section:results} we present the results of the simulations, and in
+section~\ref{section:conclusions} we outline the main conclusions.
 
 \section{Model Setup}\label{section:model}
+
+In the following, we consider a well mixed population of fixed size. In each
+step of t
+
+We study the transmission of strategies with a frequency-dependent birth-death
+process26 in a finite population of size n. In each time step, two randomly
+chosen individuals compare their payoffs and one of them can switch to the other
+one's strategy. This process can be interpreted as a model for social learning,
+whereby successful strategies spread, and, occasionally, random strategy
+exploration introduces novel strategies (corresponding to mutations in
+biological models).
 
 We consider a population of \(N\) players~\footnote{The terms ``player'' and
 ``individual'' are used interchangeably here.} where \(N\) is even and mutations
 are sufficiently rare. Therefore, at any point in time there are at most two
 different strategies present in the population; a \textit{resident} strategy and
 a \textit{mutant} strategy. To describe how strategies spread we use a pairwise
-comparison process~\cite{Traulsen2006}.
-Each step of the evolutionary process consists of two
-stages, a game stage and an updating stage.
+comparison process~\cite{Traulsen2006}. Each step of the evolutionary process
+consists of two stages, a game stage and an updating stage.
 
 In the game stage each individual is randomly matched with some other individual
-in the population. They engage in a match where each subsequent turn
-occurs with a fixed probability $\delta$. At each turn players choose independently to
+in the population. They engage in a match where each subsequent turn occurs with
+a fixed probability $\delta$. At each turn players choose independently to
 either cooperate (\(C\)) or to defect (\(D\)), and the payoffs of the turn
 depend on both their decisions. If both players cooperate they receive the
 reward payoff \(R\), whereas if both defect they receive the punishment payoff
 \(P\). If one cooperates but the other defects, the defector receives the
-temptation payoff \(T\), whereas the cooperator receives the sucker's
-payoff \(S\). We denote the feasible payoff of each turn as \(\mathcal{U} =
-\{R, S, T, P\}\).
-We assume that individuals use \textit{reactive strategies} to make
+temptation payoff \(T\), whereas the cooperator receives the sucker's payoff
+\(S\). We denote the feasible payoff of each turn as \(\mathcal{U} = \{R, S, T,
+P\}\). We assume that individuals use \textit{reactive strategies} to make
 decisions in each turn. Reactive strategies are a set of memory-one strategies
 that only take into account the previous action of the opponent. They can be
 written explicitly as a vector in \(\R_{3}\), more specifically, a reactive
-strategy \(s\) is given by \(s=(y, p, q)\). The parameter \(y\) is the probability that
-the strategy opens with a cooperation and \(p, q\) are the probabilities that
-the strategy cooperates given that the opponent cooperated and defected
-equivalently.
+strategy \(s\) is given by \(s=(y, p, q)\). The parameter \(y\) is the
+probability that the strategy opens with a cooperation and \(p, q\) are the
+probabilities that the strategy cooperates given that the opponent cooperated
+and defected equivalently.
 
 In the updating stage, two players are randomly drawn from the population, a
 `learner' and a `role model'. Given the learner's payoff $u_L\!\in\!
-\mathcal{U}$ and the role model's payoff $u_{RL}\!\in\! \mathcal{U}$,
-the learner adopts the role model's strategy with probability,
+\mathcal{U}$ and the role model's payoff $u_{RL}\!\in\! \mathcal{U}$, the
+learner adopts the role model's strategy with probability,
 
 \begin{equation} \label{Eq:rho}
   \rho(u_{L}, u_{RM}) = \frac{1}{1\!+\! \exp^{\!-\!\beta (u_{RM}\!-\!u_{L})}}.
@@ -206,23 +264,23 @@ the learner adopts the role model's strategy with probability,
 where $\beta\!\ge\!0$ is the strength of selection. For small values of $\beta$
 the imitation probability is independent of the strategies of the involved
 players. As the value of $\beta$ increases, the more likely it is that the
-learner adopts only strategies that yield a higher payoff.
-Conventionally the updating payoffs of the learner and the role model are based
-on their expected payoffs. A player's expected payoff is the mean payoff the
-player yields after engaging in matches of multiple turns with each member of
-the population. At each match a player bases their next turn decision only on
-the previous action of the opponent, however, the same player bases their
-expected payoffs on the outcomes of all their matches. Thus, a player is assumed
-to have limited and perfect memory at the same time. We propose a new a set of
-updating payoffs where it is also assumed that a player has limited memory.
-We referee to these as the limited memory payoffs.
+learner adopts only strategies that yield a higher payoff. Conventionally the
+updating payoffs of the learner and the role model are based on their expected
+payoffs. A player's expected payoff is the mean payoff the player yields after
+engaging in matches of multiple turns with each member of the population. At
+each match a player bases their next turn decision only on the previous action
+of the opponent, however, the same player bases their expected payoffs on the
+outcomes of all their matches. Thus, a player is assumed to have limited and
+perfect memory at the same time. We propose a new a set of updating payoffs
+where it is also assumed that a player has limited memory. We referee to these
+as the limited memory payoffs.
 
-The evolutionary step is repeated until either the mutant strategy goes
-extinct, or until it fixes in the population. If the mutant fixes in the
-population then the mutant strategy becomes the new resident strategy. After
-either outcome we introduce a new mutant strategy uniformly chosen from all
-reactive strategies at random, and we set the number of mutants to $1$. This
-process of mutation and fixation/extinction is then iterated many times.
+The evolutionary step is repeated until either the mutant strategy goes extinct,
+or until it fixes in the population. If the mutant fixes in the population then
+the mutant strategy becomes the new resident strategy. After either outcome we
+introduce a new mutant strategy uniformly chosen from all reactive strategies at
+random, and we set the number of mutants to $1$. This process of mutation and
+fixation/extinction is then iterated many times.
 
 In order to account for the effect of the updating payoffs we simulate the
 evolutionary process and record which strategies the players adopt over time
@@ -232,66 +290,75 @@ two approaches. To account for the various types of social behaviour we also
 present results on multiple social dilemmas.
 
 
-\section{Results}\label{section:results}
-\subsection{Updating payoffs based on the last round with another member of the population}\label{section:donation}
+\section{Results}\label{section:results} \subsection{Updating payoffs based on
+the last round with another member of the population}\label{section:donation}
+
+To investigate the role of extortion in the context of evolutionary games, we
+concentrate on the donation game 
 
 In this section we explore the case where the updating payoffs are based on the
-last round payoff achieved against another member of the population and we compare
-this to the classical scenario of the expected payoffs. We assume that each pair
-of players interacts in a donation game. The donation game is a special case of
-the prisoner's dilemma. Each player can choose to cooperate by providing a
-benefit \(b\) to the other player at their cost \(c\), with \(0 < c < b\).
-Thus, the feasible payoffs in each round are \(\mathcal{U} = \{b-c, -c, b, 0\}\).
+last round payoff achieved against another member of the population and we
+compare this to the classical scenario of the expected payoffs. We assume that
+each pair of players interacts in a donation game. The donation game is a
+special case of the prisoner's dilemma. Each player can choose to cooperate by
+providing a benefit \(b\) to the other player at their cost \(c\), with \(0 < c
+< b\). Thus, the feasible payoffs in each round are \(\mathcal{U} = \{b-c, -c,
+b, 0\}\).
 
 Figure~\ref{fig:expected_and_stochastic_for_donation} shows simulations results
 for the described process of section~\ref{section:model}.
 Figure~\ref{fig:expected_and_stochastic_for_donation} depicts the evolving
 conditional cooperation probabilities $p$ and $q$. The discount factor~$\delta$
-is comparably high, thus we do not report the opening move \(y\) as it
-is a transient effect. The left panels correspond to the
-standard scenario considered in the literature, it considers players who use
-expected payoffs to update their strategies. The right panel shows the scenario
-considered herein, in which players update their strategies based on their last
-round’s payoff. The top panels assume a benefit \(b\) of 3 whereas the bottom
-assume a benefit of 10.
+is comparably high, thus we do not report the opening move \(y\) as it is a
+transient effect. The left panels correspond to the standard scenario considered
+in the literature, it considers players who use expected payoffs to update their
+strategies. The right panel shows the scenario considered herein, in which
+players update their strategies based on their last round’s payoff. The top
+panels assume a benefit \(b\) of 3 whereas the bottom assume a benefit of 10.
 
-The figure suggests that when updating is based on expected payoffs players
-tend to be more generous and more cooperative. The $q$-values of the resident
+The figure suggests that when updating is based on expected payoffs players tend
+to be more generous and more cooperative. The $q$-values of the resident
 strategies are on average higher in the case of the expected payoffs. The
 players will occasionally forgive a defection more often if their fitness
 depends on interacting with every member of the population. On the other hand,
 when social interactions are limited they are less forgiving. The average
-cooperation rate for each simulation is calculated as the average
-cooperation rate within the resident population. In the case of the expected
-payoffs, regardless the value of benefit, the average cooperation rate is
-strictly higher than that of the last round payoffs. The difference based on the
-two methods is statistically significant, and in the case of $b=10$ the
-average cooperation of resident strategies drops from 97\% to 57\%.
+cooperation rate for each simulation is calculated as the average cooperation
+rate within the resident population. In the case of the expected payoffs,
+regardless the value of benefit, the average cooperation rate is strictly higher
+than that of the last round payoffs. The difference based on the two methods is
+statistically significant, and in the case of $b=10$ the average cooperation of
+resident strategies drops from 97\% to 57\%.
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=.70\textwidth]{static/expected_and_stochastic_for_donation_game.pdf}\vspace{-3cm}
-    \includegraphics[width=.70\textwidth]{static/expected_and_stochastic_for_donation_game_b_10.pdf}
+    \includegraphics[width=.70\textwidth]{static/expected_and_stochastic_for_donation_game.pdf}
+    % \includegraphics[width=.70\textwidth]{static/expected_and_stochastic_for_donation_game_b_10.pdf}
     \caption{{\bf Evolutionary dynamics under expected payoffs and last round with one interaction payoffs.} 
     We have run two simulations of the evolutionary process described in
     section~\ref{section:model} for $t\!=\!10^7$ time steps. For each time step,
-    we have recorded the current resident population ($y,p,q$). Since simulations
-    are run for a relatively high continuation probability of $\delta\!=\!0.999$, we
-    do not report the players' initial cooperation probability $y$. The graphs show
-    how often the resident population chooses each combination ($p,q$) of
-    conditional cooperation probabilities in the subsequent rounds. ({\bf A}) If
-    players update based on their expected payoffs, the resident population
-    typically applies a strategy for which $p\!\approx\!1$ and
-    $q\!\le\!1\!-\!c/b\!=\!0.9$. ({\bf B})
-    When players update their strategies based on their realized payoffs in the last
-    round, there are two different predominant behaviors. The resident population
+    we have recorded the current resident population ($y,p,q$). Since
+    simulations are run for a relatively high continuation probability of
+    $\delta\!=\!0.999$, we do not report the players' initial cooperation
+    probability $y$. The graphs show how often the resident population chooses
+    each combination ($p,q$) of conditional cooperation probabilities in the
+    subsequent rounds. ({\bf A}) If players update based on their expected
+    payoffs, the resident population typically applies a strategy for which
+    $p\!\approx\!1$ and $q\!\le\!1\!-\!c/b\!=\!0.9$. ({\bf B}) When players
+    update their strategies based on their realized payoffs in the last round,
+    there are two different predominant behaviors. The resident population
     either consists of defectors (with $p\!\approx\!q\!\approx\!0$) or of
-    conditional cooperators. In the latter case, the maximum level of $q$ consistent
-    with stable cooperation is somewhat smaller compared to the expected-payoff
-    setting, $q\!<\!0.5$. The cooperation rate within the resident population
-    (averaged over all games and over all time steps) is close to 100\%. Parameters:
-    $N\!=\!100$, $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.999$.}
+    conditional cooperators. In the latter case, the maximum level of $q$
+    consistent with stable cooperation is somewhat smaller compared to the
+    expected-payoff setting, $q\!<\!0.5$. The cooperation rate within the
+    resident population (averaged over all games and over all time steps) is
+    close to 100\%. Parameters: $N\!=\!100$, $c\!=\!1$, $\beta\!=\!1$,
+    $\delta\!=\!0.999$.}
     \label{fig:expected_and_stochastic_for_donation}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=.9\textwidth]{static/cooperation_rates_expected_and_stochastic_for_donation_game.pdf}
 \end{figure}
 
 We further explore the effect of benefit in
@@ -316,12 +383,11 @@ cooperation rate remains unchanged at approximately 50\% once \(b=5\).
   We vary the benefit of defection $b$. In all cases, expected payoffs appear to
   overestimate the average cooperation rate the population achieves. ({\bf A})
   the probabilities \(p, q\) for resident population over \(10^7\) time steps
-  for each benefit value. ({\bf B}) The cooperation rate within the resident population
-  (averaged over all games and over all time steps) over the benefit.
-  Unless
-  explicitly varied, the parameters of the simulation are $N\!=\!100$,
-  $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.99$. Simulations are run
-  for $t\!=\!5\times 10^7$ time steps for each parameter
+  for each benefit value. ({\bf B}) The cooperation rate within the resident
+  population (averaged over all games and over all time steps) over the benefit.
+  Unless explicitly varied, the parameters of the simulation are $N\!=\!100$,
+  $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.99$. Simulations are run for
+  $t\!=\!5\times 10^7$ time steps for each parameter
   combination.}\label{fig:cooperation_rate_over_benefit}
 \end{figure}
 
@@ -330,9 +396,9 @@ Figure~\ref{fig:cooperation_rate_over_betas} illustrates results for various
 runs of the evolutionary process. For weak selection, \(\beta < 1\), we observe
 that the two methods yield similar results, however, as \(\beta\) increases
 there is variation in the evolving populations. In the case of expected payoffs
-the resident populations become more cooperative as \(\beta\)
-increases, whereas in the case of limited memory payoffs, the resident
-populations become more defective.
+the resident populations become more cooperative as \(\beta\) increases, whereas
+in the case of limited memory payoffs, the resident populations become more
+defective.
 
 \begin{figure}[!htbp]
   \centering
@@ -350,172 +416,174 @@ We vary the selection strength $\beta$. In all cases, stochastic payoff
 evaluation tends to reduce the evolving cooperation rates. ({\bf A}) the
 probabilities \(p, q\) for resident population over \(10^7\) time steps for each
 \(\beta\) value. ({\bf B}) The cooperation rate within the resident population
-(averaged over all games and over all time steps) over \(\beta\).
-Unless explicitly varied, the parameters of the simulation are $N\!=\!100$,
-$b\!=\!3$, $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.99$. Simulations are run for
+(averaged over all games and over all time steps) over \(\beta\). Unless
+explicitly varied, the parameters of the simulation are $N\!=\!100$, $b\!=\!3$,
+$c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.99$. Simulations are run for
 $t\!=\!5\times 10^7$ time steps for each parameter
 combination.}\label{fig:cooperation_rate_over_betas}
 \end{figure}
 
-\subsection{Effect of updating payoffs in different social dilemmas}\label{section:2_by_2_games}
+% \subsection{Effect of updating payoffs in different social
+% dilemmas}\label{section:2_by_2_games}
 
-In the previous section we gained insights into the effects of the updating
-payoffs, and into how parameters such as the benefit and the strength of
-selection can intensify them. We investigated these effects by using the
-donation game. In order to broaden our understanding of the updating payoffs on
-different forms of possible human interactions we extend our approach to all
-\(2 \times 2\) symmetric games. More specifically, we apply our analysis to four
-different classes of games; the harmony, the snowdrift, the prisoner's dilemma
-and the stag-hunt games.
+% In the previous section we gained insights into the effects of the updating
+% payoffs, and into how parameters such as the benefit and the strength of
+% selection can intensify them. We investigated these effects by using the
+% donation game. In order to broaden our understanding of the updating payoffs on
+% different forms of possible human interactions we extend our approach to all \(2
+% \times 2\) symmetric games. More specifically, we apply our analysis to four
+% different classes of games; the harmony, the snowdrift, the prisoner's dilemma
+% and the stag-hunt games.
 
-We compare the results of the evolutionary process when the updating payoffs are based on the expected
-payoffs, and on the last round payoffs for all the four possible classes of
-games (Figures~\ref{fig:expected_two_by_two}
-and~\ref{fig:last_round_two_by_two}). In Figure~\ref{fig:expected_two_by_two}
-each sub figure represents a run of evolutionary process for a different set of
-values for \(\mathcal{U}\). Without loss of generality we set \(R=1\) and
-\(P=0\)~\cite{Martinez2012, Roca2009}, and we vary the values of the temptation
-payoff \(T\) (across the \(x\)-axis) and of the sucker's payoff \(S\) (across
-the \(y\)-axis). Starting at the upper left corner and proceeding clockwise the
-quadrants correspond to the harmony, the snowdrift, the prisoner's dilemma and
-the stag-hunt games.
+% We compare the results of the evolutionary process when the updating payoffs are
+% based on the expected payoffs, and on the last round payoffs for all the four
+% possible classes of games (Figures~\ref{fig:expected_two_by_two}
+% and~\ref{fig:last_round_two_by_two}). In Figure~\ref{fig:expected_two_by_two}
+% each sub figure represents a run of evolutionary process for a different set of
+% values for \(\mathcal{U}\). Without loss of generality we set \(R=1\) and
+% \(P=0\)~\cite{Martinez2012, Roca2009}, and we vary the values of the temptation
+% payoff \(T\) (across the \(x\)-axis) and of the sucker's payoff \(S\) (across
+% the \(y\)-axis). Starting at the upper left corner and proceeding clockwise the
+% quadrants correspond to the harmony, the snowdrift, the prisoner's dilemma and
+% the stag-hunt games.
 
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=\textwidth]{static/expected_two_by_two_games.pdf}
-  \caption{{\bf Evolutionary dynamics under expected payoffs for various social dilemmas.}
-  We vary the temptation payoff \(T \in \{0.2, 0.6, 1, 1.4, 1.8, 2.2\}\) across
-  the \(x\) axis, and  \(S \in \{1.2, 0.8, 0.4, 0, -0.4, -0.8\}\) across the
-  \(y\) axis. ({\bf A}) The top left quadrant where \(S > 0\) and \(T \leq 1\)
-  corresponds to the harmony game. The preference ordering for the harmony game
-  is \(R > T > S > P\). ({\bf B}) The top right quadrant where \(S > 0\) and \(T > 1\)
-  corresponds to the snowdrift game. The preference ordering for the snowdrift game
-  is \(T > R > S > P\). ({\bf C}) The bottom left quadrant where \(S < 0\) and \(T \leq 1\)
-  corresponds to the stag-hunt game. The preference ordering for the stag-hunt game
-  is \(R > T > P > S\). ({\bf D}) The bottom right quadrant where \(S < 0\) and \(T > 1\)
-  corresponds to the prisoner's dilemma game. The preference ordering for the prisoner's dilemma game
-  is \(T > R > P > S\).
-  Unless explicitly varied, the parameters of the simulation
-  are $N\!=\!100$, $\beta\!=\!10$, $\delta\!=\!0.99$, $t\!=\!5\times 10^7$.}
-  \label{fig:expected_two_by_two}
-\end{figure}
+% \begin{figure}[!htbp]
+%   \centering
+%   \includegraphics[width=\textwidth]{static/expected_two_by_two_games.pdf}
+%   \caption{{\bf Evolutionary dynamics under expected payoffs for various social dilemmas.}
+%   We vary the temptation payoff \(T \in \{0.2, 0.6, 1, 1.4, 1.8, 2.2\}\) across
+%   the \(x\) axis, and  \(S \in \{1.2, 0.8, 0.4, 0, -0.4, -0.8\}\) across the
+%   \(y\) axis. ({\bf A}) The top left quadrant where \(S > 0\) and \(T \leq 1\)
+%   corresponds to the harmony game. The preference ordering for the harmony game
+%   is \(R > T > S > P\). ({\bf B}) The top right quadrant where \(S > 0\) and \(T
+%   > 1\) corresponds to the snowdrift game. The preference ordering for the
+%   snowdrift game is \(T > R > S > P\). ({\bf C}) The bottom left quadrant where
+%   \(S < 0\) and \(T \leq 1\) corresponds to the stag-hunt game. The preference
+%   ordering for the stag-hunt game is \(R > T > P > S\). ({\bf D}) The bottom
+%   right quadrant where \(S < 0\) and \(T > 1\) corresponds to the prisoner's
+%   dilemma game. The preference ordering for the prisoner's dilemma game is \(T >
+%   R > P > S\). Unless explicitly varied, the parameters of the simulation are
+%   $N\!=\!100$, $\beta\!=\!10$, $\delta\!=\!0.99$, $t\!=\!5\times 10^7$.}
+%   \label{fig:expected_two_by_two}
+% \end{figure}
 
 
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=\textwidth]{static/stochastic_two_by_two_games.pdf}
-  \caption{{\bf Evolutionary dynamics under last round payoffs for various social dilemmas.} 
-  We vary the temptation payoff \(T \in \{0.2, 0.6, 1, 1.4, 1.8, 2.2\}\) across
-  the \(x\) axis, and  \(S \in \{1.2, 0.8, 0.4, 0, -0.4, -0.8\}\) across the
-  \(y\) axis. ({\bf A}) The top left quadrant where \(S > 0\) and \(T \leq 1\)
-  corresponds to the harmony game. The preference ordering for the harmony game
-  is \(R > T > S > P\). ({\bf B}) The top right quadrant where \(S > 0\) and \(T > 1\)
-  corresponds to the snowdrift game. The preference ordering for the snowdrift game
-  is \(T > R > S > P\). ({\bf C}) The bottom left quadrant where \(S < 0\) and \(T \leq 1\)
-  corresponds to the stag-hunt game. The preference ordering for the stag-hunt game
-  is \(R > T > P > S\). ({\bf D}) The bottom right quadrant where \(S < 0\) and \(T > 1\)
-  corresponds to the prisoner's dilemma game. The preference ordering for the prisoner's dilemma game
-  is \(T > R > P > S\).
-  Unless explicitly varied, the parameters of the simulation
-  are $N\!=\!100$, $\beta\!=\!10$, $\delta\!=\!0.99$, $t\!=\!5\times 10^7$.}
-  \label{fig:last_round_two_by_two}
-\end{figure}
+% \begin{figure}[!htbp]
+%   \centering
+%   \includegraphics[width=\textwidth]{static/stochastic_two_by_two_games.pdf}
+%   \caption{{\bf Evolutionary dynamics under last round payoffs for various social dilemmas.} 
+%   We vary the temptation payoff \(T \in \{0.2, 0.6, 1, 1.4, 1.8, 2.2\}\) across
+%   the \(x\) axis, and  \(S \in \{1.2, 0.8, 0.4, 0, -0.4, -0.8\}\) across the
+%   \(y\) axis. ({\bf A}) The top left quadrant where \(S > 0\) and \(T \leq 1\)
+%   corresponds to the harmony game. The preference ordering for the harmony game
+%   is \(R > T > S > P\). ({\bf B}) The top right quadrant where \(S > 0\) and \(T
+%   > 1\) corresponds to the snowdrift game. The preference ordering for the
+%   snowdrift game is \(T > R > S > P\). ({\bf C}) The bottom left quadrant where
+%   \(S < 0\) and \(T \leq 1\) corresponds to the stag-hunt game. The preference
+%   ordering for the stag-hunt game is \(R > T > P > S\). ({\bf D}) The bottom
+%   right quadrant where \(S < 0\) and \(T > 1\) corresponds to the prisoner's
+%   dilemma game. The preference ordering for the prisoner's dilemma game is \(T >
+%   R > P > S\). Unless explicitly varied, the parameters of the simulation are
+%   $N\!=\!100$, $\beta\!=\!10$, $\delta\!=\!0.99$, $t\!=\!5\times 10^7$.}
+%   \label{fig:last_round_two_by_two}
+% \end{figure}
 
-The harmony game describes an interaction without conflict. In the harmony game
-it is in the best interest for both players to cooperate, and in an evolutionary
-process cooperators prevail. We observe that for most harmony game runs the
-resident population overwhelmingly applies a strategy for which \(p\) and \(q\)
-are \(\approx 1\) (Figure~\ref{fig:expected_two_by_two}). The snowdrift game
-describes a situation similar to that of the prisoner's dilemma; cooperation
-results in a benefit to the opposing player but entailing a cost to the
-cooperator. However, in the snowdrift game individuals obtain immediate direct
-benefits from the cooperative acts which leads to \(S > P\). In the snowdrift
-game more cooperation emerges compared to the prisoner's dilemma. Defection is
-never a resident strategy and for the same values of temptation the overall
-\(q-\) values are higher. The last class of games we present are for the stag-hunt
-game. In the stag-hunt game there is an equilibrium in which both players
-cooperate as well as one in which both defect. For small values of the
-temptation and the sucker's payoffs we observe that cooperation prevails similar
-to the harmony game. However, in the case where the temptation and the reward
-payoffs are equal the resident population either consists of defectors or
-cooperators.
+% The harmony game describes an interaction without conflict. In the harmony game
+% it is in the best interest for both players to cooperate, and in an evolutionary
+% process cooperators prevail. We observe that for most harmony game runs the
+% resident population overwhelmingly applies a strategy for which \(p\) and \(q\)
+% are \(\approx 1\) (Figure~\ref{fig:expected_two_by_two}). The snowdrift game
+% describes a situation similar to that of the prisoner's dilemma; cooperation
+% results in a benefit to the opposing player but entailing a cost to the
+% cooperator. However, in the snowdrift game individuals obtain immediate direct
+% benefits from the cooperative acts which leads to \(S > P\). In the snowdrift
+% game more cooperation emerges compared to the prisoner's dilemma. Defection is
+% never a resident strategy and for the same values of temptation the overall
+% \(q-\) values are higher. The last class of games we present are for the
+% stag-hunt game. In the stag-hunt game there is an equilibrium in which both
+% players cooperate as well as one in which both defect. For small values of the
+% temptation and the sucker's payoffs we observe that cooperation prevails similar
+% to the harmony game. However, in the case where the temptation and the reward
+% payoffs are equal the resident population either consists of defectors or
+% cooperators.
 
-Although the patterns of the evolved populations remain similar if we consider
-that players update their strategies based on their last round payoff
-(Figure~\ref{fig:last_round_two_by_two}), there are still dissimilarities
-between the two approaches. To better understand these dissimilarities, we
-explore the cooperation rates for each of the cases of the social dilemmas we
-have presented (Figure~\ref{fig:cooperation_rates_two_by_two_part_one}).
+% Although the patterns of the evolved populations remain similar if we consider
+% that players update their strategies based on their last round payoff
+% (Figure~\ref{fig:last_round_two_by_two}), there are still dissimilarities
+% between the two approaches. To better understand these dissimilarities, we
+% explore the cooperation rates for each of the cases of the social dilemmas we
+% have presented (Figure~\ref{fig:cooperation_rates_two_by_two_part_one}).
 
-In the harmony game the cooperation rates for both approaches are similar. The
-biggest difference occurs for \(T=1\), nevertheless, it is less than 10\%. There
-are two instances for which the cooperation rates are higher for the limited
-memory payoffs compared to the expected. These are for \(T=2.2, S=0.4\) and for
-\(T=2.2, S=0.8\). It is only in the snowdrift game that cooperation is
-overestimated when a minimum of information is considered. Players are slightly
-more likely to cooperate after a cooperation and to forgive after being at the
-receiving end of a defection. For the rest of the cases the classical scenario
-overestimates the average cooperation rate, supporting the results of the
-previous section. There is a substantial difference in the cooperation rates
-for the prisoner's dilemma class. We observe that for \(S<-0.4\) cooperation
-almost never emerges if players imitate based only on the last round payoff.
+% In the harmony game the cooperation rates for both approaches are similar. The
+% biggest difference occurs for \(T=1\), nevertheless, it is less than 10\%. There
+% are two instances for which the cooperation rates are higher for the limited
+% memory payoffs compared to the expected. These are for \(T=2.2, S=0.4\) and for
+% \(T=2.2, S=0.8\). It is only in the snowdrift game that cooperation is
+% overestimated when a minimum of information is considered. Players are slightly
+% more likely to cooperate after a cooperation and to forgive after being at the
+% receiving end of a defection. For the rest of the cases the classical scenario
+% overestimates the average cooperation rate, supporting the results of the
+% previous section. There is a substantial difference in the cooperation rates for
+% the prisoner's dilemma class. We observe that for \(S<-0.4\) cooperation almost
+% never emerges if players imitate based only on the last round payoff.
 
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=.4\textwidth]{static/expected_two_by_two_games_cooperation.pdf}
-  \includegraphics[width=.4\textwidth]{static/stochastic_two_by_two_games_cooperation.pdf}
-  \caption{\textbf{Cooperation rates for various social dilemmas.} ({\bf A}) If
-  players update based on their expected payoffs. ({\bf B}) If
-  players update based on their last round payoffs. We vary the temptation
-  payoff \(T \in \{0.2, 0.6, 1, 1.4, 1.8, 2.2\}\)
-  across the \(x\) axis, and \(S \in \{1.2, 0.8, 0.4, 0, -0.4, -0.8\}\)
-  across the \(y\) axis. Unless explicitly varied, the parameters of the simulation
-  are $N\!=\!100$, $\beta\!=\!10$, $\delta\!=\!0.99$, $t\!=\!5\times 10^7$.}\label{fig:cooperation_rates_two_by_two_part_one}
-\end{figure}
+% \begin{figure}[!htbp]
+%   \centering
+%   \includegraphics[width=.4\textwidth]{static/expected_two_by_two_games_cooperation.pdf}
+%   \includegraphics[width=.4\textwidth]{static/stochastic_two_by_two_games_cooperation.pdf}
+%   \caption{\textbf{Cooperation rates for various social dilemmas.} ({\bf A}) If
+%   players update based on their expected payoffs. ({\bf B}) If players update
+%   based on their last round payoffs. We vary the temptation payoff \(T \in
+%   \{0.2, 0.6, 1, 1.4, 1.8, 2.2\}\) across the \(x\) axis, and \(S \in \{1.2,
+%   0.8, 0.4, 0, -0.4, -0.8\}\) across the \(y\) axis. Unless explicitly varied,
+%   the parameters of the simulation are $N\!=\!100$, $\beta\!=\!10$,
+%   $\delta\!=\!0.99$, $t\!=\!5\times
+%   10^7$.}\label{fig:cooperation_rates_two_by_two_part_one}
+% \end{figure}
 
-So far we have explored the difference between the expected payoffs and the last
-round payoffs. In order to explore further the effect of limited memory we allow
-individuals to remember more. More precisely, up to two interactions and up to
-the last two rounds. In total we present results for three more updating
-payoffs. These are the payoffs when individuals consider the last two rounds
-with another member of the population, the last round with two members of the
-population, and the last two rounds with two members of the population.
-Similar to the last round payoff, we use simulations and record which strategies
-the players adopt over time based
-(Appendix~\ref{appendix:further_simulation_results}) and we compare the
-evolving cooperation rates to those of the expected payoffs
-(Figure~\ref{fig:cooperation_rates_two_by_two_part_two}).
+% So far we have explored the difference between the expected payoffs and the last
+% round payoffs. In order to explore further the effect of limited memory we allow
+% individuals to remember more. More precisely, up to two interactions and up to
+% the last two rounds. In total we present results for three more updating
+% payoffs. These are the payoffs when individuals consider the last two rounds
+% with another member of the population, the last round with two members of the
+% population, and the last two rounds with two members of the population. Similar
+% to the last round payoff, we use simulations and record which strategies the
+% players adopt over time based
+% (Appendix~\ref{appendix:further_simulation_results}) and we compare the evolving
+% cooperation rates to those of the expected payoffs
+% (Figure~\ref{fig:cooperation_rates_two_by_two_part_two}).
 
-In the case of the last two rounds payoff we make two observations. Initially,
-for the harmony, the stag-hunt and the prisoner's dilemma classes the average
-cooperation rates are higher than the previous case of the last round payoff.
-The rates remain strictly less than in the expected payoffs, however, in the
-case of the prisoner's dilemma we observe a significant increase. Secondly, for
-the snowdrift class there are more instances for which the cooperation rates are
-higher than in the expected payoffs. This could indicate that in the case of the
-snowdrift game the expected payoffs underestimate cooperation.
-Once players interact with two other members of the population, instead of one,
-the expected payoffs strictly yield a higher cooperation rate  even in the case
-of the snowdrift game. Similar to the previous result, the difference between
-the two approaches is always higher for the prisoner's dilemma class.
+% In the case of the last two rounds payoff we make two observations. Initially,
+% for the harmony, the stag-hunt and the prisoner's dilemma classes the average
+% cooperation rates are higher than the previous case of the last round payoff.
+% The rates remain strictly less than in the expected payoffs, however, in the
+% case of the prisoner's dilemma we observe a significant increase. Secondly, for
+% the snowdrift class there are more instances for which the cooperation rates are
+% higher than in the expected payoffs. This could indicate that in the case of the
+% snowdrift game the expected payoffs underestimate cooperation. Once players
+% interact with two other members of the population, instead of one, the expected
+% payoffs strictly yield a higher cooperation rate  even in the case of the
+% snowdrift game. Similar to the previous result, the difference between the two
+% approaches is always higher for the prisoner's dilemma class.
 
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=.33\textwidth]{static/rounds_two_by_two_games_cooperation.pdf}
-  \includegraphics[width=.33\textwidth]{static/opponents_two_by_two_games_cooperation.pdf}
-  \includegraphics[width=.33\textwidth]{static/rounds_opponents_two_by_two_games_cooperation.pdf}
-  \caption{\textbf{Cooperation rates over various social dilemmas for different
-  limited memory payoffs.} ({\bf A}) If
-  players update based on their last two rounds with another member of the population.
-  ({\bf B}) If players update based on their last round with two other members of the population.
-  ({\bf C}) If players update based on their last two rounds with two other members of the population.
-  We vary the temptation
-  payoff \(T \in \{0.2, 0.6, 1, 1.4, 1.8, 2.2\}\)
-  across the \(x\) axis, and \(S \in \{1.2, 0.8, 0.4, 0, -0.4, -0.8\}\)
-  across the \(y\) axis. Unless explicitly varied, the parameters of the simulation
-  are $N\!=\!100$, $\beta\!=\!10$, $\delta\!=\!0.99$, $t\!=\!5\times 10^7$..}
-  \label{fig:cooperation_rates_two_by_two_part_two}
-\end{figure}
+% \begin{figure}[!htbp]
+%   \centering
+%   \includegraphics[width=.33\textwidth]{static/rounds_two_by_two_games_cooperation.pdf}
+%   \includegraphics[width=.33\textwidth]{static/opponents_two_by_two_games_cooperation.pdf}
+%   \includegraphics[width=.33\textwidth]{static/rounds_opponents_two_by_two_games_cooperation.pdf}
+%   \caption{\textbf{Cooperation rates over various social dilemmas for different
+%   limited memory payoffs.} ({\bf A}) If players update based on their last two
+%   rounds with another member of the population. ({\bf B}) If players update
+%   based on their last round with two other members of the population. ({\bf C})
+%   If players update based on their last two rounds with two other members of the
+%   population. We vary the temptation payoff \(T \in \{0.2, 0.6, 1, 1.4, 1.8,
+%   2.2\}\) across the \(x\) axis, and \(S \in \{1.2, 0.8, 0.4, 0, -0.4, -0.8\}\)
+%   across the \(y\) axis. Unless explicitly varied, the parameters of the
+%   simulation are $N\!=\!100$, $\beta\!=\!10$, $\delta\!=\!0.99$, $t\!=\!5\times
+%   10^7$..}
+%   \label{fig:cooperation_rates_two_by_two_part_two}
+% \end{figure}
 
 
 \section{Conclusions}\label{section:conclusions}
@@ -579,16 +647,16 @@ each turn the individuals choose between cooperation (\(C\)) and defection
 \(DD\). If both players cooperate they receive the reward payoff \(R\), whereas
 if both players defect they receive the punishment payoff \(P\). If one
 cooperates but the other defects, the defector receives the temptation to
-defect, \(T\), whereas the cooperator receives the sucker's payoff, \(S\).
-Let $\mathcal{U}=\{R,S,T,P\}$ denote the set of feasible payoffs in each round,
-and let $\mathbf{u}\!=\!(R,S,T,P)$ be the corresponding payoff vector.
-We present results for various values of $\mathcal{U}$ for all
-the symmetric \(2 \times 2\) games.
+defect, \(T\), whereas the cooperator receives the sucker's payoff, \(S\). Let
+$\mathcal{U}=\{R,S,T,P\}$ denote the set of feasible payoffs in each round, and
+let $\mathbf{u}\!=\!(R,S,T,P)$ be the corresponding payoff vector. We present
+results for various values of $\mathcal{U}$ for all the symmetric \(2 \times 2\)
+games.
 
 A further assumption of our model is that individuals make use of reactive
 strategies when they make decisions in each round. Reactive strategies are a set
-of strategies that take into account only the previous action of the opponent.
-A reactive strategy can be written explicitly as a vector,
+of strategies that take into account only the previous action of the opponent. A
+reactive strategy can be written explicitly as a vector,
 
 \[s=(y, p, q)\]
 
@@ -597,8 +665,8 @@ where \(y\) is the probability that the strategy opens with a cooperation and
 opponent cooperated and defected equivalently.
 
 In the updating stage, two players are randomly drawn from the population, a
-`learner' and a `role model'. The learner adopts the role model's strategy
-based on the Fermi distribution function, %ToDo add reference
+`learner' and a `role model'. The learner adopts the role model's strategy based
+on the Fermi distribution function, %ToDo add reference
 
 \begin{equation} \label{Eq:rho}
 \rho(u_{L}, u_{RM}) = \frac{1}{1\!+\! \exp^{\!-\!\beta (u_{RM}\!-\!u_{L})}}.
@@ -629,17 +697,12 @@ evolutionary process is summarized by
 Algorithm~\ref{algorithm:pairwise_comparison}.
 
 \begin{algorithm}[!htbp]
-  \SetAlgoLined
-   $N \leftarrow$ population size\;
-   $k \leftarrow 1$\;
-   resident $\leftarrow (0, 0, 0)$\;
-   \While{ $t <$ maximum number of steps}{
-    mutant $\leftarrow$ random: $\{\emptyset \}\ \rightarrow R^3$\;
-    fixation probability $\leftarrow \varphi $\;
-    \If{$\varphi >$ random: $i \rightarrow [0, 1]$}{
-      resident $\leftarrow$ mutant;
-     }}
-     \caption{Evolutionary process}\label{algorithm:pairwise_comparison}
+  \SetAlgoLined $N \leftarrow$ population size\; $k \leftarrow 1$\; resident
+   $\leftarrow (0, 0, 0)$\; \While{ $t <$ maximum number of steps}{mutant
+   $\leftarrow$ random: $\{\emptyset \}\ \rightarrow R^3$\; fixation probability
+   $\leftarrow \varphi $\; \If{$\varphi >$ random: $i \rightarrow [0,
+   1]$}{resident $\leftarrow$ mutant;}} \caption{Evolutionary
+   process}\label{algorithm:pairwise_comparison}
 \end{algorithm}
 
 The aim of this work is to explore the effect of updating memory on the
@@ -696,17 +759,16 @@ as,
 
 \subsection*{Limited memory payoffs}
 
-Initially, we discuss the case of the \textbf{last round updating payoff}. At the stage
-game we define the payoff of a reactive strategy in the last round,
+Initially, we discuss the case of the \textbf{last round updating payoff}. At
+the stage game we define the payoff of a reactive strategy in the last round,
 Proposition~\ref{proposition:last_round}.
 
-\begin{Prop}\label{proposition:last_round}
-    Consider a repeated game, with
+\begin{Prop}\label{proposition:last_round} Consider a repeated game, with
     continuation probability $\delta$, between players with reactive strategies
-    $s_1\!=\!(y_1, p_1, q_1$)  and $s_2\!=\!(y_2,p_2,q_2)$ respectively. Then the
-    probability that the $s_1$ player receives the payoff $u\!\in\! \mathcal{U}$ in
-    the very last round of the game is given by $v_{u}(s_1,s_2)$, as given by
-    Equation~(\ref{Eq:LastRound}).
+    $s_1\!=\!(y_1, p_1, q_1$)  and $s_2\!=\!(y_2,p_2,q_2)$ respectively. Then
+    the probability that the $s_1$ player receives the payoff $u\!\in\!
+    \mathcal{U}$ in the very last round of the game is given by
+    $v_{u}(s_1,s_2)$, as given by Equation~(\ref{Eq:LastRound}).
 
     \begin{equation} \label{Eq:LastRound}
       \setlength{\arraycolsep}{1pt}
@@ -740,8 +802,8 @@ $\delta$. The outcome at turn \(t\) is given by,
 \end{equation}
 
 where $\mathbf{v_0}$ denotes the expected distribution of the four outcomes in
-the very first round, and \(1- \delta\) the probability that the game ends.
-It can be shown that,
+the very first round, and \(1- \delta\) the probability that the game ends. It
+can be shown that,
 
 \begin{align*}
   (1 - \delta) \mathbf{v_0} \sum \delta^{t} M^{(t)} & = (1 - \delta)(\mathbf{v_0} + \delta \mathbf{v_0} M + \delta^{2}\mathbf{v_0} M ^{2} + \dots )\\ 
@@ -771,19 +833,20 @@ are five possible combinations of pairs (Figure~\ref{fig:single_pairs}).
   learner estimate their fitness after interacting with a single member of the
   population. There are five possible pairings at each step. They interact with
   other with a probability \(\frac{1}{N - 1}\), and thus they do not interact
-  with other with a probability \(1 - \frac{1}{N - 1}\). In
-  the latter case, each of them can interact with either a mutant or a resident.
-  Both of them interact with a mutant with a probability
-  $\frac{(k-1)(k-2)}{(N-2)(N-3)}$ and both interact with a resident with a
-  probability $\frac{(N-k-1)(N-k-2)}{(N-2)(N-3)}$. The last two possible pairings
-  are that either of them interacts with a resident whilst the other interacts
-  with a mutant, and this happens with a probability $\frac{(N-k-1)(k-1)}{(N-2)(N-3)}$.}
+  with other with a probability \(1 - \frac{1}{N - 1}\). In the latter case,
+  each of them can interact with either a mutant or a resident. Both of them
+  interact with a mutant with a probability $\frac{(k-1)(k-2)}{(N-2)(N-3)}$ and
+  both interact with a resident with a probability
+  $\frac{(N-k-1)(N-k-2)}{(N-2)(N-3)}$. The last two possible pairings are that
+  either of them interacts with a resident whilst the other interacts with a
+  mutant, and this happens with a probability
+  $\frac{(N-k-1)(k-1)}{(N-2)(N-3)}$.}
   \label{fig:single_pairs}
 \end{figure}
 
-Given the last round payoff and possible pair combinations for a single interaction,
-we define the probability that the respective last round payoffs of two players
-\(s_1, s_2\) are given by $u_1$ and $u_2$ as,
+Given the last round payoff and possible pair combinations for a single
+interaction, we define the probability that the respective last round payoffs of
+two players \(s_1, s_2\) are given by $u_1$ and $u_2$ as,
 
 \begin{equation}\label{eq:Chi}
 \setlength{\arraycolsep}{1pt}
@@ -800,32 +863,34 @@ x(u_1,u_2)	 &=&\displaystyle \frac{1}{N\!-\!1}\cdot  &v_{u_1}(s_1,s_2)\cdot 1_{(
 
 The first term on the right side corresponds to the case that the learner and
 the role model happened to be matched during the game stage, which happens with
-probability $\frac{1}{(N\!-\!1)}$. In that case, we note that only those payoff pairs
-can occur that are feasible in a direct interaction, $\splitatcommas{(u_1,u_2)\in
-\mathcal{U}^2_F:=\big\{ (R,R), (S,T), (T,S), (P,P) \big\}}$, as represented by
-the respective indicator function. Otherwise, if the learner and the role model
-did not interact directly, we need to distinguish four different cases,
-depending on whether the learner was matched with a resident or a mutant, and
-depending on whether the role model was matched with a resident or a mutant.
+probability $\frac{1}{(N\!-\!1)}$. In that case, we note that only those payoff
+pairs can occur that are feasible in a direct interaction,
+$\splitatcommas{(u_1,u_2)\in \mathcal{U}^2_F:=\big\{ (R,R), (S,T), (T,S), (P,P)
+\big\}}$, as represented by the respective indicator function. Otherwise, if the
+learner and the role model did not interact directly, we need to distinguish
+four different cases, depending on whether the learner was matched with a
+resident or a mutant, and depending on whether the role model was matched with a
+resident or a mutant.
 
-Given that $N\!-\!k$ players use the resident strategy $s_{R}\!=\!(y_{R},p_{R},q_{R})$
-and that the remaining $k$ players use the mutant strategy
-$s_{M}\!=\!(y_{M},p_{M},q_{M})$, the probability that the number of mutants increases by
-one in one step of the evolutionary process can be written as
+Given that $N\!-\!k$ players use the resident strategy
+$s_{R}\!=\!(y_{R},p_{R},q_{R})$ and that the remaining $k$ players use the
+mutant strategy $s_{M}\!=\!(y_{M},p_{M},q_{M})$, the probability that the number
+of mutants increases by one in one step of the evolutionary process can be
+written as
 
 \begin{align}
 \lambda^+_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N}\cdot \sum_{u_{R},u_{M}\in\mathcal{U}} x(u_{R},u_{M})\cdot \rho(u_{R},u_{M}), \\
 \lambda^-_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N}\cdot \sum_{u_{R},u_{M}\in\mathcal{U}} x(u_{R},u_{M})\cdot \rho(u_{M},u_{R}).
 \end{align}
 
-In this expression, $\frac{(N\!-\!k)}{N}$ is the probability that the randomly chosen
-learner is a resident, and $\frac{k}{N}$ is the probability that the role model is a
-mutant. The sum corresponds to the total probability that the learner adopts the
-role model's strategy over all possible payoffs $u_R$ and $u_M$ that the two
-player may have received in their respective last rounds. We use $x(u_R,u_M)$ to
-denote the probability that the randomly chosen resident obtained a payoff of
-$u_R$ in the last round of his respective game, and that the mutant obtained a
-payoff of $u_M$.
+In this expression, $\frac{(N\!-\!k)}{N}$ is the probability that the randomly
+chosen learner is a resident, and $\frac{k}{N}$ is the probability that the role
+model is a mutant. The sum corresponds to the total probability that the learner
+adopts the role model's strategy over all possible payoffs $u_R$ and $u_M$ that
+the two player may have received in their respective last rounds. We use
+$x(u_R,u_M)$ to denote the probability that the randomly chosen resident
+obtained a payoff of $u_R$ in the last round of his respective game, and that
+the mutant obtained a payoff of $u_M$.
 
 We extend our framework to consider the case where players update their
 strategies based on the outcome of \textbf{the last two turns and based on their
@@ -833,14 +898,13 @@ interaction with two other members of the population}. At the stage game we
 define the payoff of a reactive strategy in the last two rounds,
 Proposition~\ref{proposition:last_two_rounds}.
 
-\begin{Prop}\label{proposition:last_two_rounds}
-  Consider a repeated game, with continuation probability $\delta$, between
-  players with reactive strategies $s_1\!=\!(y_1, p_1, q_1$)  and
-  $s_2\!=\!(y_2,p_2,q_2)$ respectively. Let $\mathcal{\tilde{U}} =
-  \splitatcommas{\{RR, RS, RT, RP, SR, SS, ST, SP, TR, TS, TT, TP, PR, PS, PT,
-  PP\}}$ denote the set of feasible payoffs in the last two rounds, and let
-  \(\tilde{\mathbf{u}}\) be the corresponding payoff vector. Then the
-  probability that the $s_1$ player receives the payoff $u\!\in\!
+\begin{Prop}\label{proposition:last_two_rounds} Consider a repeated game, with
+  continuation probability $\delta$, between players with reactive strategies
+  $s_1\!=\!(y_1, p_1, q_1$)  and $s_2\!=\!(y_2,p_2,q_2)$ respectively. Let
+  $\mathcal{\tilde{U}} = \splitatcommas{\{RR, RS, RT, RP, SR, SS, ST, SP, TR,
+  TS, TT, TP, PR, PS, PT, PP\}}$ denote the set of feasible payoffs in the last
+  two rounds, and let \(\tilde{\mathbf{u}}\) be the corresponding payoff vector.
+  Then the probability that the $s_1$ player receives the payoff $u\!\in\!
   \mathcal{\tilde{U}}$ in the very last two rounds of the game is given by,
 
   \begin{equation}
@@ -852,8 +916,8 @@ Proposition~\ref{proposition:last_two_rounds}.
 \end{Prop}
 
 In the updating stage we select a mutant and resident to be either the role
-model or the learner. Given that they can interact with two other members of
-the population there are a total of twenty four possible combinations of pairs
+model or the learner. Given that they can interact with two other members of the
+population there are a total of twenty four possible combinations of pairs
 (Figure~\ref{fig:pissible_two_pairs}).
 
 \begin{figure}[!htbp]
@@ -877,7 +941,8 @@ include \(n\) turns and \(m\) interactions. However, for the purpose of this
 work we explore the cases only up to two turns and two interactions.
 
 
-\section{Evolutionary dynamics under limited memory payoffs for various social dilemmas}\label{appendix:further_simulation_results}
+\section{Evolutionary dynamics under limited memory payoffs for various social
+dilemmas}\label{appendix:further_simulation_results}
 
 \begin{figure}[!htbp]
   \centering
