@@ -91,9 +91,8 @@ limited payoff memory\\}
 \maketitle
 
 \begin{abstract}
-% Repeated games are vastly used in evolutionary game theory to explain
-% cooperation in a variety of environments. Although existing models have shaped
-% our understanding of human cooperation, they often work with idealized
+% Repeated games are vastly use in evolutionary game theory to explain cooperation in a variety of environments. Although existing models have shaped
+% our understanding of human cooperation, hey often work with idealized
 % assumptions. In an evolutionary process, individuals imitate other individuals
 % of the population based on their fitness. It is commonly assumed that an
 % individual computes their fitness after interacting with a representative sample
@@ -118,78 +117,79 @@ limited payoff memory\\}
 
 Evolutionary game theory~\cite{smith1982evolution, hofbauer1998evolutionary,
 nowak2004evolutionary, hauert2005game} describes the evolutionary dynamics of
-populations consisting of different types of interacting individuals.
-Traditional approaches assume that individuals meet each other at random in an
-infinitely large well-mixed population. An example of such a approach in the the
-replicator dynamics. It describes how the abundance of strategic types in a
-population changes based on their fitness, identified with the payoff resulting
-from the game~\cite{cressman2014replicator}. In this deterministic formulation,
-individuals with higher fitness, such as defectors, increase in abundance.
-Ultimately, the system reaches a stable fixed point in which the population may
-consist either of a single type or of a mixture of different types.
+populations consisting of different types of interacting individuals. The
+framework of evolutionary game theory has been applied in %ToDo cite.
+Traditional approaches of evolutionary game theory assume that individuals meet
+each other at random in an infinitely large well-mixed population, such an
+approach is the replicator dynamics. The replicator dynamics describes how the
+abundance of strategic types in a population changes based on their fitness. In
+this deterministic formulation, individuals with higher fitness increase in
+abundance and ultimately, the system reaches a stable fixed point in which the
+population may consist either of a single type or of a mixture of different
+types. The works of cite have shown that by constrain the population to a
+finiteness of populations may lead to fundamental changes in this picture due to
+stochastic effects. These stochastic effects disadvantageous mutants have a
+small, yet non-zero probability to reach fixation in a finite population.
 
-Mo
-
-It has been shown that the finiteness of populations may lead to fundamental
-changes in this picture due to stochastic effects In this framework
-disadvantageous mutants have a small, yet non-zero probability to reach fixation
-in a finite population.
-
-
-Its most prominent application is the quest for the origins and 
-evolution of cooperation.
-An important application of evolutionary game theory is the evolution of
-cooperation which remains one of the greatest problems for biological and social
-sciences.
-
-
-
-% To explain the evolution of cooperation remains one of the greatest problems for
-% biological and social sciences. Cooperation is the action of choosing to help
-% others at one's own expense. The standard game of formulating such situation is
-% the Prisoner's Dilemma~\cite{trivers1971evolution,
-% milinski1987tit, glynatsi2021bibliometric, ohtsuki2006simple}, in which two
-% players can choose to cooperate or to defect. The players are offered a certain
-% payoff, \(R\), for mutual cooperation and a lower payoff, \(P\), for mutual
-% defection. If one player cooperates while the other defects, then the cooperator
-% gets the lowest payoff, \(S\), while the defector gains the highest payoff,
-% \(T\). Thus, the payoffs have the following property \(T > R > P > S\), making
-% defection the dominant strategy in the non-repeated game.
-
-% In the repeated Prisoner's Dilemma, direct reciprocity can allow cooperators to
-% not be exploited by defectors~\cite{axelrod1981evolution, nowak1992tit,
-% nowak1992evolutionary}, however, how do such cooperators can evolve?
-
- , and 
-in general, defectors are stable against invasion by cooperators.
-
-
-
-In this framework disadvantageous mutants have a small, yet non-zero probability
-to reach fixation in a finite population. 
-
-Two classes of microscopic processes have been used extensively: (i)
+Two classes of such finite stochastic processes have been used extensively: (i)
 fitness-based processes in which an individual chosen proportional to fitness
-reproduces and the offspring replaces a randomly chosen individual [11]; (ii)
-pairwise comparison processes in which a pair of individuals is chosen, and
-where subsequently one of these individuals may adopt the strategy of the other.
+reproduces and the offspring replaces a randomly chosen individual [11]
+\textit{moran process}; (ii) \textit{pairwise comparison processes} in which a
+pair of individuals is chosen, and where subsequently one of these individuals
+may adopt the strategy of the other.
 
-In the pairwise process considers a finite population of fixed size.In the
-population at a time step different types of individuals can exist. 
-Each individual can be of one of two types, A and B. The state of the population
-is thus characterized by the number i of individuals of type A. 
+In pairwise comparison process considers a finite population of fixed size. In
+the population at a time step different types of individuals can exist. In the
+simplest of cases each individual can be of one of two types, A and B. The state
+of the population is thus characterized by the number \(k\) of individuals of
+type A. The interaction between the two types of individuals is described by the
+functions \(\pi _{{\rm A}}^{i}\) and $\pi _{{\rm B}}^{i}$.
 
-The interaction between the two types of individuals is described by the
-functions $\pi _{{\rm A}}^{i}$ and $\pi _{{\rm B}}^{i}$. These indicate the
-expected payoff for two types in a population in state i. The interaction can be
-generated from a two-player matrix game which leads to payoffs linear in i [26],
-but we keep the formalism general to include games played between an arbitrary
-number of players, which leads to payoffs that depend on i in a polynomial way
-[27–30]. In fact, our results hold for an arbitrary dependence of the payoffs on
-i.
+At each step an individual change their type based.
 
-At each step an individual change their type based. This very cooperators
-can repeas.
+\begin{equation} \label{Eq:rho}
+  \rho(\pi _{{\rm A}}^{i}, \pi _{{\rm B}}^{i}) = \frac{1}{1\!+\! \exp^{\!-\!\beta (\pi _{{\rm A}}^{i}\!-\!\pi _{{\rm B}}^{i})}}.
+\end{equation}
+
+The parameter denotes the intensity of selection. For , fitness equals payoff.
+This scenario describes ``strong selection''. For \(\beta \ll 1\) , the
+payoff only provides a small perturbation to the overall fitness of an
+individual, a limit known as weak selection (Nowak et al., 2004).
+
+These indicate the expected payoff for two types in a population in state i. The
+interaction can be generated from a two-player matrix game which leads to
+payoffs linear in i [26], but we keep the formalism general to include games
+played between an arbitrary number of players, which leads to payoffs that
+depend on i in a polynomial way [27–30]. In fact, our results hold for an
+arbitrary dependence of the payoffs on i.
+
+In the simplest case, the payoffs of A and B individuals only depend on the
+fraction of both types in the population. If there are i A individuals and B
+individuals, then the A and B individuals have payoffs and , respectively.
+Self-interactions are excluded.
+
+Here, we consider a process based on pairwise comparison between individuals.
+Two individuals, A and B, are selected at random. The individual chosen for
+reproduction A replaces B with probability p, which depends on the payoff
+difference between the two individuals. The composition of the population can
+only change if both individuals are of different types. We follow (Blume, 1993,
+Szabó and Tőke, 1998, Hauert and Szabó, 2005) in choosing the Fermi function
+from statistical physics for p
+
+To explain the evolution of cooperation remains one of the greatest problems for
+biological and social sciences. Cooperation is the action of choosing to help
+others at one's own expense. The standard game of formulating such situation is
+the Prisoner's Dilemma~\cite{trivers1971evolution,
+milinski1987tit, glynatsi2021bibliometric, ohtsuki2006simple}, in which two
+players can choose to cooperate or to defect. The players are offered a certain
+payoff, \(R\), for mutual cooperation and a lower payoff, \(P\), for mutual
+defection. If one player cooperates while the other defects, then the cooperator
+gets the lowest payoff, \(S\), while the defector gains the highest payoff,
+\(T\). Thus, the payoffs have the following property \(T > R > P > S\), making
+defection the dominant strategy in the non-repeated game.
+
+In the context of the prisoner's dilemma the payoffs are calculated as follows.
+In the example that a strategy is playing always cooperate and always defect,
 
 This model has several assumptions. Two assumptions are that initally it is
 assumed that time to interact is faster than the time of the population
