@@ -128,6 +128,8 @@ individuals with higher fitness, such as defectors, increase in abundance.
 Ultimately, the system reaches a stable fixed point in which the population may
 consist either of a single type or of a mixture of different types.
 
+Mo
+
 It has been shown that the finiteness of populations may lead to fundamental
 changes in this picture due to stochastic effects In this framework
 disadvantageous mutants have a small, yet non-zero probability to reach fixation
@@ -368,28 +370,28 @@ payoffs we observe that the cooperation rate increases as the value of the
 benefit gets higher. In comparison for the limited memory payoffs, the
 cooperation rate remains unchanged at approximately 50\% once \(b=5\).
 
-\begin{figure}[!htbp]
-  \centering
-  \begin{subfigure}{.5\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{static/expected_for_beta.pdf}
-    \includegraphics[width=\textwidth]{static/stochastic_for_beta.pdf}
-  \end{subfigure}%
-  \begin{subfigure}{.5\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{static/cooperation_rate_over_b.pdf}
-  \end{subfigure}
-  \caption{{\bf The evolution of cooperation for different benefit values.} 
-  We vary the benefit of defection $b$. In all cases, expected payoffs appear to
-  overestimate the average cooperation rate the population achieves. ({\bf A})
-  the probabilities \(p, q\) for resident population over \(10^7\) time steps
-  for each benefit value. ({\bf B}) The cooperation rate within the resident
-  population (averaged over all games and over all time steps) over the benefit.
-  Unless explicitly varied, the parameters of the simulation are $N\!=\!100$,
-  $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.99$. Simulations are run for
-  $t\!=\!5\times 10^7$ time steps for each parameter
-  combination.}\label{fig:cooperation_rate_over_benefit}
-\end{figure}
+% \begin{figure}[!htbp]
+%   \centering
+%   \begin{subfigure}{.5\textwidth}
+%     \centering
+%     \includegraphics[width=\textwidth]{static/expected_for_beta.pdf}
+%     \includegraphics[width=\textwidth]{static/stochastic_for_beta.pdf}
+%   \end{subfigure}%
+%   \begin{subfigure}{.5\textwidth}
+%     \centering
+%     \includegraphics[width=\textwidth]{static/cooperation_rate_over_b.pdf}
+%   \end{subfigure}
+%   \caption{{\bf The evolution of cooperation for different benefit values.} 
+%   We vary the benefit of defection $b$. In all cases, expected payoffs appear to
+%   overestimate the average cooperation rate the population achieves. ({\bf A})
+%   the probabilities \(p, q\) for resident population over \(10^7\) time steps
+%   for each benefit value. ({\bf B}) The cooperation rate within the resident
+%   population (averaged over all games and over all time steps) over the benefit.
+%   Unless explicitly varied, the parameters of the simulation are $N\!=\!100$,
+%   $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.99$. Simulations are run for
+%   $t\!=\!5\times 10^7$ time steps for each parameter
+%   combination.}\label{fig:cooperation_rate_over_benefit}
+% \end{figure}
 
 We also investigate the effect of the strength of selection $\beta$.
 Figure~\ref{fig:cooperation_rate_over_betas} illustrates results for various
@@ -941,53 +943,53 @@ include \(n\) turns and \(m\) interactions. However, for the purpose of this
 work we explore the cases only up to two turns and two interactions.
 
 
-\section{Evolutionary dynamics under limited memory payoffs for various social
-dilemmas}\label{appendix:further_simulation_results}
+% \section{Evolutionary dynamics under limited memory payoffs for various social
+% dilemmas}\label{appendix:further_simulation_results}
 
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=\textwidth]{static/rounds_two_by_two_games.pdf}
-  \caption{{\bf Evolutionary dynamics under last two rounds payoffs for various social dilemmas.} 
-  We have run several simulations of the evolutionary process described in
-  section~\ref{section:model} for $t\!=\!10^7$ time steps. The graphs show how
-  often the resident population chooses each combination ($p,q$) of conditional
-  cooperation probabilities in the subsequent rounds. We vary the temptation
-  payoff \(T \in \{-1, -0.6, -0.2,  0.2, 0.6, 1, 1.4, 1.8, 2.2, 2.6, 3\}\)
-  across the \(x\) axis, and  \(S \in \{2, 1.6, 1.2, 0.8, 0.4, 0, -0.4, -0.8,
-  -1.2, -1.6, -2\}\) across the \(y\) axis. Parameters: $N\!=\!100$,
-  $\beta\!=\!10$, $\delta\!=\!0.999$.}
-  \label{fig:last_two_rounds_two_by_two}
-\end{figure}
+% \begin{figure}[!htbp]
+%   \centering
+%   \includegraphics[width=\textwidth]{static/rounds_two_by_two_games.pdf}
+%   \caption{{\bf Evolutionary dynamics under last two rounds payoffs for various social dilemmas.} 
+%   We have run several simulations of the evolutionary process described in
+%   section~\ref{section:model} for $t\!=\!10^7$ time steps. The graphs show how
+%   often the resident population chooses each combination ($p,q$) of conditional
+%   cooperation probabilities in the subsequent rounds. We vary the temptation
+%   payoff \(T \in \{-1, -0.6, -0.2,  0.2, 0.6, 1, 1.4, 1.8, 2.2, 2.6, 3\}\)
+%   across the \(x\) axis, and  \(S \in \{2, 1.6, 1.2, 0.8, 0.4, 0, -0.4, -0.8,
+%   -1.2, -1.6, -2\}\) across the \(y\) axis. Parameters: $N\!=\!100$,
+%   $\beta\!=\!10$, $\delta\!=\!0.999$.}
+%   \label{fig:last_two_rounds_two_by_two}
+% \end{figure}
 
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=\textwidth]{static/opponents_two_by_two_games.pdf}
-  \caption{{\bf Evolutionary dynamics under last round payoffs with two members of the population for various social dilemmas.} 
-  We have run several simulations of the evolutionary process described in
-  section~\ref{section:model} for $t\!=\!10^7$ time steps. The graphs show how
-  often the resident population chooses each combination ($p,q$) of conditional
-  cooperation probabilities in the subsequent rounds. We vary the temptation
-  payoff \(T \in \{-1, -0.6, -0.2,  0.2, 0.6, 1, 1.4, 1.8, 2.2, 2.6, 3\}\)
-  across the \(x\) axis, and  \(S \in \{2, 1.6, 1.2, 0.8, 0.4, 0, -0.4, -0.8,
-  -1.2, -1.6, -2\}\) across the \(y\) axis. Parameters: $N\!=\!100$,
-  $\beta\!=\!10$, $\delta\!=\!0.999$.}
-  \label{fig:last_two_opponents_two_by_two}
-\end{figure}
+% \begin{figure}[!htbp]
+%   \centering
+%   \includegraphics[width=\textwidth]{static/opponents_two_by_two_games.pdf}
+%   \caption{{\bf Evolutionary dynamics under last round payoffs with two members of the population for various social dilemmas.} 
+%   We have run several simulations of the evolutionary process described in
+%   section~\ref{section:model} for $t\!=\!10^7$ time steps. The graphs show how
+%   often the resident population chooses each combination ($p,q$) of conditional
+%   cooperation probabilities in the subsequent rounds. We vary the temptation
+%   payoff \(T \in \{-1, -0.6, -0.2,  0.2, 0.6, 1, 1.4, 1.8, 2.2, 2.6, 3\}\)
+%   across the \(x\) axis, and  \(S \in \{2, 1.6, 1.2, 0.8, 0.4, 0, -0.4, -0.8,
+%   -1.2, -1.6, -2\}\) across the \(y\) axis. Parameters: $N\!=\!100$,
+%   $\beta\!=\!10$, $\delta\!=\!0.999$.}
+%   \label{fig:last_two_opponents_two_by_two}
+% \end{figure}
 
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=\textwidth]{static/merged_plot_rounds_opponents_two.pdf}
-  \caption{{\bf Evolutionary dynamics under last two rounds payoffs with two members of the population for various social dilemmas.} 
-  We have run several simulations of the evolutionary process described in
-  section~\ref{section:model} for $t\!=\!10^7$ time steps. The graphs show how
-  often the resident population chooses each combination ($p,q$) of conditional
-  cooperation probabilities in the subsequent rounds. We vary the temptation
-  payoff \(T \in \{-1, -0.6, -0.2,  0.2, 0.6, 1, 1.4, 1.8, 2.2, 2.6, 3\}\)
-  across the \(x\) axis, and  \(S \in \{2, 1.6, 1.2, 0.8, 0.4, 0, -0.4, -0.8,
-  -1.2, -1.6, -2\}\) across the \(y\) axis. Parameters: $N\!=\!100$,
-  $\beta\!=\!10$, $\delta\!=\!0.999$.}
-  \label{fig:last_two_rounds_two_opponents}
-\end{figure}
+% \begin{figure}[!htbp]
+%   \centering
+%   \includegraphics[width=\textwidth]{static/merged_plot_rounds_opponents_two.pdf}
+%   \caption{{\bf Evolutionary dynamics under last two rounds payoffs with two members of the population for various social dilemmas.} 
+%   We have run several simulations of the evolutionary process described in
+%   section~\ref{section:model} for $t\!=\!10^7$ time steps. The graphs show how
+%   often the resident population chooses each combination ($p,q$) of conditional
+%   cooperation probabilities in the subsequent rounds. We vary the temptation
+%   payoff \(T \in \{-1, -0.6, -0.2,  0.2, 0.6, 1, 1.4, 1.8, 2.2, 2.6, 3\}\)
+%   across the \(x\) axis, and  \(S \in \{2, 1.6, 1.2, 0.8, 0.4, 0, -0.4, -0.8,
+%   -1.2, -1.6, -2\}\) across the \(y\) axis. Parameters: $N\!=\!100$,
+%   $\beta\!=\!10$, $\delta\!=\!0.999$.}
+%   \label{fig:last_two_rounds_two_opponents}
+% \end{figure}
 
 \bibliographystyle{unsrt}
 \bibliography{bibliography.bib}

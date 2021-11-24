@@ -12,7 +12,7 @@ for t = progress(1:numberIterations)
         population(idx, :) = rand(1, sdim);
     else
         indices = randi(N, [1, 2]);
-        
+
         if population(indices(1),:) ~= population(indices(2),:)
             if payoff_type == "expected"
                 payoffs = payoffsExpected(indices, population, u, N, delta);
@@ -33,7 +33,7 @@ for t = progress(1:numberIterations)
         end
     end
     
-  [Mu,~,ic] = unique(population, 'rows', 'stable'); 
+  [Mu,~,ic] = unique(population, 'rows', 'stable');
   h = accumarray(ic,1);
   sz = size(h, 1);
   avg_player = avg_player + sum(Mu .* h / sum(h), 1);
@@ -42,7 +42,7 @@ for t = progress(1:numberIterations)
 %   if mod(t, 100000) == 0 
 %    xDat(j, :) = [t, avg_player, coop];
 %    j = j + 1;
-%   end    
+%   end
 end
 % dlmwrite(filename + ".csv", xDat, 'precision', 9);
 
