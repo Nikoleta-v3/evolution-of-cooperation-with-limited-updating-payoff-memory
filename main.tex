@@ -10,6 +10,7 @@
 \usepackage{hyperref}
 \usepackage{tabularx}
 \usepackage{booktabs}
+\usepackage{blkarray}
 \usepackage[ruled,vlined]{algorithm2e}
 \smallskip % Erlaubt kleine Abstaende zwischen Paragraphen, falls es dem Seitenlayout hilft
 \renewcommand{\baselinestretch}{1.3}
@@ -118,87 +119,119 @@ limited payoff memory\\}
 Evolutionary game theory~\cite{smith1982evolution, hofbauer1998evolutionary,
 nowak2004evolutionary, hauert2005game} describes the evolutionary dynamics of
 populations consisting of different types of interacting individuals. The
-framework of evolutionary game theory has been applied in %ToDo cite.
+framework of evolutionary game theory has been applied in explaining the
+behavior of sticklebacks~\cite{milinski1987tit}, the rock-scissors-paper cycles
+in bacterial populations~\cite{kerr2002local} and food sharing in vampire
+bats~\cite{carter2020development} colonies.
+
 Traditional approaches of evolutionary game theory assume that individuals meet
-each other at random in an infinitely large well-mixed population, such an
-approach is the replicator dynamics. The replicator dynamics describes how the
-abundance of strategic types in a population changes based on their fitness. In
-this deterministic formulation, individuals with higher fitness increase in
-abundance and ultimately, the system reaches a stable fixed point in which the
-population may consist either of a single type or of a mixture of different
-types. The works of cite have shown that by constrain the population to a
-finiteness of populations may lead to fundamental changes in this picture due to
-stochastic effects. These stochastic effects disadvantageous mutants have a
-small, yet non-zero probability to reach fixation in a finite population.
+each other at random in an infinitely large well-mixed population, an example of
+such an approach is the replicator dynamics. The replicator dynamics describes
+how the abundance of strategic types in a population changes based on their
+fitness. In this deterministic formulation, individuals with higher fitness
+increase in abundance and ultimately, the system reaches a stable fixed point in
+which the population may consist either of a single type or of a mixture of
+different types. The works of~\cite{nowak2004emergence, taylor2004evolutionary,
+imhof2005evolutionary, imhof2006evolutionary, traulsen2007pairwise} have shown
+that constraining the population to be finite can lead to fundamental changes
+due to stochastic effects. Due to these stochastic effects disadvantageous
+mutants have a small, yet non-zero probability to reach fixation in a finite
+population.
 
 Two classes of such finite stochastic processes have been used extensively: (i)
 fitness-based processes in which an individual chosen proportional to fitness
-reproduces and the offspring replaces a randomly chosen individual [11]
+reproduces and the offspring replaces a randomly chosen individual~\cite{nowak2004emergence}
 \textit{moran process}; (ii) \textit{pairwise comparison processes} in which a
 pair of individuals is chosen, and where subsequently one of these individuals
-may adopt the strategy of the other.
+may adopt the strategy of the other~\cite{traulsen2007pairwise}.
 
-In pairwise comparison process considers a finite population of fixed size. In
+A pairwise comparison process considers a finite population of fixed size. In
 the population at a time step different types of individuals can exist. In the
 simplest of cases each individual can be of one of two types, A and B. The state
 of the population is thus characterized by the number \(k\) of individuals of
 type A. The interaction between the two types of individuals is described by the
 functions \(\pi _{{\rm A}}^{i}\) and $\pi _{{\rm B}}^{i}$.
 
-At each step an individual change their type based.
+At each step an individual change their type based. Two individuals, A and B,
+are selected at random. The individual chosen for reproduction A replaces B with
+probability \(\rho\), which depends on the fitness difference \(\pi _{{\rm
+A}}^{i} - \pi _{{\rm B}}^{i}\) between the two individuals. The composition of
+the population can only change if both individuals are of different types. The
+probability \(\rho\) follows the Fermi function,
 
-\begin{equation} \label{Eq:rho}
+\begin{equation}
   \rho(\pi _{{\rm A}}^{i}, \pi _{{\rm B}}^{i}) = \frac{1}{1\!+\! \exp^{\!-\!\beta (\pi _{{\rm A}}^{i}\!-\!\pi _{{\rm B}}^{i})}}.
 \end{equation}
 
-The parameter denotes the intensity of selection. For , fitness equals payoff.
-This scenario describes ``strong selection''. For \(\beta \ll 1\) , the
-payoff only provides a small perturbation to the overall fitness of an
-individual, a limit known as weak selection (Nowak et al., 2004).
+The parameter \(\beta\) denotes the intensity of selection.
 
-These indicate the expected payoff for two types in a population in state i. The
-interaction can be generated from a two-player matrix game which leads to
-payoffs linear in i [26], but we keep the formalism general to include games
-played between an arbitrary number of players, which leads to payoffs that
-depend on i in a polynomial way [27–30]. In fact, our results hold for an
-arbitrary dependence of the payoffs on i.
+The fitness of the individuals (\(\pi _{{\rm A}}^{i}, \pi _{{\rm B}}^{i}\)) is
+identified with the payoff resulting from the underline game. The evolution of
+cooperation remains one of the greatest problems for biological and social
+sciences. Cooperation is the action of choosing to help others at one's own
+expense. The standard game of formulating such situation is the Prisoner's
+Dilemma~\cite{trivers1971evolution, milinski1987tit, glynatsi2021bibliometric,
+ohtsuki2006simple}, in which two players can choose to cooperate or to defect.
+The players are offered a certain payoff, \(R\), for mutual cooperation and a
+lower payoff, \(P\), for mutual defection. If one player cooperates while the
+other defects, then the cooperator gets the lowest payoff, \(S\), while the
+defector gains the highest payoff, \(T\). Thus, the payoffs have the following
+property \(T > R > P > S\), making defection the dominant strategy in the
+non-repeated game.
 
-In the simplest case, the payoffs of A and B individuals only depend on the
-fraction of both types in the population. If there are i A individuals and B
-individuals, then the A and B individuals have payoffs and , respectively.
-Self-interactions are excluded.
+\begin{equation}\label{eq:payoffs}
+  \begin{blockarray}{ccc}
+      & \text{cooperate} & \text{defect} \\
+      \begin{block}{c(cc)}
+          \text{cooperate} & R & S \\
+          \text{defect} & T & P \\
+      \end{block}
+  \end{blockarray}
+\end{equation}
 
-Here, we consider a process based on pairwise comparison between individuals.
-Two individuals, A and B, are selected at random. The individual chosen for
-reproduction A replaces B with probability p, which depends on the payoff
-difference between the two individuals. The composition of the population can
-only change if both individuals are of different types. We follow (Blume, 1993,
-Szabó and Tőke, 1998, Hauert and Szabó, 2005) in choosing the Fermi function
-from statistical physics for p
+In literature, the payoffs of A and B individuals only on the fraction of both
+types in the population. If there are \(k\) A individuals and \(N-k\) B
+individuals. In the context of the prisoner's dilemma the payoffs and assuming
+that A and B follow simple strategies where they cooperate and defect
+unconditionally respective, then the A and B individuals have fitness of
 
-To explain the evolution of cooperation remains one of the greatest problems for
-biological and social sciences. Cooperation is the action of choosing to help
-others at one's own expense. The standard game of formulating such situation is
-the Prisoner's Dilemma~\cite{trivers1971evolution,
-milinski1987tit, glynatsi2021bibliometric, ohtsuki2006simple}, in which two
-players can choose to cooperate or to defect. The players are offered a certain
-payoff, \(R\), for mutual cooperation and a lower payoff, \(P\), for mutual
-defection. If one player cooperates while the other defects, then the cooperator
-gets the lowest payoff, \(S\), while the defector gains the highest payoff,
-\(T\). Thus, the payoffs have the following property \(T > R > P > S\), making
-defection the dominant strategy in the non-repeated game.
+\begin{equation}
+  \begin{array}{lcrcr}
+  \displaystyle \pi _{{\rm A}}^{i}	&=	&\displaystyle \frac{N\!-\!k\!-\!1}{N-1}\cdot R	&+	&\displaystyle\frac{k}{N-1}\cdot S,\\[0.5cm]
+  \displaystyle \pi _{{\rm B}}^{i}&=	&\displaystyle\frac{N-k}{N-1}\cdot T &+	&\displaystyle\frac{k-1}{N-1}\cdot P.\\
+  \end{array}
+\end{equation}
 
-In the context of the prisoner's dilemma the payoffs are calculated as follows.
-In the example that a strategy is playing always cooperate and always defect,
+respectively while self-interactions are excluded. In literature these are the
+expected payoffs. For \(\beta = 1\), fitness equals payoff. This scenario
+describes ``strong selection''. For \(\beta \ll 1\) , the payoff only provides a
+small perturbation to the overall fitness of an individual, a limit known as
+weak selection.
 
-This model has several assumptions. Two assumptions are that initally it is
-assumed that time to interact is faster than the time of the population
-update. Secondly it is assumed that the indiviail can interact will every
-other population member, and recall their interaction perfecttly.
+In the evolutionary game theory literature it is usually assumed that players
+use strategies with finite memory~\cite{Nowak1992tit, Baek2016}. This assumption
+is common as it allows for an explicit calculation of the players'
+payoffs~\cite{sigmund2010calculus}. Players' payoffs are calculated in the limit
+of interactions assuming that the two strategies meet several times.
 
-The first assumption was questioned by the work of.
+Customarily, most evolutionary game studies make the additional assumption that
+individuals play many times and with all other players before reproduction takes
+place, so that payoffs, equivalently fitness, are given by the mean distribution
+of types in the population. This hypothesis, selection occurs much more slowly
+than the interaction between individuals and more that remember all the
+interactions they participated in. Although recent experimental studies show
+that this may not always be the case in biology [12– 14], it is clear that in
+cultural evolution or social learning the time scale of selection is much closer
+to the time scale of interaction. The effects of this mixing of scales cannot be
+disregarded [15], and then it is natural to ask about the consequences of the
+above assumption and the effect of relaxing it. The work of~\cite{Roca2006}.
 
-In this work
+In this work we ask studies that make use of this classical framework report
+that cooperation can substantially evolve. However, the inconsistency in the
+memory size of players leads us to question the robustness of our understanding
+of cooperation. To this end, we propose a framework in which individuals,
+similar to the decisions at each turn, estimate their fitness based on a minimum
+of information.
 
 We first consider two extreme scenarios, the classical scenario and the
 alternative scenario where individuals update their strategies only based on the
@@ -296,8 +329,7 @@ present results on multiple social dilemmas.
 the last round with another member of the population}\label{section:donation}
 
 To investigate the role of extortion in the context of evolutionary games, we
-concentrate on the donation game 
-
+concentrate on the donation game.
 In this section we explore the case where the updating payoffs are based on the
 last round payoff achieved against another member of the population and we
 compare this to the classical scenario of the expected payoffs. We assume that
@@ -404,15 +436,7 @@ defective.
 
 \begin{figure}[!htbp]
   \centering
-  \begin{subfigure}{.65\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{static/expected_for_selection_strenght.pdf}
-    \includegraphics[width=\textwidth]{static/stochastic_for_selection_strenght.pdf}
-  \end{subfigure}%
-  \begin{subfigure}{.35\textwidth}
-    \vspace{.3cm}
-    \includegraphics[width=\textwidth]{static/cooperation_rate_over_betas.pdf}
-  \end{subfigure}
+    \includegraphics[width=\textwidth]{static/cooperation_rate_over_b.pdf}
 \caption{{\bf The evolution of cooperation for different selection strength values.}
 We vary the selection strength $\beta$. In all cases, stochastic payoff
 evaluation tends to reduce the evolving cooperation rates. ({\bf A}) the
@@ -423,6 +447,21 @@ explicitly varied, the parameters of the simulation are $N\!=\!100$, $b\!=\!3$,
 $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.99$. Simulations are run for
 $t\!=\!5\times 10^7$ time steps for each parameter
 combination.}\label{fig:cooperation_rate_over_betas}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+    \includegraphics[width=\textwidth]{static/more_memory.pdf}
+% \caption{{\bf The evolution of cooperation for different selection strength values.}
+% We vary the selection strength $\beta$. In all cases, stochastic payoff
+% evaluation tends to reduce the evolving cooperation rates. ({\bf A}) the
+% probabilities \(p, q\) for resident population over \(10^7\) time steps for each
+% \(\beta\) value. ({\bf B}) The cooperation rate within the resident population
+% (averaged over all games and over all time steps) over \(\beta\). Unless
+% explicitly varied, the parameters of the simulation are $N\!=\!100$, $b\!=\!3$,
+% $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.99$. Simulations are run for
+% $t\!=\!5\times 10^7$ time steps for each parameter
+% combination.}\label{fig:cooperation_rate_over_betas}
 \end{figure}
 
 % \subsection{Effect of updating payoffs in different social
