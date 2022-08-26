@@ -1,0 +1,16 @@
+\documentclass[tikz,border=2mm]{standalone}
+ \begin{document}
+ \begin{tikzpicture}
+ \draw[help lines, color=gray!30, dashed] (0, 5) grid (5, 0);
+ \draw[->,ultra thick] (0, 0)--(5, 0) node[right]{$\infty$} node[label={[xshift=-2.5cm, yshift=-1cm]$n$}] {};
+ \draw[->,ultra thick] (0, 0)--(0, 5) node[above]{$N$} node[label={[xshift=-.5cm, yshift=-2.5cm]$m$}] {};
+
+ \node[circle, inner sep=1pt, outer sep=1pt, fill, oneone, label={[xshift=.3cm, yshift=0cm]\tiny \textcolor{oneone}{one interaction - last round}}] at (1, 1) (1) {};
+
+ \node[circle, inner sep=1pt, outer sep=1pt, fill, expectedcolor, label=above:{\tiny \textcolor{expectedcolor}{expected payoffs}}] at (5, 5) (1) {};
+ 
+ \node[circle, inner sep=1pt, outer sep=1pt, fill, onetwo, label={[xshift=.5cm, yshift=0cm] \tiny \textcolor{onetwo}{one interaction - last two rounds}}] at (1, 2) (1) {};
+ \node[circle, inner sep=1pt, outer sep=1pt, fill, twoone, label={[xshift=.5cm, yshift=-.6cm] \tiny \textcolor{twoone}{two interactions - last round}}] at (2, 1) (1) {};
+ \node[circle, inner sep=1pt, outer sep=1pt, fill, twotwo, label={[xshift=.5cm, yshift=-.6cm] \tiny \textcolor{twotwo}{two interactions - last two rounds}}] at (2, 2) (1) {};
+ \end{tikzpicture}
+ \end{document}

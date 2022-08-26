@@ -1,0 +1,47 @@
+\documentclass{standalone}
+
+\begin{document}
+\tikzset{man/.pic={
+    \node[circle,fill,minimum size=5mm] (head) {};
+    \node[rounded corners=2pt,minimum height=.8cm,minimum width=0.4cm,fill,below = 1pt of head] (body) {};
+    \draw[line width=1mm,round cap-round cap] ([shift={(2pt,-1pt)}]body.north east) --++(-90:6mm);
+    \draw[line width=1mm,round cap-round cap] ([shift={(-2pt,-1pt)}]body.north west)--++(-90:6mm);
+    }}
+\begin{tikzpicture}
+
+    % %%%%% game stage %%%%%
+    \node at (0, .7) (turns) {turn};
+
+    \pic[BurntOrange] at (0, 0) (myman) {man};
+    \node at (0, -.6) {B};
+    \pic[RoyalBlue] at (0, -2) (myman) {man};
+    \node at (0, -2.6) {F};
+
+    \coordinate (B) at (0.5, -.6);
+    \coordinate (F) at (0.5, -2.6);
+
+    \node at (1.5, .7) (turn1) {1};
+    \node[circle, inner sep=1pt, outer sep=1pt, draw, fill] at (1.5, 1.7) (exit) {};
+    \node[circle, draw] (C) at (1.5, -.6)  {$C$};
+    \node[circle, draw] (D) at (1.5, -2.6) {$D$};
+
+    \draw (B) edge[out=0, in=180, ->, thick] node [above] {$y_{B}$} (C);
+    \draw (F) edge[out=0, in=180, ->, thick] node [above] {$y_{F}$} (D);
+
+    \node at (3, .7) (turn2) {2};
+    \node[circle, inner sep=1pt, outer sep=1pt, draw, fill] at (3, 1.7) (exit2) {};
+    \node[circle, draw] (C2)at (3, -.6)  {$C$};
+    \node[circle, draw] (D2) at (3, -2.6) {$D$};
+
+    \draw (C) edge[out=0, in=180, ->, thick] node [above] {$q_{B}$} (C2);
+    \draw (D) edge[out=0, in=180, ->, thick] node [above] {$p_{F}$} (D2);
+
+    \draw (turn1) edge[out=15, in=165, ->, thick] node [above] {$\delta$} (turn2);
+    \draw (turn1) edge[out=90, in=-90, ->, thick] node [above, rotate=90] {$1 - \delta$} (exit);
+    \draw (turn2) edge[out=90, in=-90, ->, thick] node [above right] {$1 - \delta$} (exit2);
+
+    \node[circle] at (4, -.6) {$\dots$};
+    \node[circle] at (4, -2.6) {$\dots$};
+
+\end{tikzpicture}
+\end{document}

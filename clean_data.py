@@ -8,7 +8,7 @@ import pandas as pd
 
 if __name__ == "__main__":  # pragma: no cover
     folder = sys.argv[1]
-    starting_characters = sys.argv[2]
+    starting_characters = "two_rounds_new" #sys.argv[2]
 
     in_columns = [
         "y",
@@ -30,7 +30,7 @@ if __name__ == "__main__":  # pragma: no cover
     #     "t",
     # ]
 
-    print(f"{folder}/{starting_characters}*.csv")
+    print(f"{folder}/{starting_characters}.csv")
     csv_files = glob.glob(f"{folder}/{starting_characters}*.csv")
 
     for file in tqdm.tqdm(csv_files):
@@ -43,8 +43,8 @@ if __name__ == "__main__":  # pragma: no cover
         for value in df["t"][1:]:
             frequencies.append(value - previous)
             previous = value
-        frequencies.append(50000000 - previous)
+        frequencies.append(10 ** 7 - previous)
 
         df["frequencies"] = frequencies
-
-        df.to_csv(f"{folder}clean_{file[len(folder):]}", index=False)
+        print(f"{folder}/clean_{starting_characters}")
+        df.to_csv(f"{folder}/clean_{starting_characters}.csv", index=False)

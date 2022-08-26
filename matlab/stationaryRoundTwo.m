@@ -15,5 +15,5 @@ for i=1:4
     end
 end
 
-v = reshape(v, [1, 16]);
+v = reshape(v.',[1, 16]);
 end
