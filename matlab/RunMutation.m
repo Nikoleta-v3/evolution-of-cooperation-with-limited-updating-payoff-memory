@@ -20,13 +20,14 @@ data = ["expected", 10 ^ -4;
 
 u = [2, -1, 3, 0];
 n_run = 1;
+previous = n_run - 1;
 
 parfor (i = 1:10)
         mutation = str2num(data(i, 2));
         payoff_type = data(i, 1);
 
         filename = "../data/mutation_" + payoff_type + "_mutation_" + mutation + "_run_" + n_run;
-        population_fln = "../data/mutation_" + payoff_type + "_mutation_" + mutation + "_run_" + n_run - 1;
+        population_fln = "../data/mutation_" + payoff_type + "_mutation_" + mutation + "_run_" + previous;
         if n_run == 1;
             %% Initialization
             Res=starting_resident; 
