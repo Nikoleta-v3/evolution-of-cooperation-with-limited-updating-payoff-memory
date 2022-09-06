@@ -21,7 +21,6 @@ data = ["expected", 10 ^ -4;
 u = [2, -1, 3, 0];
 n_run = 1;
 
-parpool();
 parfor (i = 1:10)
         mutation = str2num(data(i, 2));
         payoff_type = data(i, 1);
