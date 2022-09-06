@@ -1,5 +1,4 @@
 function [population, avg_player, coop]=evolMutation(population, u, N, delta, beta, mutation, numberIterations, payoff_type, filename);
-tic
 
 sdim=3; avg_player=0; coop=0;
 %% Running the evolutionary process

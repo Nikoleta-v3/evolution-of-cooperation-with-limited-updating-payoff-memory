@@ -39,3 +39,4 @@ parfor (i = 1:10)
         end
         evolMutation(population, u, N, delta, beta, mutation, numberIterations, payoff_type, filename);
 end
+end
