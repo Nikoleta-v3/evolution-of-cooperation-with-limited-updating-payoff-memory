@@ -25,8 +25,8 @@ parfor (i = 1:10)
         mutation = str2num(data(i, 2));
         payoff_type = data(i, 1);
 
-        filename = "../data/mutation_" + payoff_type + "_mutation_" + mutation + "_run_" + run;
-        population_fln = "../data/mutation_" + payoff_type + "_mutation_" + mutation + "_run_" + run - 1;
+        filename = "../data/mutation_" + payoff_type + "_mutation_" + mutation + "_run_" + n_run;
+        population_fln = "../data/mutation_" + payoff_type + "_mutation_" + mutation + "_run_" + n_run - 1;
         if n_run == 1;
             %% Initialization
             Res=starting_resident; 
