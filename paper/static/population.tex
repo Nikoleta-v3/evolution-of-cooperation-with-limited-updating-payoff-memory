@@ -9,22 +9,22 @@
     }}
 \begin{tikzpicture}
 
-    %%%%% mutation %%%%%
-    \pic[OliveGreen] at (0, 0) (myman) {man};
-    \node at (0, -.6) {C};
-    \node at (0, -1.4) {learner};
-    
-    \node at (-1.5, .6) {role model};
-    \pic[Maroon] at (-1.5, 0) (myman) {man};
-    \node at (-1.5, -.6) {D};
+    \node at (.6, 2.7) {A) Initialisation};
+    \pic[Apricot] at (0, 2) (myman) {man};
+    \node at (0, 1.4) {A};
+    \pic[BurntOrange] at (1, 2) (myman) {man};
+    \node at (1, 1.4) {B};
+    \pic[LimeGreen] at (2, 2) (myman) {man};
+    \node at (2, 1.4) {C};
 
+    \pic[Orchid] at (0, 0) (myman) {man};
+    \node at (0, -.6) {E};
+    \pic[cyan] at (1, 0) (myman) {man};
+    \node at (1, -.6) {F};
     \pic[Maroon] at (2, 0) (myman) {man};
-    \node at (2, -.6) {C};
+    \node at (2, -.6) {D};
 
-    \coordinate (c1) at (.5, -.5);
-    \coordinate (c2) at (1.5, -.5);
-    \draw (c1) edge[out=15, in=165, ->, thick] node [above] {\footnotesize$\rho(\pi_{C}, \pi_{F})$} (c2);
-
+    \node at (1, -2) {$\dots$};
 
 \end{tikzpicture}
 \end{document}
