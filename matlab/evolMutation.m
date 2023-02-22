@@ -1,5 +1,9 @@
 function [population, avg_player, coop]=evolMutation(population, u, N, delta, beta, mutation, numberIterations, payoff_type, filename);
 sdim=3; avg_player=0; coop=0;
+
+xPlayer = zeros(numberIterations, 3);
+xCoop = zeros(numberIterations, 1);
+
 %% Running the evolutionary process
 for t = progress(1:numberIterations)
     if rand(1) < mutation
@@ -31,12 +35,18 @@ for t = progress(1:numberIterations)
   [Mu,~,ic] = unique(population, 'rows', 'stable'); 
   h = accumarray(ic,1);
   sz = size(h, 1);
-  avg_player = avg_player + sum(Mu .* h / sum(h), 1);
-  coop = coop + cooperation(Mu, h, sz, delta);
+  avg_player = sum(Mu .* h / sum(h), 1);
+  coop = cooperation(Mu, h, sz, delta);
+
+  xPlayer(t, 1) = avg_player(1);
+  xPlayer(t, 2) = avg_player(2);
+  xPlayer(t, 3) = avg_player(3);
+
+  xCoop(t, 1) = coop;
 
 end
 
-Data=["R", "S", "T", "P", "N", "beta", "mutation", "numberIterations", "coop", "y", "p", "q";
+Data=["R", "S", "T", "P", "N", "beta", "mutation", "numberIterations";
       u(1),...
       u(2),...
       u(3),...
@@ -44,11 +54,11 @@ Data=["R", "S", "T", "P", "N", "beta", "mutation", "numberIterations", "coop", "
       N,...
       beta,...
       mutation,...
-      numberIterations,...
-      coop,...
-      avg_player];
+      numberIterations];
 
 writematrix(Data, filename + ".csv");
+writematrix(xPlayer, filename + "avg_player.csv");
+writematrix(xCoop, filename + "cooperations.csv");
 writematrix(population, filename + "population.csv");
 end
 

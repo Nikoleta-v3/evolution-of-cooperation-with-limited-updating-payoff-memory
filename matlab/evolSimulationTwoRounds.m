@@ -5,7 +5,7 @@ AvCoop=0; AvPay=0; Res=starting_resident;
 
 %% Initialization
 sdim=3;
-xDat=zeros(numberIterations/100,6);
+xDat=zeros(numberIterations,6);
 xDat(1,:)=[Res, 0, u(4), 0];
 Rho=calcRhoSixteen(u, beta);
 
@@ -19,7 +19,7 @@ for t = progress(1:numberIterations)
     end
 end
 
-csvwrite(filename + ".csv", xDat);
+dlmwrite(filename + ".csv", xDat, 'delimiter', ',', 'precision', 9);
 writematrix(Data, filename + ".txt");
 
 AvCoop = mean(xDat(:,end-2));
