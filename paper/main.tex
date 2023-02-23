@@ -523,74 +523,35 @@ resident populations become more defective.
     combination.}\label{fig:cooperation_rate_over_benefit_and_beta}
 \end{figure}
 
-% % \begin{figure}[!htbp]
-% %   \centering
-% %   \begin{subfigure}{.5\textwidth}
-% %     \centering
-% %     \includegraphics[width=\textwidth]{static/expected_for_beta.pdf}
-% %     \includegraphics[width=\textwidth]{static/stochastic_for_beta.pdf}
-% %   \end{subfigure}%
-% %   \begin{subfigure}{.5\textwidth}
-% %     \centering
-% %     \includegraphics[width=\textwidth]{static/cooperation_rate_over_b.pdf}
-% %   \end{subfigure}
-% %   \caption{{\bf The evolution of cooperation for different benefit values.} 
-% %   We vary the benefit of defection $b$. In all cases, expected payoffs appear to
-% %   overestimate the average cooperation rate the population achieves. ({\bf A})
-% %   the probabilities \(p, q\) for resident population over \(10^7\) time steps
-% %   for each benefit value. ({\bf B}) The cooperation rate within the resident
-% %   population (averaged over all games and over all time steps) over the benefit.
-% %   Unless explicitly varied, the parameters of the simulation are $N\!=\!100$,
-% %   $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.99$. Simulations are run for
-% %   $t\!=\!5\times 10^7$ time steps for each parameter
-% %   combination.}\label{fig:cooperation_rate_over_benefit}
-% % \end{figure}
-
-% % \begin{figure}[!htbp]
-% %   \centering
-% %     \includegraphics[width=\textwidth]{static/cooperation_rate_over_b.pdf}
-% % \caption{{\bf The evolution of cooperation for different selection strength values.}
-% % We vary the selection strength $\beta$. In all cases, stochastic payoff
-% % evaluation tends to reduce the evolving cooperation rates. ({\bf A}) the
-% % probabilities \(p, q\) for resident population over \(10^7\) time steps for each
-% % \(\beta\) value. ({\bf B}) The cooperation rate within the resident population
-% % (averaged over all games and over all time steps) over \(\beta\). Unless
-% % explicitly varied, the parameters of the simulation are $N\!=\!100$, $b\!=\!3$,
-% % $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.99$. Simulations are run for
-% % $t\!=\!5\times 10^7$ time steps for each parameter
-% % combination.}\label{fig:cooperation_rate_over_betas}
-% % \end{figure}
-
 \subsection{Updating Payoffs based on More Memory}
 
 So far we have explored the difference between the expected payoffs and the last
-round payoffs. In order to explore further the effect of limited memory we allow
-individuals to remember more. More precisely, up to two interactions and up to
-the last two rounds. In total we present results for three more updating
-payoffs. These are the payoffs when individuals consider the last two rounds
-with another member of the population, the last round with two members of the
-population, and the last two rounds with two members of the population. Similar
-to the last round payoff, we use simulations and record which strategies the
-players adopt over time based
-% (Appendix~\ref{appendix:further_simulation_results}) and we compare the evolving
-% cooperation rates to those of the expected payoffs
-% (Figure~\ref{fig:cooperation_rates_two_by_two_part_two}).
-
+round payoffs. To explore further the effect of limited memory we consider three
+more cases. These are the cases where the updating payoffs depend on  the last
+round with two members of the population, the last two rounds with another
+member of the population, and the last two rounds with two members of the
+population. Similar to the last round payoff. The details of each approach can
+be found in the Supplementary Information. We use numerical simulation of the
+pairwise process for the various schemes. The results for low and high benefit
+are shown in Figure~\ref{fig:cooperation_rate_all_updating_payoffs}.
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=\textwidth]{static/more_memory_summary_results.pdf}
-  \caption{{\bf Average cooperation rates for different updating payoffs.} (From
-  right to left) updating Payoffs based  on perfect memory, limited memory,
-  the last round payoff of two interactions,
-  the last two rounds payoff of one interaction and 
-  the last two round payoffs of two interactions.({\bf High Benefit})
-  ({\bf Low Benefit}) We vary the selection strength $\beta$. In all
-  cases, stochastic payoff evaluation tends to reduce the evolving cooperation
-  rates. Unless explicitly varied, the parameters of the simulation are
+  \caption{{\bf Average cooperation rates for different updating payoffs.}
+  From left to right, we present result on the following updating payoffs cases;
+  (1) the expected payoffs (perfect memory), (2) the last round payoff from one
+  interaction (limited memory), (3) the last round payoff from two interactions,
+  (4) the last two rounds payoffs from one interaction, (5) the last two rounds
+  payoffs from two interactions. The details of each case are given in the
+  Supplementary Information. Cases 3 and 4 have similar results. In that the
+  evolved generosity is the same. For cases 2 - 5 the cost benefit ratio
+  has an effect compared to the limited memory case. The cooperation rate
+  increases, and as we allow for more information the closer we move to the
+  perfect memory. Unless explicitly varied, the parameters of the simulation are
   $N\!=\!100$, $b\!=\!3$, $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.99$.
   Simulations are run for $T\!=\!5\times 10^7$ time steps for each parameter
-  combination.}\label{fig:cooperation_rate_updating_payoffs}
+  combination.}\label{fig:cooperation_rate_all_updating_payoffs}
 \end{figure}
 
 \newpage
