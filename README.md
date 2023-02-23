@@ -58,6 +58,13 @@ To run the test suite and the test suite's coverage run the following command
 $ pytest --cov=src tests/
 ```
 
+# Paper
+
+# Analysis
+
+- Data: https://zenodo.org/record/7664286#.Y_YDWS0w2hk
+- Code
+
 # Licence
 
 The repository is under an MIT licence.
