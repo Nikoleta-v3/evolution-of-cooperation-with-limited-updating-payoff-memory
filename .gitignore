@@ -10,12 +10,17 @@ data/*
 */data/*
 *dask-worker-space/
 */images/*
+to_archieve/*
 
 src/evol_dynamics.egg-info/*
 src/evol_dynamics/__pycache__/*
 
+*synctex.gz
+*.fdb_latexmk
 *.aux
 *.out
 *.log
 *.bbl
 *.blg
+*.fls
+
