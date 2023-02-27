@@ -104,11 +104,34 @@ limited updating payoff memory\\}
 
 Section~\ref{section:pairwise_comparison} gives a brief overview of the pairwise
 comparison process. The pairwise comparison process consists of three phases;
-(1) the mutation phase (2) the game phase and (3) the update phase. In the update
-phase an individual adopts the strategy of another individual based on their
-``updating payoffs''. In Section~\ref{section:updating_payoffs} we
-describe the conventional approach for calculating updating payoffs and we
-present our new approaches.
+(1) the mutation phase (2) the game phase and (3) the update phase. In the
+update phase an individual adopts the strategy of another individual based on
+their ``updating payoffs''. In the paper we explore the effect of the updating
+payoffs on the evolved populations. We used as an example the prisoner's
+dilemma. We focused mainly on two approaches for calculating the updating
+payoffs which we referred to as the perfect memory and the limited memory
+approaches. In Section~\ref{section:perfect_memory} we describe the perfect
+memory approach and in Section~\ref{section:limited_memory} we present the
+limited memory approach. In the limited memory approach we assume that
+individuals update based on their last round payoff against one other member of
+the population. The framework can easily be extended to consider more rounds,
+more interactions or both. In
+Sections~\ref{section:m_one_n_two}-\ref{section:m_two_n_two} we present each of
+this extensions and for each a special case.
+In Section~\ref{section:simulation_results} we present numerical results of the
+pairwise comparison process using the several updating payoff approaches we have
+presented. In Sections~\ref{section:memory_one} and~\ref{section:mutation} we
+verify the main result of the paper when we no longer assume (i) that
+individuals use reactive strategies but instead memory one strategies (ii) low
+mutation.
+
+% The aim of our work is to explore the effect
+% of the updating payoffs on the evolution of cooperation. To this end we
+% introduce a new method for calculating the updating payoffs and we compare the
+% results of the new method to those of the expected payoffs. In our approach we
+% do not assume that an individual has a perfect memory. Instead an individual
+% remembers only a limited number of interactions and limited outcomes from each
+% interaction.
 
 \section{Pairwise comparison process}\label{section:pairwise_comparison}
 
@@ -154,7 +177,7 @@ the role model.
 \begin{figure}[!htbp]
     \centering
     \includestandalone[width=\textwidth]{static/pairwise_comparison_process_diagram}
-    \caption{\textbf{Pairwise comparison process phases.} \textbf{A) Initialisation} The process begins
+    \caption{\textbf{Pairwise comparison process phases.} \textbf{A) Initialisation.} The process begins
     with a finite population where each member is assigned a given strategy.
     Each color represents a different strategy, and the members are labelled by
     letters. \textbf{B) Mutation phase.} An individual is selected (in the
@@ -225,7 +248,7 @@ Most of the results we present in this work consider the case of low mutation,
 however, we have also verified that the main result holds in the case of
 high mutation rates (Section~\ref{section:mutation}).
 
-\section{Updating Payoffs}\label{section:updating_payoffs}
+\subsection{Updating Payoffs}\label{section:updating_payoffs}
 
 The updating payoffs depend on the interactions of the individuals at the game
 phase. In this work we assume that in the game phase individuals are matched in
@@ -249,28 +272,27 @@ Let \(\mathbf{u} = (b-c, -c, b, 0)\) be payoffs in a vector format, and let \(\m
 payoff of mutual cooperation, \(s\) the sucker's payoff, \(t\) the temptation to
 defect payoff, and \(p\) the punishment payoff.
 
-In the following subsections we present several approaches for calculating
-the updating payoffs. Initially, we discuss the conventional approach of the
-expected payoffs and afterwards we present our new approach.
+In the following sections we present several approaches for calculating the
+updating payoffs. Initially, we discuss the conventional approach of the
+expected payoffs and afterwards we present our newly introduced approaches.
 
-\subsection{Updating Payoffs based on the expected payoffs}\label{section:perfect_memory}
+\section{Updating Payoffs based on the expected payoffs (perfect memory)}\label{section:perfect_memory}
 
 The expected payoffs are the conventional payoffs used in the updating stage. We
-refer to this approach as the perfect memory approach. They are defined as the
-mean payoff of an individual in a well-mixed population that engages in an
-infinitely repeated games with all other population members. In an infinitely
-repeated game the payoff of a reactive strategy can explicitly be calculated
-using a markovian approach~\cite{nowak:APC:1989}. Namely, assume two reactive
-strategies $s_1\!=\!(y_1, p_1, q_1$) and $s_2\!=\!(y_2,p_2,q_2)$, their play can
-be defined as a Markov process with the transition matrix \(M\),
+refer to this approach as the perfect memory approach. The expected payoffs are
+defined as the mean payoff of an individual in a well-mixed population that
+engages in an infinitely repeated games with all other population members.
+The game between two reactive strategies $s_1\!=\!(y_1, p_1, q_1$) and $s_2\!=\!(y_2,p_2,q_2)$
+can be described by a Markovian process~\cite{nowak:APC:1989} with the
+transition matrix \(M\),
 
 \begin{equation}\label{eq:transition_matrix}
   \input{static/matrix.tex}.
 \end{equation}
 
-The stationary vector \(\mathbf{v}(s_1,s_2)\),
-which is the solution to \(\mathbf{v}(s_1,s_2) M = \mathbf{v}(s_1,s_2)\), combined with the payoff vector
-\(\mathbf{u}\), yields the game stage outcome for each strategy,
+The stationary vector \(\mathbf{v}(s_1,s_2)\) is the solution to
+\(\mathbf{v}(s_1,s_2) M = \mathbf{v}(s_1,s_2)\). In an infinitely repeated game
+the game stage outcome for each strategy is given by,
 
 \[\langle\mathbf{v}(s_1,s_2),\mathbf{u}\rangle \quad  \text{ and } \quad  \langle\mathbf{v}(s_2,s_1), \mathbf{u}\rangle.\]
 
@@ -303,55 +325,15 @@ probabilities that the number of mutants decreases and increases,
   \lambda^-_k \!=\!\rho(\pi_M, \pi_R) \quad \text{ and } \quad \lambda^+_k \!=\!\rho(\pi_R, \pi_M).
 \end{align*}
 
-\subsubsection*{Simulation Results based on Expected Payoffs}
+\subsubsection*{Invasion Analysis}
 
-We simulate the evolutionary process, as described in
-Algorithm~\ref{algorithm:pairwise_comparison}, when individuals use reactive
-strategies and update their strategies based on their expected payoffs. We
-performed two independent runs of the process where we differed the benefit of
-cooperation \(b\). The results are shown in
-Figure~\ref{fig:expected_payoffs_results}. We observed that a higher value of
-benefit results in a more cooperative population. For a low benefit the resident
-population cooperates on average 52\% of the time. For a high benefit the
-average cooperation increases to 98\%. For a low benefit the resident population
-consists either of defectors or conditional cooperators, and for a high value of
-benefit the population predominantly consists of conditional cooperators.A
-conditional cooperator, otherwise known as a generous tit for tat (GTFT)
-player, always cooperates if the co-player cooperated ($p\approx1$) and
-cooperates with a probability \(q\) if the co-player defected. The conditional
-cooperator strategy adopted by the population differs between the two
-simulations, namely, a higher value of benefit results in higher values
-of \(q\).
-
-\begin{figure}[!htbp]
-    \centering 
-    \includegraphics[width=.70\textwidth]{static/expected_payoffs_donation_game.pdf}
-    \caption{\textbf{Evolutionary dynamics under expected payoffs with
-    low (left) and high (right) benefit.} We run the simulations for \(T =
-    10^7\) time steps. For each time step we recorded the current resident
-    population \((y, p, q)\). Since \(\delta \rightarrow
-    1\) we do not report the players' initial cooperation probability \(y\).
-    The graphs show how often the resident population chooses each combination
-    \((p, q)\) of conditional cooperation probabilities in the subsequent
-    rounds. In both cases players update based on their expected payoffs.
-    ({\bf Low Benefit}) In
-    the case where \(b=3\), the resident population either consists of defectors
-    (with \(p \approx q \approx 0\)) or of conditional cooperators for which \(p
-    \approx 1\) and \(q \leq 1 - \frac{1}{3}=0.7\). ({\bf High Benefit}) In the case where
-    \(b=10\), the resident population typically applies a strategy for which \(p
-    \approx 1\) and \(q \leq 1 - \frac{1}{10}=0.9\). Parameters: \(N =100, c=1,
-    \beta=1\).
-    }\label{fig:expected_payoffs_results}
-\end{figure}
-
-\subsubsection*{Invasion Analysis based on Expected Payoffs}
-
-We can explicitly calculate the value of \(q\) which evolves. Namely, we will
-calculate how easily a single defecting mutant can invade into a resident
-population of GTFT players. Let GTFT\(= (1, 1, q)\), ALLD\(= (0, 0, 0)\), and
-\(k = 1\). When two GTFT players interact in an infinitely repeated game, their
-respective probabilities for each of the four outcomes in the last round
-simplify to,
+Let's assume that individuals use their expected payoffs at the updating phase.
+We can calculate how easily a single defecting mutant (ALLD) can invade into a
+resident population of conditional cooperators, otherwise known as generous tit
+for tat (GTFT), players. Let GTFT\(= (1, 1, q)\), ALLD\(= (0, 0, 0)\), and \(k =
+1\). When two GTFT players interact in an infinitely repeated game, the
+stationary distribution \(\mathbf{v}(\text{GTFT}, \text{ALLD})\) 
+simplifies to,
 
 \begin{align*}
     \mathbf{v}(\text{GTFT}, \text{ALLD}) = (1, 0, 0, 0).
@@ -385,36 +367,28 @@ if \(q \leq 1 - \frac{c}{b}\). For \(q = 1 -\frac{c}{b}\) the probability that
 the number of mutants increase by one equals the probability that the mutant
 goes extinct.
 
-\subsection{Updating Payoffs based on the last last \(m\) round(s) payoffs of \(n\) interaction(s)}
+This result will become important when we analyse the behaviour that emerges
+from the evolutionary process. We will repeat this ``invasion analysis'' for the
+rest of the updating payoffs cases.
 
-The aim of this work is to explore the effect of the updating payoffs on the
-evolution of cooperation. To this end we introduce a new method for calculating
-the updating payoffs and we compare the results of the new method to those of
-the expected payoffs. In our approach we do not assume that an individual has a
-perfect memory. Instead an individual remembers only a limited number of
-interactions and limited outcomes from each interaction. In the expected payoffs
-case the payoff of a pair depends on the average payoff they received over an
-infinite number of turns. In our approach, the payoff of a pair depends on the
-average payoffs they received in the last \(m\) turns. Furthermore, in expected
-payoffs it is assumed that a player interacts with every member of the
-population, whereas in our approach a player has \(n\) interactions.  Here we
-present results for four cases; (\(m=1\) and \(n=1\)), (\(m=2\) and \(n=1\)),
-(\(m=1\) and \(n=2\)), and (\(m=2\) and \(n=2\)).
+\section{Updating Payoffs based on the Last Round Payoff of One Interaction (limited memory)}\label{section:limited_memory}
 
-\subsubsection{Updating Payoffs based on the Last Round Payoff of One Interaction (\(m=1\) and \(n=1\))}\label{section:m_one_n_one}
-
-In this case an individual updates her/his strategy based on the last payoff
-they received against one other member of the population. Initially, we define
-the probability that a reactive strategy receives the payoff $u\!\in\!
-\mathcal{U}$ in the very last round of the game against another reactive
-strategy (Proposition~\ref{proposition:last_round}).
+In the expected payoffs case the payoff of a pair depends on the average payoff
+they received over an infinite number of turns. In the limited memory payoffs,
+the payoff of a pair depends on the average payoffs they received in the last
+turn. Furthermore, in expected payoffs it is assumed that a player interacts
+with every member of the population, whereas in the limited memory approach a
+player has one interaction. Initially, we define the probability that a reactive
+strategy receives the payoff $u\!\in\! \mathcal{U}$ in the very last round of
+the game against another reactive strategy
+(Proposition~\ref{proposition:last_round}).
 
 \begin{Prop}\label{proposition:last_round} Consider a repeated game, with
     continuation probability $\delta$, between players with reactive strategies
     $s_1\!=\!(y_1, p_1, q_1$)  and $s_2\!=\!(y_2,p_2,q_2)$ respectively. Then
     the probability that the $s_1$ player receives the payoff $u\!\in\!
     \mathcal{U}$ in the very last round of the game is given by
-    $v_{u}(s_1,s_2)$, as given by Equation~(\ref{Eq:LastRound}).
+    $v_{u}(s_1,s_2)$, as given by Eq.~(\ref{Eq:LastRound}).
 
     \begin{equation} \label{Eq:LastRound}
       \setlength{\arraycolsep}{1pt}
@@ -523,38 +497,8 @@ $x(u_R,u_M)$ to denote the probability that the randomly chosen resident
 obtained a payoff of $u_R$ in the last round of his respective game, and that
 the mutant obtained a payoff of $u_M$.
 
-\subsubsection*{Simulation Results based on the Last Round Payoff of One Interaction}
 
-We simulate the evolutionary process given that individuals now use the last
-round payoff of one interaction to update their strategies. The results are
-shown in Figure~\ref{fig:one_interaction_last_round_payoffs_results}. Similarly
-to the results of the expected payoffs, a higher benefit results in a more
-cooperative population. However, we note that the cooperation rate of the
-evolved populations is lower compared to the case of expected payoffs, and that
-the increase of the cooperation rate between the two simulations is smaller. The
-residents population in both cases consist of defectors and conditional
-cooperators with \(p \approx 1\) and  \(q \approx \frac{1}{2}\). Thus, the
-evolved \(q\)s are smaller which is the reason why the population is less
-cooperative. In the invasion analysis we demonstrate that in the case of the
-last round payoff of one interaction, a conditional player needs to have \(q
-\leq \frac{1}{2}\) to avoid being invaded by a defector regardless of the
-benefit of cooperation.
-
-\begin{figure}[!htbp]
-  \centering 
-  \includegraphics[width=.70\textwidth]{static/one_interaction_last_round_donation_game.pdf}
-  \caption{\textbf{Evolutionary dynamics under one interaction last round
-  payoffs with low (left) and high (right) benefit.} The cooperation rate
-  regardless of the benefit of cooperation is less compared to that of the
-  expected payoffs. The increase of cooperation between the low benefit case and
-  the high benefit case is also smaller. In both cases the resident population
-  either consists of defectors (with
-  \(p \approx q \approx 0\)) or of conditional cooperators for which \(p \approx
-  1\) and \(q \leq \frac{1}{2}\). Parameters: \(N =100, c=1, \beta=1, T=10^{7}\).
-  }\label{fig:one_interaction_last_round_payoffs_results}
-\end{figure}
-
-\subsubsection*{Invasion Analysis based on the Last Round Payoff of One Interaction}
+\subsubsection*{Invasion Analysis}
 
 We once again calculate how easily a single ALLD mutant can invade into a
 resident population of GTFT player. When two GTFT players interact in the game,
@@ -612,11 +556,30 @@ condition becomes \(q < 1/2\) (for \(q = 1/2\), the payoff of the ALLD player is
 probability that the number of mutants increase by one equals the probability
 that the mutant goes extinct).
 
-\subsubsection{Updating Payoffs based on the last round payoff of two interactions (\(m=1\) and \(n=2\))}\label{section:m_one_n_two}
+\section{Updating Payoffs based on the last round payoff of $n$ interactions}\label{section:m_one_n_two}
 
-Here we consider the case where both the role model and the learner estimate
-their updating payoff after interacting with two members of the population.
-There are two stages of matching and there are twenty four possible pairs. In
+In the limited memory payoffs we assume that an individual recalls the last
+round they received against one member of the population. This is an edge case.
+The framework of the limited memory can be generalised such that an individual
+considers \(m\) rounds and of \(n\) interactions. Here we discuss the case that
+the update depends on the last round of \(n\) interactions.
+
+At each step of the evolutionary process the role model and the learner now
+participate in \(n\) matches. We need to define the probability that for these
+matches they are paired with a mutant, with a resident or with each other. We
+assume that each pair is unique, so the resident and role model can be matched
+together only once at each step. A representation of the process is given in
+Figure.
+
+In the case of \(n=1\) there are five possible pairs, however, the number of
+possible pairs increases non linearly as we increase the number of possible
+interactions. We demonstrate this case for \(n=2\), namely, for when the role
+model and the learner have two interactions.
+
+
+\subsection*{Special case: Last Round Payoff of Two Interactions}
+
+For \(n=2\) there are two stages of matching and there are twenty four possible pairs. In
 the first stage the role model and the learner are matched together with a
 probability $\frac{1}{N-1}$ or not with a probability $(1 - \frac{1}{N-1})$. If
 they were matched together then in the second stage there are only four possible
@@ -707,36 +670,22 @@ respectively, by one is now given by,
 \lambda^-_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N}\cdot \sum_{u_{R},u_{M}\in\mathcal{U}} \tilde{x}(u_{R},u_{M})\cdot \rho(u_{M},u_{R}).
 \end{align}
 
-\subsubsection*{Simulation Results based on the Last Round Payoff of Two Interactions}
 
-We simulate the evolutionary process when individuals update their strategies
-based on the last round payoffs from two interactions with members of the
-population, Figure~\ref{fig:one_interaction_last_round_payoffs_results}. For
-both a low and a high benefit value the average cooperation rate has increased
-compared to the last round against a single other member of the population. In
-the case of low benefit the evolved population's cooperation rate is almost the
-same as in the case of expected payoffs. However, the cooperation rate does not
-increase as much as the expected payoffs for \(b=10\).
-
-\begin{figure}[!htbp]
-  \centering 
-  \includegraphics[width=.70\textwidth]{static/two_interactions_donation_game.pdf}
-  \caption{\textbf{Evolutionary dynamics under two interactions last round
-  payoffs with low (left) and high (right) benefit.}
-  The cooperation rates for both the simulations have increased and are similar
-  to the case of expected payoffs. The increase of the cooperation rate between
-  the two cases however is smaller. In both cases the resident population
-  either consists of defectors (with
-  \(p \approx q \approx 0\)) or of conditional cooperators for which \(p \approx
-  1\) and \(q \leq \frac{1}{2}\). Parameters: \(N =100, c=1, \beta=1, T=10^{7}\).
-  }\label{fig:two_interactions_results}
-\end{figure}
-
-\subsubsection*{Invasion Analysis based on the Last Round Payoff of Two Interactions}
+\subsubsection*{Invasion Analysis}
 
 In a similar fashion we can calculate the condition for which a population of
-GTFT players can not be invaded by an ALLD mutant. The ratio of transition
-probabilities is given by,
+GTFT players can not be invaded by an ALLD mutant. Using the new formulation we
+obtain the following probabilities \(\bar{x}(u_1, u_2)\) that the payoff of a randomly
+chosen GTFT player is \(u_1\) and that the payoff of the ALLD player is \(u_2\),
+
+\begin{align*}
+  x(r, t) = & \frac{N - 2}{N - 1} \cdot (1 - \delta + \delta q)\\
+  x(r, r) = & \frac{N - 2}{N - 1} \cdot \delta (1 - q) \\
+  x(s, r) = & \frac{1}{N - 1} \cdot (1 - \delta + \delta q) \\
+  x(p, p) = & \frac{1}{N - 1} \cdot \delta (1 - q)
+\end{align*}
+
+The ratio of transition probabilities is given by,
 
 \begin{equation}
   \resizebox{.9\textwidth}{!}
@@ -784,14 +733,14 @@ roots. For repeated games that are repeated for a large number of turn such as
 \(\delta \rightarrow 1\) the condition then becomes \(q < 1 -
 \frac{\sqrt{2}}{2}\).
 
-\subsection{Updating Payoffs based on the Last Two Rounds Payoff of One Interaction (\(m=2\) and \(n=1\))}\label{section:m_two_n_one}
+\section{Updating Payoffs based on the Last $m$ Rounds Payoffs of One Interaction}\label{section:m_two_n_one}
 
-In this section we consider the case of \(n=1\) and \(m=2\), thus individuals
-update based on their last two rounds payoffs with one member. To this end we
-define the probability that a reactive strategy receives the payoffs $u\!\in\!
-\mathcal{\tilde{U}}$, for \(\mathcal{\tilde{U}}= \{rrr\dots r, rrr\dots s, \dots,
-ppp\dots p\}\), in the last \(m\) rounds against another reactive strategy
-(Proposition~\ref{proposition:last_m_rounds}).
+The second generalised case of the limited memory payoffs we discuss in that of
+individuals updating based on their last $m$ rounds payoffs with one member. To
+this end we define the probability that a reactive strategy receives the payoffs
+$u\!\in\! \mathcal{\tilde{U}}$, for \(\mathcal{\tilde{U}}= \{\underbrace{rrr\dots r}_{m},
+\underbrace{rrr\dots s}_{m}, \dots, \underbrace{ppp\dots p}_{m}\}\), in the last \(m\) rounds against another
+reactive strategy (Proposition~\ref{proposition:last_m_rounds}).
 
 \begin{Prop}\label{proposition:last_m_rounds} Consider a repeated game, with
   continuation probability $\delta$, between players with reactive strategies
@@ -818,22 +767,9 @@ frameworks differ in the game stage payoffs,
   \lambda^-_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N}\cdot \sum_{\tilde{u}_{R},\tilde{u}_{M}\in\mathcal{\tilde{U}}} \tilde{x}(\tilde{u}_{R},\tilde{u}_{M})\cdot \rho(\tilde{u}_{M},\tilde{u}_{R}).
 \end{align}
 
-\subsubsection*{Simulation Results based on the Last Two Rounds Payoff of One Interaction}
+\subsection*{Special case: Last Round Payoff of Two Interactions}
 
-The simulation results for this case are given in
-Figure~\ref{fig:two_rounds_results}. Updating on the two rounds payoffs received
-against a single opponent result to a lower cooperation rate compare to updating
-based on one round against two opponents.
-
-\begin{figure}[!htbp]
-  \centering 
-  \includegraphics[width=.70\textwidth]{static/two_rounds_donation_game.pdf}
-  \caption{\textbf{Evolutionary dynamics under two interactions last round
-  payoffs with low (left) and high (right) benefit.}\\Parameters: \(N =100, c=1, \beta=1, T=10 ^7\).
-  }\label{fig:two_rounds_results}
-\end{figure}
-
-\subsubsection*{Invasion Analysis based on the Last Two Rounds Payoff of One Interaction}
+\subsubsection*{Invasion Analysis}
 
 In a similar fashion we can calculate the condition for which a population of
 GTFT players can not be invaded by an ALLD mutant. The ratio of transition
@@ -881,35 +817,65 @@ roots. For repeated games that are repeated for a large number of turn such as
 \(\delta \rightarrow 1\) the condition then becomes \(q < 1 -
 \frac{\sqrt{2}}{2}\).
 
-\subsection{Updating Payoffs based on the last two rounds payoff of two interactions (\(m=2\) and \(n=2\))}
+\section{Updating Payoffs based on the last two rounds payoff of two interactions (\(m=2\) and \(n=2\))}\label{section:m_two_n_two}
 
-The last case we present in this work is the case of \(m = 2\) and \(n = 2\).
-That is, an individual considers the last two rounds of payoffs he or she
-received against two different members of the population. For this case we
-combine the approaches described in sections~\ref{section:m_one_n_two}
-and~\ref{section:m_two_n_one}. Here we only present results on the numerical
-simulations, Figure~\ref{fig:two_rounds_opponents_results}. The evolved
-cooperation rates are between the other cases and the expected payoffs. For a
-low benefit we get results similar to the case where one the last round was
-considered, however, in the high benefit case the evolved cooperation rate
-increases to 91\% which is higher then any of the newly introduced approaches.
+Finally a possible extension to the limited memory framework is to consider that
+thee number of rounds and number of interactions increase. For this case we need
+to consider a combination of the methods we presented in
+Section~\ref{section:m_one_n_two} and Section~\ref{section:m_two_n_one}.
+
+\section{Simulation Results on the Pairwise Comparison Process}\label{section:simulation_results}
+
+We simulate the evolutionary process described in
+Algorithm~\ref{algorithm:pairwise_comparison} for the different updating
+mechanisms we have described in
+Sections~\ref{section:perfect_memory}-\ref{section:m_two_n_two}. For each
+approach we performed an independent run of the process and for each time step we
+recorded the current resident population \((y, p, q)\). The results are shown in
+Figure~\ref{fig:expected_payoffs_results}. We observe that in most cases the
+resident population consists either of defectors or conditional cooperators. A
+conditional cooperator always cooperates if the co-player cooperated
+($p\approx1$) and cooperates with a probability \(q\) if the co-player defected.
+The most abundant conditional cooperators in each simulation differ as a
+result of the updating payoffs. More specifically, in order for a resident
+population of conditional cooperators to avoid being invaded they need to adopt
+a different value of \(q\). For each method we have discussed this under the
+invasion analysis subsection. 
+
+In the cases of perfect memory the resident population adopts a \(q \leq 1 -
+\frac{c}{b}=0.9\). In the limited memory case the generosity of a conditional
+cooperator is independently of the benefit lower than \(\frac{1}{2}\). The rest
+of the cases also condition on the cost benefit relationship. In these
+simulations the cost of cooperation is set to 1 and the benefit to 10. As a
+result, in the case of two interactions \(q \leq \frac{\delta - 1 +
+\frac{\sqrt{2}}{2}}{\delta}=0.7068\), in the case of two rounds \(q \leq
+\frac{\delta + \sqrt{\delta^{2} + 1} - 1}{2 \delta}=0.7069\), and in the last
+case \(q \leq 1 - \frac{c}{b}=0.9\). The higher tolerance to defection results
+to a more cooperative population. As a result the expected payoffs allow for the
+most cooperative population. Between the limited memory approaches we observe a
+big difference in the cases of one or more information. We hypothesis that as we
+allow for more information the results will tend to the case of perfect memory.
 
 \begin{figure}[!htbp]
-  \centering 
-  \includegraphics[width=.70\textwidth]{static/two_rounds_opponents_donation_game.pdf}
-  \caption{\textbf{Evolutionary dynamics under two interactions last round
-  payoffs with low (left) and high (right) benefit.} In the cases of low and
-  high benefit case the resident population either consists of defectors (with
-  \(p \approx q \approx 0\)) or of conditional cooperators for which \(p \approx
-  1\) and \(q \leq \frac{1}{2}\). Parameters: \(N =100, c=1, \beta=1\).
-  }\label{fig:two_rounds_opponents_results}
+    \centering 
+    \includegraphics[width=\textwidth]{static/more_memory_heatmaps_donation_game_with_illustrations.pdf}
+    \caption{\textbf{Evolutionary dynamics with difference updating approach.}
+    From left to right, we present result on the following updating payoffs
+    cases; the expected payoffs (perfect memory), the last round payoff
+    from one interaction (limited memory), the last round payoff from two
+    interactions, the last two rounds payoffs from one interaction, the
+    last two rounds payoffs from two interactions. We run each simulation for \(T
+    = 10^7\) time steps. For each time step we recorded the current resident
+    population \((y, p, q)\). Since \(\delta \rightarrow 1\) we do not report the
+    players' initial cooperation probability \(y\). The graphs show how often the
+    resident population chooses each combination \((p, q)\) of conditional
+    cooperation probabilities in the subsequent rounds. In both cases players
+    update based on their expected payoffs.}\label{fig:expected_payoffs_results}
 \end{figure}
 
-\newpage
+\section{Expected and Last Round Updating Payoffs for Memory One Strategies}\label{section:memory_one}
 
-\section{Expected and Last Round Updating Payoffs for Memory One Strategies}
-
-So far we have considered the case where members can adopt reactive strategies.
+So far we have assumed that individuals can adopt reactive strategies.
 To demonstrate that our results hold for higher memory strategies here we
 present results for the expected payoffs, and the last round payoff when members
 use memory-one strategies. Memory-one strategies consider the outcome of the
@@ -923,7 +889,9 @@ cooperates for each of the possible outcomes of the last round.
 We perform four separate simulations where we differ the updating payoff and the
 benefit of cooperation \(b\). The results for a low value of benefit are given
 in Figure~\ref{fig:memory_one_low_benefit}, and for a high benefit in
-Figure~\ref{fig:memory_one_high_benefit}.
+Figure~\ref{fig:memory_one_high_benefit}. We verify that even when individuals
+are allowed to use memory-one strategies, the cooperation rate is higher
+in the perfect memory approach compared to the limited memory.
 
 \begin{figure}[!htbp]
   \centering 
@@ -971,7 +939,12 @@ Namely, we explore the evolved population when individuals use perfect and
 limited updating payoff memory for different values of \(\mu\). We perform five
 independent runs of the pairwise process described in
 Section~\ref{section:pairwise_comparison}, and at each time step we record the
-average player \(\bar{s}=(\bar{y}, \bar{p}, \bar{q})\).
+average player \(\bar{s}=(\bar{y}, \bar{p}, \bar{q})\). The average cooperation
+of the resident population for different values of mutation are shown in
+Figure~\ref{fig:mutation}. The cooperation rate in the case of perfect
+memory is always higher compared to the limited memory regardless of the
+mutation value. For mutation value of 1 the processes become random and
+this results to a cooperation rate of \(\frac{1}{2}\) in both simulations.
 
 \begin{figure}[!htbp]
   \centering 
