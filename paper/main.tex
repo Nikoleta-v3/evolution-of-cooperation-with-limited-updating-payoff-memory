@@ -92,20 +92,20 @@ limited payoff memory\\}
 \maketitle
 
 \begin{abstract}
-Repeated games are vastly use in evolutionary game theory to explain cooperation
+Repeated games are vastly used in evolutionary game theory to explain cooperation
 in a variety of environments. Although existing models have shaped our
-understanding of human cooperation, hey often work with idealized assumptions.
+understanding of human cooperation they often work with idealized assumptions.
 In an evolutionary process, individuals imitate other individuals of the
 population based on their fitness. It is commonly assumed that an individual
 computes their fitness after interacting with a representative sample of the
-population, and remembering all the interactions they participated in. In real
-life, we do not always remember all our interactions, instead we rather recall
+population and remembering all the interactions they participated in. In real
+life we do not always remember all our interactions, instead we rather recall
 our most recent ones.
 
-Here, we introduce a framework that allows individuals to estimate their fitness
+Here we introduce a framework that allows individuals to estimate their fitness
 based on a minimum of social information. We explore the difference between our
 framework and the classical framework using computer simulations. The
-simulations show that, in the prisoner's dilemma individuals with limited memory
+simulations show that in the prisoner's dilemma, individuals with limited memory
 tend to adopt less generous strategies and they achieve less cooperation than in
 the classical scenario.
 \end{abstract}
@@ -532,64 +532,57 @@ are shown in Figure~\ref{fig:cooperation_rate_all_updating_payoffs}.
   combination.}\label{fig:cooperation_rate_all_updating_payoffs}
 \end{figure}
 
-% \section{Conclusions}\label{section:conclusions}
+\newpage
 
-% ToDo: Add in discussion
+\section{Conclusions}\label{section:conclusions}
 
-% A major focus of evolutionary game theory is the evolution of cooperation among
-% selfish individuals. Sometimes evolutionary game theory even seems to be reduced
-% to the evolution of cooperation [Arne2022]. “Why do we act altruistically to
-% provide a benefit to others when there is a cost to ourselves?” is still a
-% puzzling question amongst researchers [Glynatsi]. In this determinist
-% formulation, a small fraction of cooperative individuals that have a lower
-% fitness can never invade a population of defecting strategies.  The stochastic
-% effect can lead to fundamental changes since disadvantageous mutants have a
-% small yet non-zero probability to reach fixation in a finite population, and
-% thus cooperation can emerge.
+A major focus of evolutionary game theory is the evolution of cooperation among
+selfish individuals. Sometimes evolutionary game theory even seems to be reduced
+to the evolution of cooperation [Arne2022]. “Why do we act altruistically to
+provide a benefit to others when there is a cost to ourselves?” is still a
+puzzling question amongst researchers [Glynatsi]. In this determinist
+formulation, a small fraction of cooperative individuals that have a lower
+fitness can never invade a population of defecting strategies.  The stochastic
+effect can lead to fundamental changes since disadvantageous mutants have a
+small yet non-zero probability to reach fixation in a finite population, and
+thus cooperation can emerge.
 
-% The framework of evolutionary game theory has been applied in explaining the
-% behavior of sticklebacks~\cite{milinski1987tit}, the rock-scissors-paper cycles
-% in bacterial populations~\cite{kerr2002local} and food sharing in vampire
-% bats~\cite{carter2020development} colonies.
+Cooperation can be seen at odd, why is it that we choose to help others,
+increasing their payoff, at the expense of decreasing one's own? In spite of all
+the selfish genes' animal and human communities seem to altruistically help each
+other and cooperate, and evolutionary game theory has helped us shape our
+understanding of the evolution of cooperation.
 
-% Cooperation can be seen at odd, why is it that we choose to help others,
-% increasing their payoff, at the expense of decreasing one's own? In spite of all
-% the selfish genes’ animal and human communities seem to altruistically help each
-% other and cooperate, and evolutionary game theory has helped us shape our
-% understanding of the evolution of cooperation.
+Previous evolutionary models often feature a curious inconsistency. When
+modeling how individuals make decisions in each round, these models assume that
+players only remember the last round. However, when modeling how individuals
+update their strategies over time, individuals are assumed to have perfect
+memory.
 
-% Previous evolutionary models often feature a curious inconsistency. When
-% modeling how individuals make decisions in each round, these models assume that
-% players only remember the last round. However, when modeling how individuals
-% update their strategies over time, individuals are assumed to have perfect
-% memory.
+Here, we have explored how robust cooperation is as models deviate from the
+perfect memory assumption. Initially we considered the donation game. We showed
+that when the last round payoff is used instead of the expected payoffs,
+cooperation can even evolve when individuals only use a minimum of information,
+however, the evolving cooperation rates are typically lower. The resident
+strategies were both less cooperative and less generous. This effect was only
+intensified we increase the benefit and the strength of selection independently.
+The results showed that as each parameter was being increased the difference
+between the cooperation rates were widening. This indicates that cooperative
+players benefit from being able to interact with everyone in the population.
 
-% Here, we have explored how robust cooperation is as models deviate from the
-% perfect memory assumption. Initially we considered the donation game. We showed
-% that when the last round payoff is used instead of the expected payoffs,
-% cooperation can even evolve when individuals only use a minimum of information,
-% however, the evolving cooperation rates are typically lower. The resident
-% strategies were both less cooperative and less generous. This effect was only
-% intensified we increase the benefit and the strength of selection independently.
-% The results showed that as each parameter was being increased the difference
-% between the cooperation rates were widening. This indicates that cooperative
-% players benefit from being able to interact with everyone in the population.
+We extended our approach and presented results not only based on different
+classes of social games, but also based on different limited memory payoffs. The
+analysis showed that specifically for the case of the prisoner's dilemma games
+the contrast between the two approaches can be significantly large. The
+prisoner's dilemma is one of the most applied types of social games when we
+discuss the evolution of cooperation. Our results indicate that cooperation
+struggles to evolve in the prisoner's dilemma when only a minimum of social
+information is used at the updating stage.
 
-% We extended our approach and presented results not only based on different
-% classes of social games, but also based on different limited memory payoffs. The
-% analysis showed that specifically for the case of the prisoner's dilemma games
-% the contrast between the two approaches can be significantly large. The
-% prisoner's dilemma is one of the most applied types of social games when we
-% discuss the evolution of cooperation. Our results indicate that cooperation
-% struggles to evolve in the prisoner's dilemma when only a minimum of social
-% information is used at the updating stage. Interestingly our simulations also
-% showed that in same cases cooperation can benefit from limited memory. This was
-% specific for the snowdrift game.
+\section{Acknowledgements}
 
-% \section{Acknowledgements}
-
-% This work was supported by the European Research Council Starting Grant 850529:
-% E-DIRECT.
+This work was supported by the European Research Council Starting Grant 850529:
+E-DIRECT.
 
 
 % \appendix
