@@ -92,34 +92,25 @@ limited payoff memory\\}
 \maketitle
 
 \begin{abstract}
-% Repeated games are vastly use in evolutionary game theory to explain cooperation in a variety of environments. Although existing models have shaped
-% our understanding of human cooperation, hey often work with idealized
-% assumptions. In an evolutionary process, individuals imitate other individuals
-% of the population based on their fitness. It is commonly assumed that an
-% individual computes their fitness after interacting with a representative sample
-% of the population, and remembering all the interactions they participated in. In
-% real life, we do not always remember all our interactions, instead we rather
-% recall our most recent ones.
+Repeated games are vastly use in evolutionary game theory to explain cooperation
+in a variety of environments. Although existing models have shaped our
+understanding of human cooperation, hey often work with idealized assumptions.
+In an evolutionary process, individuals imitate other individuals of the
+population based on their fitness. It is commonly assumed that an individual
+computes their fitness after interacting with a representative sample of the
+population, and remembering all the interactions they participated in. In real
+life, we do not always remember all our interactions, instead we rather recall
+our most recent ones.
 
-% Here, we introduce a framework that allows individuals to estimate their fitness
-% based on a minimum of social information. We explore the difference between our
-% framework and the classical framework using computer simulations. We present
-% results for the most commonly used classes of symmetric \(2 \times 2\) games.
-% The simulations show that, in the prisoner's dilemma individuals with limited
-% memory tend to adopt less generous strategies and they achieve less cooperation
-% than in the classical scenario. In contrast, in the stag-hunt and the harmony
-% game, the impact of memory is less striking. Here individuals with limited
-% memory perform nearly as well as individuals with full memory. Finally, we
-% observe that the snowdrift game is the only game for which cooperation can be
-% underestimated in the classical scenario.
+Here, we introduce a framework that allows individuals to estimate their fitness
+based on a minimum of social information. We explore the difference between our
+framework and the classical framework using computer simulations. The
+simulations show that, in the prisoner's dilemma individuals with limited memory
+tend to adopt less generous strategies and they achieve less cooperation than in
+the classical scenario.
 \end{abstract}
 
 \section{Introduction}
-
-% The framework of evolutionary game theory has been applied in explaining the
-% behavior of sticklebacks~\cite{milinski1987tit}, the rock-scissors-paper cycles
-% in bacterial populations~\cite{kerr2002local} and food sharing in vampire
-% bats~\cite{carter2020development} colonies.
 
 Evolutionary game theory~\cite{smith1982evolution, hofbauer1998evolutionary,
 nowak:Nature:2004, hauert2005game} describes the evolutionary dynamics of
@@ -191,19 +182,6 @@ specifically, up to the last two payoffs they obtained when interacting with up
 to two different members of the population.
 
 \section{Model Setup}\label{section:model}
-
-% ToDo: Add in discussion
-
-% A major focus of evolutionary game theory is the evolution of cooperation among
-% selfish individuals. Sometimes evolutionary game theory even seems to be reduced
-% to the evolution of cooperation [Arne2022]. “Why do we act altruistically to
-% provide a benefit to others when there is a cost to ourselves?” is still a
-% puzzling question amongst researchers [Glynatsi]. In this determinist
-% formulation, a small fraction of cooperative individuals that have a lower
-% fitness can never invade a population of defecting strategies.  The stochastic
-% effect can lead to fundamental changes since disadvantageous mutants have a
-% small yet non-zero probability to reach fixation in a finite population, and
-% thus cooperation can emerge.
 
 A pairwise comparison process starts with assigning all
 individuals of the population the same strategy. Each elementary time step of
@@ -1001,6 +979,24 @@ are shown in Figure~\ref{fig:cooperation_rate_all_updating_payoffs}.
 
 
 % \section{Conclusions}\label{section:conclusions}
+
+% ToDo: Add in discussion
+
+% A major focus of evolutionary game theory is the evolution of cooperation among
+% selfish individuals. Sometimes evolutionary game theory even seems to be reduced
+% to the evolution of cooperation [Arne2022]. “Why do we act altruistically to
+% provide a benefit to others when there is a cost to ourselves?” is still a
+% puzzling question amongst researchers [Glynatsi]. In this determinist
+% formulation, a small fraction of cooperative individuals that have a lower
+% fitness can never invade a population of defecting strategies.  The stochastic
+% effect can lead to fundamental changes since disadvantageous mutants have a
+% small yet non-zero probability to reach fixation in a finite population, and
+% thus cooperation can emerge.
+
+% The framework of evolutionary game theory has been applied in explaining the
+% behavior of sticklebacks~\cite{milinski1987tit}, the rock-scissors-paper cycles
+% in bacterial populations~\cite{kerr2002local} and food sharing in vampire
+% bats~\cite{carter2020development} colonies.
 
 % Cooperation can be seen at odd, why is it that we choose to help others,
 % increasing their payoff, at the expense of decreasing one's own? In spite of all
