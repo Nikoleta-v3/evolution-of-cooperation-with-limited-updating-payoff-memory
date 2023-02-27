@@ -184,14 +184,14 @@ to two different members of the population.
 \section{Model Setup}\label{section:model}
 
 A pairwise comparison process starts with assigning all
-individuals of the population the same strategy. Each elementary time step of
+individuals of the population the same strategy. Thenceforth each elementary time step of
 the process consists of the mutation phase, the game phase and the update phase.
 In the game phase individuals are matched in pairs and that they participate in
 a repeated 2 person donation game; a special case of the prisoner's dilemma. In
 the donation game there are two actions: cooperation (\(C\)) and defection
 (\(D\)). By cooperating a player provides a benefit \(b\) to the other player at
 their cost \(c\), with \(0 < c < b\). Thus the payoffs for a player in each turn
-are,
+are given by,
 
 \begin{equation}
     \begin{blockarray}{ccc}
@@ -203,7 +203,7 @@ are,
     \end{blockarray}.
 \end{equation}
 
-Let \(\mathbf{u} = (b-c, -c, b, 0)\) be payoffs in a vector format, and let
+Let \(\mathbf{u} = (b-c, -c, b, 0)\) be the round payoffs in a vector format, and let
 \(\mathcal{U} = \{r, s, t, p\}\) denote the set of feasible payoffs, where \(r\)
 denotes the payoff of mutual cooperation, \(s\) the sucker's payoff, \(t\) the
 temptation to defect payoff, and \(p\) the punishment payoff.
@@ -215,7 +215,7 @@ reactive strategy \(s\) can be written as a three-dimensional vector \(s=(y, p,
 q)\). The parameter \(y\) is the probability that the strategy opens with a
 cooperation and \(p\), \(q\) are the probabilities that the strategy cooperates
 given that the opponent cooperated and defected equivalently. The play between a
-pair of reactive strategies ($s_1 = (y_1, p_1, q_1)$, $s_2 = (y_2, p_2, q_2)$)
+pair of reactive strategies $s_1 = (y_1, p_1, q_1)$ and $s_2 = (y_2, p_2, q_2)$
 can be model as a Markov process with the transition matrix \(M\),
 
 \begin{equation}\label{eq:transition_matrix}
@@ -244,43 +244,44 @@ the role model.
 For the results presented here we assume that mutations are rare (\(\mu
 \rightarrow 0\)). In fact, so rare that only two different strategies can be
 present in the population at any given time. However, in the Supplementary Information
-Section 4 we show in that the main result hold for \(\mu \neq 0\).
+Section 9 we show that the main result holds for \(\mu \neq 0\).
 The case of low mutation is vastly adopted because it allows us to explicitly
 calculate the fixation probability of a newly introduced mutant. More specifically,
 at each step
 one individual adopts a mutant strategy randomly selected from the set of
 feasible strategies. The fixation probability \(\phi_{M}\) of the mutant
-strategy can be calculated explicitly,
+strategy can be calculated explicitly as,
 
 \begin{equation}\label{eq:appendix_fixation_probability}
     \varphi_{M} = \frac{1}{1+\sum\limits_{i=1}^{N-1}\prod\limits_k^i \frac{\lambda^-_k}{\lambda^+_k}},
 \end{equation}
 
-where \(\lambda^-_k, \lambda^+_k\) are the probabilities that the number of
-mutants decreases and increases respectively, and \(k\) is the number of
-mutants. Depending on the fixation probability \(\phi_{M}\) the mutant either
-fixes (becomes the new resident) or goes extinct. Regardless, in the elementary
+where \(k\) is the number of
+mutants and \(\lambda^-_k, \lambda^+_k\) are the probabilities that the number of
+mutants decreases and increases respectively.
+Depending on the fixation probability \(\phi_{M}\) the mutant either
+fixes (becomes the new resident) or goes extinct. Regardless, in the next elementary
 time step another mutant strategy is introduced to the population. We iterate
 this elementary population updating process for a large number of mutant
 strategies and we record the resident strategies at each time step. The
-probabilities \(\lambda^-_k \text{ and } \lambda^+_k\) depend on the updating
-payoffs of the mutant and the resident strategies. In the next section we
-present how they are calculated in the cases of perfect and limited memory.
+probabilities \(\lambda^-_k \text{ and } \lambda^+_k\) depend on the fitness
+of the mutant and the resident strategies. In the next section we
+present how fitness is calculated in the cases of perfect and limited payoff memory.
 
-\subsection{Updating payoffs based Perfect and Limited Memory}
+\subsection{Fitness based on Perfect and Limited Payoff Memory}
 
-\subsubsection*{Perfect Memory}
+In the perfect payoff memory case an individual updates based on the average payoff
+against each other member of the population, otherwise known as expected payoffs. 
+The payoff of a reactive strategy \(s_1\) against the reactive strategy \(s_2\)
+in an infinitely repeated game ($\delta \rightarrow 1$) is explicitly
+calculated as,
 
-In the perfect memory case an individual updates based on the average payoff
-against each other member of the population, otherwise as expected payoffs. In
-an infinitely repeated game ($\delta \rightarrow 1$) the payoff of a reactive
-strategy \(s_1\) against the reactive strategy \(s_2\) can explicitly be
-calculated using the stationary vector \(\mathbf{v}\) and the payoffs' vector as
-\(\langle\mathbf{v}(s_1,s_2),\mathbf{u}\rangle\). In a population of size \(N\)
-there are \(k\) mutants and \(N - k\) residents. We denote the strategies of
-a mutant and of a resident as \(s_M =(y_M, p_M, q_M)\) and \(s_R =
-(y_R, p_R, q_R)\). The expected payoffs of a resident (\(\pi_R\)) and of a
-mutant (\(\pi_M\)) are given by,
+\[\langle\mathbf{v}(s_1,s_2),\mathbf{u}\rangle.\]
+
+In a population of size \(N\) there are \(k\) mutants and \(N - k\) residents.
+Let \(s_M =(y_M, p_M, q_M)\) and \(s_R = (y_R, p_R, q_R)\) denote the
+strategies of a mutant and a resident, the expected payoffs \(\pi_R\) and
+\(\pi_M\) are given by,
 
 \begin{equation} \label{Eq:ExpPay}
   \begin{array}{lcrcr}
@@ -290,15 +291,14 @@ mutant (\(\pi_M\)) are given by,
 \end{equation}
 
 The probabilities that the number of mutants decreases and increases,
-\(\lambda^-_k\) and \(\lambda^+_k\), in the perfect memory case are defined as,
+\(\lambda^-_k\) and \(\lambda^+_k\), in the perfect payoff memory case are
+defined as,
 
 \begin{align}\label{eq:perfect_memory_lambdas}
   \lambda^-_k \!=\!\rho(\pi_M, \pi_R) \quad \text{ and } \quad \lambda^+_k \!=\!\rho(\pi_R, \pi_M).
 \end{align}
 
-\subsubsection*{Limited Memory}
-
-In this case of limited memory we initially define the probability that a
+In the case of limited payoff memory we initially define the probability that a
 reactive strategy receives the payoff $u\!\in\! \mathcal{U}$ in the very last
 round of the game. This is given by Proposition~\ref{proposition:last_round}
 (see Supplementary Information Section 2.2.1 for proof).
@@ -315,16 +315,16 @@ $v_{u}(s_1,s_2)$, as given by Equation~(\ref{Eq:LastRound}).
   \begin{array}{rcl}
 
   v_{r}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{y_1y_2}{1\!-\!\delta^2 l_1 l_2}+\delta \frac{\Big(q_1+l_1\big((1\!-\!\delta)y_2+\delta q_2\big)\Big) \Big(q_2+l_2\big((1\!-\!\delta)y_1+\delta q_1\big)\Big)}
-  {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)} \times r,\\[1cm]
+  {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)},\\[1cm]
 
   v_{s}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{y_1\bar{y}_2}{1\!-\!\delta^2 l_1 l_2}+\delta \frac{\Big(q_1+l_1\big((1\!-\!\delta)y_2+\delta q_2\big)\Big) \Big(\bar{q}_2+\bar{r}_2\big((1\!-\!\delta)y_1+\delta p_1\big)\Big)}
-  {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)} \times s,\\[1cm]
+  {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)},\\[1cm]
 
   v_{t}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{\bar{y}_1y_2}{1\!-\!\delta^2 l_1 l_2}+\delta \frac{\Big(\bar{q}_1+\bar{r}_1\big((1\!-\!\delta)y_2+\delta p_2\big)\Big) \Big(q_2+l_2\big((1\!-\!\delta)y_1+\delta q_1\big)\Big)}
-  {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)} \times t,\\[1cm]
+  {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)},\\[1cm]
 
   v_{p}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{\bar{y}_1\bar{y}_2}{1\!-\!\delta^2 l_1 l_2}+\delta \frac{\Big(\bar{q}_1+\bar{r}_1\big((1\!-\!\delta)y_2+\delta p_2\big)\Big) \Big(\bar{q}_2+\bar{r}_2\big((1\!-\!\delta)y_1+\delta p_1\big)\Big)}
-  {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)} \times p.
+  {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)}.
   \end{array}
 \end{equation}
 
@@ -336,38 +336,40 @@ $\bar{l}_i:=\bar{p}_i\!-\!\bar{q}_i=-l_i$ for $i\!\in\!\{1,2\}$.
 In the case of limited payoffs memory both the role model and the learner
 estimate their fitness after interacting with a single member of the population.
 At each time step there are five possible pairings. They interact with each
-other with a probability \(\frac{1}{N - 1}\), and thus they do not interact with
+other with a probability \(\frac{1}{N - 1}\), and they do not interact with
 other with a probability \(1 - \frac{1}{N - 1}\). In the latter case, each of
 them can interact with either a mutant or a resident. Both of them interact with
 a mutant with a probability $\frac{(k-1)(k-2)}{(N-2)(N-3)}$ and both interact
 with a resident with a probability $\frac{(N-k-1)(N-k-2)}{(N-2)(N-3)}$. The last
 two possible pairings are that either of them interacts with a resident whilst
 the other interacts with a mutant, and this happens with a probability
-$\frac{(N-k-1)(k-1)}{(N-2)(N-3)}$. Thus we the probability that the randomly
+$\frac{(N-k-1)(k-1)}{(N-2)(N-3)}$. We define the probability that the randomly
 chosen resident obtained a payoff of $u_R$ in the last round of his respective
 game, and that the mutant obtained a payoff of $u_M$ as $x(u_R,u_M)$.
 
 \begin{equation}\label{eq:Chi}
 \setlength{\arraycolsep}{1pt}
 \begin{array}{llrl}
-x(u_1,u_2)	 &=&\displaystyle \frac{1}{N\!-\!1}\cdot  &v_{u_1}(s_1,s_2)\cdot 1_{(u_1,u_2)\in \mathcal{U}^2_F}\\[0.5cm]
+x(u_R,u_M)	 &=&\displaystyle \frac{1}{N\!-\!1}\cdot  &v_{u_R}(s_R,s_M)\cdot 1_{(u_R,u_M)\in \mathcal{U}^2_F}\\[0.5cm]
 &+	
 &\displaystyle \left(1\!-\!\frac{1}{N\!-\!1}\right)  
-&\left[ \frac{k\!-\!1}{N\!-\!2}\frac{k\!-\!2}{N\!-\!3} v_{u_1}(s_1,s_2) v_{u_2}(s_2,s_2) + 
- \frac{k\!-\!1}{N\!-\!2}\frac{N\!-\!k\!-\!1}{N\!-\!3} v_{u_1}(s_1,s_2) v_{u_2}(s_2,s_1)\right.\\[0.5cm]
-&&&\left. +\frac{N\!-\!k\!-\!1}{N\!-\!2}\frac{k\!-\!1}{N\!-\!3} v_{u_1}(s_1,s_1) v_{u_2}(s_2,s_2) + 
- \frac{N\!-\!k\!-\!1}{N\!-\!2}\frac{N\!-\!k\!-\!2}{N\!-\!3} v_{u_1}(s_1,s_1) v_{u_2}(s_2,s_1)\right].
+&\left[ \frac{k\!-\!1}{N\!-\!2}\frac{k\!-\!2}{N\!-\!3} v_{u_R}(s_R,s_M) v_{u_M}(s_M,s_M) + 
+ \frac{k\!-\!1}{N\!-\!2}\frac{N\!-\!k\!-\!1}{N\!-\!3} v_{u_R}(s_R,s_M) v_{u_M}(s_M,s_R)\right.\\[0.5cm]
+&&&\left. +\frac{N\!-\!k\!-\!1}{N\!-\!2}\frac{k\!-\!1}{N\!-\!3} v_{u_R}(s_R,s_R) v_{u_M}(s_M,s_M) + 
+ \frac{N\!-\!k\!-\!1}{N\!-\!2}\frac{N\!-\!k\!-\!2}{N\!-\!3} v_{u_R}(s_R,s_R) v_{u_M}(s_M,s_R)\right].
 \end{array}
 \end{equation}
 
 The first term on the right side corresponds to the case that the learner and
 the role model happened to be matched during the game stage, which happens with
-probability $\frac{1}{(N\!-\!1)}$. The probability that the number of mutants
-increases and decreases by one in the case of limited memory are now given by,
+probability $\frac{1}{(N\!-\!1)}$.
+
+The probability that the number of mutants increases and decreases by one in the
+case of limited payoff memory are now given by,
 
 \begin{align}\label{eq:limited_memory_lambdas}
-\lambda^+_k=\frac{N\!-\!k}{N} \frac{k}{N} \sum_{u_{R},u_{M}\in\mathcal{U}} x(u_{R},u_{M}) \rho(u_{R},u_{M}) \quad \text{and} \quad
-\lambda^-_k=\frac{N\!-\!k}{N} \frac{k}{N} \sum_{u_{R},u_{M}\in\mathcal{U}} x(u_{R},u_{M}) \rho(u_{M},u_{R}).
+\lambda^+_k=\frac{N\!-\!k}{N} \cdot \frac{k}{N} \cdot \sum_{u_{R},u_{M}\in\mathcal{U}} x(u_{R},u_{M}) \rho(u_{R},u_{M}) \quad \text{and} \quad
+\lambda^-_k=\frac{N\!-\!k}{N} \cdot \frac{k}{N} \cdot \sum_{u_{R},u_{M}\in\mathcal{U}} x(u_{R},u_{M}) \rho(u_{M},u_{R}).
 \end{align}
 
 In this expression, $\frac{(N\!-\!k)}{N}$ is the probability that the randomly
@@ -376,7 +378,7 @@ model is a mutant. The sum corresponds to the total probability that the learner
 adopts the role model's strategy over all possible payoffs $u_R$ and $u_M$ that
 the two player may have received in their respective last rounds.
 
-\subsubsection*{Simulation Results}
+\section{Simulation Results}
 
 In order to account for the effect of the updating payoffs we simulate the
 evolutionary process and record which strategies the players adopt over time
