@@ -1,6 +1,5 @@
 # Evolution of cooperation among individuals with limited updating payoff memory
 
-[![Actions Status](https://github.com/Nikoleta-v3/pd-with-stochastic-payoffs/workflows/test/badge.svg)](https://github.com/Nikoleta-v3/pd-with-stochastic-payoffs/actions)
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 
 
@@ -70,7 +69,7 @@ $ python -m ipykernel install --user --name stochastic-payoffs --display-name st
 Your Jupyter Notebook should look like this now:
 
 <p align="center">
-<img src="static/jupyter_notebook_example.png" width="500"/>
+<img src="jupyter_notebook_example.png" width="500"/>
 </p>
 
 From the Jupyter Notebooks navigate to the project and all the notebooks
