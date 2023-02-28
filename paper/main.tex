@@ -382,55 +382,50 @@ the two player may have received in their respective last rounds.
 
 In order to account for the effect of the updating payoffs we simulate the
 evolutionary process and record which strategies the players adopt over time
-based on perfect memory payoffs and limited memory payoffs. In the case of
-perfect memory payoffs we use Eq~\ref{eq:perfect_memory_lambdas} when we
-estimate the probability that a mutant fixes, and
-Eq~\ref{eq:limited_memory_lambdas} in the case on limited memory. We run two
-independent runs for each approach and we vary the value of benefit \(b\).
-Figure~\ref{fig:expected_and_stochastic_for_donation} shows the simulation
-results. It depicts the evolving conditional cooperation probabilities $p$ and
-$q$. The discount factor~$\delta$ is comparably high, thus we do not report the
-opening move \(y\) as it is a transient effect. The upper panel corresponds to
-the standard scenario considered in the literature, it considers players who use
-expected payoffs to update their strategies. The bottom panel shows the scenario
-considered herein, in which players update their strategies based on their last
-round's payoff.
+based on perfect and limited payoff memory. We performed two independent runs
+for each approach varying the value of benefit \(b\).
+Figure~\ref{fig:expected_and_stochastic_for_donation} depicts the evolving
+conditional cooperation probabilities $p$ and $q$ (since the discount
+factor~$\delta$ is comparably high we do not report the opening move \(y\)). The
+upper panel of Figure~\ref{fig:expected_and_stochastic_for_donation} corresponds
+to the standard scenario considered in the literature, and the bottom panel
+shows the scenario considered herein, in which players update their strategies
+based on their last round's payoff.
 
-The figure suggests that when updating is based on perfect memory payoffs
-players tend to be more generous and more cooperative. The $q$-values of the
-resident strategies are on average higher in the case of perfect memory. Thus,
-players will occasionally forgive a defection more often if their fitness
-depends on interacting with every member of the population, and this effect
-becomes more notable as the value of the benefit increases. In the case of
-limited memory the resident strategies are less forgiving and their forgiveness
-is independent of the values of benefit. In the Supplementary Information
-Sections 2.1 and 2.2.1 we show that $q$-values of a resident strategy have to be less
-than \(1 - c/b\) in the perfect memory case and less than \(0.5\) in the limited
-memory case. The generosity for the perfect memory case is always higher for a
-benefit value higher than 2, and it increases as the benefit value increases.
-This leads to a more cooperative population. We calculate the average
-cooperation rate for each simulation which is the average cooperation rate
-within the resident population. In the case of the perfect memory payoffs the
-average cooperation rate is strictly higher than that of the last round payoffs,
-and the difference is most for $b=10$. The average cooperation of resident
-strategies drops from 97\% to 57\%. This indicates that the expected payoffs
-overestimate the evolved cooperation.
+The figure suggests that when updating is based on perfect payoff memory players
+tend to be more generous and more cooperative. The $q$-values of the resident
+strategies are on average higher in this case, thus, players will occasionally
+forgive a defection more often if their fitness depends on interacting with
+every member of the population. This effect becomes more notable as the value of
+the benefit increases. In the case of limited memory the resident strategies are
+less forgiving and their forgiveness regardless of the values of benefit. In
+analysis carried out in the Supplementary Information Section 3 we show that a
+resident population of conditional cooperators with \(q > \frac{1}{2}\) can not
+avoid invasion by a defecting strategy. This holds independently of the cost and
+benefit values.
+
+Higher $q$ values lead to a more cooperative population. We calculate the
+average cooperation rate for each simulation which is the average cooperation
+rate within the resident population. In the case of the perfect payoff memory 
+the average cooperation rate is strictly higher than that of the last round
+payoffs. The difference between the cooperation rate is the highest at $b=10$.
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=\textwidth]{static/donation_expected_last_round_summary_results.pdf}
+    \includegraphics[width=.9\textwidth]{static/donation_expected_last_round_summary_results.pdf}
     \caption{{\bf Evolutionary dynamics under perfect and limited payoff memory.}
     ({\bf Schematic illustrations}) On the left panels we show schematic
     illustrations of the perfect memory and the limited memory cases. The shaded
-    background denotes the game phase information that an individual considered
-    when updating strategies. In the case of perfect memory the entire region is
-    shaded and in the case of limited memory only one turn with a single member
+    background denotes the game phase information that an individual considers
+    when updating strategies. In the case of perfect payoff memory the entire region is
+    shaded and in the case of limited payoff memory only one turn with a single member
     of the population. ({\bf Simulations}) We have run four simulations of the
-    pairwise comparison process for $T\!=\!10^7$ time steps. For each time step,
-    we have recorded the current resident population ($y,p,q$). Since
+    pairwise comparison process for $T\!=\!10^7$ time steps. For each time step
+    of the process
+    we record the current resident population ($y,p,q$). Since
     simulations are run for a relatively high continuation probability of
     $\delta\!=\!0.999$, we do not report the players' initial cooperation
-    probability $y$. The graphs show how often the resident population chooses
+    probability $y$. The plots show how often the resident population chooses
     each combination ($p,q$) of conditional cooperation probabilities in the
     subsequent rounds. We also report the evolved cooperation rate which is
     calculated as the average cooperation rate within the resident population.
@@ -441,44 +436,42 @@ overestimate the evolved cooperation.
     following a cooperation ($p\!\approx\!1\!$) and cooperate with a probability
     $q$ given that the co-player has defected. $q$ denotes the generosity of a
     player. The resident population applies a conditional cooperator strategy
-    for which $q\!\le\!1\!-\!c/b\!=\!0.67$. This is true also for the case of
-    high benefit. In this case the population mainly consists of conditional
+    for which $q\!\le\!1\!-\!c/b\!=\!0.67$. 
+    In the case of high benefit the population mainly consists of conditional
     cooperators of the form ($p\!\approx\!1\!, q\!\le\!1\!-\!1/10\!=\!0.9$). In
-    the Supplementary Information Section 2.1 we show that a conditional
+    the Supplementary Information Section 2 we show that a conditional
     cooperator needs to be of the form ($p\!\approx\!1\!, q\!\le\!1\!-\!c/b$) to
     not be invaded by defecting strategies. A higher generosity in the
     population results in a higher average cooperation rate. The average
-    cooperation rate increases from 52\% for \(b\) to 98\% for \(b=10\). ({\bf
+    cooperation rate increases from 52\% for \(b=3\) to 98\% for \(b=10\). ({\bf
     Limited Memory}) When players update their strategies based on their
     realized payoffs in the last round, there are two different predominant
     behaviors regardless of the benefit value. The resident population either
     consists of defectors (with $p\!\approx\!q\!\approx\!0$) or of conditional
-    cooperators. The maximum level of $q$ consistent with stable cooperation is
-    somewhat smaller compared to the perfect memory setting, $q\!<\!0.5$.
-    Namely, in the Supplementary Information Section 2.2.1 we show that
-    regardless of the value of benefit, in the case of limited payoff memory, an
-    individual needs a generosity smaller of $0.5$ to repel defectors. The plots
-    are fairly similar regardless of the benefit, and the evolved cooperation
-    rate only slightly increases from 37\% to 51\%. Parameters: $N\!=\!100$,
+    cooperators. The maximum level of $q$, consistent with stable cooperation, is
+    somewhat smaller compared to the perfect memory setting.
+    Namely, in the Supplementary Information Section 3 we show that
+    regardless of the value of benefit a conditional cooperator need to be of
+    the form $q\!<\!\frac{1}{2}$ to not be invaded by defectors.
+    The evolved cooperation
+    rate only slightly increases from 37\% ($b=3$) to 51\% ($b=10$). Parameters: $N\!=\!100$,
     $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.999$.}
     \label{fig:expected_and_stochastic_for_donation}
 \end{figure}
 
 We further explore the effects of the cooperation benefit and the strength of
-selection on the evolved generosity \(q\) and cooperation rate
+selection on the evolved generosity \(q\) and on the cooperation rate
 (Figure~\ref{fig:cooperation_rate_over_benefit_and_beta}).
 Figure~\ref{fig:cooperation_rate_over_benefit_and_beta}\textbf{A} suggests that
-perfect memory always yields a higher cooperation rate. We observe that the
-cooperation rate increases as the value of the benefit gets higher, whereas in
-comparison for the limited memory payoffs, the cooperation rate remains
-unchanged (as we would have expected) at approximately 50\% once \(b=5\). From
-Figure~\ref{fig:cooperation_rate_over_benefit_and_beta}\textbf{B} we observe
-that for weak selection, \(\beta < 1\), the two methods yield similar results,
-however, as \(\beta\) increases there is variation in the evolving populations.
-In the case of expected payoffs the resident populations become more cooperative
-as \(\beta\) increases, whereas in the case of limited memory payoffs, the
-resident populations become more defective.
-
+perfect memory always yields a higher cooperation rate. In this case the
+cooperation rate increases as the benefit increases. In comparison for limited
+payoff memory the cooperation rate remains unchanged at approximately 50\% once
+\(b=5\).  From Figure~\ref{fig:cooperation_rate_over_benefit_and_beta}\textbf{B}
+we observe that for weak selection, \(\beta < 1\), the two methods yield similar
+results, however, as \(\beta\) increases there is variation in the evolving
+populations. In the case of expected payoffs the resident populations become
+more cooperative, whereas in the case of limited payoff memory, the resident
+populations become more defective.
 
 \begin{figure}[!htbp]
     \centering
@@ -503,83 +496,71 @@ resident populations become more defective.
     combination.}\label{fig:cooperation_rate_over_benefit_and_beta}
 \end{figure}
 
-\subsection{Updating Payoffs based on More Memory}
-
-So far we have explored the difference between the expected payoffs and the last
-round payoffs. To explore further the effect of limited memory we consider three
-more cases. These are the cases where the updating payoffs depend on  the last
-round with two members of the population, the last two rounds with another
-member of the population, and the last two rounds with two members of the
-population. Similar to the last round payoff. The details of each approach can
-be found in the Supplementary Information. We use numerical simulation of the
-pairwise process for the various schemes. The results for low and high benefit
-are shown in Figure~\ref{fig:cooperation_rate_all_updating_payoffs}.
+Up to this point we have discussed only two edge cases. The framework of limited
+payoff memory can be easily extended to allow individuals to observe more
+rounds, to interact with more members or both (see Supplementary Information
+Sections 4-6). To further understand the effect of limited payoff memory we
+consider the cases of updating based on the last round with two members of the
+population, the last two rounds with another member of the population, and the
+last two rounds with two members of the population. Similar to the last round
+payoff. We perform numerical simulations for each of the fitness approaches. In
+Figure~\ref{fig:cooperation_rate_all_updating_payoffs} we report the cooperation
+rates for low and high values of benefit.
 
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=\textwidth]{static/more_memory_summary_results.pdf}
   \caption{{\bf Average cooperation rates for different updating payoffs.}
   From left to right, we present result on the following updating payoffs cases;
-  (1) the expected payoffs (perfect memory), (2) the last round payoff from one
-  interaction (limited memory), (3) the last round payoff from two interactions,
-  (4) the last two rounds payoffs from one interaction, (5) the last two rounds
-  payoffs from two interactions. The details of each case are given in the
-  Supplementary Information. Cases 3 and 4 have similar results. In that the
-  evolved generosity is the same. For cases 2 - 5 the cost benefit ratio
-  has an effect compared to the limited memory case. The cooperation rate
-  increases, and as we allow for more information the closer we move to the
-  perfect memory. Unless explicitly varied, the parameters of the simulation are
+  (a) the expected payoffs (perfect memory), (b) the last round payoff from one
+  interaction (limited memory), (c) the last round payoff from two interactions,
+  (d) the last two rounds payoffs from one interaction, (e) the last two rounds
+  payoffs from two interactions. For the updating payoffs (c) and (d) we have
+  carried out an analysis which has shown that conditional cooperators should
+  adopt a \(q\) value smaller than $\frac{\delta - 1 +
+  \frac{\sqrt{2}}{2}}{\delta}$ and $\frac{\delta + \sqrt{\delta^{2} + 1} - 1}{2 \delta}$
+  respectively. Note that as \(\delta
+  \rightarrow 1\) both right hand sides tend to \(\frac{\sqrt{2}}{2}\).
+  Regardless the cooperation rate between for case (c) is slightly higher.
+  In case (d) the cooperation rate is the second highest hinting that as we
+  allow for more information the closer we move to the perfect payoff memory.
+  Unless explicitly varied, the parameters of the simulation are
   $N\!=\!100$, $b\!=\!3$, $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.99$.
   Simulations are run for $T\!=\!5\times 10^7$ time steps for each parameter
   combination.}\label{fig:cooperation_rate_all_updating_payoffs}
 \end{figure}
 
-\newpage
-
 \section{Conclusions}\label{section:conclusions}
 
-A major focus of evolutionary game theory is the evolution of cooperation among
-selfish individuals. Sometimes evolutionary game theory even seems to be reduced
-to the evolution of cooperation [Arne2022]. “Why do we act altruistically to
-provide a benefit to others when there is a cost to ourselves?” is still a
-puzzling question amongst researchers [Glynatsi]. In this determinist
-formulation, a small fraction of cooperative individuals that have a lower
-fitness can never invade a population of defecting strategies.  The stochastic
-effect can lead to fundamental changes since disadvantageous mutants have a
-small yet non-zero probability to reach fixation in a finite population, and
-thus cooperation can emerge.
-
-Cooperation can be seen at odd, why is it that we choose to help others,
-increasing their payoff, at the expense of decreasing one's own? In spite of all
-the selfish genes' animal and human communities seem to altruistically help each
-other and cooperate, and evolutionary game theory has helped us shape our
-understanding of the evolution of cooperation.
-
-Previous evolutionary models often feature a curious inconsistency. When
-modeling how individuals make decisions in each round, these models assume that
-players only remember the last round. However, when modeling how individuals
-update their strategies over time, individuals are assumed to have perfect
-memory.
+Cooperation can be seen at odd, why is it that we choose to help others at a
+personal cost? In spite of all the selfish genes', animal and human communities
+show signs of altruism and cooperation~\cite{milinski1987tit, kerr2002local,
+carter2020development}. Evolutionary game theoretical models have helped us
+shape our understanding of the evolution of cooperation. In fact, the evolution
+of cooperation constitutes such a major focus of the field that evolutionary
+game theory seems to be reduced to the evolution of
+cooperation~\cite{Traulsen:PhilTrans:2022}. Previous evolutionary models often
+feature a curious inconsistency. When modeling how individuals make decisions in
+each round, these models assume that players only remember the last round.
+However, when modeling how individuals update their strategies over time,
+individuals are assumed to have perfect memory.
 
 Here, we have explored how robust cooperation is as models deviate from the
-perfect memory assumption. Initially we considered the donation game. We showed
+perfect memory assumption. We considered a special case of the prisoner's
+dilemma, the donation game. The prisoner's dilemma is one of the most applied
+types of social games when we discuss the evolution of cooperation. We showed
 that when the last round payoff is used instead of the expected payoffs,
-cooperation can even evolve when individuals only use a minimum of information,
-however, the evolving cooperation rates are typically lower. The resident
-strategies were both less cooperative and less generous. This effect was only
-intensified we increase the benefit and the strength of selection independently.
-The results showed that as each parameter was being increased the difference
-between the cooperation rates were widening. This indicates that cooperative
-players benefit from being able to interact with everyone in the population.
+cooperation struggles to evolve  when only a minimum of social information is
+used at the updating stage. The resident strategies were both less cooperative
+and less generous. This effect was only intensified we increase the benefit and
+the strength of selection independently. The results showed that as each
+parameter was being increased the difference between the cooperation rates were
+widening. This indicates that cooperative players benefit from being able to
+interact with everyone in the population.
 
-We extended our approach and presented results not only based on different
-classes of social games, but also based on different limited memory payoffs. The
-analysis showed that specifically for the case of the prisoner's dilemma games
-the contrast between the two approaches can be significantly large. The
-prisoner's dilemma is one of the most applied types of social games when we
-discuss the evolution of cooperation. Our results indicate that cooperation
-struggles to evolve in the prisoner's dilemma when only a minimum of social
-information is used at the updating stage.
+We extended our approach and presented results on different limited memory
+payoffs. The analysis showed cooperation can even evolve when we allow
+individual to consider more information.
 
 \section{Acknowledgements}
 
