@@ -106,32 +106,23 @@ Section~\ref{section:pairwise_comparison} gives a brief overview of the pairwise
 comparison process. The pairwise comparison process consists of three phases;
 (1) the mutation phase (2) the game phase and (3) the update phase. In the
 update phase an individual adopts the strategy of another individual based on
-their ``updating payoffs''. In the paper we explore the effect of the updating
-payoffs on the evolved populations. We used as an example the prisoner's
-dilemma. We focused mainly on two approaches for calculating the updating
-payoffs which we referred to as the perfect memory and the limited memory
-approaches. In Section~\ref{section:perfect_memory} we describe the perfect
-memory approach and in Section~\ref{section:limited_memory} we present the
-limited memory approach. In the limited memory approach we assume that
+their ``updating payoffs''. Here we study different methods for calculating
+updating payoffs and we compare their results using as an example the prisoner's
+dilemma. In Section~\ref{section:perfect_memory} we describe the conventional
+method used in the literature and in Section~\ref{section:limited_memory} we
+present a new method which we refer to as 
+limited payoff memory. In the limited payoff memory method we assume that
 individuals update based on their last round payoff against one other member of
 the population. The framework can easily be extended to consider more rounds,
 more interactions or both. In
-Sections~\ref{section:m_one_n_two}-\ref{section:m_two_n_two} we present each of
-this extensions and for each a special case.
+Sections~\ref{section:m_one_n_two}-\ref{section:m_two_n_two} we discuss each of
+these extensions and for each extension we present a special case.
 In Section~\ref{section:simulation_results} we present numerical results of the
-pairwise comparison process using the several updating payoff approaches we have
-presented. In Sections~\ref{section:memory_one} and~\ref{section:mutation} we
-verify the main result of the paper when we no longer assume (i) that
+pairwise comparison process using the different updating payoff methods.
+In Sections~\ref{section:memory_one} and~\ref{section:mutation} we
+verify the main result of this work when we no longer assume (i) that
 individuals use reactive strategies but instead memory one strategies (ii) low
 mutation.
-
-% The aim of our work is to explore the effect
-% of the updating payoffs on the evolution of cooperation. To this end we
-% introduce a new method for calculating the updating payoffs and we compare the
-% results of the new method to those of the expected payoffs. In our approach we
-% do not assume that an individual has a perfect memory. Instead an individual
-% remembers only a limited number of interactions and limited outcomes from each
-% interaction.
 
 \section{Pairwise comparison process}\label{section:pairwise_comparison}
 
@@ -257,7 +248,7 @@ donation game there are two actions: cooperation (\(C\)) and defection (\(D\)).
 By cooperating a player provides a benefit \(b\) to the other player at their
 cost \(c\), with \(0 < c < b\). Thus the payoffs for a player in each turn are,
 
-\begin{equation}
+\begin{equation}\label{eq:donation}
     \begin{blockarray}{ccc}
         & \text{cooperate} & \text{defect} \\
         \begin{block}{c(cc)}
@@ -267,20 +258,19 @@ cost \(c\), with \(0 < c < b\). Thus the payoffs for a player in each turn are,
     \end{blockarray}.
 \end{equation}
 
-Let \(\mathbf{u} = (b-c, -c, b, 0)\) be payoffs in a vector format, and let \(\mathcal{U}
+Let \(\mathbf{u} = (b-c, -c, b, 0)\) be Eq.~\ref{eq:donation} in a vector format, and let \(\mathcal{U}
 = \{r, s, t, p\}\) denote the set of feasible payoffs, where \(r\) denotes the
 payoff of mutual cooperation, \(s\) the sucker's payoff, \(t\) the temptation to
 defect payoff, and \(p\) the punishment payoff.
 
-In the following sections we present several approaches for calculating the
-updating payoffs. Initially, we discuss the conventional approach of the
-expected payoffs and afterwards we present our newly introduced approaches.
+In the following sections we present several methods for calculating the
+updating payoffs. Initially, we discuss the conventional way of the
+expected payoffs and afterwards we present our newly introduced methods.
 
-\section{Updating Payoffs based on the expected payoffs (perfect memory)}\label{section:perfect_memory}
+\section{Updating Payoffs based on Expected Payoffs (perfect payoff memory)}\label{section:perfect_memory}
 
-The expected payoffs are the conventional payoffs used in the updating stage. We
-refer to this approach as the perfect memory approach. The expected payoffs are
-defined as the mean payoff of an individual in a well-mixed population that
+The expected payoffs are the conventional payoffs used in the updating stage.
+The expected payoffs are defined as the mean payoff of an individual in a well-mixed population that
 engages in an infinitely repeated games with all other population members.
 The game between two reactive strategies $s_1\!=\!(y_1, p_1, q_1$) and $s_2\!=\!(y_2,p_2,q_2)$
 can be described by a Markovian process~\cite{nowak:APC:1989} with the
@@ -292,7 +282,7 @@ transition matrix \(M\),
 
 The stationary vector \(\mathbf{v}(s_1,s_2)\) is the solution to
 \(\mathbf{v}(s_1,s_2) M = \mathbf{v}(s_1,s_2)\). In an infinitely repeated game
-the game stage outcome for each strategy is given by,
+the long-term average payoff of \(s_1\) and \(s_2\) are,
 
 \[\langle\mathbf{v}(s_1,s_2),\mathbf{u}\rangle \quad  \text{ and } \quad  \langle\mathbf{v}(s_2,s_1), \mathbf{u}\rangle.\]
 
@@ -330,7 +320,7 @@ probabilities that the number of mutants decreases and increases,
 Let's assume that individuals use their expected payoffs at the updating phase.
 We can calculate how easily a single defecting mutant (ALLD) can invade into a
 resident population of conditional cooperators, otherwise known as generous tit
-for tat (GTFT), players. Let GTFT\(= (1, 1, q)\), ALLD\(= (0, 0, 0)\), and \(k =
+for tat (GTFT). Let GTFT\(= (1, 1, q)\), ALLD\(= (0, 0, 0)\), and \(k =
 1\). When two GTFT players interact in an infinitely repeated game, the
 stationary distribution \(\mathbf{v}(\text{GTFT}, \text{ALLD})\) 
 simplifies to,
@@ -367,21 +357,22 @@ if \(q \leq 1 - \frac{c}{b}\). For \(q = 1 -\frac{c}{b}\) the probability that
 the number of mutants increase by one equals the probability that the mutant
 goes extinct.
 
-This result will become important when we analyse the behaviour that emerges
-from the evolutionary process. We will repeat this ``invasion analysis'' for the
-rest of the updating payoffs cases.
+This result will become important when we discuss the numerical results of the
+evolutionary process (Section~\ref{section:simulation_results}). We repeat this
+``invasion analysis'' for the rest of the updating payoffs cases.
 
-\section{Updating Payoffs based on the Last Round Payoff of One Interaction (limited memory)}\label{section:limited_memory}
+\section{Updating Payoffs based on the Last Round Payoff of One Interaction (limited payoff memory)}\label{section:limited_memory}
 
 In the expected payoffs case the payoff of a pair depends on the average payoff
-they received over an infinite number of turns. In the limited memory payoffs,
+they received over an infinite number of turns. In the limited payoff memory,
 the payoff of a pair depends on the average payoffs they received in the last
-turn. Furthermore, in expected payoffs it is assumed that a player interacts
-with every member of the population, whereas in the limited memory approach a
-player has one interaction. Initially, we define the probability that a reactive
-strategy receives the payoff $u\!\in\! \mathcal{U}$ in the very last round of
-the game against another reactive strategy
-(Proposition~\ref{proposition:last_round}).
+turn. Moreover, in expected payoffs it is assumed that a player interacts with
+every member of the population whereas in the limited payoff memory approach a
+player has one interaction.
+
+Initially, we define the probability that a reactive strategy receives the
+payoff $u\!\in\! \mathcal{U}$ in the very last round of the game against another
+reactive strategy (Proposition~\ref{proposition:last_round}).
 
 \begin{Prop}\label{proposition:last_round} Consider a repeated game, with
     continuation probability $\delta$, between players with reactive strategies
@@ -395,16 +386,16 @@ the game against another reactive strategy
       \begin{array}{rcl}
     
       v_{r}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{y_1y_2}{1\!-\!\delta^2 l_1 l_2}+\delta \frac{\Big(q_1+l_1\big((1\!-\!\delta)y_2+\delta q_2\big)\Big) \Big(q_2+l_2\big((1\!-\!\delta)y_1+\delta q_1\big)\Big)}
-      {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)} \times r,\\[1cm]
+      {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)},\\[1cm]
     
       v_{s}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{y_1\bar{y}_2}{1\!-\!\delta^2 l_1 l_2}+\delta \frac{\Big(q_1+l_1\big((1\!-\!\delta)y_2+\delta q_2\big)\Big) \Big(\bar{q}_2+\bar{r}_2\big((1\!-\!\delta)y_1+\delta p_1\big)\Big)}
-      {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)} \times s,\\[1cm]
+      {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)},\\[1cm]
     
       v_{t}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{\bar{y}_1y_2}{1\!-\!\delta^2 l_1 l_2}+\delta \frac{\Big(\bar{q}_1+\bar{r}_1\big((1\!-\!\delta)y_2+\delta p_2\big)\Big) \Big(q_2+l_2\big((1\!-\!\delta)y_1+\delta q_1\big)\Big)}
-      {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)} \times t,\\[1cm]
+      {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)},\\[1cm]
     
       v_{p}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{\bar{y}_1\bar{y}_2}{1\!-\!\delta^2 l_1 l_2}+\delta \frac{\Big(\bar{q}_1+\bar{r}_1\big((1\!-\!\delta)y_2+\delta p_2\big)\Big) \Big(\bar{q}_2+\bar{r}_2\big((1\!-\!\delta)y_1+\delta p_1\big)\Big)}
-      {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)} \times p.
+      {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)}.
       \end{array}
     \end{equation}
 
@@ -459,7 +450,7 @@ $u_2$ as,
 \begin{equation}\label{eq:Chi}
 \setlength{\arraycolsep}{1pt}
 \begin{array}{llrl}
-x(u_1,u_2)	 &=&\displaystyle \frac{1}{N\!-\!1}\cdot  &v_{u_1}(s_1,s_2)\cdot 1_{(u_1,u_2)\in \mathcal{U}^2_F}\\[0.5cm]
+x(u_1,u_2)	 &=&\displaystyle \frac{1}{N\!-\!1}\cdot  &v_{u_1}(s_1,s_2)\cdot 1_{(u_1,u_2)\in \mathcal{U}_F}\\[0.5cm]
 &+	
 &\displaystyle \left(1\!-\!\frac{1}{N\!-\!1}\right)  
 &\left[ \frac{k\!-\!1}{N\!-\!2}\frac{k\!-\!2}{N\!-\!3} v_{u_1}(s_1,s_2) v_{u_2}(s_2,s_2) + 
@@ -473,7 +464,7 @@ The first term on the right side corresponds to the case that the learner and
 the role model happened to be matched during the game stage, which happens with
 probability $\frac{1}{(N\!-\!1)}$. In that case, we note that only those payoff
 pairs can occur that are feasible in a direct interaction,
-$\splitatcommas{(u_1,u_2)\in \mathcal{U}^2_F:=\big\{ (r, r), (s, t), (t, s), (p,
+$\splitatcommas{(u_1,u_2)\in \mathcal{U}_F:=\big\{ (r, r), (s, t), (t, s), (p,
 p) \big\}}$, as represented by the respective indicator function. Otherwise, if
 the learner and the role model did not interact directly, we need to distinguish
 four different cases, depending on whether the learner was matched with a
@@ -526,7 +517,8 @@ ALLD player is \(u_2\),
   x(r, t) = & \frac{N - 2}{N - 1} \cdot (1 - \delta + \delta q)\\
   x(r, r) = & \frac{N - 2}{N - 1} \cdot \delta (1 - q) \\
   x(s, r) = & \frac{1}{N - 1} \cdot (1 - \delta + \delta q) \\
-  x(p, p) = & \frac{1}{N - 1} \cdot \delta (1 - q)
+  x(p, p) = & \frac{1}{N - 1} \cdot \delta (1 - q) \\
+  x(u_1, u_2) = &  0 \text{ for all other payoff pairs } (u_1, u_2).
 \end{align*}
 
 We now calculate the ratio of transition probabilities as
@@ -558,47 +550,73 @@ that the mutant goes extinct).
 
 \section{Updating Payoffs based on the last round payoff of $n$ interactions}\label{section:m_one_n_two}
 
-In the limited memory payoffs we assume that an individual recalls the last
-round they received against one member of the population. This is an edge case.
 The framework of the limited memory can be generalised such that an individual
 considers \(m\) rounds and of \(n\) interactions. Here we discuss the case that
 the update depends on the last round of \(n\) interactions.
 
 At each step of the evolutionary process the role model and the learner now
-participate in \(n\) matches. We need to define the probability that for these
-matches they are paired with a mutant, with a resident or with each other. We
-assume that each pair is unique, so the resident and role model can be matched
-together only once at each step. A representation of the process is given in
-Figure.
+participate in \(n\) matches. We need to define the probability that for each of
+the matches they are paired with a mutant, with a resident or with each other.
+We assume that each pair is unique, so for example the resident and role model
+can be matched together only once at each step. A representation of the process
+is given in Figure~\ref{fig:matching_tree}. In the case of \(n=1\) there are
+five possible pairs, however, the number of possible pairs increases non
+linearly as we increase the number of possible interactions. We demonstrate this
+case for \(n=2\), namely, for when the role model and the learner have two
+interactions.
 
-In the case of \(n=1\) there are five possible pairs, however, the number of
-possible pairs increases non linearly as we increase the number of possible
-interactions. We demonstrate this case for \(n=2\), namely, for when the role
-model and the learner have two interactions.
 
+\begin{figure}[!htbp]
+  \centering 
+  \includegraphics[width=\textwidth]{static/matching_tree.pdf}
+  \caption{\textbf{Tree diagram of the possible pairs when the learner and the role
+  model have $n$ interactions.} In the diagram \((s_i, s_j)\) represent a possible
+  pair. We denote the role model as $s_{RM}$ and the learner as $s_{L}$, and
+  a member of the population that plays a mutant strategy is denoted as $s_{M}$ and
+  a resident strategy as $s_{R}$. The role model and
+  the learner need to be paired with $n$ other members of the population
+  (including each other). We break down the process into stages. For the first
+  pair (stage one) the role model and the mutant can be paired together (with
+  probability $\frac{1}{N-1}$) or not (with probability $1 -
+  \left(\frac{1}{N-1}\right)$). In the case that they are not paired together,
+  both can be paired with a mutant $\frac{(k-1)(k-2)}{(N-2)(N-3)}$, with a
+  resident $\frac{(N-k-1)(N-k-2)}{(N-2)(N-3)}$, or one is paired with a mutant
+  whilst the other is paired with a resident $\frac{(N-k-1)(k-1)}{(N-2)(N-3)}$.
+  There are five possible pairs for stage one as we have already discussed
+  in Section~\ref{section:limited_memory}. In
+  the second stage we need to consider if the role model and the learner
+  interacted with each other. If yes, then they can not interact with each other
+  again, and at each stage there are at most four possible pairs; they interact with
+  mutants, with residents, or the one interacts with a mutant whilst the second
+  interacts with a resident. In the case that they were not paired in stage 1
+  there are five possible pairs. These pairs are the same as in stage 1,
+  however now the probabilities differ. Namely, let's assume that in the
+  first stage both were matched with a mutant. They interact with each
+  other with a probability $\frac{1}{N-2}$ or not with a probability
+  $1 - \left(\frac{1}{N-2}\right)$. In the latter case there are four
+  possible pairs.
+  Both can be paired with a mutant $\frac{(k-1)(k-2)}{(N-3)(N-4)}$, with a
+  resident $\frac{(N-k-1)(N-k-2)}{(N-3)(N-4)}$, or one is paired with a mutant
+  whilst the other is paired with a resident $\frac{(N-k-1)(k-2)}{(N-3)(N-4)}$.
+  The process continues following the same logic until it reaches the $n^{\text{th}}$
+  stage.}\label{fig:matching_tree}
+\end{figure}
 
-\subsection*{Special case: Last Round Payoff of Two Interactions}
+\subsection{Last Round Payoff of Two Interactions}
 
-For \(n=2\) there are two stages of matching and there are twenty four possible pairs. In
-the first stage the role model and the learner are matched together with a
-probability $\frac{1}{N-1}$ or not with a probability $(1 - \frac{1}{N-1})$. If
-they were matched together then in the second stage there are only four possible
-outcomes; both of them interact with a mutant with a probability
-$\frac{(k-1)(k-2)}{(N-2)(N-3)}$ and both interact with a resident with a
-probability $\frac{(N-k-1)(N-k-2)}{(N-2)(N-3)}$. The last two possible pairs are
-that either of them interacts with a resident whilst the other interacts with a
-mutant, and this happens with a probability $\frac{(N-k-1)(k-1)}{(N-2)(N-3)}$.
-In the later case, where they were not matched in the first stage, there are
-four possible outcomes; both of them interact with a mutant and both interact
-with a resident, either of them interacts with a resident whilst the other
-interacts with a mutant. For each of the above pairs of the first stage there
-are five possible pairs in the second stage; they interact with each other, both
-of them interact with a mutant and both interact with a resident, either of them
-interacts with a resident whilst the other interacts with a mutant.
+Here the learner and role model consider the last round payoff of two
+interactions. At each time step of the evolutionary process there are twenty
+four possible pairs. At the first stage there are fiver possible pairs. For four of
+these pairs there are five possible pairs in the second stage (\(4 \times 5 =
+20\)), and for the last one there are four possible pairs in the second stage
+(20 + 4 = 24). 
 
-The new possible pairs change how we define the probability that the
-respective last round payoffs of two players \(s_1, s_2\) are given by \(u_1\)
-and \(u_2\). The new probability denoted as \(\tilde{x}(u_1,u_2)\) is given by,
+We assume that player \(s_1\) receives the payoff
+\(u_{11}\) with their first interaction and \(u_{12}\) with their second.
+Respectively, player \(s_2\) receives \(u_{21}\) and \(u_{22}\). We define the
+probability that the respective last round payoffs of the two players \(s_1,
+s_2\) are given by \((u_{11}, u_{11})\) and \((u_{21}, u_{22})\) as
+\(x^{2}((u_{11}, u_{11}), (u_{21}, u_{22}))\) given by,
 
 \begin{equation}
   \resizebox{.99\textwidth}{!}
@@ -606,12 +624,12 @@ and \(u_2\). The new probability denoted as \(\tilde{x}(u_1,u_2)\) is given by,
 $
   \setlength{\arraycolsep}{1pt}
   \begin{array}{llrl}
-  \tilde{x}(u_1,u_2)	& = \displaystyle \frac{1}{N\!-\!1}\cdot v_{u_1}(s_1,s_2)\cdot 1_{(u_1,u_2)\in \mathcal{U}^2_F} \cdot A + \left(1\!-\!\frac{1}{N\!-\!1}\right) \left[ \right. \\[0.5cm] 
-  & \left. v_{u_1}(s_1,s_2) _{u_2}(s_2,s_2)  \frac{\left(k - 2\right) \left(k - 1\right)}{(N\!-\!2)(N\!-\!3)}
-  \left(\frac{1}{N\!-\!2}\cdot v_{u_1}(s_1,s_2)\cdot 1_{(u_1,u_2)\in \mathcal{U}^2_F} + (1 - \frac{1}{N - 2}) [B_1 + B_2 + B_3 + B_4]\right) + \right. \\[0.5cm] 
-  & \left. v_{u_1}(s_1,s_2) _{u_2}(s_2,s_1)  \frac{\left(k - 1\right) \left(N - k - 1\right)}{(N\!-\!2)(N\!-\!3)} \left(\frac{1}{N\!-\!2}\cdot v_{u_1}(s_1,s_2)\cdot 1_{(u_1,u_2)\in \mathcal{U}^2_F} + (1 - \frac{1}{N - 2}) [C_1 + C_2 + C_3 + C_4]\right) + \right. \\[0.5cm] 
-  & \left. v_{u_1}(s_1,s_1) _{u_2}(s_2,s_2)  \frac{\left(k - 1\right) \left(N - k - 1\right)}{(N\!-\!2)(N\!-\!3)} \left(\frac{1}{N\!-\!2}\cdot v_{u_1}(s_1,s_2)\cdot 1_{(u_1,u_2)\in \mathcal{U}^2_F} + (1 - \frac{1}{N - 2}) [D_1 + D_2 + D_3 + D_4]\right) + \right. \\[0.5cm] 
-  & \left. v_{u_1}(s_1,s_1) _{u_2}(s_2,s_1)  \frac{\left(N - k - 2\right) \left(N - k - 1\right)}{(N\!-\!2)(N\!-\!3)} \left(\frac{1}{N\!-\!2}\cdot v_{u_1}(s_1,s_2)\cdot 1_{(u_1,u_2)\in \mathcal{U}^2_F} + (1 - \frac{1}{N - 2}) [E_1 + E_2 + E_3 + E_4]\right) \right]
+  x^{2}((u_{11}, u_{12}), (u_{21}, u_{22}))	& = \displaystyle \frac{1}{N\!-\!1}\cdot v_{u_{11}}(s_1,s_2)\cdot 1_{(u_{11},u_{21})\in \mathcal{U}_F} \cdot A + \left(1\!-\!\frac{1}{N\!-\!1}\right) \left[ \right. \\[0.5cm] 
+  & \left. v_{u_{11}}(s_1,s_2) _{u_{21}}(s_2,s_2)  \frac{\left(k - 2\right) \left(k - 1\right)}{(N\!-\!2)(N\!-\!3)}
+  \left(\frac{1}{N\!-\!2}\cdot v_{u_{11}}(s_1,s_2)\cdot 1_{(u_{11},u_{21})\in \mathcal{U}_F} + (1 - \frac{1}{N - 2}) [B_1 + B_2 + B_3 + B_4]\right) + \right. \\[0.5cm] 
+  & \left. v_{u_{11}}(s_1,s_2) _{u_{21}}(s_2,s_1)  \frac{\left(k - 1\right) \left(N - k - 1\right)}{(N\!-\!2)(N\!-\!3)} \left(\frac{1}{N\!-\!2}\cdot v_{u_{11}}(s_1,s_2)\cdot 1_{(u_{11},u_{21})\in \mathcal{U}_F} + (1 - \frac{1}{N - 2}) [C_1 + C_2 + C_3 + C_4]\right) + \right. \\[0.5cm] 
+  & \left. v_{u_{11}}(s_1,s_1) _{u_{21}}(s_2,s_2)  \frac{\left(k - 1\right) \left(N - k - 1\right)}{(N\!-\!2)(N\!-\!3)} \left(\frac{1}{N\!-\!2}\cdot v_{u_{11}}(s_1,s_2)\cdot 1_{(u_{11},u_{21})\in \mathcal{U}_F} + (1 - \frac{1}{N - 2}) [D_1 + D_2 + D_3 + D_4]\right) + \right. \\[0.5cm] 
+  & \left. v_{u_{11}}(s_1,s_1) _{u_{21}}(s_2,s_1)  \frac{\left(N - k - 2\right) \left(N - k - 1\right)}{(N\!-\!2)(N\!-\!3)} \left(\frac{1}{N\!-\!2}\cdot v_{u_{11}}(s_1,s_2)\cdot 1_{(u_{11},u_{21})\in \mathcal{U}_F} + (1 - \frac{1}{N - 2}) [E_1 + E_2 + E_3 + E_4]\right) \right]
   \end{array} $}
 \end{equation}
 
@@ -621,34 +639,34 @@ $
 $
   \setlength{\arraycolsep}{1pt}
   \begin{array}{llrl}
-  A & = \left(1\!-\!\frac{1}{N\!-\!1}\right)  \left[ \frac{k\!-\!1}{N\!-\!2}\frac{k\!-\!2}{N\!-\!3} v_{u_1}(s_1,s_2) v_{u_2}(s_2,s_2) + 
-   \frac{k\!-\!1}{N\!-\!2}\frac{N\!-\!k\!-\!1}{N\!-\!3} v_{u_1}(s_1,s_2) v_{u_2}(s_2,s_1) + \right. \\[0.5cm]
-   & \left. \frac{N\!-\!k\!-\!1}{N\!-\!2}\frac{k\!-\!1}{N\!-\!3} v_{u_1}(s_1,s_1) v_{u_2}(s_2,s_2) + 
-   \frac{N\!-\!k\!-\!1}{N\!-\!2}\frac{N\!-\!k\!-\!2}{N\!-\!3} v_{u_1}(s_1,s_1) v_{u_2}(s_2,s_1)\right] \\[0.5cm] 
-   B_1 & = \frac{\left(k - 3\right) \left(k - 2\right)}{(N - 3) (N - 4)} v_{u_1}(s_1,s_2) v_{u_2}(s_2,s_2) \quad
-   B_2 = \frac{\left(k - 2\right) \left(N - k - 1\right)}{(N - 3) (N - 4)} v_{u_1}(s_1,s_1) v_{u_2}(s_2,s_2) \\[0.5cm] 
-   B_3 & = \frac{\left(k - 2\right) \left(N - k - 1\right)}{(N - 3) (N - 4)} v_{u_1}(s_1,s_2) v_{u_2}(s_2,s_1) \quad
-   B_4 = \frac{\left(N - k - 2\right) \left(N - k - 1\right)}{(N - 3) (N - 4)} v_{u_1}(s_1,s_1) v_{u_2}(s_2,s_1) \\[0.5cm] 
+  A & = \left(1\!-\!\frac{1}{N\!-\!1}\right)  \left[ \frac{k\!-\!1}{N\!-\!2}\frac{k\!-\!2}{N\!-\!3} v_{u_{21}}(s_1,s_2) v_{u_{22}}(s_2,s_2) + 
+   \frac{k\!-\!1}{N\!-\!2}\frac{N\!-\!k\!-\!1}{N\!-\!3} v_{u_{21}}(s_1,s_2) v_{u_{22}}(s_2,s_1) + \right. \\[0.5cm]
+   & \left. \frac{N\!-\!k\!-\!1}{N\!-\!2}\frac{k\!-\!1}{N\!-\!3} v_{u_{21}}(s_1,s_1) v_{u_{22}}(s_2,s_2) + 
+   \frac{N\!-\!k\!-\!1}{N\!-\!2}\frac{N\!-\!k\!-\!2}{N\!-\!3} v_{u_{21}}(s_1,s_1) v_{u_{22}}(s_2,s_1)\right] \\[0.5cm] 
+   B_1 & = \frac{\left(k - 3\right) \left(k - 2\right)}{(N - 3) (N - 4)} v_{u_{21}}(s_1,s_2) v_{u_{22}}(s_2,s_2) \quad
+   B_2 = \frac{\left(k - 2\right) \left(N - k - 1\right)}{(N - 3) (N - 4)} v_{u_{21}}(s_1,s_1) v_{u_{22}}(s_2,s_2) \\[0.5cm] 
+   B_3 & = \frac{\left(k - 2\right) \left(N - k - 1\right)}{(N - 3) (N - 4)} v_{u_{21}}(s_1,s_2) v_{u_{22}}(s_2,s_1) \quad
+   B_4 = \frac{\left(N - k - 2\right) \left(N - k - 1\right)}{(N - 3) (N - 4)} v_{u_{21}}(s_1,s_1) v_{u_{22}}(s_2,s_1) \\[0.5cm] 
 
-   C_1 & = \frac{\left(k - 3\right) \left(k - 1\right)}{(N - 3) (N - 4)} v_{u_1}(s_1,s_2) v_{u_2}(s_2,s_2) \quad
-   C_2 = \frac{\left(k - 1\right) \left(N - k - 1\right)}{(N - 3) (N - 4)} v_{u_1}(s_1,s_1) v_{u_2}(s_2,s_2) \\[0.5cm] 
-   C_3 & = \frac{\left(k - 2\right) \left(N - k - 2\right)}{(N - 3) (N - 4)} v_{u_1}(s_1,s_2) v_{u_2}(s_2,s_1) \quad
-   C_4 = \frac{\left(N - k - 2\right)^{2}}{(N - 3) (N - 4)} v_{u_1}(s_1,s_1) v_{u_2}(s_2,s_1) \\[0.5cm] 
+   C_1 & = \frac{\left(k - 3\right) \left(k - 1\right)}{(N - 3) (N - 4)} v_{u_{21}}(s_1,s_2) v_{u_{22}}(s_2,s_2) \quad
+   C_2 = \frac{\left(k - 1\right) \left(N - k - 1\right)}{(N - 3) (N - 4)} v_{u_{21}}(s_1,s_1) v_{u_{22}}(s_2,s_2) \\[0.5cm] 
+   C_3 & = \frac{\left(k - 2\right) \left(N - k - 2\right)}{(N - 3) (N - 4)} v_{u_{21}}(s_1,s_2) v_{u_{22}}(s_2,s_1) \quad
+   C_4 = \frac{\left(N - k - 2\right)^{2}}{(N - 3) (N - 4)} v_{u_{21}}(s_1,s_1) v_{u_{22}}(s_2,s_1) \\[0.5cm] 
 
-   D_1 & = \frac{\left(k - 2\right)^{2}}{(N - 3) (N - 4)} v_{u_1}(s_1,s_2) v_{u_2}(s_2,s_2) \quad
-   D_2 = \frac{\left(k - 2\right) \left(N - k - 2\right)}{(N - 3) (N - 4)} v_{u_1}(s_1,s_1) v_{u_2}(s_2,s_2) \\[0.5cm] 
-   D_3 & = \frac{\left(k - 1\right) \left(N - k - 1\right)}{(N - 3) (N - 4)} v_{u_1}(s_1,s_2) v_{u_2}(s_2,s_1) \quad
-   D_4 = \frac{\left(N - k - 3\right) \left(N - k - 1\right)}{(N - 3) (N - 4)} v_{u_1}(s_1,s_1) v_{u_2}(s_2,s_1) \\[0.5cm]
+   D_1 & = \frac{\left(k - 2\right)^{2}}{(N - 3) (N - 4)} v_{u_{21}}(s_1,s_2) v_{u_{22}}(s_2,s_2) \quad
+   D_2 = \frac{\left(k - 2\right) \left(N - k - 2\right)}{(N - 3) (N - 4)} v_{u_{21}}(s_1,s_1) v_{u_{22}}(s_2,s_2) \\[0.5cm] 
+   D_3 & = \frac{\left(k - 1\right) \left(N - k - 1\right)}{(N - 3) (N - 4)} v_{u_{21}}(s_1,s_2) v_{u_{22}}(s_2,s_1) \quad
+   D_4 = \frac{\left(N - k - 3\right) \left(N - k - 1\right)}{(N - 3) (N - 4)} v_{u_{21}}(s_1,s_1) v_{u_{22}}(s_2,s_1) \\[0.5cm]
 
-   E_1 & = \frac{\left(k - 2\right) \left(k - 1\right)} v_{u_1}(s_1,s_2) v_{u_2}(s_2,s_2) \quad
-   E_2 = \frac{\left(k - 1\right) \left(N - k - 2\right)}{(N - 3) (N - 4)} v_{u_1}(s_1,s_1) v_{u_2}(s_2,s_2) \\[0.5cm] 
-   E_3 & = \frac{\left(k - 1\right) \left(N - k - 2\right)}{(N - 3) (N - 4)} v_{u_1}(s_1,s_2) v_{u_2}(s_2,s_1) \quad
-   E_4 = \frac{\left(N - k - 3\right) \left(N - k - 2\right)}{(N - 3) (N - 4)} v_{u_1}(s_1,s_1) v_{u_2}(s_2,s_1) \\[0.5cm] 
+   E_1 & = \frac{\left(k - 2\right) \left(k - 1\right)} v_{u_{21}}(s_1,s_2) v_{u_{22}}(s_2,s_2) \quad
+   E_2 = \frac{\left(k - 1\right) \left(N - k - 2\right)}{(N - 3) (N - 4)} v_{u_{21}}(s_1,s_1) v_{u_{22}}(s_2,s_2) \\[0.5cm] 
+   E_3 & = \frac{\left(k - 1\right) \left(N - k - 2\right)}{(N - 3) (N - 4)} v_{u_{21}}(s_1,s_2) v_{u_{22}}(s_2,s_1) \quad
+   E_4 = \frac{\left(N - k - 3\right) \left(N - k - 2\right)}{(N - 3) (N - 4)} v_{u_{21}}(s_1,s_1) v_{u_{22}}(s_2,s_1) \\[0.5cm] 
   \end{array}$}
 \end{equation}
 
 The first term on the right side corresponds to the case that the learner and
-the role model happened to be matched during the first stage of pairing,
+the role model happened to be matched during the first stage,
 followed by them being paired with another member of the population on the
 second stage. The second terms corresponds to the case that the learner and the
 role model interact with a mutant with a probability ($\frac{\left(k - 2\right)
@@ -657,7 +675,7 @@ interact with each other $\frac{1}{N - 2}$ or not $(1 - \frac{1}{N - 2})$. If
 they do not interact with each other, then each of the following can happen:
 both of them interact with a mutant with a probability
 $\frac{(k-3)(k-2)}{(N-4)(N-3)}$ and both interact with a resident with a
-probability $\frac{(N-k-1)(N-k-2)}{(N-3)(N-4)}$. The last two possible pairings
+probability $\frac{(N-k-1)(N-k-2)}{(N-3)(N-4)}$. The last two possible pairs
 are that either of them interacts with a resident whilst the other interacts
 with a mutant, and this happens with a probability
 $\frac{(N-k-2)(k-1)}{(N-4)(N-3)}$, and so on.
@@ -666,23 +684,41 @@ The probability that the number of mutants increases, and decreases
 respectively, by one is now given by,
 
 \begin{align}\label{eq:ratio_limited}
-\lambda^+_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N}\cdot \sum_{u_{R},u_{M}\in\mathcal{U}} \tilde{x}(u_{R},u_{M})\cdot \rho(u_{R},u_{M}), \\
-\lambda^-_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N}\cdot \sum_{u_{R},u_{M}\in\mathcal{U}} \tilde{x}(u_{R},u_{M})\cdot \rho(u_{M},u_{R}).
+\lambda^+_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N}\cdot \sum_{u_{R1},u_{M1}\in\mathcal{U}} \quad \sum_{u_{R2},u_{M2}\in\mathcal{U}} x^{2}((u_{R1}, u_{R2}),(u_{M1}, u_{M2}))\cdot \rho\left(\frac{u_{R1} + u_{R2}}{2}, \frac{u_{M1} + u_{M2}}{2}\right), \\
+\lambda^-_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N}\cdot \sum_{u_{R1},u_{M1}\in\mathcal{U}} \quad \sum_{u_{R2},u_{M2}\in\mathcal{U}} x^{2}((u_{R1}, u_{R2}),(u_{M1}, u_{M2}))\cdot \rho\left(\frac{u_{M1} + u_{M2}}{2}, \frac{u_{R1} + u_{R2}}{2}\right).
 \end{align}
 
+We use $x^{2}((u_{R1}, u_{R2}),(u_{M1}, u_{M2}))$ to denote the probability that
+the randomly chosen resident obtained a payoff of $u_{R1}$ in the last round of
+their first respective game and $u_{R1}$ in the last round of their second game.
+Similarly, that the mutant obtained a payoff of $u_{M1}$ from their first
+interaction and $u_{M2}$ from the second. Note that we assume that the players
+compare their average payoff of their two interaction when considering adopting
+the others strategy. For example the mutant adopts the resident's strategy with
+a probability $\rho\left(\frac{u_{R1} + u_{R2}}{2}, \frac{u_{M1} +
+u_{M2}}{2}\right)$.
 
 \subsubsection*{Invasion Analysis}
 
 In a similar fashion we can calculate the condition for which a population of
 GTFT players can not be invaded by an ALLD mutant. Using the new formulation we
-obtain the following probabilities \(\bar{x}(u_1, u_2)\) that the payoff of a randomly
-chosen GTFT player is \(u_1\) and that the payoff of the ALLD player is \(u_2\),
+obtain the following probabilities \(x^{2}((u_{11}, u_{12}), (u_{21}, u_{22}))\) that the payoff of a randomly
+chosen GTFT player is \((u_{11}, u_{12})\) and that the payoff of the ALLD player is \((u_{21}, u_{22})\),
 
 \begin{align*}
-  x(r, t) = & \frac{N - 2}{N - 1} \cdot (1 - \delta + \delta q)\\
-  x(r, r) = & \frac{N - 2}{N - 1} \cdot \delta (1 - q) \\
-  x(s, r) = & \frac{1}{N - 1} \cdot (1 - \delta + \delta q) \\
-  x(p, p) = & \frac{1}{N - 1} \cdot \delta (1 - q)
+  x^{2}((r, r), (t, t)) = & \frac{N - 3}{N - 1}\left(\delta q - \delta + 1\right)^{2} & 
+  x^{2}((r, r), (t, p)) = & - \frac{N - 3}{N - 1} \delta \left(q - 1\right) \left(\delta q - \delta + 1\right)\\
+  x^{2}((r, r), (p, t)) = & - \frac{N - 3}{N - 1} \delta \left(q - 1\right) \left(\delta q - \delta + 1\right) &
+  x^{2}((r, r), (p, p)) = & \frac{N - 3}{N - 1} \delta^{2}  \left(q - 1\right)^{2}\\
+  x^{2}((r, s), (t, t)) = & \frac{1}{N-1} \left(\delta q - \delta + 1\right)^{2} &
+  x^{2}((r, s), (p, t)) = & - \frac{1}{N-1} \delta \left(q - 1\right) \left(\delta q - \delta + 1\right) \\
+  x^{2}((r, p), (t, p)) = & - \frac{1}{N-1} \delta \left(q - 1\right) \left(\delta q - \delta + 1\right) &
+  x^{2}((r, p), (p, p)) = & \frac{1}{N-1} \delta^{2} \left(q - 1\right)^{2} \\
+  x^{2}((s, r), (t, t)) = & \frac{1}{N-1} \left(\delta q - \delta + 1\right)^{2} &
+  x^{2}((s, r), (t, p)) = & - \frac{1}{N-1} \delta \left(q - 1\right) \left(\delta q - \delta + 1\right)\\
+  x^{2}((p, r), (p, t)) = & - \frac{1}{N-1} \delta \left(q - 1\right) \left(\delta q - \delta + 1\right) &
+  x^{2}((p, r), (p, p)) = & \frac{1}{N-1} \delta^{2} \left(q - 1\right)^{2} \\
+  x^{2}((u_{11}, u_{12}), (u_{21}&, u_{22})) =  0 \text{ for all other payoff pairs} & ((u_{11}, u_{12}), (u_{21}, u_{22})). &
 \end{align*}
 
 The ratio of transition probabilities is given by,
@@ -735,45 +771,91 @@ roots. For repeated games that are repeated for a large number of turn such as
 
 \section{Updating Payoffs based on the Last $m$ Rounds Payoffs of One Interaction}\label{section:m_two_n_one}
 
-The second generalised case of the limited memory payoffs we discuss in that of
-individuals updating based on their last $m$ rounds payoffs with one member. To
-this end we define the probability that a reactive strategy receives the payoffs
-$u\!\in\! \mathcal{\tilde{U}}$, for \(\mathcal{\tilde{U}}= \{\underbrace{rrr\dots r}_{m},
-\underbrace{rrr\dots s}_{m}, \dots, \underbrace{ppp\dots p}_{m}\}\), in the last \(m\) rounds against another
-reactive strategy (Proposition~\ref{proposition:last_m_rounds}).
+The second generalised case of the limited memory payoffs we discuss is that of
+individuals updating based on their last $m$ rounds payoffs with one member. Let
+\(\mathcal{U}^{m}= \{\underbrace{rrr\dots r}_{m}, \underbrace{rrr\dots s}_{m},
+\dots, \underbrace{ppp\dots p}_{m}\}\) be the set of feasible payoffs of the
+last $m$ rounds. The probability that a reactive strategy receives the payoffs
+$u\!\in\! \mathcal{U}^{m}$ is given by
+Proposition~\ref{proposition:last_m_rounds}.
 
 \begin{Prop}\label{proposition:last_m_rounds} Consider a repeated game, with
   continuation probability $\delta$, between players with reactive strategies
   $s_1\!=\!(y_1, p_1, q_1$) and $s_2\!=\!(y_2,p_2,q_2)$ respectively. Let
-  $\mathcal{\tilde{U}}$ denote the set of feasible payoffs in the last
-  \(n\) rounds, and let \(\tilde{\mathbf{u}}\) be the corresponding payoff vector.
+  $\mathcal{U}^{m}$ denote the set of feasible payoffs in the last
+  \(m\) rounds, and let \(\mathbf{u}^{m}\) be the corresponding payoff vector.
   Then the probability that the $s_1$ player receives the payoff $u\!\in\!
-  \mathcal{\tilde{U}}$ in the very last two rounds of the game is given by,
+  \mathcal{U}^{m}$ in the very last two rounds of the game is given by,
 
   \begin{equation}
-  \langle\mathbf{\tilde{v}}(s_1,s_2),\mathbf{\tilde{u}}\rangle, \text{ where } \mathbf{\tilde{v}} \in R^{4^{n}} \text{ is given by },
+  \langle\mathbf{v}^{m}(s_1,s_2),\mathbf{u}^{m}\rangle, \text{ where } \mathbf{v}^{m} \in R^{4^{m}} \text{ is given by },
   \end{equation}
   \begin{equation}
-    \mathbf{\tilde{v}}(s_1,s_2) = (1 - \delta) w_{a_1, a_2} \delta^2 \left[\mathbf{v_0}(I_4 - \delta M)^{-1}\right]_{a_1, a_2}, \quad  w_{a_1, a_2} \in M \ \forall \ a_1, a_2 \in \{1, 2, 3, 4\}.
+    \mathbf{v}^{m}(s_1,s_2) = (1 - \delta) w_{a_1, a_2} \delta^2 \left[\mathbf{v_0}(I_4 - \delta M)^{-1}\right]_{a_1, a_2}, \quad  w_{a_1, a_2} \in M \ \forall \ a_1, a_2 \in \{1, 2, 3, 4\}.
   \end{equation}
 \end{Prop}
 
-The probability that the number of mutants increases, and decreases respectively
-remains the same as in section~\ref{section:m_one_n_one} (Eq.~\ref{eq:ratio_limited}). The
-frameworks differ in the game stage payoffs,
+\subsection{Last Round Payoff of Two Interactions}
+
+In the special case of $m=2$ the stationary distribution \(\mathbf{v}^{2}(s_1,
+s_2)\) is sixteen dimension instead of four dimensional where \(v_{1}(s_1, s_2)\) is
+the long term probability that \(s_1\) and \(s_2\) mutually cooperated in the
+last two rounds. Let the feasible payoffs a strategy can receive
+be $\mathcal{U}^{2} = \{rr, rs, rt, rp, sr, \dots, pp\}$.
+The role model and the learner interact with only one other member and so the
+probability \(x\) remains the same as in Section~\ref{section:limited_memory}.
+
+The probability that the number of mutants increases, and decreases respectively,
+by one is now given by,
 
 \begin{align}
-  \lambda^+_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N}\cdot \sum_{\tilde{u}_{R},\tilde{u}_{M}\in\mathcal{\tilde{U}}} \tilde{x}(\tilde{u}_{R},\tilde{u}_{M})\cdot \rho(\tilde{u}_{R},\tilde{u}_{M}), \\
-  \lambda^-_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N}\cdot \sum_{\tilde{u}_{R},\tilde{u}_{M}\in\mathcal{\tilde{U}}} \tilde{x}(\tilde{u}_{R},\tilde{u}_{M})\cdot \rho(\tilde{u}_{M},\tilde{u}_{R}).
+\lambda^+_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N} \cdot \sum_{u_{R},u_{M}\in\mathcal{U}^{2}} x(u_{R},u_{M})\cdot \rho\left(\frac{u_{R}}{2},\frac{u_{M}}{2}\right), \\
+\lambda^-_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N} \cdot \sum_{u_{R},u_{M}\in\mathcal{U}^{2}} x(u_{R},u_{M})\cdot \rho\left(\frac{u_{M}}{2},\frac{u_{R}}{2}\right).
 \end{align}
 
-\subsection*{Special case: Last Round Payoff of Two Interactions}
+We assume again that players consider their average payoff of the last two turns
+when deciding to imitate another strategy or not.
 
 \subsubsection*{Invasion Analysis}
 
-In a similar fashion we can calculate the condition for which a population of
-GTFT players can not be invaded by an ALLD mutant. The ratio of transition
-probabilities is given by,
+We once again calculate how easily a single ALLD mutant can invade into a
+resident population of GTFT player. When two GTFT players interact in the game,
+their respective probabilities for each of the four outcomes in the last round
+simplify to,
+
+\begin{align*}
+    v_{rr}(GTFT,GTFT) = & \delta^2, \text{ and }\\
+    v_{i}(GTFT,GTFT) = &  0 \text{ for all other } i \in \mathcal{U}^{2}.
+\end{align*}
+
+On the other hand, if an ALLD player interacts with a GTFT player, the
+respective probabilities according to Eq.~\ref{Eq:LastRound} become
+
+\begin{align*}
+    v_{tt} (ALLD,GTFT) & = \delta^{2} q \left(\delta q - \delta + 1\right), & 
+    v_{tp}(ALLD,GTFT) & = - \delta^{2} \left(q - 1\right) \left(\delta q - \delta + 1\right), \\
+    v_{pt} (ALLD, GTFT ) & = \delta^{3} q \left(1 - q\right), & 
+    v_{pp} (ALLD, GTFT) & = \delta^{3} \left(q - 1\right)^{2} \text{ and }\\
+    v_{i}(ALLD,GTFT) & =  0 \text{ for all other } i \in \mathcal{U}^{2}.
+\end{align*}
+
+As a consequence, we obtain the following probabilities \(x(u_1, u_2)\) that the
+payoff of a randomly chosen GTFT player is \(u_1\) and that the payoff of the
+ALLD player is \(u_2\),
+
+\begin{align*}
+  x(rr, tt) = & \frac{N-2}{N - 1} \delta^{4} q \left(N - 2\right) \left(\delta q - \delta + 1\right) &
+  x(rr, tp) = & - \frac{N-2}{N - 1} \delta^{4} \left(N - 2\right) \left(q - 1\right) \left(\delta q - \delta + 1\right)\\
+  x(rr, pt) = & - \frac{N-2}{N - 1} \delta^{5} q \left(N - 2\right) \left(q - 1\right) &
+  x(rr, pp) = & \frac{N-2}{N - 1} \delta^{5} \left(N - 2\right) \left(q - 1\right)^{2}\\
+  x(ss, tt) = & \frac{1}{N -1}\delta^{2} q \left(\delta q - \delta + 1\right) & 
+  x(sp, tp) = & - \frac{1}{N -1}\delta^{2} \left(q - 1\right) \left(\delta q - \delta + 1\right) \\
+  x(ps, pt) = & - \frac{1}{N -1}\delta^{3} q \left(q - 1\right) &
+  x(pp, pp) = & \frac{1}{N -1}\delta^{3} \left(q - 1\right)^{2}\\
+  x(u_1, u_2) = &  0 \text{ for all other payoff pairs } (u_1, u_2). &
+\end{align*}
+
+We now calculate the ratio of transition probabilities as
 
 \begin{equation}
   \resizebox{.9\textwidth}{!}
@@ -817,12 +899,27 @@ roots. For repeated games that are repeated for a large number of turn such as
 \(\delta \rightarrow 1\) the condition then becomes \(q < 1 -
 \frac{\sqrt{2}}{2}\).
 
+Note that as \(\delta \rightarrow 1\) the condition for which condition
+cooperators can avoid invasion is the same for the case of \(m=2\) and \(n=2\).
+
 \section{Updating Payoffs based on the last two rounds payoff of two interactions (\(m=2\) and \(n=2\))}\label{section:m_two_n_two}
 
-Finally a possible extension to the limited memory framework is to consider that
-thee number of rounds and number of interactions increase. For this case we need
-to consider a combination of the methods we presented in
-Section~\ref{section:m_one_n_two} and Section~\ref{section:m_two_n_one}.
+The final extension to the limited memory framework we consider is that of
+increasing the number of rounds and the number of interactions. For this case we
+need to consider a combination of the methods we presented in
+Section~\ref{section:m_one_n_two} and Section~\ref{section:m_two_n_one}. As an
+example consider the case of \(m=n=2\). The probability that the number of
+mutants increases, and decreases respectively, by one is now given by,
+
+\begin{align}
+  \lambda^+_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N}\cdot \sum_{u_{R1},u_{M1}\in\mathcal{U}^{2}} \quad \sum_{u_{R2},u_{M2}\in\mathcal{U}^{2}} x^{2}((u_{R1}, u_{R2}),(u_{M1}, u_{M2}))\cdot \rho\left(\frac{u_{R1} + u_{R2}}{2}, \frac{u_{M1} + u_{M2}}{2}\right), \\
+  \lambda^-_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N}\cdot \sum_{u_{R1},u_{M1}\in\mathcal{U}^{2}} \quad \sum_{u_{R2},u_{M2}\in\mathcal{U}^{2}} x^{2}((u_{R1}, u_{R2}),(u_{M1}, u_{M2}))\cdot \rho\left(\frac{u_{M1} + u_{M2}}{2}, \frac{u_{R1} + u_{R2}}{2}\right).
+\end{align}
+
+Though we do not carry any further analytical exploration of this case, in the
+next section we present simulation results when the updating payoffs of the
+pairwise process depend on the limited memory framework with \(m=n=2\), as well
+as the rest of the cases we have discussed so far.
 
 \section{Simulation Results on the Pairwise Comparison Process}\label{section:simulation_results}
 
@@ -851,9 +948,10 @@ result, in the case of two interactions \(q \leq \frac{\delta - 1 +
 \frac{\sqrt{2}}{2}}{\delta}=0.7068\), in the case of two rounds \(q \leq
 \frac{\delta + \sqrt{\delta^{2} + 1} - 1}{2 \delta}=0.7069\), and in the last
 case \(q \leq 1 - \frac{c}{b}=0.9\). The higher tolerance to defection results
-to a more cooperative population. As a result the expected payoffs allow for the
-most cooperative population. Between the limited memory approaches we observe a
-big difference in the cases of one or more information. We hypothesis that as we
+in a more cooperative population. As a result the expected payoffs allow for the
+most cooperative population. Between the limited memory approaches, we observe a
+big jump in the cooperation rate when we allow for more information
+(in the form of interactions or rounds). We hypothesise that as we
 allow for more information the results will tend to the case of perfect memory.
 
 \begin{figure}[!htbp]
