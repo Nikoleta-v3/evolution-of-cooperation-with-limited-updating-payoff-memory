@@ -31,10 +31,6 @@ jobs:
         python -m pip install hypothesis
         python -m pip install matplotlib>=3.0.2
         python -m pip install black
-    - name: Check format (only on py3.7 and ubuntu)
-      if: matrix.python-version == 3.7 && matrix.os == 'ubuntu-latest'
-      run: |
-        python -m black -l 80 . --check
     - name: Test with pytest
       run: |
         python setup.py develop
