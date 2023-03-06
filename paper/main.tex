@@ -104,10 +104,15 @@ our most recent ones.
 
 Here we introduce a framework that allows individuals to estimate their fitness
 based on a minimum of social information. We explore the difference between our
-framework and the classical framework using computer simulations. The
-simulations show that in the prisoner's dilemma, individuals with limited memory
-tend to adopt less generous strategies and they achieve less cooperation than in
-the classical scenario.
+framework and the classical framework using the iterated prisoner's dilemma. We
+show that individuals relying on a single set of information tend to adopt less
+generous strategies and they achieve less cooperation than in the classical
+scenario. Although strategies in the latter scenario become more cooperative
+with increasing benefits, those in the former remain unchanged. We further
+explore scenarios where individuals are granted slightly more information, and
+our observations indicate that these individuals can attain higher levels of
+cooperation.
+
 \end{abstract}
 
 \section{Introduction}
@@ -119,7 +124,8 @@ last two decades the interest of the field has shifted to the analysis of
 stochastic finite population dynamics in preference to traditional approaches
 such as the replicator dynamics~\cite{hofbauer:JTB:1979, taylor:MATHBIO:1978}.
 This is especially true in the topic of cooperation~\cite{hilbe:PNAS:2013,
-hilbe:Nature:2018,glynatsi:SCR:2020}. In stochastic evolutionary dynamics
+hilbe:Nature:2018,glynatsi:SCR:2020, ohtsuki:Nature:2006, nowak:Science:2006,
+murase:ScientificReports:2020}. In stochastic evolutionary dynamics
 disadvantageous mutants have a small yet non-zero probability to reach fixation
 and this can lead to fundamental changes in the results. As shown
 in~\cite{nowak:Nature:2004}, using such dynamics a single cooperative strategy
@@ -147,14 +153,13 @@ Similar to all other theoretical models, finite stochastic processes rest on a
 set of assumptions. Namely, in the game phase it is assumed that players use
 strategies with finite memory~\cite{Nowak1992tit, Baek2016}. For example, in a
 repeated game between two individuals the actions of the players in each turn
-are often determined by the action of the co-players in the previous turn. This
+are often determined by the action of the co-players in the previous turn~\cite{Nowak1992tit}. This
 assumption is common as it allows for an explicit calculation of the players'
 payoffs~\cite{sigmund2010calculus}. In addition, it is
 assumed that individuals play many times and with all other players before
-reproduction takes place. So that in the updating phase the updating payoffs, and
-subsequently the fitness, of individuals is given by the average payoffs of an
-infinitely repeated game against the mean distribution of types in the
-population.
+reproduction takes place. So that in the updating phase the updating payoffs,
+or fitness, of individuals is given by the average payoffs of an
+infinitely repeated game against every member of the population.
 
 The above two assumptions create a curious inconsistency; a player with a finite
 memory in the game stage can recall infinite information regarding their
@@ -174,16 +179,15 @@ has a perfect memory of all their interactions and the alternative scenario of
 limited memory where individuals update their strategies only based on the very
 last payoff they obtained. We demonstrate the effects of limited payoff
 memory using a pairwise comparison process and the well studied game of the
-prisoner's dilemma. We observe that individuals with limited payoff memory tend to
-adopt less generous strategies and they achieve less cooperation when
-interacting in a prisoner's dilemma. We obtain similar results when we consider
-that individuals update their strategies based on more information. More
-specifically, up to the last two payoffs they obtained when interacting with up
-to two different members of the population.
+prisoner's dilemma~\cite{glynatsi:HSSC:2021}. We observe that individuals with
+limited payoff memory tend to adopt less generous strategies. We obtain similar
+results when we consider that individuals update their strategies based on more
+information. More specifically, up to the last two payoffs they obtained when
+interacting with up to two different members of the population.
 
 \section{Model Setup}\label{section:model}
 
-A pairwise comparison process starts with assigning all
+A pairwise comparison process~\cite{traulsen2007pairwise} starts with assigning all
 individuals of the population the same strategy. Thenceforth each elementary time step of
 the process consists of the mutation phase, the game phase and the update phase.
 In the game phase individuals are matched in pairs and that they participate in
@@ -216,7 +220,7 @@ q)\). The parameter \(y\) is the probability that the strategy opens with a
 cooperation and \(p\), \(q\) are the probabilities that the strategy cooperates
 given that the opponent cooperated and defected equivalently. The play between a
 pair of reactive strategies $s_1 = (y_1, p_1, q_1)$ and $s_2 = (y_2, p_2, q_2)$
-can be model as a Markov process with the transition matrix \(M\),
+can be model as a Markov process with the transition matrix \(M\)~\cite{nowak:APC:1989},
 
 \begin{equation}\label{eq:transition_matrix}
   \input{static/matrix.tex}
@@ -360,10 +364,6 @@ x(u_R,u_M)	 &=&\displaystyle \frac{1}{N\!-\!1}\cdot  &v_{u_R}(s_R,s_M)\cdot 1_{(
 \end{array}
 \end{equation}
 
-The first term on the right side corresponds to the case that the learner and
-the role model happened to be matched during the game stage, which happens with
-probability $\frac{1}{(N\!-\!1)}$.
-
 The probability that the number of mutants increases and decreases by one in the
 case of limited payoff memory are now given by,
 
@@ -386,11 +386,7 @@ based on perfect and limited payoff memory. We performed two independent runs
 for each approach varying the value of benefit \(b\).
 Figure~\ref{fig:expected_and_stochastic_for_donation} depicts the evolving
 conditional cooperation probabilities $p$ and $q$ (since the discount
-factor~$\delta$ is comparably high we do not report the opening move \(y\)). The
-upper panel of Figure~\ref{fig:expected_and_stochastic_for_donation} corresponds
-to the standard scenario considered in the literature, and the bottom panel
-shows the scenario considered herein, in which players update their strategies
-based on their last round's payoff.
+factor~$\delta$ is comparably high we do not report the opening move \(y\)).
 
 The figure suggests that when updating is based on perfect payoff memory players
 tend to be more generous and more cooperative. The $q$-values of the resident
@@ -459,8 +455,8 @@ payoffs. The difference between the cooperation rate is the highest at $b=10$.
     \label{fig:expected_and_stochastic_for_donation}
 \end{figure}
 
-We further explore the effects of the cooperation benefit and the strength of
-selection on the evolved generosity \(q\) and on the cooperation rate
+We further explore the effects of the benefit and the strength of
+selection on the generosity \(q\) and on the cooperation rate
 (Figure~\ref{fig:cooperation_rate_over_benefit_and_beta}).
 Figure~\ref{fig:cooperation_rate_over_benefit_and_beta}\textbf{A} suggests that
 perfect memory always yields a higher cooperation rate. In this case the
@@ -496,16 +492,18 @@ populations become more defective.
     combination.}\label{fig:cooperation_rate_over_benefit_and_beta}
 \end{figure}
 
-Up to this point we have discussed only two edge cases. The framework of limited
+The framework of limited
 payoff memory can be easily extended to allow individuals to observe more
 rounds, to interact with more members or both (see Supplementary Information
 Sections 4-6). To further understand the effect of limited payoff memory we
 consider the cases of updating based on the last round with two members of the
 population, the last two rounds with another member of the population, and the
-last two rounds with two members of the population. Similar to the last round
-payoff. We perform numerical simulations for each of the fitness approaches. In
+last two rounds with two members of the population. We perform numerical
+simulations for each of the fitness methods. In
 Figure~\ref{fig:cooperation_rate_all_updating_payoffs} we report the cooperation
 rates for low and high values of benefit.
+
+
 
 \begin{figure}[!htbp]
   \centering
@@ -547,8 +545,7 @@ individuals are assumed to have perfect memory.
 
 Here, we have explored how robust cooperation is as models deviate from the
 perfect memory assumption. We considered a special case of the prisoner's
-dilemma, the donation game. The prisoner's dilemma is one of the most applied
-types of social games when we discuss the evolution of cooperation. We showed
+dilemma, the donation game. We showed
 that when the last round payoff is used instead of the expected payoffs,
 cooperation struggles to evolve  when only a minimum of social information is
 used at the updating stage. The resident strategies were both less cooperative

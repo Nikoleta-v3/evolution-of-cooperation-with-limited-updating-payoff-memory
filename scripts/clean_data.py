@@ -8,14 +8,14 @@ import pandas as pd
 
 if __name__ == "__main__":  # pragma: no cover
     folder = sys.argv[1]
-    starting_characters = "two_rounds_opponentslow_benefit_seed" #sys.argv[2]
+    starting_characters = "beta_0.01_stochastic_1" #sys.argv[2]
 
     in_columns = [
         "y",
         "p",
         "q",
         "average cooperation rate",
-        # "average score",
+        "average score",
         "t",
     ]
 
@@ -43,7 +43,7 @@ if __name__ == "__main__":  # pragma: no cover
         for value in df["t"][1:]:
             frequencies.append(value - previous)
             previous = value
-        frequencies.append(10 ** 6 - previous)
+        frequencies.append(10 ** 7 - previous)
 
         filename = file.split("/")[-1]
         df["frequencies"] = frequencies
