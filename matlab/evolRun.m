@@ -5,13 +5,12 @@ N = 100;
 delta = 0.999;
 beta = 1;
 numberIterations = 10 ^ 7;
-payoff_types = ["two_rounds", "two_rounds_opponents"]
+payoff_type = "expected";
+payoffs = readmatrix("two_by_two_games_values.csv");
 
-u = [2, -1, 3, 0];
-
-parfor (i = 1:2)
-    payoff_type = payoff_types(i);
-    filename = "../data/sixteen_states_" + payoff_type;
-    evolSimulationTwoRounds(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
+parfor (i = 1:11)
+    u = payoffs(i, :);
+    filename = "../data/two_by_two_games_values_S" + u(2) + "_T_" + u(2);
+    evolSimulation(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
 end
 end

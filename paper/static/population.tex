@@ -1,0 +1,30 @@
+\documentclass{standalone}
+
+\begin{document}
+\tikzset{man/.pic={
+    \node[circle,fill,minimum size=5mm] (head) {};
+    \node[rounded corners=2pt,minimum height=.8cm,minimum width=0.4cm,fill,below = 1pt of head] (body) {};
+    \draw[line width=1mm,round cap-round cap] ([shift={(2pt,-1pt)}]body.north east) --++(-90:6mm);
+    \draw[line width=1mm,round cap-round cap] ([shift={(-2pt,-1pt)}]body.north west)--++(-90:6mm);
+    }}
+\begin{tikzpicture}
+
+    \node at (.6, 2.7) {A) Initialisation};
+    \pic[Apricot] at (0, 2) (myman) {man};
+    \node at (0, 1.4) {A};
+    \pic[BurntOrange] at (1, 2) (myman) {man};
+    \node at (1, 1.4) {B};
+    \pic[LimeGreen] at (2, 2) (myman) {man};
+    \node at (2, 1.4) {C};
+
+    \pic[Orchid] at (0, 0) (myman) {man};
+    \node at (0, -.6) {E};
+    \pic[cyan] at (1, 0) (myman) {man};
+    \node at (1, -.6) {F};
+    \pic[Maroon] at (2, 0) (myman) {man};
+    \node at (2, -.6) {D};
+
+    \node at (1, -2) {$\dots$};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,27 @@
+\documentclass{standalone}
+
+\begin{document}
+\tikzset{man/.pic={
+    \node[circle,fill,minimum size=5mm] (head) {};
+    \node[rounded corners=2pt,minimum height=.8cm,minimum width=0.4cm,fill,below = 1pt of head] (body) {};
+    \draw[line width=1mm,round cap-round cap] ([shift={(2pt,-1pt)}]body.north east) --++(-90:6mm);
+    \draw[line width=1mm,round cap-round cap] ([shift={(-2pt,-1pt)}]body.north west)--++(-90:6mm);
+    }}
+\begin{tikzpicture}
+
+    \node at (0, .5) {\includestandalone{static/population}};
+    \draw[thick] (2.5, 3) -- (2.5, -2);
+
+    \node at (4, 2.78) {B) Mutation};
+    \node at (5, 1.7) {\includestandalone[width=.13\textwidth]{static/mutation}};
+
+    \node at (4.3, .3) {D) Update phase};
+    \node at (5, -1) {\includestandalone[width=.25\textwidth]{static/updating}};
+
+    \node at (9.2, 2.78) {C) Game phase};
+    \node at (10, .5) {\includestandalone[width=.25\textwidth]{static/game_stage}};
+
+    \draw[thick] (7.7, 3) -- (7.7, -2);
+
+\end{tikzpicture}
+\end{document}
