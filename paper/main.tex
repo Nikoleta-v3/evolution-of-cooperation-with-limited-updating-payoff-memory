@@ -1,7 +1,8 @@
 \documentclass[11pt]{article}
 \usepackage{times}
 \usepackage{amsmath,amsthm,amssymb,setspace,enumitem,epsfig,titlesec,verbatim,color,array,eurosym,multirow}
-\usepackage[sort&compress]{natbib}
+\usepackage[sort&compress,round
+]{natbib}
 \usepackage[footnotesize,bf]{caption}
 \usepackage[margin=2.5cm, includefoot, footskip=30pt]{geometry}
 \usepackage{standalone}
@@ -16,15 +17,12 @@
 \renewcommand{\baselinestretch}{1.3}
 \newcommand{\R}{\mathbb{R}}
 
-\definecolor{darkblue}{rgb}{0,0,.8}
-\definecolor{darkgreen}{rgb}{0,0.5,0.1}
-\newcommand{\matlabfunc}[1]{\textcolor{darkblue}{#1}}
-\newcommand{\matlabcomment}[1]{\textcolor{darkgreen}{#1}}
-\newcommand{\christian}[1]{\textcolor{blue}{\textbf{CH}: #1}}
-\newcommand{\alex}[1]{\textcolor{red}{\textbf{AL}: #1}}
+\newcommand{\todo}[1]{\textcolor{blue}{#1}}
 
 %% Adding shortcut commands to refer to our figures %%
-\newcommand{\FigEvoProc}{{\bf Fig.~1}} \newcommand{\FigInvAnalysis}{{\bfFig.~2}} \newcommand{\FigResultsOverPara}{{\bf Fig.~3}}
+\newcommand{\FigEvoProc}{{\bf Fig.~1}} 
+\newcommand{\FigInvAnalysis}{{\bfFig.~2}} 
+\newcommand{\FigResultsOverPara}{{\bf Fig.~3}}
 
 
 \titleformat{\section}{\sffamily \fontsize{12}{14}\bfseries}{\thesection}{1em}{}
@@ -83,6 +81,9 @@
 \theoremstyle{plainCl2}
 \newtheorem{Claim2}{Claim}
 
+
+
+
 \title{\bf  \sffamily \Large Evolution of reciprocity %among individuals\\ 
 with limited payoff memory\\}
 \date{}
@@ -98,17 +99,18 @@ $^{\rm 3}$Department of Mathematics, University of North Carolina at Chapel Hill
 
 \begin{abstract}
 \noindent
-Models of direct reciprocity explain how cooperation can emerge in repeated social dilemmas. 
-According to this literature, individuals should naturally learn to adopt conditionally cooperative strategies if they expect to have further encounters with their interaction partner. 
-While models of reciprocity have shaped our understanding of cooperation, they often make idealized assumptions on how individuals remember and process information. 
-For example, when strategies change through social learning, it is commonly assumed that individuals take into account the strategy's average payoff.  
-However, this would require them to compute (or remember) their payoffs against all other population members.
-Instead, individuals may sometimes update their strategies based on their most recent experiences only. 
-Herein, we introduce a theoretical framework to study the evolution of reciprocity when individuals only learn based on the outcome of their very last interaction. 
-%We compare this model to the classical framework based on expected payoffs.  
-We show that cooperation can still evolve, but individuals adopt less generous strategies, and they tend to cooperate less often than in the classical framework based on expected payoffs. 
-Interestingly, however, we also show that once individuals remember the payoffs of two or three interactions, evolving cooperation rates approach the results of the classical model. 
-These findings contribute to a literature that explores which kind of cognitive capabilities are required for reciprocal cooperation. While our results suggest that more memory facilitates the evolution of reciprocity, it only takes a modest amount of payoff memory for cooperation to emerge. 
+Direct reciprocity can explain how cooperation emerges in repeated social interactions. 
+According to this literature, individuals should naturally learn to adopt conditionally cooperative strategies such as Tit-for-Tat. % if they expect to have further encounters with their interaction partner. 
+Corresponding models have greatly facilitated our understanding of cooperation. 
+Yet they often make strong assumptions on how individuals remember and process information. 
+For example, when strategies are updated through social learning, it is commonly assumed that individuals update their strategies based on their average payoffs.  
+This would require them to compute (or remember) their payoffs against all other population members.
+Instead, herein, we introduce a theoretical framework to study the evolution of reciprocity when individuals learn based on their most recent experiences.
+Even in the most extreme case that they only take into account their very last interaction, we find that cooperation can still evolve. 
+However, such individuals adopt less generous strategies, and they tend to cooperate less often than in the classical framework with expected payoffs. 
+Interestingly, once individuals remember the payoffs of two or three recent interactions, evolving cooperation rates quickly approach the classical limit. 
+These findings contribute to a literature that explores which kind of cognitive capabilities are required for reciprocal cooperation. 
+While our results suggest that memory facilitates the evolution of reciprocity, it only takes a rather modest amount of payoff memory for cooperation to emerge. 
 \end{abstract}
 
 ~\\
@@ -119,76 +121,68 @@ These findings contribute to a literature that explores which kind of cognitive 
 \clearpage
 \newpage
 
+
+%%%%%%%%%
+%%  INTRO  %%
+%%%%%%%%%
+
 \section{Introduction}
 
-Evolutionary game theory~\cite{smith1982evolution, hofbauer1998evolutionary,
-nowak:Nature:2004, hauert2005game} describes the evolutionary dynamics of
-populations consisting of different types of interacting individuals. In the
-last two decades the interest of the field has shifted to the analysis of
-stochastic finite population dynamics in preference to traditional approaches
-such as the replicator dynamics~\cite{hofbauer:JTB:1979, taylor:MATHBIO:1978}.
-This is especially true in the topic of cooperation~\cite{hilbe:PNAS:2013,
-hilbe:Nature:2018,glynatsi:SCR:2020, ohtsuki:Nature:2006, nowak:Science:2006,
-murase:ScientificReports:2020}. In stochastic evolutionary dynamics
-disadvantageous mutants have a small yet non-zero probability to reach fixation
-and this can lead to fundamental changes in the results. As shown
-in~\cite{nowak:Nature:2004}, using such dynamics a single cooperative strategy
-can invade a population of defectors without any special modifications in
-comparison to traditional approaches that one has to consider spatial
-structure~\cite{nowak:Nature:1992} or when payoffs are subject to aggregate
-shocks~\cite{fudenberg:JET:1992}.
+%% INTRO: General introduction to evolutionary game theory and cognitive constrains
 
-Stochastic evolutionary dynamics model a finite population. Each
-time step of the process consists of three phases; (1) the \textit{mutation
-phase} (2) the \textit{game phase} (3) the \textit{update phase}. In the
-mutation phase one individual from the population is chosen to switch to a new
-mutant strategy with a probability \(\mu\). In the game phase individuals are
-randomly matched with other individuals in the population, and they engage in a
-repeated game where each subsequent turn occurs with a fixed probability
-\(\delta\). The updating phase depends on the process. Two classes of
-finite stochastic processes have been used extensively: (i) fitness-based
-processes in which an individual chosen proportional to fitness reproduces and
-the offspring replaces a randomly chosen individual~\cite{nowak:Nature:2004} or
-(ii) \textit{pairwise comparison processes} in which a pair of individuals is
-chosen and subsequently one of these individuals may adopt the strategy of the
-other~\cite{traulsen2007pairwise}.
+Evolutionary game theory describes the dynamics of populations when an individual's fitness depends on the traits or strategies of other population members~\cite{hofbauer1998evolutionary, nowak:Nature:2004, hauert2005game}.  
+This theory can be used to describe the dynamics of animal conflict~\citep{maynard-smith:Nature:1973}, cancer cells~\citep{Stankova:JAMA:2019}, and of cooperation~\citep{axelrod1981evolution}. 
+Respective models translate strategic interactions into games~\cite{smith1982evolution}. 
+These games specify how individuals (players) interact, which strategies they can choose, and what fitness consequences (or payoffs) their strategies have. 
+In addition, these models also specify the mode by which successful strategies spread over time. 
+Models of biological evolution posit that individuals with a high fitness tend to produce more offspring; models of cultural evolution instead assume that such individuals are imitated more often. 
+While biological and cultural evolution are sometimes treated as equivalent, there can be important differences~\citep{Wu2015,Smolla:PTRS:2021}. 
+For example, models of biological evolution do not require individuals to have any particular cognitive abilities.
+Here, it is the evolutionary process itself that biases the population towards strategies with higher fitness. 
+In contrast, in models of cultural evolution, individuals need to be aware of the different strategies that are available, and they need to identify those strategies with a higher payoff. 
+As a consequence, evolutionary outcomes may often depend on how easily different behaviors can be learned~\citep{Chatterjee:JTB:2012}, and on how easy payoff comparisons are. 
 
-Like all theoretical models, finite stochastic processes rest on a
-set of assumptions. Namely, in the game phase it is assumed that players use
-strategies with finite memory~\cite{Nowak1992tit, Baek2016}. For example, in a
-repeated game between two individuals the actions of the players in each turn
-are often determined by the action of the co-players in the previous turn~\cite{Nowak1992tit}. This
-assumption is common as it allows for an explicit calculation of the players'
-payoffs~\cite{sigmund2010calculus}. In addition, it is
-assumed that individuals play many times and with all other players before
-reproduction takes place. So that in the updating phase the updating payoffs,
-or fitness, of individuals is given by the average payoffs of an
-infinitely repeated game against every member of the population.
+%% INTRO: Literature on direct reciprocity and why social learning of strategies is hard
 
-These two assumptions create a curious inconsistency; a player with a finite
-memory (in the game stage) can recall infinite information regarding their
-interactions and each interaction's outcomes in the update stage. Prior research
-has examined the effects of constraining the interactions an individual has.
-Either by letting individuals have a stochastic number of
-interactions~\cite{roca:PhysicalReview:2006, sanchez:JTB:2005,
-Traulsen:JTB:2007} or by only allowing for a single
-interaction~\cite{Woelfing:JTB:2009}. However, these studies have not accounted
-for the use of strategies with finite memory. Moreover, no previous research has
-explored the effect of restricting not only the number of interactions, but also
-the amount of information available about each interaction. To this end, we
-propose a framework in which individuals, similar to the decisions at each turn,
-estimate their fitness based on a minimum of information.
+These difficulties -- to learn strategies by social imitation -- are particularly pronounced in models of direct reciprocity. 
+This literature follows Trivers' insight that individuals have more of an incentive to cooperate in social dilemmas when they interact repeatedly~\citep{trivers1971evolution}. 
+In repeated interactions, individuals can condition their future behavior on their past experiences with their interaction partner. 
+They may use strategies such as Tit-for-Tat~\citep{rapoport:book:1965} or Generous Tit-for-Tat~\citep{molander:jcr:1985,Nowak1992tit} to preferentially cooperate with those partners who cooperated in the past. 
+Such conditional strategies approximate human behavior fairly well~\citep{fischbacher:EconL:2001,Rand:TCS:2013,DalBo:AER:2019,Rossetti:ETH:2023} and they have also been documented in several other species~\citep{Carter:PRSB:2013,Schweinfurth:AnBehav:2019,Voelkl:PNAS:2015} -- although direct reciprocity is generally more difficult to demonstrate in animals~\citep{CluttonBrock:Nature:2009,Silk:CurrentBiology:2013,taborsky:CurrentBiology:2013}.
+However, at the outset, it is not clear how easy it is to {\it learn} such strategies by social imitation. 
+As one obstacle, individuals usually only observe other population members' actions (i.e., whether they cooperate or defect). 
+These observations alone may not suffice to infer the underlying strategies (i.e., the contingent rules that determine whether to cooperate or defect in a given situation). 
+As another obstacle, even if others' strategies are observable, individuals might find it difficult to identify which ones have the highest payoff. 
+After all, the payoff of a strategy of direct reciprocity is not determined by the outcome of any single round.
+Rather it is determined by how well this strategy fares over an entire sequence of rounds, against many different population members. 
+In practice, such information might be both difficult to obtain and difficult to process. 
 
-We first consider two extreme scenarios, the classical scenario where an individual
-has a perfect memory of all their interactions and the alternative scenario of
-limited memory where individuals update their strategies only based on the very
-last payoff they obtained. We demonstrate the effects of limited payoff
-memory using a pairwise comparison process and the well studied game of the
-prisoner's dilemma~\cite{glynatsi:HSSC:2021}. We observe that individuals with
-limited payoff memory tend to adopt less generous strategies. We obtain similar
-results when we consider that individuals update their strategies based on more
-information. More specifically, up to the last two payoffs they obtained when
-interacting with up to two different members of the population.
+%% INTRO: Gap in the literature and what  question we wish to address. 
+
+Most models of direct reciprocity abstract from these difficulties~\citep{brauchli:JTB:1999,brandt:JTB:2006,ohtsuki:JTB:2007b,szolnoki:pre:2009b,imhof2010stochastic,van-segbroeck:prl:2012,grujic:jtb:2012,Martinez2012,stewart:pnas:2013,pinheiro:PLoSCB:2014,stewart:games:2015,Baek2016,McAvoy:ProcA:2019,glynatsi:SCR:2020,Schmid:PlosCB:2022,Murase:SciRep:2022}. 
+Instead they assume individuals can easily copy the strategies of others. 
+Similarly, they assume that updating decisions are based on the strategies' average (or expected) payoffs, taking into account all rounds and interactions. 
+These assumptions create a curious inconsistency in how models represent an individual's cognitive abilities. 
+On the one hand, when playing the game, individuals are often assumed to have restricted memory. 
+Respective studies typically assume that individuals make their decisions each round based on the outcome of the last round only~\citep[with only a few exceptions, see Refs.][]{Hauert1997,van-veelen:PNAS:2012,Stewart2016,Li:NatCS:2022,Murase:PLoSCompBio:2023a}. 
+Yet when learning new strategies, individuals are assumed to remember (or compute) each others' precise average payoff across many rounds and many interaction partners. 
+Herein, we wish to explore whether this latter assumption is actually necessary for the evolution of reciprocity through social imitation. 
+We ask whether individuals can learn to adopt reciprocal strategies even when learning only based on payoff information from a limited number of rounds. 
+
+
+%% INTRO: Basic description of our model and our findings 
+
+To explore that question, we first consider two extreme scenarios. 
+The first scenario corresponds to the usual modeling approach. 
+Here, individuals update their strategies for a repeated prisoner's dilemma based on pairwise comparisons~\cite{traulsen2007pairwise}, based on their strategies' expected payoff. 
+We contrast this model with an alternative scenario where individuals update their strategies based on the very
+last (one-shot) payoff they obtained. 
+We observe that individuals with limited payoff memory tend to adopt less generous strategies, yet moderate levels of cooperation can still evolve. 
+Moreover, as we increase the individuals' payoff memory, to include the last two or three one-shot payoffs, cooperation rates quickly approach the rates observed in the classical baseline case. 
+Overall, these findings suggest that while memory is important, already minimal payoff information may suffice for the evolution of direct reciprocity based on social learning. 
+They also suggest that the classical model of reciprocity (based on expected payoffs) can be interpreted as a useful approximation to more realistic models that provide a more realistic depiction of cognitive constraints. 
+
+
 
 \section{Model Setup}\label{section:model}
 
@@ -415,6 +409,133 @@ within the resident population. In the case of perfect payoff memory, the
 average cooperation rate is consistently higher than that of the last round
 payoffs.
 
+We further investigate the impact of benefit and selection strength on
+generosity $q$ and the cooperation rate, as shown in Figure~\ref{fig:cooperation_rate_over_benefit_and_beta}.
+According to Figure~\ref{fig:cooperation_rate_over_benefit_and_beta}\textbf{A},
+perfect memory consistently results in a higher cooperation rate, which
+increases with increasing benefit. On the other hand, the cooperation rate
+remains approximately 50\% for limited payoff memory once \(b = 5\).
+From Figure~\ref{fig:cooperation_rate_over_benefit_and_beta}\textbf{B}
+we observe that for weak selection, \(\beta < 1\), the two methods yield similar
+results, however, as \(\beta\) increases there is variation in the evolving
+populations. In the case of expected payoffs the resident populations become
+more cooperative, whereas in the case of limited payoff memory, the resident
+populations become more defective.
+
+The limited payoff memory framework can be expanded by enabling individuals to
+observe a greater number of rounds, interact with a larger number of members, or
+both (refer to Supplementary Information Sections 4-6). To gain further insight
+into the impact of limited payoff memory, we explore the scenarios of updating
+based on the last round with two members of the population, the last two rounds
+with another member of the population, and the last two rounds with two members
+of the population. To analyze the effects of this framework, we conduct
+numerical simulations using various fitness methods. The cooperation rates for
+low and high benefits are presented in Figure~\ref{fig:cooperation_rate_all_updating_payoffs}.
+
+We observe a significant rise in the cooperation rate with the introduction of
+slightly more information. Specifically, in scenarios involving two rounds or
+two interactions, the cooperation rates are almost identical. For a large
+population and a high continuation probability ($\delta$), the conditional
+cooperators that are adopted by the resident population in these scenarios take
+on the same form \((1, q < \frac{\sqrt{2}}{2})\). When considering both sets
+of information (i.e., two rounds and two interactions), cooperation rates
+experience a greater increase, yet still remain lower compared to the classical
+scenario.
+
+
+\section{Conclusions}\label{section:conclusions}
+
+Cooperation can be seen as odd, why is it that we choose to help others at a
+personal cost? In spite of all the selfish genes', animal and human communities
+show signs of altruism and cooperation~\cite{milinski1987tit, kerr2002local,
+carter2020development}. Evolutionary game theoretical models have helped us
+shape our understanding of the evolution of cooperation. In fact, the evolution
+of cooperation constitutes such a major focus of the field that evolutionary
+game theory seems to be reduced to the evolution of
+cooperation~\cite{Traulsen:PhilTrans:2022}. 
+
+Evolutionary models in the past often feature a curious inconsistency. While
+these models depict how individuals make decisions in each round by assuming
+that they only retain memory of the previous round, they also assume that
+individuals possess a perfect memory when it comes to updating their strategies
+over time. To be precise, individuals are assumed to remember all of their past
+interactions and each interaction's outcome when updating strategies.
+
+Here, we investigate the robustness of cooperation as models deviate
+from the assumption of perfect memory. While prior research has investigated the
+impact of constraining individuals' interactions, we take into account the
+limitation of not only interactions but also the information available for each
+outcome. Additionally, prior studies have only allowed for the adoption of
+simple strategies such as always cooperating or always defecting. In contrast,
+we enable the use of more intricate strategies where players can utilize the
+previous play of their co-player to make decisions.
+
+In our framework, players update their strategies based on a combination of
+interactions and outcomes. The initial scenario we examined involved using one
+piece of information: the last round of one interaction. The outcomes suggest
+that cooperation faces difficulties in developing when the updating stage
+utilizes minimal social information. This effect is compounded as the benefit
+and strength of selection are independently increased. The findings indicate
+that cooperative players benefit from the ability to engage with all members of
+the population.
+
+Furthermore, we investigated scenarios where the final two rounds, or the last
+two instances of interaction, were taken into account. We observed a
+statistically significant rise in the frequency of cooperative behavior. For a
+sizable population and a high likelihood of continued interactions, the two
+cases yield the same result as the overall payoff is influenced by two possible
+outcomes. Notably, the scenario involving two rounds and two interactions
+yielded the highest cooperation rate among all the novel methodologies that we
+tested.\\
+% A nice sentence missing here.
+
+
+
+%%%%%%%%%%%
+%% END NOTES %%
+%%%%%%%%%%%
+
+\begin{comment}
+
+\noindent
+{\bf Ethics.}
+This work is purely theoretical and did not require ethical approval from a human subject or animal welfare committee.\\
+
+\noindent
+{\bf Data accessibility.}
+All data and code used in this manuscript are openly available at https://github.com/Nikoleta-v3/pd-with-stochastic-payoffs \todo{(Correct?)}.\\
+
+\noindent
+{\bf Declaration of AI use.}
+We have not used AI-assisted technologies in creating this article.\\
+
+\noindent
+{\bf Authors' contributions.}
+N.G.: conceptualization, formal analysis, investigation, methodology, visualization, writing - original draft, writing -- review and editing; 
+A.M.: conceptualization, formal analysis, methodology, writing -- review and editing; 
+C.H.: conceptualization, formal analysis, methodology, writing -- review and editing.\\
+
+\noindent
+{\bf Conflict of interest declaration.}
+We declare we have no competing interests.\\
+
+\noindent
+{\bf Funding.}
+N.G. and C.H. acknowledge generous support by the European Research Council Starting Grant 850529:
+E-DIRECT, and by the Max Planck Society.\\
+\end{comment}
+
+
+
+{
+{\setlength{\bibsep}{0\baselineskip}\small
+\bibliographystyle{naturemag}
+\bibliography{bibliography.bib}
+}
+
+\clearpage
+\newpage
+
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\textwidth]{static/donation_expected_last_round_summary_results.pdf}
@@ -464,19 +585,6 @@ payoffs.
     \label{fig:expected_and_stochastic_for_donation}
 \end{figure}
 
-We further investigate the impact of benefit and selection strength on
-generosity $q$ and the cooperation rate, as shown in Figure~\ref{fig:cooperation_rate_over_benefit_and_beta}.
-According to Figure~\ref{fig:cooperation_rate_over_benefit_and_beta}\textbf{A},
-perfect memory consistently results in a higher cooperation rate, which
-increases with increasing benefit. On the other hand, the cooperation rate
-remains approximately 50\% for limited payoff memory once \(b = 5\).
-From Figure~\ref{fig:cooperation_rate_over_benefit_and_beta}\textbf{B}
-we observe that for weak selection, \(\beta < 1\), the two methods yield similar
-results, however, as \(\beta\) increases there is variation in the evolving
-populations. In the case of expected payoffs the resident populations become
-more cooperative, whereas in the case of limited payoff memory, the resident
-populations become more defective.
-
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=.75\textwidth]{static/cooperation_rate_over_b_and_beta.pdf}
@@ -505,25 +613,6 @@ populations become more defective.
     combination.}\label{fig:cooperation_rate_over_benefit_and_beta}
 \end{figure}
 
-The limited payoff memory framework can be expanded by enabling individuals to
-observe a greater number of rounds, interact with a larger number of members, or
-both (refer to Supplementary Information Sections 4-6). To gain further insight
-into the impact of limited payoff memory, we explore the scenarios of updating
-based on the last round with two members of the population, the last two rounds
-with another member of the population, and the last two rounds with two members
-of the population. To analyze the effects of this framework, we conduct
-numerical simulations using various fitness methods. The cooperation rates for
-low and high benefits are presented in Figure~\ref{fig:cooperation_rate_all_updating_payoffs}.
-
-We observe a significant rise in the cooperation rate with the introduction of
-slightly more information. Specifically, in scenarios involving two rounds or
-two interactions, the cooperation rates are almost identical. For a large
-population and a high continuation probability ($\delta$), the conditional
-cooperators that are adopted by the resident population in these scenarios take
-on the same form \((1, q < \frac{\sqrt{2}}{2})\). When considering both sets
-of information (i.e., two rounds and two interactions), cooperation rates
-experience a greater increase, yet still remain lower compared to the classical
-scenario.
 
 \begin{figure}[!htbp]
   \centering
@@ -552,60 +641,6 @@ scenario.
   Simulations are run for $T\!=\!5\times 10^7$ time steps for each parameter
   combination.}\label{fig:cooperation_rate_all_updating_payoffs}
 \end{figure}
-
-\section{Conclusions}\label{section:conclusions}
-
-Cooperation can be seen as odd, why is it that we choose to help others at a
-personal cost? In spite of all the selfish genes', animal and human communities
-show signs of altruism and cooperation~\cite{milinski1987tit, kerr2002local,
-carter2020development}. Evolutionary game theoretical models have helped us
-shape our understanding of the evolution of cooperation. In fact, the evolution
-of cooperation constitutes such a major focus of the field that evolutionary
-game theory seems to be reduced to the evolution of
-cooperation~\cite{Traulsen:PhilTrans:2022}. 
-
-Evolutionary models in the past often feature a curious inconsistency. While
-these models depict how individuals make decisions in each round by assuming
-that they only retain memory of the previous round, they also assume that
-individuals possess a perfect memory when it comes to updating their strategies
-over time. To be precise, individuals are assumed to remember all of their past
-interactions and each interaction's outcome when updating strategies.
-
-Here, we investigate the robustness of cooperation as models deviate
-from the assumption of perfect memory. While prior research has investigated the
-impact of constraining individuals' interactions, we take into account the
-limitation of not only interactions but also the information available for each
-outcome. Additionally, prior studies have only allowed for the adoption of
-simple strategies such as always cooperating or always defecting. In contrast,
-we enable the use of more intricate strategies where players can utilize the
-previous play of their co-player to make decisions.
-
-In our framework, players update their strategies based on a combination of
-interactions and outcomes. The initial scenario we examined involved using one
-piece of information: the last round of one interaction. The outcomes suggest
-that cooperation faces difficulties in developing when the updating stage
-utilizes minimal social information. This effect is compounded as the benefit
-and strength of selection are independently increased. The findings indicate
-that cooperative players benefit from the ability to engage with all members of
-the population.
-
-Furthermore, we investigated scenarios where the final two rounds, or the last
-two instances of interaction, were taken into account. We observed a
-statistically significant rise in the frequency of cooperative behavior. For a
-sizable population and a high likelihood of continued interactions, the two
-cases yield the same result as the overall payoff is influenced by two possible
-outcomes. Notably, the scenario involving two rounds and two interactions
-yielded the highest cooperation rate among all the novel methodologies that we
-tested.
-% A nice sentence missing here.
-
-\section{Acknowledgements}
-
-This work was supported by the European Research Council Starting Grant 850529:
-E-DIRECT.
-
-\bibliographystyle{unsrt}
-\bibliography{bibliography.bib}
 
 
 
