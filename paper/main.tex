@@ -24,9 +24,9 @@
 \def\esm{electronic supplementary material}
 
 %% Adding shortcut commands to refer to our figures %%
-\newcommand{\FigEvoProc}{{\bf Fig.~1}} 
-\newcommand{\FigInvAnalysis}{{\bfFig.~2}} 
-\newcommand{\FigResultsOverPara}{{\bf Fig.~3}}
+\newcommand{\FigBaseResults}{{\bf Fig.~1}} 
+\newcommand{\FigDependenceParameters}{{\bf Fig.~2}} 
+\newcommand{\FigHigherMemory}{{\bf Fig.~3}}
 
 
 \titleformat{\section}{\sffamily \fontsize{12}{14}\bfseries}{\thesection}{1em}{}
@@ -96,8 +96,8 @@ $^{\rm 3}$Department of Mathematics, University of North Carolina at Chapel Hill
 
 \begin{abstract}
 \noindent
-Direct reciprocity can explain how cooperation emerges in repeated social interactions. 
-According to this literature, individuals should naturally learn to adopt conditionally cooperative strategies, such as Tit-for-Tat. % if they expect to have further encounters with their interaction partner. 
+Direct reciprocity can explain the evolution of cooperation in repeated social interactions. 
+According to this literature, individuals should naturally learn to adopt conditionally cooperative strategies if they have multiple encounters with their interaction partner. 
 Corresponding models have greatly facilitated our understanding of cooperation, yet they often make strong assumptions on how individuals remember and process information. 
 For example, when strategies are updated through social learning, it is commonly assumed that individuals compare their respective average payoffs.  
 This would require them to compute (or remember) their payoffs against all other population members.
@@ -139,18 +139,18 @@ As a consequence, evolutionary outcomes may depend on how easily different behav
 
 %% INTRO: Literature on direct reciprocity and why social learning of strategies is hard
 
-These difficulties -- to learn strategies by social imitation -- are particularly pronounced in models of direct reciprocity. 
+These difficulties to learn strategies by social imitation are particularly pronounced in models of direct reciprocity. 
 This literature follows Trivers' insight that individuals have more of an incentive to cooperate in social dilemmas when they interact repeatedly~\citep{trivers1971evolution}. 
-In repeated interactions, individuals can condition their future behavior on their past experiences with their interaction partner. 
-They may use strategies such as Tit-for-Tat~\citep{rapoport:book:1965,axelrod1981evolution} or Generous Tit-for-Tat~\citep{molander:jcr:1985,Nowak1992tit} to preferentially cooperate with those partners who cooperated in the past. 
-Such conditional strategies approximate human behavior fairly well~\citep{fischbacher:EconL:2001,Rand:TCS:2013,DalBo:AER:2019,Rossetti:ETH:2023} and they have also been documented in several other species~\citep{Carter:PRSB:2013,Schweinfurth:AnBehav:2019,Voelkl:PNAS:2015} -- although direct reciprocity is generally more difficult to demonstrate in animals~\citep{CluttonBrock:Nature:2009,Silk:CurrentBiology:2013,taborsky:CurrentBiology:2013}.
+In repeated interactions, individuals can condition their behavior on their past experiences with their interaction partner. 
+They may use strategies such as Tit-for-Tat~\citep{rapoport:book:1965,axelrod1981evolution} or Generous Tit-for-Tat~\citep{molander:jcr:1985,Nowak1992tit} to preferentially cooperate with other cooperators. 
+Such conditional strategies approximate human behavior fairly well~\citep{fischbacher:EconL:2001,Rand:TCS:2013,DalBo:AER:2019,Rossetti:ETH:2023} and they have also been documented in several other species~\citep{Carter:PRSB:2013,Schweinfurth:AnBehav:2019,Voelkl:PNAS:2015} -- although direct reciprocity is more difficult to demonstrate in animals~\citep{CluttonBrock:Nature:2009,Silk:CurrentBiology:2013,taborsky:CurrentBiology:2013}.
 However, at the outset, it is not clear how easy it is to {\it learn} such strategies by social imitation. 
 As one obstacle, individuals usually only observe other population members' actions (i.e., whether they cooperate or defect). 
-These observations alone may not suffice to infer the underlying strategies (i.e., the contingent rules that determine whether to cooperate or defect in a given situation). 
+These observations may not suffice to infer the underlying strategies (i.e., the contingent rules that determine whether to cooperate or defect in a given situation). 
 As another obstacle, even if others' strategies are observable, individuals might find it difficult to identify which ones have the highest payoff. 
 After all, the payoff of a strategy of direct reciprocity is not determined by the outcome of any single round.
 Rather it is determined by how well this strategy fares over an entire sequence of rounds, against many different population members. 
-In practice, such information might be both difficult to obtain and difficult to process. 
+In practice, such information might be both difficult to obtain and to process. 
 
 %% INTRO: Gap in the literature and what  question we wish to address. 
 
@@ -167,9 +167,9 @@ We ask whether individuals can learn to adopt reciprocal strategies even when le
 
 %% INTRO: Basic description of our model and our findings 
 
-To explore that question, we first consider two extreme scenarios. 
+To explore that question, we study the imitation dynamics of the repeated prisoner's dilemma for two extreme scenarios. 
 The first scenario corresponds to the usual modeling approach. 
-Here, individuals update their strategies for a repeated prisoner's dilemma based on pairwise comparisons~\cite{traulsen2007pairwise}, taking into account their expected payoffs. 
+Here, individuals update their strategies based on their expected payoffs. 
 We contrast this model with an alternative scenario where individuals update their strategies based on the very
 last (one-shot) payoff they obtained. 
 We find that individuals with limited payoff memory tend to adopt less generous strategies, yet moderate levels of cooperation can still evolve. 
@@ -184,17 +184,17 @@ They also suggest that the classical model of reciprocity (based on expected pay
 %% MODEL: Basic intro
 
 To explore the impact of limited payoff memory, we adapt existing models of the evolution of direct reciprocity through social learning. 
-These models consider the dynamics on two different time scales. 
+These models involve two different time scales. 
 The short time scale describes the game dynamics. 
-Here, individuals with fixed strategies are randomly matched to interact with each other in a series of repeated social dilemmas. 
+Here, individuals with fixed strategies are randomly matched to interact with each other in repeated social dilemmas. 
 The long time scale describes the evolutionary dynamics. 
-Here, individuals can update their strategies based on the payoffs they yield. 
-In the following, we describe the basic setup of our model; all details and derivations are described in the \esm.\\
+Here, individuals can update their repeated-game strategies based on the payoffs they yield. 
+In the following, we introduce the basic setup of our model; all details and derivations are described in the \esm.\\
 
 %% MODEL: (Repeated) donation game
 
 \noindent
-{\bf Description of the game dynamics.} For our model, we consider a well-mixed population consisting of $N$~players.
+{\bf Description of the game dynamics.} We consider a well-mixed population consisting of $N$~players.
 Players are randomly matched in pairs to participate in a repeated donation game~\citep{sigmund2010calculus}.
 Each round, players can either cooperate (\(C\)) or defect (\(D\)). 
 By cooperating, a player provides a benefit \(b\) to the other player at their cost \(c\), with \(0 \!<\! c \!<\! b\). 
@@ -209,7 +209,7 @@ Thus, the players' payoffs in a single round are given by the matrix
         \end{block}
     \end{blockarray}.
 \end{equation}
-In particular, payoffs take the form of a prisoner's dilemma.
+In particular, payoffs take the form of a prisoner's dilemma:
 Mutual cooperation yields a better payoff than mutual defection ($b\!-\!c\!>\!0$), but each player individually prefers to defect independent of the co-player's action ($b\!>\!b\!-\!c$ and $0\!>\!-c$). 
 To incorporate that individuals interact repeatedly, we assume that after each round, there is a constant continuation probability $\delta$ of interacting for another round. 
 For $\delta\!=\!0$, we recover the case of a conventional (one-shot) prisoner's dilemma. 
@@ -224,13 +224,14 @@ In the repeated game, strategies can become arbitrarily complex.
 Here, strategies are contingent rules, telling players what to do depending on the outcome of all their previous interactions. 
 For simplicity, in the following we assume individuals use {\it reactive strategies}~\citep{Nowak1992tit}. 
 A reactive strategy only depends on the other player's action in the previous round. 
-As a consequence, reactive strategies can be written as a three-dimensional tuple \(\mathbf{s}=(y, p,q)\). 
+Such strategies can be written as a three-dimensional tuple \(\mathbf{s}=(y, p,q)\). 
 The first entry \(y\) is the probability that the player opens with cooperation in the first round. 
 The two other entries are the probabilities that the player cooperates in all subsequent rounds, depending on whether the co-player cooperated~($p$) or defected~($q$) in the previous round. 
 The set of reactive strategies is simple enough to allow for an explicit mathematical treatment~\citep{hofbauer1998evolutionary}. 
 Yet it is rich enough to capture several important strategies of repeated games. 
 For example, it contains \alld{} $=\!(0,0,0)$, the strategy that always defects. 
 Similarly, it contains Tit-for-Tat, \tft{} $=\!(1,1,0)$, the strategy that copies the co-player's previous action (and that cooperates in the first round). 
+Finally, it contains Generous Tit-for-Tat, \gtft $=\!(1,1,q)$, where $q\!>\!0$ reflects a player's generosity in response to a co-player's defection.  
 
 In the short run, the players' strategies are taken to be fixed.
 Players use their strategies to decide whether to cooperate with any given interaction partner. 
@@ -244,31 +245,33 @@ Herein, we assume population members update their strategies based on social lea
 To model these strategy updates, we consider a pairwise comparison process~\citep{traulsen2007pairwise}. 
 This process assumes that at regular time intervals, one population member is randomly selected, and given the chance to update its strategy.
 We refer to this player as the `learner'. 
-With probability $\mu$ (reflecting a mutation rate), the learner simply adopts a random strategy (with all reactive strategies having the same probability to be chosen). 
+With probability $\mu$ (reflecting a mutation rate), the learner simply adopts a random strategy (all reactive strategies have the same probability to be chosen). 
 With the converse probability $1\!-\!\mu$, the learner randomly picks a `role model' from the population. 
-The learner then compares its own payoff $\pi_L$ from the repeated game stage to the payoff $\pi_R$ of the role model. 
+The learner then compares its own payoff $\pi_L$ from the repeated game to the role model's payoff $\pi_R$. 
 The learner adopts the role model's strategy with a probability \(\rho\) described by a Fermi function~\citep{blume:GEB:1995,szabo:PRE:1998}, 
 \begin{equation} \label{Eq:rho}
     \rho(\pi_{L}, \pi_{R}) = \frac{1}{1\!+\! e^{- \!\beta (\pi_{R}- \pi_{L})}}.
 \end{equation}
-Here, the selection strength $\beta\!\ge\!0$ is a parameter that indicates how sensitive players are to payoff differences. 
-For $\beta\!=\!0$, any payoff differences are irrelevant, and the learner simply adopts the role model's strategy with probability one half. As the selection strength~$\beta$ increases, players are increasingly biased to update only if the role model has the higher payoff. 
+Here, the selection strength parameter $\beta\!\ge\!0$ indicates how sensitive players are to payoff differences. 
+For $\beta\!=\!0$, payoff differences are irrelevant, and the learner simply adopts the role model's strategy with probability one half. As the selection strength~$\beta$ increases, players are increasingly biased to update only if the role model has the higher payoff. 
 In either case, we assume that the role model's strategy can be identified.
-That is, if the learner decides to imitate the role model's strategy, the learner copies it exactly, as assumed in most previous work on direct reciprocity. 
+That is, if the learner decides to imitate the role model's strategy, the learner copies it exactly, as in previous works on direct reciprocity. 
 
 %% MODEL: Perfect vs limited payoff memory
 
 We deviate from previous models in how we interpret the payoffs $\pi_L$ and $\pi_R$, which form the basis of the pairwise comparisons in Eq.~\eqref{Eq:rho}. 
 In previous work, these payoffs are taken to be the respective players' expected payoffs. 
-We interpret this setup as a model with perfect payoff memory. 
-In this setup, the payoffs  $\pi_L$ and $\pi_R$ represent an average over all possible repeated games the two individuals could have played with all population members. 
-The use of expected payoffs is mathematically convenient, because explicit formulas for the players' expected payoffs are available~\citep{hofbauer1998evolutionary}.
-Herein, we compare this model to a model with limited payoff memory. 
-In that model, the players' payoffs $\pi_L$ and $\pi_R$ are taken to be the payoffs that each player received in the last round of the last repeated game they interacted in (see \FigEvoProc\textbf{a}). 
-This assumption could reflect, for example, a strong recency bias in how individuals evaluate their payoffs.  
+We interpret that setup as a model with perfect payoff memory. 
+Here, the payoffs  $\pi_L$ and $\pi_R$ represent an average over all possible repeated games the two individuals have played with all population members (\FigBaseResults, upper left panel). 
+The use of expected payoffs is mathematically convenient, because explicit formulas are available~\citep{hofbauer1998evolutionary}.
+Herein, we compare perfect payoff memory to a model with limited payoff memory. 
+In that model, the players' payoffs $\pi_L$ and $\pi_R$ are taken to be the payoffs that each player received in their very last round prior to making social comparisons (see \FigBaseResults, lower left panel). 
+This assumption could reflect, for example, a strong recency bias in how individuals evaluate payoffs.  
 In addition to this extreme case of limited payoff memory, later on we also explore cases in which players take into account the outcome of two, three, or four recent rounds. 
 
-Both in the case of perfect and limited memory, we iterate this elementary pairwise comparison process for many time steps. 
+%% MODEL: Summary and rare mutation assumption. 
+
+Both in the case of perfect and limited memory, we iterate the elementary strategy updating step described above for many time steps. 
 This gives rise to a stochastic process that describes which strategies players adopt over time. 
 We explore the dynamics of this process with computer simulations.
 For the results presented in the following, we assume that mutations are rare (\(\mu\!\rightarrow\! 0\)). 
@@ -279,6 +282,8 @@ However, in Section~9 of the \esm{} we show that our main result holds continue 
 
 \section{Results}
 
+%% 	RESULTS: Setup to get analytical results
+
 \noindent
 {\bf Stability of cooperative populations.}
 To get some intuition for the differences between perfect and limited payoff memory, we first analyze when cooperation is stable in either scenario.
@@ -288,8 +293,11 @@ We say {\it cooperation is stochastically stable} if the single mutant is more l
 For simplicity, we consider a large population~($N\!\rightarrow\!\infty$) and strong selection~($\beta\!\rightarrow\!\infty$).
 More general results are derived in the \esm. 
 
-In the case of perfect payoff memory, it is straightforward to compute each player's expected payoff. 
-Because the population mostly consists of residents, and because residents mutually cooperate with each other, their payoff is $\pi_\gtft = b\!-\!c$. 
+%% RESULTS: Analytical results for perfect memory
+
+In the case of perfect payoff memory, it is straightforward to characterize when cooperation is stochastically stable. 
+Here, we simply need to compute the players' expected payoffs. 
+Because the population mostly consists of residents, and because residents mutually cooperate with each other, their expected payoff is $\pi_\gtft = b\!-\!c$. 
 The mutant only interacts with residents, and hence receives a benefit in the first round, and in every subsequent round with probability $q$. 
 As a result, the mutant's expected payoff is $\pi_\alld \!=\! (1\!-\!\delta\!+\!\delta q)b$. 
 For perfect payoff memory, the requirement for cooperation to be stochastically stable reduces to the condition $\pi_\gtft > \pi_\alld$. 
@@ -297,98 +305,96 @@ This yields
 \begin{equation} \label{Eq:PerfectMemory}
 q < 1\!-\!\frac{c}{\delta  b}.
 \end{equation}
-In particular, we recover that $q\!=\!1-c/(\delta b)$ is the maximum generosity that cooperators should have~\citep{molander:jcr:1985,Nowak1992tit}. 
-Because $q$ needs to be non-negative, we also conclude that cooperation can only be stable if $\delta \!>\! c/b$.
+In particular, we recover the previous observation that $q\!=\!1-c/(\delta b)$ is the maximum generosity that cooperators should have~\citep{molander:jcr:1985,Nowak1992tit,Schmid:NHB:2021}. 
+Because $q\!\ge\!0$, we also conclude that cooperation can only be stable if $\delta \!>\! c/b$.
 Again, this condition for the feasibility of direct reciprocity is the condition found in the literature~\citep{nowak:Science:2006}.
 
+%% RESULTS: Analytical results for limited memory
+
 The logic of the case with limited payoff memory is somewhat different. 
-Here we need to compute how likely each player obtains one of the four possible payoffs $\{b\!-\!c, -c, b, 0\}$ in their last interaction. 
-Because residents almost always interact with other residents, their last one-shot payoff is $\pi_\gtft = b\!-\!c$ with a probability approaching one. 
+Here we need to compute how likely each player obtains one of the four possible payoffs $\{b\!-\!c, -c, b, 0\}$ in the very last round of a game, before they make social comparisons.
+Because residents almost always interact with other residents, their last one-shot payoff is $\pi_\gtft = b\!-\!c$ almost surely. 
 For the defecting mutant, there are two possibilities. 
-({\it i})~ If the mutant's co-player happens to cooperate in the last round, the mutant receives a payoff of $\pi_\alld\!=\!b$.
-This occurs with probability $1\!-\!\delta\!+\!\delta q$. 
+({\it i})~ If the mutant's co-player happens to cooperate in the last round, the mutant receives $\pi_\alld\!=\!b$.
+This case occurs with probability $1\!-\!\delta\!+\!\delta q$. 
 ({\it ii})~If the co-player defects in the last round, the mutant receives $\pi_\alld=\!0$. 
-This case occurs with probability $\delta(1\!-\!q)$.
-Because $b\!-\!c\!<\!b$, we conclude that  in the first case, residents tend to imitate the mutant. 
-Because $b\!-\!c\!>\!0$, in the second case mutants tend to imitate the resident. 
-Cooperation is thus stochastically stable if the first case is less likely than the second. 
+This occurs with the converse probability $\delta(1\!-\!q)$.
+Because $b\!-\!c\!<\!b$, residents tend to imitate the mutant in the first case. 
+Because $b\!-\!c\!>\!0$, mutants tend to imitate the resident in the second case. 
+Cooperation is stochastically stable if the first case is less likely than the second. 
 This yields the condition
-\begin{equation}
+\begin{equation} \label{Eq:LimitedMemory}
 q < 1\!-\!\frac{1}{2 \delta}.
 \end{equation}
-Interestingly, this condition no longer depends on the exact payoff values $c$ and $b$ (this happens because selection is strong, such that only the payoff ordering $b\!>\!c\!>\!0$ matters). In particular, because $q$ is non-negative, this condition can only be satisfied if $\delta\!>\!1/2$. 
+Interestingly, this condition no longer depends on the exact payoff values $c$ and $b$. This happens because of our assumption of strong selection, in which case only the payoff ordering $b\!>\!c\!>\!0$ matters. Because $q$ is non-negative, condition~\eqref{Eq:LimitedMemory} can only be satisfied if $\delta\!>\!1/2$, that is, when players interact in more than two rounds in expectation. 
 
-By comparing the two cases, we find that payoff memory affects which cooperative strategies are viable. 
+%% RESULTS: Summary of analytical results
+
+By comparing the two cases, we find that payoff memory affects whether a conditionally cooperative strategy ($1,1,q$) is viable. 
 With perfect memory, the maximum generosity $q$ needs to satisfy Eq.~\eqref{Eq:PerfectMemory}.
-In particular, this generosity can become arbitrarily large, if only the game's benefit-to-cost ratio~$b/c$ and the continuation probability~$\delta$ are sufficiently large. 
-In contrast, with limited payoff memory, the maximum generosity is bounded by one half, and it is independent of the benefit-to-cost ratio. 
-To explore whether we indeed observe these patterns in evolving populations, we turn to simulations.\\
+In particular, this generosity can become arbitrarily large, provided the game's benefit-to-cost ratio~$b/c$ and the continuation probability~$\delta$ are sufficiently large. 
+In contrast, with limited payoff memory, the maximum generosity is bounded by one half, and it is independent of the benefit-to-cost ratio.\\
+
+
+%% RESULTS: Evolving strategies
 
 \noindent
-{\bf Evolutionary dynamics with perfect and limited payoff memory.}
-To assess the impact of updating payoffs, we simulate the evolutionary process,
-recording the strategies adopted by players over time based on perfect and
-limited payoff memory. We performed two separate runs for each approach varying
-the value of benefit \(b\).
-Figure~\ref{fig:expected_and_stochastic_for_donation} depicts the evolving
-conditional cooperation probabilities $p$ and $q$ (note that we omit the opening
-move \(y\), as the discount factor \(\delta\) is relatively high). The figure
-suggests that when updating is based on perfect payoff memory players tend to be
-more generous and more cooperative.
+{\bf Evolutionary dynamics of reciprocity.}
+To explore whether the previous static observations describe the dynamics of evolving populations, we turn to simulations.
+We have run separate simulations for perfect and limited payoff memory, both for a low and a high benefit of cooperation ($b/c\!=\!3$ and $b/c\!=\!10$, respectively).  
+In each case, we record which strategies ($y,p,q$) the players adopt over time.
+\FigBaseResults{} depicts the evolving conditional cooperation probabilities $p$ and $q$ (note that we omit the opening move \(y\), as the discount factor \(\delta\) is very close to one). 
+In each case, we find that the players' strategies cluster in two regions of the strategy space. 
+The first region corresponds to a neighborhood of \alld{} with $(p,q)\!\approx\!(0,0)$, which results in very little cooperation. 
+The second region corresponds to a thin strip of cooperative strategies with $(p,q)\!=\!(1,q)$. 
+Within this strip, we observe that most strategies satisfy the constraint on $q$ imposed by the inequalities~\eqref{Eq:PerfectMemory} and~\eqref{Eq:LimitedMemory}. 
+That is, with perfect memory, most evolving strategies have $q\!<\!1\!-\!c/b$, whereas with limited payoff memory, most strategies have $q\!<\!1/2$. 
+In particular, in the latter case changes in the benefit parameter have no qualitative effect on the distribution of strategies. 
 
-Specifically, we observe that the resident population comprises either defectors
-or conditional cooperators \((1, q)\). The generosity level \(q\) adopted by the
-resident population depends on whether a defecting strategy can invade.
-Supplementary Information Section 2 and 3 show that in the perfect payoff memory
-framework, conditional cooperators of the form \((1, q < \frac{c}{b})\) can
-arise, however, in the case of limited payoff memory, only conditional
-cooperators of \((1, q < \frac{1}{2})\) can avoid invasion. 
-The $q$-values of the resident strategies are generally higher in classical
-case, indicating that players are more likely to forgive a defection if their fitness
-depends on interacting with every member of the population. This effect becomes
-more pronounced as the benefit value increases, as the perfect memory condition
-on the left-hand side increases, while in the limited memory case, it remains at
-\(q \approx \frac{1}{2}\).
+%% RESULTS: Evolving cooperation rates
 
-Higher $q$ values lead to a more cooperative population. We compute the average
-cooperation rate for each simulation, which is the average cooperation rate
-within the resident population. In the case of perfect payoff memory, the
-average cooperation rate is consistently higher than that of the last round
-payoffs.
+In each case, the evolutionary dynamics follows a similar cyclic pattern~\citep[as previously described in Refs.][]{imhof2010stochastic, Nowak1992tit}.
+Resident populations of defectors are most likely invaded by strategies close to \tft. 
+In conditionally cooperative populations with strategies $(1,1,q)$, neutral drift may introduce larger values of generosity $q$. 
+Once the resident strategy violates the conditions~\eqref{Eq:PerfectMemory} and~\eqref{Eq:LimitedMemory}, defectors can re-invade. 
+The overall cooperation rate, averaged over many time steps, depends on how much time the process spends near \alld{} on the one hand, and near the strip of conditionally cooperative strategies on the other hand. 
+For perfect payoff memory, this overall cooperation rate is substantial. 
+It is 52\% for low benefits, and 98\% for high benefits. 
+For limited payoff memory, the evolving cooperation rates are smaller but strictly positive, with 37\% cooperation for low benefits and 51\% cooperation for high benefits (\FigBaseResults). 
 
-We further investigate the impact of benefit and selection strength on
-generosity $q$ and the cooperation rate, as shown in Figure~\ref{fig:cooperation_rate_over_benefit_and_beta}.
-According to Figure~\ref{fig:cooperation_rate_over_benefit_and_beta}\textbf{A},
-perfect memory consistently results in a higher cooperation rate, which
-increases with increasing benefit. On the other hand, the cooperation rate
-remains approximately 50\% for limited payoff memory once \(b = 5\).
-From Figure~\ref{fig:cooperation_rate_over_benefit_and_beta}\textbf{B}
-we observe that for weak selection, \(\beta < 1\), the two methods yield similar
-results, however, as \(\beta\) increases there is variation in the evolving
-populations. In the case of expected payoffs the resident populations become
-more cooperative, whereas in the case of limited payoff memory, the resident
-populations become more defective.
+%% RESULTS: Evolving cooperation rates
 
-The limited payoff memory framework can be expanded by enabling individuals to
-observe a greater number of rounds, interact with a larger number of members, or
-both (refer to Supplementary Information Sections 4-6). To gain further insight
-into the impact of limited payoff memory, we explore the scenarios of updating
-based on the last round with two members of the population, the last two rounds
-with another member of the population, and the last two rounds with two members
-of the population. To analyze the effects of this framework, we conduct
-numerical simulations using various fitness methods. The cooperation rates for
-low and high benefits are presented in Figure~\ref{fig:cooperation_rate_all_updating_payoffs}.
+To further investigate the influence of different parameters, we have systematically varied the benefit~$b$ and the selection strength~$\beta$ in Figure~\FigDependenceParameters.
+According to \FigDependenceParameters \textbf{A}, perfect memory consistently results in a higher cooperation rate, and this relative advantage further increases with an increasing benefit~$b$. 
+Interestingly, for limited payoff memory, the cooperation rate remains stable at approximately 50\% once \(b \!\ge\! 5\).
+This again reflects our earlier observation that the feasibility of cooperation in this scenario is independent of the exact values of $b$ and $c$, as described by Eq.~\eqref{Eq:LimitedMemory}. 
+With respect to the effect of different selection strengths, \FigDependenceParameters\textbf{B} suggests that both perfect and limited payoff memory yields similar cooperation rates for weak selection \(\beta \!<\! 1\). 
+Beyond weak selection, increasing selection has a positive effect under perfect payoff memory, but a negative effect under limited payoff memory.\\
 
-We observe a significant rise in the cooperation rate with the introduction of
-slightly more information. Specifically, in scenarios involving two rounds or
-two interactions, the cooperation rates are almost identical. For a large
-population and a high continuation probability ($\delta$), the conditional
-cooperators that are adopted by the resident population in these scenarios take
-on the same form \((1, q < \frac{\sqrt{2}}{2})\). When considering both sets
-of information (i.e., two rounds and two interactions), cooperation rates
-experience a greater increase, yet still remain lower compared to the classical
-scenario.
 
+%% RESULTS: Setup of higher-memory simulations
+
+\noindent 
+{\bf The effect of increasing individual payoff memory.}
+So far, we have taken a rather extreme interpretation of limited payoff memory. 
+In the respective scenario, we assumed that individuals update their strategies based on their experience in a single round of the prisoner's dilemma, against a single co-player. 
+The limited payoff memory framework can be expanded in various ways. 
+In particular, individuals may recall a greater number of rounds, they may recall interactions with different co-players, or both. 
+To gain further insight into the impact of limited payoff memory, we explore three further scenarios. 
+In one scenario, players recall the payoffs they obtained in the last two rounds against a single co-player. 
+In another scenario, players recall their last-round payoffs against two co-players. 
+Finally, in the last scenario, they recall the two last rounds against two co-players. 
+
+For the first two scenarios, and assuming large populations, strong selection, and a high continuation probability, we can again derive an analytical condition for when cooperation is stochastically stable. 
+The details of this analysis can be found in the \esm. 
+Interestingly, this analysis suggests that when $b\!>\!2c$, cooperation is stochastically stable when $q\!<\! \frac{\sqrt{2}}{2}\approx 0.707$, for both scenarios. 
+Comparing this condition with the more stringent condition in Eq.~\eqref{Eq:LimitedMemory} suggests that there are now more conditionally cooperative strategies that can sustain cooperation. 
+Hence, we would expect cooperation to evolve more easily. 
+To explore this prediction in more detail, we have run additional simulations, again for a low and a high benefit $b$, 
+see \FigHigherMemory.
+We observe that the minimal increase in the players' payoff memory can promote cooperation considerably (compared to the baseline case with a single round recalled). 
+Specifically, we observe that in all three scenarios with extended memory, cooperation rates are similar, and they approach the rates observed under perfect memory. 
+These results suggest that while it takes {\it some} payoff memory to sustain substantial cooperation rates, the requirements on memory seem to be rather modest. 
 
 \section{Conclusions}\label{section:conclusions}
 
