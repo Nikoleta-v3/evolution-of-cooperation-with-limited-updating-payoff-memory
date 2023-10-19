@@ -27,6 +27,11 @@
 \newcommand{\christian}[1]{\textcolor{blue}{\textbf{CH}: #1}}
 \newcommand{\alex}[1]{\textcolor{red}{\textbf{AL}: #1}}
 
+\def\alld{\texttt{ALLD}}
+\def\tft{\texttt{TFT}}
+\def\gtft{\texttt{GTFT}}
+\def\esm{electronic supplementary material}
+
 \definecolor{expectedcolor}{rgb}{0.1791464821222607, 0.49287197231833907, 0.7354248366013072}
 \definecolor{oneone}{rgb}{0.8503344867358708, 0.14686658977316416, 0.13633217993079583}
 \definecolor{onetwo}{rgb}{0.18246828143021915, 0.5933256439830834, 0.3067589388696655}
@@ -94,180 +99,152 @@
 \theoremstyle{plainCl2}
 \newtheorem{Claim2}{Claim}
 
-\title{\bf  \sffamily \LARGE Supplementary Information: Evolution of cooperation among individuals with
-limited updating payoff memory\\}
+\title{{ \sffamily \LARGE Electronic supplementary material}\\{\bf \sffamily \LARGE Evolution of reciprocity with limited payoff memory}}
 \date{}
-\author{Nikoleta E. Glynatsi, Christian Hilbe, Alex McAvoy}
+\author{Nikoleta E. Glynatsi, Alex McAvoy,  Christian Hilbe}
 
 \begin{document}
 \maketitle
 
-Section~\ref{section:pairwise_comparison} gives a brief overview of the pairwise
-comparison process. The pairwise comparison process consists of three phases;
-(1) the mutation phase (2) the game phase and (3) the update phase. In the
-update phase an individual adopts the strategy of another individual based on
-their ``updating payoffs''. Here we study different methods for calculating
-updating payoffs and we compare their results using as an example the prisoner's
-dilemma. In Section~\ref{section:perfect_memory} we describe the conventional
-method used in the literature and in Section~\ref{section:limited_memory} we
-present a new method which we refer to as 
-limited payoff memory. In the limited payoff memory method we assume that
-individuals update based on their last round payoff against one other member of
-the population. The framework can easily be extended to consider more rounds,
-more interactions or both. In
-Sections~\ref{section:m_one_n_two}-\ref{section:m_two_n_two} we discuss each of
-these extensions and for each extension we present a special case.
-In Section~\ref{section:simulation_results} we present numerical results of the
-pairwise comparison process using the different updating payoff methods.
-In Sections~\ref{section:memory_one} and~\ref{section:mutation} we
-verify the main result of this work when we no longer assume (i) that
-individuals use reactive strategies but instead memory one strategies (ii) low
-mutation.
 
-\section{Pairwise comparison process}\label{section:pairwise_comparison}
+%% BRIEF INTRO %% 
 
-Pairwise comparison process is a stochastic process for modelling the evolution
-of a finite population. The process starts with assigning all individuals of the
-population the same strategy. A strategy is a set of rules of how an individual
-should behave in an interaction with another individual. Each elementary time
-step of the process consists of three phases; (1) the \textbf{mutation phase}
-(2) the \textbf{game phase} and (3) the \textbf{update phase}. These are summarised
-in Figure~\ref{fig:pairwise_phases}.
+\noindent
+This document provides further details on our model and our analytical methods, and it contains additional simulation results. 
+Section~\ref{section:model} gives a brief summary of our model. 
+In particular, we provide further details on our implementation of the evolutionary dynamics, and our use of the rare-mutations limit. 
+In Section~\ref{section:analyticalresults} we derive analytical results for the various settings we consider.
+These settings differ in what kind of payoff information individuals take into account when updating their strategies. 
+In the perfect memory setting, individuals take into account all their interactions against all co-players.
+In the limited memory setting, they only consider the very last round of their very last interaction.  
+In addition, we describe several model extensions in which the amount of information taken into account is in between these two extremes. 
+Finally, Section~\ref{section:furthersimulations} presents further simulation results. 
+In particular, we confirm that our main results continue to hold when ({\it i}) players use memory-1 strategies instead of reactive strategies, and  ({\it ii}) mutations are no longer rare.
 
-In the \textbf{mutation phase} one individual is
-chosen to switch to a new mutant strategy with a probability \(\mu\).
-In the \textbf{game phase} individuals are randomly matched with other
-individuals in the population and they engage in a repeated game where each
-subsequent turn occurs with a fixed probability \(\delta\). At each turn the
-individuals decide on an action based on their strategies.
-In repeated games there are infinitely many strategies, however, it is commonly
-assumed that individuals can only choose strategies from a restricted set. One
-such set is that of reactive strategies. A reactive
-strategy considers only the previous action of the other player, and thus, a
-reactive strategy \(s\) can be written as a three-dimensional vector \(s=(y, p,
-q)\). The parameter \(y\) is the probability that the strategy opens with a
-cooperation and \(p\), \(q\) are the probabilities that the strategy cooperates
-given that the opponent cooperated and defected equivalently.
 
-In the \textbf{update stage} two individuals are randomly selected. From
-the two individuals, one  serves as the `learner' and the other as the `role
-model'. The learner adopts the role model's strategy with a probability \(\rho\)
-given by,
 
+%%%%%%%%%
+%% MODEL  %%
+%%%%%%%%%
+
+\section{Description of the model}\label{section:model}
+
+%% MODEL: Summary of the game dynamics %% 
+
+\noindent
+{\bf Summary of the model.} As described in the main text, we study cooperative behavior in a population of size $N$.
+The dynamics unfolds on two time-scales. 
+The short time scale describes the game dynamics. 
+Here individuals are randomly matched to interact in a repeated prisoner's dilemma.  
+Each round individuals can choose whether to cooperate ($C$) or defect ($D$). 
+In general, the resulting one-shot payoffs can be summarized by the payoff matrix 
+\begin{equation}\label{eq:donation}
+    \begin{blockarray}{ccc}
+        & \text{cooperate} & \text{defect} \\
+        \begin{block}{c(cc)}
+            \text{cooperate} & R & S \\
+            \text{defect} & T & P \\
+        \end{block}
+    \end{blockarray}.
+\end{equation}
+Here, $R$ is interpreted as the reward for mutual cooperation, $S$ is the sucker's payoff, $T$ is the temptation, and $P$ is the punishment payoff~\citep{axelrod1981evolution}. 
+Throughout this work, we parametrize these payoffs as $R\!=\!b\!-\!c$, $S\!=\!-c$, $T\!=\!b$, and $P\!=\!0$, where $b$ and $c$ are the benefit and cost of cooperation, respectively, with $b\!>\!c\!>0$. 
+After each round, players learn their co-player's previous action, and the game continues for another round with probability~$\delta$.
+Players make their decisions whether to cooperate in any given round based on their reactive strategies $\mathbf{s}\!=\!(y,p,q)$. 
+The entry $y$ determines a player's first-round cooperation probability. 
+The other entries $p$ and $q$ determine the player's cooperation probability in all subsequent rounds. 
+The probability is $p$ if the co-player cooperated in the previous round, and it is $q$ if the co-player defected. 
+On the short time scale, the players' strategies are fixed. 
+
+%% MODEL: Summary of the evolutionary dynamics %% 
+
+The long time scale describes the evolutionary dynamics. 
+Here, players are allowed to update their strategies based on the payoffs they yield. 
+We model these strategy updates with a pairwise comparison process~\citep{traulsen2007pairwise}.
+This process assumes that at regular time intervals, one player is randomly selected from the population.
+We refer to this player as the `learner' ($L$). 
+The learner is then given an opportunity to update its strategy. 
+There are two possibilities for how this update may occur. 
+With probability $\mu$, the player's strategy mutates randomly. 
+In that case, the player's new strategy is drawn uniformly from the space of all reactive strategies~$[0,1]^3$.  
+With probability $1\!-\!\mu$, the player engages in a pairwise comparison. 
+In that case, the player randomly picks another individual from the population (referred to as the `role model', $R$). 
+The learner adopts the role model's strategy with a probability \(\rho\) given by
 \begin{equation} \label{Eq:rho}
-    \rho(\pi_{L}, \pi_{RM}) = \frac{1}{1\!+\! e^{\!-\!\beta (\pi_{RM}\!-\! \pi_{L})}}.
+    \rho(\pi_{L}, \pi_{R}) = \frac{1}{1\!+\! e^{\!-\!\beta (\pi_{R} - \pi_{L})}}.
 \end{equation}
+The parameter \(\beta\) is the selection strength
+It determines how important payoff differences are for the learner's decision to imitate the role model. 
+The parameters $\pi_R$ and $\pi_L$ refer to the relevant payoffs of the role model and the learner, respectively. 
+The exact value of these payoffs depend on the players' memory. 
+We say players have {\it perfect memory} when $\pi_R$ and $\pi_L$ are given by the players' expected payoffs (across all rounds and across all possible co-players). 
+We say players have {\it limited memory} when $\pi_R$ and $\pi_L$ are given by the players' realized payoff in the very last round of their very last interaction partner. 
+In addition, we consider several model extensions in which individuals have memory capacities in between these two extreme cases. 
+We provide a detailed description of these different cases and the resulting payoffs in Section~\ref{section:analyticalresults}.\\
 
-\(\pi_{L}\) and \(\pi_{RM}\) are the updating payoffs of the learner and the
-role model respectively. The updating payoffs are a measure of how successful
-individuals are in the current standing of the population. The parameter
-\(\beta\) is known as the selection strength, namely, it shows how important the
-payoff difference is when the learner is considering adopting the strategy of
-the role model.
+%% MODEL: Intro to the rare-mutations limit %% 
 
-\begin{figure}[!htbp]
-    \centering
-    \includestandalone[width=\textwidth]{static/pairwise_comparison_process_diagram}
-    \caption{\textbf{Pairwise comparison process phases.} \textbf{A) Initialisation.} The process begins
-    with a finite population where each member is assigned a given strategy.
-    Each color represents a different strategy, and the members are labelled by
-    letters. \textbf{B) Mutation phase.} An individual is selected (in the
-    example individual A) and with a given probability \(\mu\) that individual
-    adopts a new strategy. \textbf{C) Game phase.} Individuals are
-    selected to interact in a repeated social dilemma with other individuals. We
-    demonstrate the case where individuals B and F have been selected to
-    interact. They use the reactive strategies \(s_{B} = (y_B, p_B, q_B)\) and
-    \(s_{F} = (y_F, p_F, q_F)\) respectively. The opening moves depend on their
-    \(y_i\) probability. In turn 1, individual B cooperated,
-    thus, F cooperates with a probability \(p_{F}\) in turn 2. On the opposite,
-    individual F defected in turn 1, and so B cooperates in the next turn with
-    a probability \(q_{B}\). At each turn there is a probability \(\delta\) that a
-    subsequent turn will occur, and with a probability (\(1- \delta\)) the interaction ends.
-    \textbf{D) Update phase.} At the updating phase two individuals are chosen;
-    one serves as the role of the learner and the other one as the 
-    role model. In our example C adopts D's strategy with a probability
-    \(\rho(\pi_{C}, \pi_{D})\) where \(\pi_{C}, \pi_{D}\) denote the updating
-    payoffs of the individuals.}\label{fig:pairwise_phases}
-\end{figure}
+\noindent
+{\bf Evolutionary simulations for the rare-mutations limit.} 
+To simulate the evolutionary dynamics of the pairwise comparison process described above, it is sometimes useful to assume that mutations are rare, $\mu\!\rightarrow\!0$. 
+In that case, whenever a mutant strategy appears, this mutant either fixes in the population or goes extinct before the next mutant appears. 
+As a result, at any given time there are at most two different strategies present in the population~\citep{fudenberg:JET:2006,wu:JMB:2012,mcavoy:jet:2015}. 
+This assumptions makes computations more efficient, and it makes some of the results easier to interpret.
+In the following, we describe our implementation of the process in the rare-mutations limit in more detail. 
 
-This elementary step of the process (mutation, game and update phases) is
-repeated for a large number of time steps, and at each time step we record the
-state of the population.
+%% MODEL: Implementation of the rare-mutations limit %% 
 
-\subsection{Low mutation \(\mu \rightarrow 0\)}
-
-In the case of low mutation (\(\mu \rightarrow 0\)) we assume that mutations are
-rare. In fact, so rare that only two different strategies can be present in the
-population at any given time. The case of low mutation is vastly adopted because
-it allows us to explicitly calculate the fixation probability of a newly
-introduced mutant.
-
-More specifically, the process again starts with a population where all members are of the same
-strategy. At each step one individual adopts a mutant strategy randomly selected
-from the set of feasible strategies. The fixation probability \(\phi_{M}\) of the
-mutant strategy can be calculated explicitly,
-
+Initially, the process starts with a population where all members use the same strategy (called `resident strategy'). 
+Then one individual adopts a mutant strategy selected uniformly at random from the set of feasible strategies.
+The fixation probability \(\phi_{M}\) of the mutant strategy can be calculated explicitly~\citep{nowak:Nature:2004},
 \begin{equation}\label{eq:appendix_fixation_probability}
-    \varphi_{M} = \frac{1}{1+\sum\limits_{i=1}^{N-1}\prod\limits_k^i \frac{\lambda^-_k}{\lambda^+_k}},
+    \varphi_{M} = \frac{1}{1+\sum\limits_{i=1}^{N-1}\prod\limits_k^i \frac{\lambda^-_k}{\lambda^+_k}}.
 \end{equation}
+Here, the index $k$ corresponds to the current number of players with the mutant strategy (we refer to these players as `mutants'). 
+The variables \(\lambda^-_k, \lambda^+_k\) are the probabilities that the number of mutants decreases or increases within a single updating step. 
+These probabilities depend on the probability that a mutant and a resident are chosen as the learner and the resident, respectively; 
+in addition, they depend on the respective switching probability~$\rho$, as described by Eq.~\eqref{Eq:rho}. 
+We specify the exact values of  \(\lambda^-_k, \lambda^+_k\) for each memory-setting in the following section. 
 
-where \(\lambda^-_k, \lambda^+_k\) are the probabilities that the number of
-mutants decreases and increases respectively, \(N\) is the size of the
-population, and \(k\) is the number of mutants. The probabilities \(\lambda^-_k
-\text{ and } \lambda^+_k\) depend on the updating payoffs of the mutant and the
-resident strategies. Depending on the fixation probability \(\phi_{M}\) the
-mutant either fixes (becomes the new resident) or goes extinct. Regardless, in
-the elementary time step another mutant strategy is introduced to the
-population. We iterate this elementary population updating process for a large
-number of mutant strategies and we record the resident strategies at each time
-step. The process is summarised by Algorithm~\ref{algorithm:pairwise_comparison}.
+Depending on the fixation probability \(\varphi_{M}\), the mutant strategy either fixes (becomes the new resident) or goes extinct. 
+Afterwards, another random mutant strategy is introduced into the population. 
+We iterate this elementary population updating process for a large number of mutant strategies. 
+At each step, we record the current resident strategy, and the resulting average cooperation rate. 
+We consider this limit of rare-mutations throughout the main text. 
+The respective process is summarised by Algorithm~\ref{algorithm:pairwise_comparison}.
+However, in Section~\ref{section:furthersimulations} we present additional simulation results to show that our main results continue to hold when the mutation rate is strictly bounded away from zero. 
 
-\begin{algorithm}[!htbp]
+%% MODEL: Algorithm 
+
+\begin{algorithm}[t]
   \SetAlgoLined
   $N \leftarrow$ population size\;
-  $k \leftarrow 1$\; resident
-   $\leftarrow$ starting resident\;
+  %$k \leftarrow 1$\; 
+  resident $\leftarrow$ starting resident\;
    \While{ $t <$ maximum number of steps}
    {mutant $\leftarrow$ random strategy\;
    fixation probability $\leftarrow \varphi_M $\;
    \If{$\varphi_M >$ random: $i \rightarrow [0,1]$}
    {resident $\leftarrow$ mutant;}}
-   \caption{Evolutionary process}\label{algorithm:pairwise_comparison}
+   \caption{Evolutionary process in the limit of rare mutations}\label{algorithm:pairwise_comparison}
 \end{algorithm}
 
-Most of the results we present in this work consider the case of low mutation,
-however, we have also verified that the main result holds in the case of
-high mutation rates (Section~\ref{section:mutation}).
 
-\subsection{Updating Payoffs}\label{section:updating_payoffs}
 
-The updating payoffs depend on the interactions of the individuals at the game
-phase. In this work we assume that in the game phase individuals are matched in
-pairs and that they participate in a repeated 2 person donation game. In the
-donation game there are two actions: cooperation (\(C\)) and defection (\(D\)).
-By cooperating a player provides a benefit \(b\) to the other player at their
-cost \(c\), with \(0 < c < b\). Thus the payoffs for a player in each turn are,
 
-\begin{equation}\label{eq:donation}
-    \begin{blockarray}{ccc}
-        & \text{cooperate} & \text{defect} \\
-        \begin{block}{c(cc)}
-            \text{cooperate} & b - c & -c \\
-            \text{defect} & b & 0 \\
-        \end{block}
-    \end{blockarray}.
-\end{equation}
+\newpage
 
-Let \(\mathbf{u} = (b-c, -c, b, 0)\) be Eq.~\ref{eq:donation} in a vector format, and let \(\mathcal{U}
-= \{r, s, t, p\}\) denote the set of feasible payoffs, where \(r\) denotes the
-payoff of mutual cooperation, \(s\) the sucker's payoff, \(t\) the temptation to
-defect payoff, and \(p\) the punishment payoff.
+%%%%%%%%%%%%%%%%%
+%% ANALYTICAL RESULTS %%
+%%%%%%%%%%%%%%%%%
 
-In the following sections we present several methods for calculating the
-updating payoffs. Initially, we discuss the conventional way of the
-expected payoffs and afterwards we present our newly introduced methods.
+\section{Analytical results}
+\label{section:analyticalresults}
 
-\section{Updating Payoffs based on Expected Payoffs (perfect payoff memory)}\label{section:perfect_memory}
+
+\subsection{Updating Payoffs based on Expected Payoffs (perfect payoff memory)}\label{section:perfect_memory}
+
+Let \(\mathbf{u} = (b-c, -c, b, 0)\)
 
 The expected payoffs are the conventional payoffs used in the updating stage.
 The expected payoffs are defined as the mean payoff of an individual in a well-mixed population that
@@ -315,7 +292,8 @@ probabilities that the number of mutants decreases and increases,
   \lambda^-_k \!=\!\rho(\pi_M, \pi_R) \quad \text{ and } \quad \lambda^+_k \!=\!\rho(\pi_R, \pi_M).
 \end{align*}
 
-\subsubsection*{Invasion Analysis}
+~\\
+{\bf Invasion Analysis}
 
 Let's assume that individuals use their expected payoffs at the updating phase.
 We can calculate how easily a single defecting mutant (ALLD) can invade into a
@@ -361,7 +339,7 @@ This result will become important when we discuss the numerical results of the
 evolutionary process (Section~\ref{section:simulation_results}). We repeat this
 ``invasion analysis'' for the rest of the updating payoffs cases.
 
-\section{Updating Payoffs based on the Last Round Payoff of One Interaction (limited payoff memory)}\label{section:limited_memory}
+\subsection{Updating Payoffs based on the Last Round Payoff of One Interaction (limited payoff memory)}\label{section:limited_memory}
 
 In the expected payoffs case the payoff of a pair depends on the average payoff
 they received over an infinite number of turns. In the limited payoff memory,
@@ -488,8 +466,8 @@ $x(u_R,u_M)$ to denote the probability that the randomly chosen resident
 obtained a payoff of $u_R$ in the last round of his respective game, and that
 the mutant obtained a payoff of $u_M$.
 
-
-\subsubsection*{Invasion Analysis}
+~\\
+{\bf Invasion Analysis}
 
 We once again calculate how easily a single ALLD mutant can invade into a
 resident population of GTFT player. When two GTFT players interact in the game,
@@ -548,7 +526,7 @@ condition becomes \(q < 1/2\) (for \(q = 1/2\), the payoff of the ALLD player is
 probability that the number of mutants increase by one equals the probability
 that the mutant goes extinct).
 
-\section{Updating Payoffs based on the last round payoff of $n$ interactions}\label{section:m_one_n_two}
+\subsection{Updating Payoffs based on the last round payoff of $n$ interactions}\label{section:m_one_n_two}
 
 The framework of the limited memory can be generalised such that an individual
 considers \(m\) rounds and of \(n\) interactions. Here we discuss the case that
@@ -602,7 +580,7 @@ interactions.
   stage.}\label{fig:matching_tree}
 \end{figure}
 
-\subsection{Last Round Payoff of Two Interactions}
+\subsubsection{Last Round Payoff of Two Interactions}
 
 Here the learner and role model consider the last round payoff of two
 interactions. At each time step of the evolutionary process there are twenty
@@ -698,7 +676,8 @@ the others strategy. For example the mutant adopts the resident's strategy with
 a probability $\rho\left(\frac{u_{R1} + u_{R2}}{2}, \frac{u_{M1} +
 u_{M2}}{2}\right)$.
 
-\subsubsection*{Invasion Analysis}
+~\\
+{\bf Invasion Analysis}
 
 In a similar fashion we can calculate the condition for which a population of
 GTFT players can not be invaded by an ALLD mutant. Using the new formulation we
@@ -769,7 +748,7 @@ roots. For repeated games that are repeated for a large number of turn such as
 \(\delta \rightarrow 1\) the condition then becomes \(q < 1 -
 \frac{\sqrt{2}}{2}\).
 
-\section{Updating Payoffs based on the Last $m$ Rounds Payoffs of One Interaction}\label{section:m_two_n_one}
+\subsection{Updating Payoffs based on the Last $m$ Rounds Payoffs of One Interaction}\label{section:m_two_n_one}
 
 The second generalised case of the limited memory payoffs we discuss is that of
 individuals updating based on their last $m$ rounds payoffs with one member. Let
@@ -795,7 +774,7 @@ Proposition~\ref{proposition:last_m_rounds}.
   \end{equation}
 \end{Prop}
 
-\subsection{Last Round Payoff of Two Interactions}
+\subsubsection{Last Round Payoff of Two Interactions}
 
 In the special case of $m=2$ the stationary distribution \(\mathbf{v}^{2}(s_1,
 s_2)\) is sixteen dimension instead of four dimensional where \(v_{1}(s_1, s_2)\) is
@@ -816,7 +795,8 @@ by one is now given by,
 We assume again that players consider their average payoff of the last two turns
 when deciding to imitate another strategy or not.
 
-\subsubsection*{Invasion Analysis}
+~\\
+{\bf Invasion Analysis}
 
 We once again calculate how easily a single ALLD mutant can invade into a
 resident population of GTFT player. When two GTFT players interact in the game,
@@ -902,7 +882,7 @@ roots. For repeated games that are repeated for a large number of turn such as
 Note that as \(\delta \rightarrow 1\) the condition for which condition
 cooperators can avoid invasion is the same for the case of \(m=2\) and \(n=2\).
 
-\section{Updating Payoffs based on the last two rounds payoff of two interactions (\(m=2\) and \(n=2\))}\label{section:m_two_n_two}
+\subsection{Updating Payoffs based on the last two rounds payoff of two interactions (\(m=2\) and \(n=2\))}\label{section:m_two_n_two}
 
 The final extension to the limited memory framework we consider is that of
 increasing the number of rounds and the number of interactions. For this case we
@@ -921,7 +901,15 @@ next section we present simulation results when the updating payoffs of the
 pairwise process depend on the limited memory framework with \(m=n=2\), as well
 as the rest of the cases we have discussed so far.
 
-\section{Simulation Results on the Pairwise Comparison Process}\label{section:simulation_results}
+
+%%%%%%%%%%%%%%%%%%
+%% FURTHER SIMULATIONS %% 
+%%%%%%%%%%%%%%%%%%
+
+\section{Further simulation results}~\label{section:furthersimulations}
+
+
+\subsection{Simulation Results on the Pairwise Comparison Process}\label{section:simulation_results}
 
 We simulate the evolutionary process described in
 Algorithm~\ref{algorithm:pairwise_comparison} for the different updating
@@ -971,7 +959,7 @@ allow for more information the results will tend to the case of perfect memory.
     update based on their expected payoffs.}\label{fig:expected_payoffs_results}
 \end{figure}
 
-\section{Expected and Last Round Updating Payoffs for Memory One Strategies}\label{section:memory_one}
+\subsection{Expected and Last Round Updating Payoffs for Memory One Strategies}\label{section:memory_one}
 
 So far we have assumed that individuals can adopt reactive strategies.
 To demonstrate that our results hold for higher memory strategies here we
@@ -1030,13 +1018,13 @@ in the perfect memory approach compared to the limited memory.
 \end{figure}
 
 
-\section{Expected and Last Round Updating Payoffs for High Mutation ($\mu \neq 0$)}\label{section:mutation}
+\subsection{Expected and Last Round Updating Payoffs for High Mutation ($\mu \neq 0$)}\label{section:mutation}
 
 In this section we evaluate the main result of this work for \(\mu \neq 0\).
 Namely, we explore the evolved population when individuals use perfect and
 limited updating payoff memory for different values of \(\mu\). We perform five
 independent runs of the pairwise process described in
-Section~\ref{section:pairwise_comparison}, and at each time step we record the
+Section~\ref{section:model}, and at each time step we record the
 average player \(\bar{s}=(\bar{y}, \bar{p}, \bar{q})\). The average cooperation
 of the resident population for different values of mutation are shown in
 Figure~\ref{fig:mutation}. The cooperation rate in the case of perfect
@@ -1064,7 +1052,17 @@ this results to a cooperation rate of \(\frac{1}{2}\) in both simulations.
   =100, c=1, b=10, \beta=1\).}\label{fig:mutation}
 \end{figure}
 
-\bibliographystyle{unsrt}
+
+
+%%%%%%%%%%%%
+%% REFERENCES %%
+%%%%%%%%%%%%
+
+{
+{\setlength{\bibsep}{0\baselineskip}
+\bibliographystyle{naturemag}
 \bibliography{bibliography.bib}
+}
+
 
 \end{document}
