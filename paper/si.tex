@@ -2,7 +2,7 @@
 \usepackage[dvipsnames]{xcolor}
 \usepackage{times}
 \usepackage{amsmath,amsthm,amssymb,setspace,enumitem,epsfig,titlesec,verbatim,array,eurosym,multirow}
-\usepackage[sort&compress]{natbib}
+\usepackage[sort&compress,numbers]{natbib}
 \usepackage[footnotesize,bf]{caption}
 \usepackage[margin=2.5cm, includefoot, footskip=30pt]{geometry}
 \usepackage{standalone}
@@ -30,6 +30,11 @@
 \def\alld{\texttt{ALLD}}
 \def\tft{\texttt{TFT}}
 \def\gtft{\texttt{GTFT}}
+\def\rolemodel{\text{R}}
+\def\learner{\text{L}}
+\def\resident{\texttt{R}}
+\def\mutant{\texttt{M}}
+\def\strategy{\texttt{$\sigma$}}
 \def\esm{electronic supplementary material}
 
 \definecolor{expectedcolor}{rgb}{0.1791464821222607, 0.49287197231833907, 0.7354248366013072}
@@ -110,8 +115,8 @@
 %% BRIEF INTRO %% 
 
 \noindent
-This document provides further details on our model and our analytical methods, and it contains additional simulation results. 
-Section~\ref{section:model} gives a brief summary of our model. 
+This document provides further details on our methods and derivations, and it contains additional simulation results. 
+Section~\ref{section:model} summarizes the model. 
 In particular, we provide further details on our implementation of the evolutionary dynamics, and our use of the rare-mutations limit. 
 In Section~\ref{section:analyticalresults} we derive analytical results for the various settings we consider.
 These settings differ in what kind of payoff information individuals take into account when updating their strategies. 
@@ -119,7 +124,7 @@ In the perfect memory setting, individuals take into account all their interacti
 In the limited memory setting, they only consider the very last round of their very last interaction.  
 In addition, we describe several model extensions in which the amount of information taken into account is in between these two extremes. 
 Finally, Section~\ref{section:furthersimulations} presents further simulation results. 
-In particular, we confirm that our main results continue to hold when ({\it i}) players use memory-1 strategies instead of reactive strategies, and  ({\it ii}) mutations are no longer rare.
+In particular, we confirm that our main results continue to hold ({\it i}) when players use memory-1 strategies instead of reactive strategies, and  ({\it ii}) when mutations are no longer rare.
 
 
 
@@ -137,8 +142,8 @@ The dynamics unfolds on two time-scales.
 The short time scale describes the game dynamics. 
 Here individuals are randomly matched to interact in a repeated prisoner's dilemma.  
 Each round individuals can choose whether to cooperate ($C$) or defect ($D$). 
-In general, the resulting one-shot payoffs can be summarized by the payoff matrix 
-\begin{equation}\label{eq:donation}
+In the most general setting, the resulting one-shot payoffs can be summarized by the payoff matrix 
+\begin{equation}\label{eq:prisoner}
     \begin{blockarray}{ccc}
         & \text{cooperate} & \text{defect} \\
         \begin{block}{c(cc)}
@@ -149,7 +154,8 @@ In general, the resulting one-shot payoffs can be summarized by the payoff matri
 \end{equation}
 Here, $R$ is interpreted as the reward for mutual cooperation, $S$ is the sucker's payoff, $T$ is the temptation, and $P$ is the punishment payoff~\citep{axelrod1981evolution}. 
 Throughout this work, we parametrize these payoffs as $R\!=\!b\!-\!c$, $S\!=\!-c$, $T\!=\!b$, and $P\!=\!0$, where $b$ and $c$ are the benefit and cost of cooperation, respectively, with $b\!>\!c\!>0$. 
-After each round, players learn their co-player's previous action, and the game continues for another round with probability~$\delta$.
+After each round, players learn their co-player's previous action. 
+Then the game continues for another round with probability~$\delta$.
 Players make their decisions whether to cooperate in any given round based on their reactive strategies $\mathbf{s}\!=\!(y,p,q)$. 
 The entry $y$ determines a player's first-round cooperation probability. 
 The other entries $p$ and $q$ determine the player's cooperation probability in all subsequent rounds. 
@@ -162,57 +168,58 @@ The long time scale describes the evolutionary dynamics.
 Here, players are allowed to update their strategies based on the payoffs they yield. 
 We model these strategy updates with a pairwise comparison process~\citep{traulsen2007pairwise}.
 This process assumes that at regular time intervals, one player is randomly selected from the population.
-We refer to this player as the `learner' ($L$). 
+We refer to this player as the `learner' (\learner). 
 The learner is then given an opportunity to update its strategy. 
 There are two possibilities for how this update may occur. 
 With probability $\mu$, the player's strategy mutates randomly. 
 In that case, the player's new strategy is drawn uniformly from the space of all reactive strategies~$[0,1]^3$.  
 With probability $1\!-\!\mu$, the player engages in a pairwise comparison. 
-In that case, the player randomly picks another individual from the population (referred to as the `role model', $R$). 
+In that case, the player randomly picks another individual from the population (referred to as the `role model', \rolemodel). 
 The learner adopts the role model's strategy with a probability \(\rho\) given by
 \begin{equation} \label{Eq:rho}
-    \rho(\pi_{L}, \pi_{R}) = \frac{1}{1\!+\! e^{\!-\!\beta (\pi_{R} - \pi_{L})}}.
+    \rho(\pi_{L}, \pi_{R}) = \frac{1}{1\!+\! e^{\!-\!\beta (\pi_\rolemodel - \pi_\learner)}}.
 \end{equation}
-The parameter \(\beta\) is the selection strength
+The parameter \(\beta\) is the selection strength.
 It determines how important payoff differences are for the learner's decision to imitate the role model. 
-The parameters $\pi_R$ and $\pi_L$ refer to the relevant payoffs of the role model and the learner, respectively. 
+The variables $\pi_\rolemodel$ and $\pi_\learner$ refer to the relevant payoffs of the role model and the learner, respectively. 
 The exact value of these payoffs depend on the players' memory. 
-We say players have {\it perfect memory} when $\pi_R$ and $\pi_L$ are given by the players' expected payoffs (across all rounds and across all possible co-players). 
-We say players have {\it limited memory} when $\pi_R$ and $\pi_L$ are given by the players' realized payoff in the very last round of their very last interaction partner. 
-In addition, we consider several model extensions in which individuals have memory capacities in between these two extreme cases. 
-We provide a detailed description of these different cases and the resulting payoffs in Section~\ref{section:analyticalresults}.\\
+We say players have {\it perfect memory} when $\pi_\rolemodel$ and $\pi_\learner$ are given by the players' expected payoffs (across all rounds and across all possible co-players). 
+We say players have {\it limited memory} when $\pi_\rolemodel$ and $\pi_\learner$ are given by the players' realized payoff in the very last round of the game with their very last interaction partner. 
+In addition, we consider several model extensions in which individuals have memory capacities in between these two extremes. 
+We provide a detailed description of these different settings and the resulting payoffs in Section~\ref{section:analyticalresults}.\\
 
 %% MODEL: Intro to the rare-mutations limit %% 
 
 \noindent
 {\bf Evolutionary simulations for the rare-mutations limit.} 
-To simulate the evolutionary dynamics of the pairwise comparison process described above, it is sometimes useful to assume that mutations are rare, $\mu\!\rightarrow\!0$. 
-In that case, whenever a mutant strategy appears, this mutant either fixes in the population or goes extinct before the next mutant appears. 
+To simulate the evolutionary dynamics of the pairwise comparison process, it is sometimes useful to assume that mutations are rare, $\mu\!\rightarrow\!0$. 
+In that case, whenever a mutant strategy appears, it either fixes in the population or goes extinct before the next mutant appears. 
 As a result, at any given time there are at most two different strategies present in the population~\citep{fudenberg:JET:2006,wu:JMB:2012,mcavoy:jet:2015}. 
 This assumptions makes computations more efficient, and it makes some of the results easier to interpret.
 In the following, we describe our implementation of the process in the rare-mutations limit in more detail. 
 
 %% MODEL: Implementation of the rare-mutations limit %% 
 
-Initially, the process starts with a population where all members use the same strategy (called `resident strategy'). 
+Initially, the process starts with a population where all members use the same strategy (referred to as the resident strategy~\resident). 
 Then one individual adopts a mutant strategy selected uniformly at random from the set of feasible strategies.
-The fixation probability \(\phi_{M}\) of the mutant strategy can be calculated explicitly~\citep{nowak:Nature:2004},
-\begin{equation}\label{eq:appendix_fixation_probability}
-    \varphi_{M} = \frac{1}{1+\sum\limits_{i=1}^{N-1}\prod\limits_k^i \frac{\lambda^-_k}{\lambda^+_k}}.
+The fixation probability \(\varphi_{\mutant}\) of the mutant strategy can be calculated explicitly~\citep{nowak:Nature:2004},
+\begin{equation}\label{eq:fixation_probability}
+    \varphi_{\mutant} = \frac{1}{1+\sum\limits_{i=1}^{N-1}\prod\limits_k^i \frac{\lambda^-_k}{\lambda^+_k}}.
 \end{equation}
-Here, the index $k$ corresponds to the current number of players with the mutant strategy (we refer to these players as `mutants'). 
+Here, the index $k$ corresponds to the current number of players with the mutant strategy (mutants). 
 The variables \(\lambda^-_k, \lambda^+_k\) are the probabilities that the number of mutants decreases or increases within a single updating step. 
-These probabilities depend on the probability that a mutant and a resident are chosen as the learner and the resident, respectively; 
-in addition, they depend on the respective switching probability~$\rho$, as described by Eq.~\eqref{Eq:rho}. 
-We specify the exact values of  \(\lambda^-_k, \lambda^+_k\) for each memory-setting in the following section. 
+These probabilities depend on the probability that a mutant and a resident are chosen as the learner and the resident, respectively. 
+In addition, they depend on the respective switching probability~$\rho$, as described by Eq.~\eqref{Eq:rho}. 
+We specify the exact values of  \(\lambda^-_k, \lambda^+_k\) for each memory-setting in the next section. 
 
-Depending on the fixation probability \(\varphi_{M}\), the mutant strategy either fixes (becomes the new resident) or goes extinct. 
+Depending on the fixation probability \(\varphi_{\mutant}\), the mutant strategy either fixes (becomes the new resident) or goes extinct. 
 Afterwards, another random mutant strategy is introduced into the population. 
 We iterate this elementary population updating process for a large number of mutant strategies. 
 At each step, we record the current resident strategy, and the resulting average cooperation rate. 
+
 We consider this limit of rare-mutations throughout the main text. 
 The respective process is summarised by Algorithm~\ref{algorithm:pairwise_comparison}.
-However, in Section~\ref{section:furthersimulations} we present additional simulation results to show that our main results continue to hold when the mutation rate is strictly bounded away from zero. 
+In Section~\ref{section:furthersimulations} we present additional simulation results to show that our qualitative results continue to hold when the mutation rate is strictly bounded away from zero. 
 
 %% MODEL: Algorithm 
 
@@ -223,8 +230,8 @@ However, in Section~\ref{section:furthersimulations} we present additional simul
   resident $\leftarrow$ starting resident\;
    \While{ $t <$ maximum number of steps}
    {mutant $\leftarrow$ random strategy\;
-   fixation probability $\leftarrow \varphi_M $\;
-   \If{$\varphi_M >$ random: $i \rightarrow [0,1]$}
+   fixation probability $\leftarrow \varphi_\mutant $\;
+   \If{$\varphi_{\mutant} >$ random: $i \rightarrow [0,1]$}
    {resident $\leftarrow$ mutant;}}
    \caption{Evolutionary process in the limit of rare mutations}\label{algorithm:pairwise_comparison}
 \end{algorithm}
@@ -241,105 +248,141 @@ However, in Section~\ref{section:furthersimulations} we present additional simul
 \section{Analytical results}
 \label{section:analyticalresults}
 
+%% RESULTS: General overview %% 
 
-\subsection{Updating Payoffs based on Expected Payoffs (perfect payoff memory)}\label{section:perfect_memory}
+In the following, we discuss our different memory settings in more detail. 
+We discuss five cases explicitly. In these cases, updating occurs
+({\it i})~based on average payoffs based on all interactions (perfect memory), 
+({\it ii})~based on the last round of one interaction (limited memory), 
+({\it iii})~based on the last round of two interactions,
+({\it iv})~based on the last two rounds of one interaction, and 
+({\it v})~based on the last two rounds of two interactions. 
+In each case, we consider the case that there are only two strategies present in the population (a resident and a mutant strategy). 
+We first derive how likely it is that a learner (of any type) assigns a given payoff $\pi_\learner$ to itself, and a payoff of $\pi_\rolemodel$ to the role model. 
+This allows us to derive explicit expressions for $\lambda^-_k/\lambda^+_k$, and hence for the mutant's fixation probability according to Eq.~\eqref{eq:fixation_probability}.
+Based on these expressions we can characterize under which conditions cooperation is stochastically stable.  
 
-Let \(\mathbf{u} = (b-c, -c, b, 0)\)
 
-The expected payoffs are the conventional payoffs used in the updating stage.
-The expected payoffs are defined as the mean payoff of an individual in a well-mixed population that
-engages in an infinitely repeated games with all other population members.
-The game between two reactive strategies $s_1\!=\!(y_1, p_1, q_1$) and $s_2\!=\!(y_2,p_2,q_2)$
-can be described by a Markovian process~\cite{nowak:APC:1989} with the
-transition matrix \(M\),
+%%%%%%%%%%%%%%%%%%
+%% RESULTS: Perfect memory %%
+%%%%%%%%%%%%%%%%%%
 
+\subsection{Perfect payoff memory}\label{section:perfect_memory}
+
+%% RESULTS: Expected payoffs, computing payoffs %% 
+
+{\bf Computing the ratio $\lambda^-_k/\lambda^+_k$.}
+The case of perfect payoff memory corresponds to the classical case considered in the previous literature. 
+Here, individuals update their strategies based on the expected payoffs, based on all rounds and all possible interaction partners. 
+When players use reactive strategies (or more generally, strategies with finite memory), these expected payoffs can be computed explicitly, based on a Markov chain approach~\cite{sigmund2010calculus}. 
+To this end, consider two players with strategies $\strategy_1\!=\!(y_1, p_1, q_1$) and $\strategy_2\!=\!(y_2,p_2,q_2)$, respectively. 
+In each round $t$ of the game, player~1 may get one of the four possible payoffs $R$, $S$, $T$, or $P$, as described by the general payoff matrix~\eqref{eq:prisoner}. 
+Let $\mathbf{v}(t)\!=\!\big(v_R(t),v_S(t),v_T(t),v_P(t)\big)$ denote the respective probability distribution of observing one of these four outcomes.  
+This probability distribution can be computed recursively. 
+Using the shortcut notation $\bar{z}\!=\!1\!-\!z$ for any $z\!\in\![0,1]$, we get for the initial round 
+\begin{equation}
+\mathbf{v}_0:=\mathbf{v}(0) = (y_1 y_2,~y_1 \bar{y}_2,~\bar{y}_1 y_2,~\bar{y}_1 \bar{y}_2).
+\end{equation}
+Given $\mathbf{v}(t)$, we can compute $\mathbf{v}(t\!+\!1)$ as  
+\begin{equation}
+\mathbf{v}(t\!+\!1) = \mathbf{v}(t)\cdot M,
+\end{equation}
+where $M$ is the transition matrix of the process, 
 \begin{equation}\label{eq:transition_matrix}
   \input{static/matrix.tex}.
 \end{equation}
-
-The stationary vector \(\mathbf{v}(s_1,s_2)\) is the solution to
-\(\mathbf{v}(s_1,s_2) M = \mathbf{v}(s_1,s_2)\). In an infinitely repeated game
-the long-term average payoff of \(s_1\) and \(s_2\) are,
-
-\[\langle\mathbf{v}(s_1,s_2),\mathbf{u}\rangle \quad  \text{ and } \quad  \langle\mathbf{v}(s_2,s_1), \mathbf{u}\rangle.\]
-
-In the case of low mutation there can be only one type of mutant strategy in the
-population. So in a population of size \(N\), there will be \(k\) mutants and
-\(N - k\) residents, whose strategies we denote respectively as \(s_M =(y_M,
-p_M, q_M)\) and \(s_R = (y_R, p_R, q_R)\).
-The expected payoffs of a resident (\(\pi_R\)) and for a
-mutant (\(\pi_M\)) are give by,
-
-\begin{equation} \label{Eq:ExpPay}
-  \begin{array}{lcrcr}
-  \displaystyle \pi_R & = &\displaystyle \frac{N\!-\!k\!-\!1}{N-1}\cdot \langle\mathbf{v}(s_R,s_R),\mathbf{u}\rangle	&+	&\displaystyle\frac{k}{N-1}\cdot \langle\mathbf{v}(s_R,s_M),\mathbf{u}\rangle,\\[0.5cm]
-  \displaystyle \pi_M & = &\displaystyle\frac{N-k}{N-1}\cdot \langle\mathbf{v}(s_M,s_R),\mathbf{u}\rangle&+	&\displaystyle\frac{k-1}{N-1}\cdot \langle\mathbf{v}(s_M,s_M),\mathbf{u}\rangle.\\
-  \end{array}
+Based on this recursion, we can compute how often player~1 receives one of the four payoffs $R$, $S$, $T$, $P$ on average (across all possible realizations of games among the two players). This average distribution $\mathbf{v}$ is
+\begin{equation}
+\mathbf{v} := (1\!-\!\delta) \sum_{t=0}^\infty \delta^t \mathbf{v}(t) 
+= (1\!-\!\delta) \mathbf{v_0} \sum_{t=0}^\infty \delta^t M^t
+= (1\!-\!\delta) \mathbf{v_0} (I_4-\delta M)^{-1},
+\end{equation}
+where $I_4$ is the $4\times4$ identity matrix. 
+Based on this general formula, the four entries of $\mathbf{v}=(v_R, v_S, v_T, v_P)$ can be computed explicitly. 
+Using the shortcut notation $r_i:=p_i\!-\!q_i$, we obtain
+    \begin{equation} \label{Eq:vAverage}
+      \setlength{\arraycolsep}{1pt}
+      \begin{array}{rcl}    
+      v_{R} &= &\displaystyle (1\!-\!\delta)\frac{y_1y_2}{1\!-\!\delta^2 r_1 r_2}+\delta \frac{\Big(q_1+r_1\big((1\!-\!\delta)y_2+\delta q_2\big)\Big) \Big(q_2+r_2\big((1\!-\!\delta)y_1+\delta q_1\big)\Big)}
+      {\displaystyle(1\!-\!\delta r_1r_2)(1\!-\!\delta^2 r_1 r_2)},\\[1cm]
+      v_{S}&= &\displaystyle (1\!-\!\delta)\frac{y_1\bar{y}_2}{1\!-\!\delta^2 r_1 r_2}+\delta \frac{\Big(q_1+r_1\big((1\!-\!\delta)y_2+\delta q_2\big)\Big) \Big(\bar{q}_2+\bar{r}_2\big((1\!-\!\delta)y_1+\delta p_1\big)\Big)}
+      {\displaystyle(1\!-\!\delta r_1r_2)(1\!-\!\delta^2 r_1 r_2)},\\[1cm]
+      v_{T} &= &\displaystyle (1\!-\!\delta)\frac{\bar{y}_1y_2}{1\!-\!\delta^2 r_1 r_2}+\delta \frac{\Big(\bar{q}_1+\bar{r}_1\big((1\!-\!\delta)y_2+\delta p_2\big)\Big) \Big(q_2+r_2\big((1\!-\!\delta)y_1+\delta q_1\big)\Big)}
+      {\displaystyle(1\!-\!\delta r_1r_2)(1\!-\!\delta^2 r_1 r_2)},\\[1cm]
+      v_{P} &= &\displaystyle (1\!-\!\delta)\frac{\bar{y}_1\bar{y}_2}{1\!-\!\delta^2 r_1 r_2}+\delta \frac{\Big(\bar{q}_1+\bar{r}_1\big((1\!-\!\delta)y_2+\delta p_2\big)\Big) \Big(\bar{q}_2+\bar{r}_2\big((1\!-\!\delta)y_1+\delta p_1\big)\Big)}
+      {\displaystyle(1\!-\!\delta r_1r_2)(1\!-\!\delta^2 r_1 r_2)}.
+      \end{array}
+    \end{equation}
+Using this distribution $\mathbf{v}$, we compute player 1's expected payoff as the weighted average
+\begin{equation}
+\pi(\strategy_1,\strategy_2) = R \, v_R + S\,v_S + T\,v_T + P\,v_P. 
 \end{equation}
 
-\(\frac{N\!-\!k\!-\!1}{N-1}\) is the probability that a resident meets another
-resident and \(\frac{k}{N-1}\) is the probability that a resident meets a
-mutant. Likewise, \(\frac{N-k}{N-1}\) is the probability that a mutant interacts
-with a resident and \(\frac{k-1}{N-1}\) the probability that the mutants
-interacts with a mutant.
-
-The number of mutants in the population increases if a resident adopts the strategy
-of a mutant, and decreases if a mutant adopts the strategy of a resident. The
-probabilities that the number of mutants decreases and increases,
-\(\lambda^-_k\) and \(\lambda^+_k\), are now explicitly defined as,
-
-\begin{align*}
-  \lambda^-_k \!=\!\rho(\pi_M, \pi_R) \quad \text{ and } \quad \lambda^+_k \!=\!\rho(\pi_R, \pi_M).
-\end{align*}
+%% RESULTS: Expected payoffs, computing transition probabilities %% 
 
 ~\\
-{\bf Invasion Analysis}
-
-Let's assume that individuals use their expected payoffs at the updating phase.
-We can calculate how easily a single defecting mutant (ALLD) can invade into a
-resident population of conditional cooperators, otherwise known as generous tit
-for tat (GTFT). Let GTFT\(= (1, 1, q)\), ALLD\(= (0, 0, 0)\), and \(k =
-1\). When two GTFT players interact in an infinitely repeated game, the
-stationary distribution \(\mathbf{v}(\text{GTFT}, \text{ALLD})\) 
-simplifies to,
-
+\noindent
+After these preparations, consider now a population with \(k\) mutants and \(N - k\) residents, whose strategies we denote by \(\strategy_\mutant=(y_\mutant,p_\mutant, q_\mutant)\) and \(\strategy_\resident = (y_\resident, p_\resident, q_\resident)\), respectively.
+Assuming that population members are matched randomly (or equivalently, that they interact with all other population members), the resulting expected payoffs of residents and mutants are
+\begin{equation} \label{Eq:ExpPay}
+  \begin{array}{lcrcr}
+  \displaystyle \pi_\resident(k)& = &\displaystyle \frac{N\!-\!k\!-\!1}{N-1}\cdot \pi(\strategy_\resident,\strategy_\resident)	&+	&\displaystyle\frac{k}{N-1}\cdot \pi(\strategy_\resident,\strategy_\mutant),\\[0.5cm]
+  \displaystyle \pi_\mutant(k)& = &\displaystyle\frac{N-k}{N-1}\cdot \pi(\strategy_\mutant,\strategy_\resident) &+	&\displaystyle\frac{k-1}{N-1}\cdot \pi(\strategy_\mutant,\strategy_\mutant).\\
+  \end{array}
+\end{equation}
+The number of mutants in the population decreases in a single time step if a mutant is chosen to be the learner and adopts the strategy
+of a resident. 
+Similarly, it increases if a resident is the learner and adopts the strategy of a mutant. 
+The respective transition probabilities are 
 \begin{align*}
-    \mathbf{v}(\text{GTFT}, \text{ALLD}) = (1, 0, 0, 0).
+  \lambda^-_k \!=\! \frac{N-k}{N}\frac{k}{N-1}\rho\big(\pi_\mutant(k),\,\pi_\resident(k)\big) \quad \text{ and } \quad \lambda^+_k \!=\!\frac{k}{N}\frac{N-k}{N-1}\rho\big(\pi_\resident(k),\,\pi_\mutant(k)\big).
 \end{align*}
+For $\rho$ as defined by Eq.~\eqref{Eq:rho}, the ratio of these two transition probabilities simplifies to 
+\begin{equation} \label{eq:LambdaRatio}
+ \frac{\lambda^-_k}{\lambda^+_k} \!=\!  \frac{\rho\big(\,\pi_\mutant(k),~\pi_\resident(k)\,\big)}{\rho\big(\,\pi_\resident(k),~\pi_\mutant(k)\,\big)} 
+ =e^{-\beta\big(\pi_\mutant(k)-\pi_\resident(k)\big)}.
+\end{equation}
+Based on these ratios for each $k$, we can compute the mutant's fixation probability by Eq.~\eqref{eq:fixation_probability}. 
 
-On the other hand, if an ALLD player interacts with a GTFT player, the
-respective probabilities become,
+%% RESULTS: Expected payoffs, invasion analysis %% 
 
+~\\
+{\bf Invasion Analysis.}
+As an application of this formalism, we can compute when cooperation is stochastically stable in the perfect information setting. 
+To this end, suppose there is only a single mutant, $k\!=\!1$. The residents adopt Generous Tit-for-Tat, $\gtft = (1, 1, q)$ and the mutant adopts $\alld\! = \! (0,0,0)$. When two GTFT players interact, the resulting average distribution according to Eq.~\eqref{Eq:vAverage} simplifies to
 \begin{align*}
-  \mathbf{v}(\text{ALLD}, \text{GTFT}) = (0, q, 0, (1 - q)).
+\mathbf{v}(\gtft,\gtft) = (1, 0, 0, 0).
 \end{align*}
-
-Using the above we can define the payoffs of a GTFT individual (resident)
-and of the ALLD individual (mutant) follows,
-
+On the other hand, if \alld{} interacts with \gtft, the respective probabilities become,
 \begin{align*}
-  \displaystyle \pi_{\text{GTFT}} & = \displaystyle \frac{N\!-\!2}{N-1} (b - c)  -	\displaystyle\frac{q c}{N-1} \quad \text{ and } \quad \displaystyle \pi_{\text{ALLD}}  = \displaystyle b q.
+  \mathbf{v}(\alld,\gtft) = \big(0,~0,~1\!-\!\delta\!+\!\delta q,~\delta(1\! -\! q)\big).
 \end{align*}
-
-As a consequence, we can calculate the ratio of transition probabilities as,
-
+Based on Eq.~\eqref{Eq:ExpPay}, we can compute the strategies' expected payoffs as
 \begin{align*}
-    \frac{\lambda^{+}}{\lambda^{-}} & = \frac{\rho(\pi_{\text{GTFT}}, \pi_{\text{ALLD}})}{\rho(\pi_{\text{ALLD}}, \pi_{\text{GTFT}})}  = \frac{e^{-\beta \left(\frac{(N-2) (b-c)}{N-1} - q (b + \frac{c}{N-1})\right)}+1}
-    {e^{-\beta\left(b q - \frac{b (N - 2)}{N-1} - \frac{c (N - 2 - q)}{N-1}\right)}+1}
+\pi_\gtft =  \frac{N\!-\!2}{N-1} (b - c)  \!-\! \frac{1}{N-1}\big(1\!-\!\delta\!+\!\delta q\big)c
+\quad \text{and} \quad
+\pi_\alld  = \big(1\!-\!\delta\!+\!\delta q\big)b.
 \end{align*}
+As a consequence, we can calculate the corresponding ratio of transition probabilities according to Eq.~\eqref{eq:LambdaRatio},
+\begin{align*}
+\frac{\lambda_1^{-}}{\lambda_1^{+}} = e^{-\beta \left( (1-\delta+\delta q)(b+\frac{c}{N-1})- \frac{N-2}{N-1}(b-c) \right)}
+\end{align*}
+By definition, cooperation is stochastically stable if this ratio exceeds one, which is equivalent to
+\begin{equation*}
+q<1-\frac{1}{\delta}\cdot \frac{b+(N\!-\!1)c}{(N\!-\!1)b+c}.
+\end{equation*}
+For such a strategy to be feasible we require $q\!>\!0$, which implies $\delta \!>\! \big(b+(N\!-\!1)c\big)/\big((N\!-\!1)b\!+\!c\big)$.
+In particular, in the limit of large populations \(N \!\rightarrow\! \infty\), we obtain that cooperation is stochastically stable if  \(q \!<\! 1\! -\! c/(\delta b)\). 
+The minimum continuation probability for such a strategy to exist is $\delta \!>\! c/b$. 
+In this way, we recover the classical conditions for cooperation to be feasible under direct reciprocity~\citep{molander:jcr:1985,Nowak1992tit,Schmid:NHB:2021}.
 
-In particular, in the limit of strong selection \(\beta \rightarrow \infty\)
-and large populations \(N \rightarrow \infty\), we obtain that the ratio is than
-smaller to 1 if \(q \leq 1 - \frac{c}{b}\). Thus, ALLD is disfavored to invade
-if \(q \leq 1 - \frac{c}{b}\). For \(q = 1 -\frac{c}{b}\) the probability that
-the number of mutants increase by one equals the probability that the mutant
-goes extinct.
 
-This result will become important when we discuss the numerical results of the
-evolutionary process (Section~\ref{section:simulation_results}). We repeat this
-``invasion analysis'' for the rest of the updating payoffs cases.
 
-\subsection{Updating Payoffs based on the Last Round Payoff of One Interaction (limited payoff memory)}\label{section:limited_memory}
+%%%%%%%%%%%%%%%%%%
+%% RESULTS: Limited memory %%
+%%%%%%%%%%%%%%%%%%
+
+\subsection{Limited payoff memory}\label{section:limited_memory}
 
 In the expected payoffs case the payoff of a pair depends on the average payoff
 they received over an infinite number of turns. In the limited payoff memory,
@@ -363,17 +406,17 @@ reactive strategy (Proposition~\ref{proposition:last_round}).
       \setlength{\arraycolsep}{1pt}
       \begin{array}{rcl}
     
-      v_{r}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{y_1y_2}{1\!-\!\delta^2 l_1 l_2}+\delta \frac{\Big(q_1+l_1\big((1\!-\!\delta)y_2+\delta q_2\big)\Big) \Big(q_2+l_2\big((1\!-\!\delta)y_1+\delta q_1\big)\Big)}
-      {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)},\\[1cm]
+      v_{r}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{y_1y_2}{1\!-\!\delta^2 r_1 r_2}+\delta \frac{\Big(q_1+r_1\big((1\!-\!\delta)y_2+\delta q_2\big)\Big) \Big(q_2+r_2\big((1\!-\!\delta)y_1+\delta q_1\big)\Big)}
+      {\displaystyle(1\!-\!\delta r_1r_2)(1\!-\!\delta^2 r_1 r_2)},\\[1cm]
     
-      v_{s}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{y_1\bar{y}_2}{1\!-\!\delta^2 l_1 l_2}+\delta \frac{\Big(q_1+l_1\big((1\!-\!\delta)y_2+\delta q_2\big)\Big) \Big(\bar{q}_2+\bar{r}_2\big((1\!-\!\delta)y_1+\delta p_1\big)\Big)}
-      {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)},\\[1cm]
+      v_{s}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{y_1\bar{y}_2}{1\!-\!\delta^2 r_1 r_2}+\delta \frac{\Big(q_1+r_1\big((1\!-\!\delta)y_2+\delta q_2\big)\Big) \Big(\bar{q}_2+\bar{r}_2\big((1\!-\!\delta)y_1+\delta p_1\big)\Big)}
+      {\displaystyle(1\!-\!\delta r_1r_2)(1\!-\!\delta^2 r_1 r_2)},\\[1cm]
     
-      v_{t}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{\bar{y}_1y_2}{1\!-\!\delta^2 l_1 l_2}+\delta \frac{\Big(\bar{q}_1+\bar{r}_1\big((1\!-\!\delta)y_2+\delta p_2\big)\Big) \Big(q_2+l_2\big((1\!-\!\delta)y_1+\delta q_1\big)\Big)}
-      {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)},\\[1cm]
+      v_{t}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{\bar{y}_1y_2}{1\!-\!\delta^2 r_1 r_2}+\delta \frac{\Big(\bar{q}_1+\bar{r}_1\big((1\!-\!\delta)y_2+\delta p_2\big)\Big) \Big(q_2+r_2\big((1\!-\!\delta)y_1+\delta q_1\big)\Big)}
+      {\displaystyle(1\!-\!\delta r_1r_2)(1\!-\!\delta^2 r_1 r_2)},\\[1cm]
     
-      v_{p}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{\bar{y}_1\bar{y}_2}{1\!-\!\delta^2 l_1 l_2}+\delta \frac{\Big(\bar{q}_1+\bar{r}_1\big((1\!-\!\delta)y_2+\delta p_2\big)\Big) \Big(\bar{q}_2+\bar{r}_2\big((1\!-\!\delta)y_1+\delta p_1\big)\Big)}
-      {\displaystyle(1\!-\!\delta l_1l_2)(1\!-\!\delta^2 l_1 l_2)}.
+      v_{p}(s_1,s_2) &= &\displaystyle (1\!-\!\delta)\frac{\bar{y}_1\bar{y}_2}{1\!-\!\delta^2 r_1 r_2}+\delta \frac{\Big(\bar{q}_1+\bar{r}_1\big((1\!-\!\delta)y_2+\delta p_2\big)\Big) \Big(\bar{q}_2+\bar{r}_2\big((1\!-\!\delta)y_1+\delta p_1\big)\Big)}
+      {\displaystyle(1\!-\!\delta r_1r_2)(1\!-\!\delta^2 r_1 r_2)}.
       \end{array}
     \end{equation}
 
@@ -1058,11 +1101,14 @@ this results to a cooperation rate of \(\frac{1}{2}\) in both simulations.
 %% REFERENCES %%
 %%%%%%%%%%%%
 
+\clearpage
+\newpage
+
 {
 {\setlength{\bibsep}{0\baselineskip}
 \bibliographystyle{naturemag}
 \bibliography{bibliography.bib}
 }
 
-
+\christian{Adjust symbols in main text -- for role model, strategy, etc}
 \end{document}
