@@ -145,12 +145,9 @@ In repeated interactions, individuals can condition their behavior on their past
 They may use strategies such as Tit-for-Tat~\citep{rapoport:book:1965,axelrod1981evolution} or Generous Tit-for-Tat~\citep{molander:jcr:1985,Nowak1992tit} to preferentially cooperate with other cooperators. 
 Such conditional strategies approximate human behavior fairly well~\citep{fischbacher:EconL:2001,Rand:TCS:2013,DalBo:AER:2019,Rossetti:ETH:2023} and they have also been documented in several other species~\citep{Carter:PRSB:2013,Schweinfurth:AnBehav:2019,Voelkl:PNAS:2015} -- although direct reciprocity is generally more difficult to demonstrate in animals~\citep{CluttonBrock:Nature:2009,Silk:CurrentBiology:2013,taborsky:CurrentBiology:2013}.
 However, at the outset, it is not clear how easy it is to {\it learn} reciprocal strategies by social imitation. 
-As one obstacle, individuals usually only observe other population members' actions (i.e., whether they cooperate or defect). 
-In general, these observations do not suffice to infer the underlying strategies (i.e., the contingent rules that determine whether to cooperate or defect in any given situation). 
-This problem is equivalent to the difficulties that arise when researchers need to estimate the participants' strategies in behavioral experiments~\citep{Rossetti:ETH:2023}. 
-As another obstacle, even if others' strategies are perfectly observable, individuals might find it difficult to identify which ones have the highest payoff. 
+As one obstacle, even if others' strategies are perfectly observable, individuals might find it difficult to identify which ones have the highest payoff. 
 After all, the payoff of a strategy of direct reciprocity is not determined by the outcome of any single round.
-Rather it is determined by how well this strategy fares over an entire sequence of rounds, against many different population members. 
+Rather, it is determined by how well this strategy fares over an entire sequence of rounds, against many different population members. 
 In practice, such information might be both difficult to obtain and to process. 
 
 %% INTRO: Gap in the literature and what  question we wish to address. 
@@ -209,16 +206,13 @@ Players are randomly matched in pairs to participate in a repeated donation game
 Each round, players can either cooperate (\(C\)) or defect (\(D\)). 
 By cooperating, a player provides a benefit \(b\) to the other player at their own cost \(c\), with \(0 \!<\! c \!<\! b\). 
 Thus, the players' payoffs in a single round are given by the matrix
-
-\begin{equation}
-    \begin{blockarray}{ccc}
-        & \text{cooperate} & \text{defect} \\
-        \begin{block}{c(cc)}
-            \text{cooperate} & b - c & -c \\
-            \text{defect} & b & 0 \\
-        \end{block}
-    \end{blockarray}.
-\end{equation}
+\begin{align}
+\bordermatrix{%
+	& C & D \cr
+C &\ b-c &\ -c\  \cr
+D &\ b &\ 0\ \cr
+} .
+\end{align}
 In particular, payoffs take the form of a prisoner's dilemma:
 Mutual cooperation yields a better payoff than mutual defection ($b\!-\!c\!>\!0$), but each player individually prefers to defect independent of the co-player's action ($b\!>\!b\!-\!c$ and $0\!>\!-c$). 
 To incorporate that individuals interact repeatedly, we assume that after each round, there is a constant continuation probability $\delta$ of interacting for another round. 
@@ -456,8 +450,6 @@ However, once individuals update their strategies based on two or more recent ex
 These findings suggest that models based on expected payoffs can serve as a useful approximation to more realistic models with limited payoff memory. 
 Our findings also contribute to a wider literature that explores which kinds of cognitive capacities are required for reciprocal altruism to be feasible~\citep[e.g.,][]{Stevens:fip:2011,Volstorf:PlosOne:2011}. 
 While more payoff memory is always favorable, reciprocal cooperation can already be sustained if individuals have a record of two or three past outcomes.\\ 
-
-
 
 %%%%%%%%%%%
 %% END NOTES %%
