@@ -85,7 +85,7 @@
 with limited payoff memory\\}
 \date{}
 \author{\parbox[c]{16cm}{\centering \onehalfspacing 
-Nikoleta E. Glynatsi$^1$,  Alex McAvoy$^{2,3}$, Christian Hilbe$^1$\\
+Nikoleta E. Glynatsi$^1$,  Alex McAvoy$^{2,3}$, Christian Hilbe$^1$\\ \quad \\
 $^{\rm 1}$Max Planck Research Group on the Dynamics of Social Behavior,\\ Max Planck Institute for Evolutionary Biology, Pl\"{o}n, Germany \\
 $^{\rm 2}$School of Data Science and Society, University of North Carolina at Chapel Hill,\\ Chapel Hill, NC 27599 \\
 $^{\rm 3}$Department of Mathematics, University of North Carolina at Chapel Hill,\\ Chapel Hill, NC 27599}}
@@ -100,13 +100,14 @@ Direct reciprocity can explain the evolution of cooperative behaviors in repeate
 According to this literature, individuals should naturally learn to adopt conditionally cooperative strategies if they have multiple encounters with their interaction partner. 
 Corresponding models have greatly facilitated our understanding of cooperation, yet they often make strong assumptions on how individuals remember and process payoff information. 
 For example, when strategies are updated through social learning, it is commonly assumed that individuals compare their respective average payoffs.  
-This would require them to compute (or remember) their payoffs against all other population members.
-Instead, herein, we introduce a theoretical framework to study the evolution of reciprocity when individuals learn based on their most recent experiences.
+This would require them to compute (or remember) their payoffs against everyone else in the population.
+To understand how more realistic constraints influence direct reciprocity, we consider the evolution of conditional behaviors when individuals learn based on more recent experiences.
 Even in the most extreme case that they only take into account their very last interaction, we find that cooperation can still evolve. 
 However, such individuals adopt less generous strategies, and they tend to cooperate less often than in the classical setup with expected payoffs. 
-Interestingly, once individuals remember the payoffs of two or three recent interactions, evolving cooperation rates quickly approach the classical limit. 
+Interestingly, once individuals remember the payoffs of two or three recent interactions, cooperation rates quickly approach the classical limit. 
 These findings contribute to a literature that explores which kind of cognitive capabilities are required for reciprocal cooperation. 
-While our results suggest that some rudimentary form of payoff memory is necessary, it already suffices to remember a few interactions.\end{abstract}
+While our results suggest that some rudimentary form of payoff memory is necessary, it already suffices to remember a few interactions.
+\end{abstract}
 
 ~\\
 {\it Keywords:} Evolution of cooperation; direct reciprocity; repeated prisoner's dilemma; social learning; evolutionary dynamics
@@ -254,7 +255,7 @@ With the converse probability $1\!-\!\mu$, the learner randomly picks a `role mo
 The learner then compares its own payoff $\pi_L$ from the repeated game to the role model's payoff $\pi_R$. 
 The learner adopts the role model's strategy with a probability \(\rho\) described by a Fermi function~\citep{blume:GEB:1995,szabo:PRE:1998}, 
 \begin{equation} \label{Eq:rho}
-    \rho(\pi_{L}, \pi_{R}) = \frac{1}{1\!+\! e^{- \!\beta (\pi_{R}- \pi_{L})}}.
+    \rho\left(\pi_{L}, \pi_{R}\right) = \frac{1}{1\!+\! e^{- \!\beta\left(\pi_{R}- \pi_{L}\right)}}.
 \end{equation}
 The selection strength parameter $\beta\!\ge\!0$ indicates how sensitive players are to payoff differences. 
 For $\beta\!=\!0$, payoff differences are irrelevant, and the learner simply adopts the role model's strategy with probability one half. As the selection strength~$\beta$ increases, players are increasingly biased to imitate the role model only if it has the higher payoff. 
@@ -270,7 +271,7 @@ There, the payoffs  $\pi_L$ and $\pi_R$ represent an average over all possible r
 The use of expected payoffs is mathematically convenient, because explicit formulas for these payoffs are available~\citep{hofbauer1998evolutionary}.
 Herein, we compare this model of perfect payoff memory to a model with limited payoff memory. 
 In that model, the players' payoffs $\pi_L$ and $\pi_R$ are taken to be the payoffs that each player received in their very last round prior to making social comparisons. 
-That is, players only consider the very last repeated game they participated in, and there they only take into account the outcome of the very last round ( \FigBaseResults, lower left panel). 
+That is, players only consider the very last repeated game they participated in, and there they only take into account the outcome of the very last round (\FigBaseResults, lower left panel). 
 This assumption could reflect, for example, a strong recency bias in how individuals evaluate payoffs.  
 In addition to this extreme case of limited payoff memory, later on we also explore cases in which players take into account the outcome of two, three, or four recent rounds. 
 
@@ -422,8 +423,18 @@ Already remembering a few interactions, either with the same co-player or across
 %%%%%%%%%%%%
 
 \section{Discussion}\label{section:discussion}
+%
+In economics, if payoff is measured in terms of money and a decision is to be made at time $t$ in the future, then currency accumulated early on is weighted more in that decision because it has more time to accumulate interest. Such a model discounts the future relative to the past. It also does not necessarily require ``memory'' because the rewards are accumulated into a factor used in decision-making; the specific time stamps of rewards do not themselves provide better information beyond their effects on total payoff. In a similar fashion, the probabilistic interpretation of discounting as a continuation probability \citep{axelrod1981evolution} also effectively discounts the future relative to the past. A foraging animal deciding between two behaviors might tend to choose the one that yields a moderate reward sooner relative to a larger reward later, since earlier rewards (e.g., food) contribute to immediate survival, and there is no guarantee that later rewards will happen at all \citep{stephens1986foraging}.
 
-Direct reciprocity is one of the key mechanisms to explain why unrelated individuals might cooperate~\citep{nowak:Science:2006}. 
+Within the context of a single repeated game, the model we consider here is, in some ways, dual to the classical model of temporally-discounted rewards in repeated games. Instead of making decisions based on expected rewards in the future, we consider agents who make decisions based on actual rewards in the past. Thus, the ability to estimate the future payoff of a strategy is replaced by the memory of how this strategy fared against others in the past. This involves two time scales: interaction partners and rounds within those interactions. As a result, we are dealing with a model that discounts the past rather than the future. Intriguingly, treating payoffs in this manner is reminiscent of the reward-smoothing technique of ``eligibility traces'' in reinforcement learning \citep{sutton:MIT:2018}, which uses past rewards (discounted appropriately) to shape present perceived payoff. There is a sound basis for this method in neuroscience, where rewards and (temporal-difference) learning are associated to dopaminergic neurons \citep{schultz:JN:1998} and spike-timing-dependent plasticity \citep{dan:Neuron:2004}. This suggests a more biologically-encoded interpretation of memory, which is equally applicable to models of direct reciprocity where rewards have a neurological basis.
+
+Of course, the precise nature of ``memory'' also depends on what payoffs in a game represent, which should be taken into account when applying game-theoretic models. For example, a payoff stream of monetary currency might truly accumulate and not require memory on the parts of agents. Even in the context of money, however, not all of what was obtained in the past is necessarily available at the time a decision is made, which brings memory into play. The serial position effect in human psychology shows that in an ordered list of items (e.g., words), humans tend to have difficulty remembering the entirety of sequences, demonstrating moderate recall for those items coming earlier (primacy effect), substantial recall for those coming later (recency effect), and lower recall for those in between \citep{murdock:JEP:1962}. It is therefore reasonable that when presented with a stream of payoffs, whether on the timescale of pairing for repeated interactions or in a stream of one-shot games, players might be able to effectively incorporate only the most recent payoffs.
+
+In fact, even beyond specific psychological considerations, a curious interpretation of payoffs arises from the formula commonly used for expected payoffs in repeated games. If $\delta\in\left[0,1\right)$ is the probability of continuing to another round in the game, then the expected payoff to an agent is $\left(1-\delta\right)\sum_{t=0}^{\infty}\delta^{t}\pi_{t}$, where $\pi_{t}$ is the payoff the agent receives in the stage game at time $t$. Here, additional stochasticity arises due to uncertainty in the game length, and an agent might not be able to compute his or her expected payoff for use in decision-making. The probability that the game terminates after the interaction at time $T$ is $\left(1-\delta\right)\delta^{T}$, in which case $\left(1-\delta\right)\sum_{t=0}^{\infty}\delta^{t}\pi_{t}$ is exactly the expected payoff the agent receives at time $T$, i.e. \emph{in the last round}. As an unbiased estimator of this expectation, the agent might thus use $\pi_{T}$ as a proxy for ``success'' when evaluating his or her behavior. This gives a purely model-driven justification for why considering payoff in the last round of the game can result in more realistic extensions of traditional models.
+
+We note that the expected \emph{total} payoff in the game, $\pi_{0}+\pi_{1}+\cdots +\pi_{T}$, is given by $\sum_{t=0}^{\infty}\delta^{t}\pi_{t}$. This version of ``expected payoff'' appears less common in the literature on direct reciprocity than its normalization, $\left(1-\delta\right)\sum_{t=0}^{\infty}\delta^{t}\pi_{t}$, likely owing to the fact that payoffs can grow arbitrarily large with sufficiently long time horizons ($\delta\rightarrow 1^{-}$). Non-normalized payoffs interfere with selection intensity ($\beta$) in models of social imitation, which is (presumably) why they appear less frequently in the literature. On that point, we note that many of the differences between realized and expected payoffs disappear in the limit of weak selection \citep{mcavoy:NHB:2020}. Non-weak selection can introduce substantial differences between models with realized and expected payoffs \citep{mcavoy:PLOSCB:2021}, which is especially important to understand in models of social systems with cultural transmission \citep{cavalli1981cultural}.
+
+Our main contribution is an application of these ideas to direct reciprocity, which is one of the key mechanisms to explain why unrelated individuals might cooperate~\citep{nowak:Science:2006}. 
 According to this mechanism, cooperation pays if it makes the interaction partner more cooperative in future. 
 To describe which strategies of direct reciprocity are most effective, the previous theoretical literature assumes that the evolutionary dynamics is determined by the players' expected payoffs~\citep{brauchli:JTB:1999,brandt:JTB:2006,ohtsuki:JTB:2007b,szolnoki:pre:2009b,imhof2010stochastic,van-segbroeck:prl:2012,grujic:jtb:2012,Martinez2012,stewart:pnas:2013,pinheiro:PLoSCB:2014,stewart:games:2015,Baek2016,McAvoy:ProcA:2019,glynatsi:SCR:2020,Schmid:PlosCB:2022,Murase:SciRep:2022}.
 To the extent that strategies are learned (not inherited), this assumption seems to impose rather stringent requirements on the individuals' cognitive abilities. 
@@ -432,7 +443,7 @@ This assumption introduces a curious inconsistency in how these models represent
 For playing their games, individuals are often assumed to only recall the outcome of the very last round. 
 Yet to update their strategies, individuals are implicitly assumed to have a record of the outcome of all rounds, across all interaction partners. 
 
-Herein, we explore to which extent perfect payoff memory is in fact required for the evolution of reciprocity. 
+It is natural to ask, then, to what extent perfect payoff memory is in fact required for the evolution of reciprocity. 
 To this end, we consider a model in which individuals only remember the payoff of their very last interaction, or the payoffs of the last few interactions. 
 By only considering an individual's most recent experiences, the evolutionary process is subject to additional stochasticity. 
 Strategies that perform well on average (across an entire repeated game and across many interaction partners) may still get replaced if the respective player happened to yield an inferior payoff in the very last round. 
@@ -449,7 +460,7 @@ For that case, we find that individuals are less generous, and they tend to be l
 However, once individuals update their strategies based on two or more recent experiences, overall cooperation rates quickly approach the levels observed under perfect payoff memory~(\FigHigherMemory). 
 These findings suggest that models based on expected payoffs can serve as a useful approximation to more realistic models with limited payoff memory. 
 Our findings also contribute to a wider literature that explores which kinds of cognitive capacities are required for reciprocal altruism to be feasible~\citep[e.g.,][]{Stevens:fip:2011,Volstorf:PlosOne:2011}. 
-While more payoff memory is always favorable, reciprocal cooperation can already be sustained if individuals have a record of two or three past outcomes.\\ 
+While more payoff memory is always favorable, reciprocal cooperation can already be sustained if individuals have a record of two or three past outcomes. We believe that this kind of result, derived entirely within a theoretical model, is crucial for making model-informed deductions about reciprocity in natural systems.
 
 %%%%%%%%%%%
 %% END NOTES %%
