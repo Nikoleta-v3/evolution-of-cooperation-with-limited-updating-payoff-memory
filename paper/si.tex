@@ -145,15 +145,13 @@ The short time scale describes the game dynamics.
 Here the $N$ individuals are randomly matched to form $N/2$ pairs to interact in a repeated prisoner's dilemma.  
 Each round, individuals can choose whether to cooperate ($C$) or defect ($D$). 
 In the most general setting, the resulting one-shot payoffs can be summarized by the payoff matrix 
-\begin{equation}\label{eq:prisoner}
-    \begin{blockarray}{ccc}
-        & \text{cooperate} & \text{defect} \\
-        \begin{block}{c(cc)}
-            \text{cooperate} & R & S \\
-            \text{defect} & T & P \\
-        \end{block}
-    \end{blockarray}.
-\end{equation}
+\begin{align}
+	\bordermatrix{%
+		& C & D \cr
+		C &\ R &\ S\  \cr
+		D &\ T &\ P\ \cr
+	} . \label{eq:prisoner}
+\end{align}
 Here, $R$ is interpreted as the reward for mutual cooperation, $S$ is the sucker's payoff, $T$ is the temptation, and $P$ is the punishment payoff~\citep{axelrod1981evolution}. 
 Throughout this work, we parametrize these payoffs as $R\!=\!b\!-\!c$, $S\!=\!-c$, $T\!=\!b$, and $P\!=\!0$, where $b$ and $c$ are the benefit and cost of cooperation, respectively, with $b\!>\!c\!>0$. 
 After each round, players learn their co-player's previous action. 
@@ -1044,10 +1042,6 @@ Compared to limited memory, it takes fewer mutants to successfully invade into \
    Parameters are the same as before, \(N =100, c=1, b=10, \beta=1\).}\label{fig:mutation}
 \end{figure}
 
-<<<<<<< HEAD
-\bibliographystyle{unsrt}
-\bibliography{bibliography}
-=======
 \noindent
 {\bf Impact of mutations.} 
 All of our previous simulations are run under the assumption that mutations are rare,~$\mu\!\rightarrow\!0$. 
