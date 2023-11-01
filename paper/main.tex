@@ -8,6 +8,7 @@
 \usepackage{tikz}
 \usepackage{subcaption}
 \usepackage{hyperref}
+\usepackage[all]{hypcap}
 \usepackage{tabularx}
 \usepackage{booktabs}
 \usepackage{blkarray}
@@ -21,12 +22,17 @@
 \def\alld{\texttt{ALLD}}
 \def\tft{\texttt{TFT}}
 \def\gtft{\texttt{GTFT}}
+\def\rolemodel{\text{RM}}
+\def\learner{\text{L}}
+\def\resident{\texttt{R}}
+\def\mutant{\texttt{M}}
+\def\strategy{s}
 \def\esm{electronic supplementary material}
 
 %% Adding shortcut commands to refer to our figures %%
-\newcommand{\FigBaseResults}{{\bf Fig.~1}} 
-\newcommand{\FigDependenceParameters}{{\bf Fig.~2}} 
-\newcommand{\FigHigherMemory}{{\bf Fig.~3}}
+\newcommand{\FigBaseResults}{figure~\ref{fig:expected_and_stochastic_for_donation}}
+\newcommand{\FigDependenceParameters}{figure~\ref{fig:cooperation_rate_over_benefit_and_beta}} 
+\newcommand{\FigHigherMemory}{figure~\ref{fig:cooperation_rate_all_updating_payoffs}}
 
 
 \titleformat{\section}{\sffamily \fontsize{12}{14}\bfseries}{\thesection}{1em}{}
@@ -252,10 +258,10 @@ This process assumes that at regular time intervals, one population member is ra
 We refer to this player as the `learner'. 
 With probability $\mu$ (reflecting a mutation rate), the learner simply adopts a random strategy (all reactive strategies have the same probability to be chosen). 
 With the converse probability $1\!-\!\mu$, the learner randomly picks a `role model' from the population. 
-The learner then compares its own payoff $\pi_L$ from the repeated game to the role model's payoff $\pi_R$. 
+The learner then compares its own payoff $\pi_\learner$ from the repeated game to the role model's payoff $\pi_\rolemodel$. 
 The learner adopts the role model's strategy with a probability \(\varphi\) described by a Fermi function~\citep{blume:GEB:1995,szabo:PRE:1998}, 
 \begin{equation} \label{Eq:rho}
-    \varphi\left(\pi_{L}, \pi_{R}\right) = \frac{1}{1\!+\! e^{- \!\beta\left(\pi_{R}- \pi_{L}\right)}}.
+    \varphi\left(\pi_\learner, \pi_\rolemodel\right) = \frac{1}{1\!+\! e^{- \!\beta\left(\pi_\rolemodel- \pi_\learner\right)}}.
 \end{equation}
 The selection strength parameter $\beta\!\ge\!0$ indicates how sensitive players are to payoff differences. 
 For $\beta\!=\!0$, payoff differences are irrelevant, and the learner simply adopts the role model's strategy with probability one half. As the selection strength~$\beta$ increases, players are increasingly biased to imitate the role model only if it has the higher payoff. 
@@ -264,13 +270,13 @@ That is, if the learner decides to imitate the role model's strategy, the learne
 
 %% MODEL: Perfect vs limited payoff memory
 
-We deviate from previous models in how we interpret the payoffs $\pi_L$ and $\pi_R$, which form the basis of the pairwise comparisons in Eq.~\eqref{Eq:rho}. 
+We deviate from previous models in how we interpret the payoffs $\pi_\learner$ and $\pi_\rolemodel$, which form the basis of the pairwise comparisons in Eq.~\eqref{Eq:rho}. 
 In previous work, these payoffs are taken to be the respective players' expected payoffs. 
 We interpret that setup as a model with perfect payoff memory. 
-There, the payoffs  $\pi_L$ and $\pi_R$ represent an average over all possible repeated games the two individuals have played with all population members (\FigBaseResults, upper left panel). 
+There, the payoffs  $\pi_\learner$ and $\pi_\rolemodel$ represent an average over all possible repeated games the two individuals have played with all population members (\FigBaseResults, upper left panel). 
 The use of expected payoffs is mathematically convenient, because explicit formulas for these payoffs are available~\citep{hofbauer1998evolutionary}.
 Herein, we compare this model of perfect payoff memory to a model with limited payoff memory. 
-In that model, the players' payoffs $\pi_L$ and $\pi_R$ are taken to be the payoffs that each player received in their very last round prior to making social comparisons. 
+In that model, the players' payoffs $\pi_\learner$ and $\pi_\rolemodel$ are taken to be the payoffs that each player received in their very last round prior to making social comparisons. 
 That is, players only consider the very last repeated game they participated in, and there they only take into account the outcome of the very last round (\FigBaseResults, lower left panel). 
 This assumption could reflect, for example, a strong recency bias in how individuals evaluate payoffs.  
 In addition to this extreme case of limited payoff memory, later on we also explore cases in which players take into account the outcome of two, three, or four recent rounds. 
@@ -377,10 +383,10 @@ For limited payoff memory, the evolving cooperation rates are smaller but strict
 %% RESULTS: Evolving cooperation rates
 
 To further investigate the influence of different parameters, we have systematically varied the benefit~$b$ and the selection strength~$\beta$ in Figure~\FigDependenceParameters.
-According to \FigDependenceParameters \textbf{A}, perfect memory consistently results in a higher cooperation rate, and this relative advantage further increases with an increasing benefit~$b$. 
+According to \FigDependenceParameters{\it a}, perfect memory consistently results in a higher cooperation rate, and this relative advantage further increases with an increasing benefit~$b$. 
 Interestingly, for limited payoff memory, the cooperation rate remains stable at approximately 50\% once \(b \!\ge\! 5\).
 This again reflects our earlier observation that the feasibility of cooperation in this scenario is independent of the exact values of $b$ and $c$, as described by Eq.~\eqref{Eq:LimitedMemory}. 
-With respect to the effect of different selection strengths, \FigDependenceParameters\textbf{B} suggests that both perfect and limited payoff memory yields similar cooperation rates for weak selection \(\beta \!<\! 1\). 
+With respect to the effect of different selection strengths, \FigDependenceParameters{\it b} suggests that both perfect and limited payoff memory yields similar cooperation rates for weak selection \(\beta \!<\! 1\). 
 Beyond weak selection, increasing selection has a positive effect under perfect payoff memory, but a negative effect under limited payoff memory.\\
 
 
@@ -542,7 +548,7 @@ E-DIRECT, and by the Max Planck Society.\\
     \centering
     \includegraphics[width=.75\textwidth]{static/cooperation_rate_over_b_and_beta.pdf}
     \caption{{\bf Evolution of direct reciprocity for different parameter values.} 
-    To explore the robustness of our results, we have run simulations for different benefit values (left panels, A), and for different selection strengths (right panels, B). 
+    To explore the robustness of our results, we have run simulations for different benefit values (left panels, {\it a}), and for different selection strengths (right panels, {\it b}). 
     In each case, we record the resulting average cooperation rate over the entire simulation (upper panels). 
     In addition we record the individuals' average generosity. 
     Here, we only take into account those residents with $p\! \approx\! 1$ and we compute
@@ -563,11 +569,12 @@ E-DIRECT, and by the Max Planck Society.\\
   ({\it i}) Updating occurs based on expected payoffs (perfect memory), 
   ({\it ii}) it occurs based on the last round of one interaction (limited memory), 
   ({\it iii}) based on the last round of two interactions,
-  ({\it iv}) based on the last two rounds of one interaction, and 
-  ({\it v}) based on the last two rounds of two interactions. 
+  ({\it iv}) based on the last two rounds of one interaction,
+  ({\it v}) based on the last two rounds of two interactions, and
+  ({\it vi}) based on the expected payoff of one interaction.
   Again, simulations are run either for a comparably high benefit of cooperation~($b/c\!=\!10$), or for a low benefit~($b/c\!=\!3$). 
   We observe that perfect memory always yields the highest cooperation rate. 
-  However, when individuals take into account at least two past interactions -- cases ({\it iii}) to ({\it v}) -- evolving cooperation rates are close to this optimum. 
+  However, when individuals take into account at least two past interactions -- cases ({\it iii}) to ({\it vi}) -- evolving cooperation rates are close to this optimum. 
   Baseline parameters are the same as in \FigDependenceParameters.}
 \label{fig:cooperation_rate_all_updating_payoffs}
 \end{figure}
@@ -644,12 +651,12 @@ calculated as,
 
 In a population of size \(N\) there are \(k\) mutants and \(N - k\) residents.
 Let \(s_M =(y_M, p_M, q_M)\) and \(s_R = (y_R, p_R, q_R)\) denote the
-strategies of a mutant and a resident, the expected payoffs \(\pi_R\) and
+strategies of a mutant and a resident, the expected payoffs \(\pi_\rolemodel\) and
 \(\pi_M\) are given by,
 
 \begin{equation} \label{Eq:ExpPay}
   \begin{array}{lcrcr}
-  \displaystyle \pi_R & = &\displaystyle \frac{N\!-\!k\!-\!1}{N-1}\cdot \langle\mathbf{v}(s_R,s_R),\mathbf{u}\rangle	&+	&\displaystyle\frac{k}{N-1}\cdot \langle\mathbf{v}(s_R,s_M),\mathbf{u}\rangle,\\[0.5cm]
+  \displaystyle \pi_\rolemodel & = &\displaystyle \frac{N\!-\!k\!-\!1}{N-1}\cdot \langle\mathbf{v}(s_R,s_R),\mathbf{u}\rangle	&+	&\displaystyle\frac{k}{N-1}\cdot \langle\mathbf{v}(s_R,s_M),\mathbf{u}\rangle,\\[0.5cm]
   \displaystyle \pi_M & = &\displaystyle\frac{N-k}{N-1}\cdot \langle\mathbf{v}(s_M,s_R),\mathbf{u}\rangle&+	&\displaystyle\frac{k-1}{N-1}\cdot \langle\mathbf{v}(s_M,s_M),\mathbf{u}\rangle.\\
   \end{array}
 \end{equation}
@@ -659,7 +666,7 @@ The probabilities that the number of mutants decreases and increases,
 defined as,
 
 \begin{align}\label{eq:perfect_memory_lambdas}
-  \lambda^-_k \!=\!\varphi(\pi_M, \pi_R) \quad \text{ and } \quad \lambda^+_k \!=\!\varphi(\pi_R, \pi_M).
+  \lambda^-_k \!=\!\varphi(\pi_M, \pi_\rolemodel) \quad \text{ and } \quad \lambda^+_k \!=\!\varphi(\pi_\rolemodel, \pi_M).
 \end{align}
 
 In the case of limited payoff memory we initially define the probability that a
