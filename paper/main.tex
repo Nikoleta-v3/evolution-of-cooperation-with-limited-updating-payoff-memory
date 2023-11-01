@@ -109,7 +109,7 @@ For example, when strategies are updated through social learning, it is commonly
 This would require them to compute (or remember) their payoffs against everyone else in the population.
 To understand how more realistic constraints influence direct reciprocity, we consider the evolution of conditional behaviors when individuals learn based on more recent experiences.
 Even in the most extreme case that they only take into account their very last interaction, we find that cooperation can still evolve. 
-However, such individuals adopt less generous strategies, and they tend to cooperate less often than in the classical setup with expected payoffs. 
+However, such individuals adopt less generous strategies, and they tend to cooperate less often than in the classical setup with average payoffs. 
 Interestingly, once individuals remember the payoffs of two or three recent interactions, cooperation rates quickly approach the classical limit. 
 These findings contribute to a literature that explores which kind of cognitive capabilities are required for reciprocal cooperation. 
 While our results suggest that some rudimentary form of payoff memory is necessary, it already suffices to remember a few interactions.
@@ -235,7 +235,7 @@ In the repeated game, strategies become arbitrarily complex.
 Here, strategies are contingent rules, telling players what to do depending on the outcome of all their previous interactions. 
 For simplicity, in the following we assume individuals use {\it reactive strategies}~\citep{Nowak1992tit}. 
 A reactive strategy only depends on the other player's action in the previous round. 
-Such strategies can be written as a three-dimensional tuple \(\mathbf{s}=(y, p,q)\). 
+Such strategies can be written as a three-dimensional tuple \(\strategy=(y, p,q)\).
 The first entry \(y\) is the probability that the player opens with cooperation in the first round. 
 The two other entries are the probabilities that the player cooperates in all subsequent rounds, depending on whether the co-player cooperated~($p$) or defected~($q$) in the previous round. 
 The set of reactive strategies is simple enough to facilitate an explicit mathematical analysis~\citep{hofbauer1998evolutionary}. 
@@ -279,7 +279,7 @@ Herein, we compare this model of perfect payoff memory to a model with limited p
 In that model, the players' payoffs $\pi_\learner$ and $\pi_\rolemodel$ are taken to be the payoffs that each player received in their very last round prior to making social comparisons. 
 That is, players only consider the very last repeated game they participated in, and there they only take into account the outcome of the very last round (\FigBaseResults, lower left panel). 
 This assumption could reflect, for example, a strong recency bias in how individuals evaluate payoffs.  
-In addition to this extreme case of limited payoff memory, later on we also explore cases in which players take into account the outcome of two, three, or four recent rounds. 
+In addition to this extreme case of limited payoff memory, later on we also explore cases in which players take into account the outcome of two, three, four, or more recent rounds. 
 
 %% MODEL: Summary and rare mutation assumption. 
 
@@ -288,7 +288,7 @@ This gives rise to a stochastic process that describes which strategies players 
 We explore the dynamics of this process mathematically and with computer simulations.
 For the results presented in the following, we assume that mutations are rare (\(\mu\!\rightarrow\! 0\)). 
 This assumption is fairly common in evolutionary game theory, because it makes some computations more efficient~\citep{fudenberg:JET:2006,wu:JMB:2012,mcavoy:jet:2015}, and because the results can be interpreted more easily.  
-However, in Section~9 of the \esm{} we show that our main results continue to hold for strictly positive mutation rates.
+However, in Section~3 of the \esm{} we show that our main results continue to hold for strictly positive mutation rates.
 
 
 
@@ -398,27 +398,34 @@ So far, we have taken a rather extreme interpretation of limited payoff memory.
 In the respective scenario, we assumed that individuals update their strategies based on their experience in a single round of the prisoner's dilemma, against a single co-player. 
 The limited payoff memory framework can be expanded in various ways. 
 In particular, individuals may recall a larger number of rounds, they may recall their interactions with several co-players, or both. 
-To gain further insights on the impact of payoff memory, we explore three additional scenarios. 
+To gain further insights on the impact of payoff memory, we explore four additional scenarios. 
 In the first scenario, players recall the payoffs they obtained in the last two rounds against a single co-player. 
 In the second scenario, players recall their last-round payoffs against two co-players. 
-Finally, in the last scenario, they recall the two last rounds against two co-players (further extensions are straightforward, but we do not explore them here). 
+In the third scenario, they recall the two last rounds against two co-players. 
+Finally, in the last scenario, players update based on the average payoff they
+receive over all rounds with a single co-player (further extensions are straightforward, but we do not explore them here).
 
 %% RESULTS: Analytical results for higher memory
 
-For the first two scenarios, we can derive an analytical condition for when cooperation is stochastically stable. 
+For most scenarios, we derive an analytical condition for when cooperation is stochastically stable. 
 To this end, we again assume populations are large and that selection is strong. 
 For simplicity, we also assume that the game continues almost certainly after each round (i.e., $\delta$ approaches one). 
 The details of this analysis can be found in the \esm. 
-Interestingly, we find in both scenarios that for $b\!>\!2c$, cooperation is stochastically stable when $q\!<\! \frac{\sqrt{2}}{2}\approx 0.707$. 
+In the first two scenarios, we interestingly find that for $b\!>\!2c$, cooperation is stochastically stable when $q\!<\! \frac{\sqrt{2}}{2}\approx 0.707$. 
 Comparing this condition with the more stringent condition in Eq.~\eqref{Eq:LimitedMemory} suggests that there are now more conditionally cooperative strategies that can sustain cooperation. 
-Hence, cooperation should evolve more easily. 
+Hence, cooperation should evolve more easily.
+In the last scenario, we find that cooperation is stochastically stable when \(q
+< 1 - \frac{c}{b}\), which is the same condition as in
+Eq.~\eqref{Eq:PerfectMemory}, even when only a single co-player is considered
+instead of the whole population. In this case, the evolved cooperation
+approaches the perfect payoff memory case the most.
 
 %% RESULTS: Simulations for higher memory
 
-We explore this prediction with additional simulations, again for a low and a high benefit $b$, 
+We explore these prediction with additional simulations, again for a low and a high benefit $b$, 
 see \FigHigherMemory.
 We observe that a minimal increase in the players' payoff memory (compared to the baseline case with a single round recalled) can promote cooperation considerably. 
-Specifically, in all three scenarios with extended memory, we now see similar cooperation rates, and they approach the rates observed under perfect memory. 
+Specifically, in all four scenarios with extended memory, we now see similar cooperation rates, and they approach the rates observed under perfect memory. 
 These results suggest that while it takes {\it some} payoff memory to sustain substantial cooperation rates, the requirements on memory seem to be rather modest. 
 Already remembering a few interactions, either with the same co-player or across different co-players, may provide players with enough information to adopt reciprocal strategies. 
 
@@ -571,7 +578,7 @@ E-DIRECT, and by the Max Planck Society.\\
   ({\it iii}) based on the last round of two interactions,
   ({\it iv}) based on the last two rounds of one interaction,
   ({\it v}) based on the last two rounds of two interactions, and
-  ({\it vi}) based on the expected payoff of one interaction.
+  ({\it vi}) based on the average payoff of one interaction.
   Again, simulations are run either for a comparably high benefit of cooperation~($b/c\!=\!10$), or for a low benefit~($b/c\!=\!3$). 
   We observe that perfect memory always yields the highest cooperation rate. 
   However, when individuals take into account at least two past interactions -- cases ({\it iii}) to ({\it vi}) -- evolving cooperation rates are close to this optimum. 
