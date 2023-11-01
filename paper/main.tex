@@ -253,9 +253,9 @@ We refer to this player as the `learner'.
 With probability $\mu$ (reflecting a mutation rate), the learner simply adopts a random strategy (all reactive strategies have the same probability to be chosen). 
 With the converse probability $1\!-\!\mu$, the learner randomly picks a `role model' from the population. 
 The learner then compares its own payoff $\pi_L$ from the repeated game to the role model's payoff $\pi_R$. 
-The learner adopts the role model's strategy with a probability \(\rho\) described by a Fermi function~\citep{blume:GEB:1995,szabo:PRE:1998}, 
+The learner adopts the role model's strategy with a probability \(\varphi\) described by a Fermi function~\citep{blume:GEB:1995,szabo:PRE:1998}, 
 \begin{equation} \label{Eq:rho}
-    \rho\left(\pi_{L}, \pi_{R}\right) = \frac{1}{1\!+\! e^{- \!\beta\left(\pi_{R}- \pi_{L}\right)}}.
+    \varphi\left(\pi_{L}, \pi_{R}\right) = \frac{1}{1\!+\! e^{- \!\beta\left(\pi_{R}- \pi_{L}\right)}}.
 \end{equation}
 The selection strength parameter $\beta\!\ge\!0$ indicates how sensitive players are to payoff differences. 
 For $\beta\!=\!0$, payoff differences are irrelevant, and the learner simply adopts the role model's strategy with probability one half. As the selection strength~$\beta$ increases, players are increasingly biased to imitate the role model only if it has the higher payoff. 
@@ -612,7 +612,7 @@ feasible strategies. The fixation probability \(\phi_{M}\) of the mutant
 strategy can be calculated explicitly as,
 
 \begin{equation}\label{eq:appendix_fixation_probability}
-    \varphi_{M} = \frac{1}{1+\sum\limits_{i=1}^{N-1}\prod\limits_k^i \frac{\lambda^-_k}{\lambda^+_k}},
+    \rho_{M} = \frac{1}{1+\sum\limits_{i=1}^{N-1}\prod\limits_k^i \frac{\lambda^-_k}{\lambda^+_k}},
 \end{equation}
 
 where \(k\) is the number of
@@ -659,7 +659,7 @@ The probabilities that the number of mutants decreases and increases,
 defined as,
 
 \begin{align}\label{eq:perfect_memory_lambdas}
-  \lambda^-_k \!=\!\rho(\pi_M, \pi_R) \quad \text{ and } \quad \lambda^+_k \!=\!\rho(\pi_R, \pi_M).
+  \lambda^-_k \!=\!\varphi(\pi_M, \pi_R) \quad \text{ and } \quad \lambda^+_k \!=\!\varphi(\pi_R, \pi_M).
 \end{align}
 
 In the case of limited payoff memory we initially define the probability that a
@@ -728,8 +728,8 @@ The probability that the number of mutants increases and decreases by one in the
 case of limited payoff memory are now given by,
 
 \begin{align}\label{eq:limited_memory_lambdas}
-\lambda^+_k=\frac{N\!-\!k}{N} \cdot \frac{k}{N} \cdot \sum_{u_{R},u_{M}\in\mathcal{U}} x(u_{R},u_{M}) \rho(u_{R},u_{M}) \quad \text{and} \quad
-\lambda^-_k=\frac{N\!-\!k}{N} \cdot \frac{k}{N} \cdot \sum_{u_{R},u_{M}\in\mathcal{U}} x(u_{R},u_{M}) \rho(u_{M},u_{R}).
+\lambda^+_k=\frac{N\!-\!k}{N} \cdot \frac{k}{N} \cdot \sum_{u_{R},u_{M}\in\mathcal{U}} x(u_{R},u_{M}) \varphi(u_{R},u_{M}) \quad \text{and} \quad
+\lambda^-_k=\frac{N\!-\!k}{N} \cdot \frac{k}{N} \cdot \sum_{u_{R},u_{M}\in\mathcal{U}} x(u_{R},u_{M}) \varphi(u_{M},u_{R}).
 \end{align}
 
 In this expression, $\frac{(N\!-\!k)}{N}$ is the probability that the randomly
