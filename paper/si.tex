@@ -28,6 +28,7 @@
 \newcommand{\matlabcomment}[1]{\textcolor{darkgreen}{#1}}
 \newcommand{\christian}[1]{\textcolor{blue}{\textbf{CH}: #1}}
 \newcommand{\alex}[1]{\textcolor{red}{\textbf{AL}: #1}}
+\newcommand{\nikoleta}[1]{\textcolor{orange}{\textbf{NG}: #1}}
 
 \def\alld{\texttt{ALLD}}
 \def\tft{\texttt{TFT}}
@@ -175,9 +176,9 @@ With probability $\mu$, the player's strategy mutates randomly.
 In that case, the player's new strategy is drawn uniformly from the space of all reactive strategies~$[0,1]^3$.  
 With probability $1\!-\!\mu$, the player compares itself with a neighbor. 
 In that case, the player randomly picks another individual from the population (referred to as the `role model', \rolemodel). 
-The learner adopts the role model's strategy with a probability \(\rho\), given by
+The learner adopts the role model's strategy with a probability \(\varphi\), given by
 \begin{equation} \label{Eq:rho}
-    \rho(\pi_{\learner}, \pi_{\rolemodel}) = \frac{1}{1\!+\! e^{\!-\!\beta (\pi_\rolemodel - \pi_\learner)}}.
+    \varphi(\pi_{\learner}, \pi_{\rolemodel}) = \frac{1}{1\!+\! e^{\!-\!\beta (\pi_\rolemodel - \pi_\learner)}}.
 \end{equation}
 The parameter \(\beta\) is the selection strength.
 It determines how important payoff differences are for the learner's decision to imitate the role model. 
@@ -202,17 +203,17 @@ In the following, we describe our implementation of the process in the rare-muta
 
 Initially, the process starts with a population where all members use the same strategy (referred to as the resident strategy, \resident). 
 Then one individual adopts a mutant strategy selected uniformly at random from the set of feasible strategies.
-The fixation probability \(\varphi_{\mutant}\) of the mutant strategy can be calculated explicitly~\citep{nowak:Nature:2004},
+The fixation probability \(\rho_{\mutant}\) of the mutant strategy can be calculated explicitly~\citep{nowak:Nature:2004},
 \begin{equation}\label{eq:fixation_probability}
-    \varphi_{\mutant} = \frac{1}{1+\sum\limits_{i=1}^{N-1}\prod\limits_{k=1}^i \frac{\lambda^-_k}{\lambda^+_k}}.
+    \rho_{\mutant} = \frac{1}{1+\sum\limits_{i=1}^{N-1}\prod\limits_{k=1}^i \frac{\lambda^-_k}{\lambda^+_k}}.
 \end{equation}
 Here, the index $k$ corresponds to the current number of players with the mutant strategy (mutants). 
 The variables \(\lambda^-_k, \lambda^+_k\) are the probabilities that the number of mutants decreases or increases within a single updating step. 
 These probabilities depend on the probability that a mutant and a resident are chosen as the learner and the resident, respectively. 
-In addition, they depend on the respective switching probability~$\rho$, as described by Eq.~\eqref{Eq:rho}. 
+In addition, they depend on the respective switching probability~$\varphi$, as described by Eq.~\eqref{Eq:rho}. 
 We specify the exact values of  \(\lambda^-_k, \lambda^+_k\) for each memory-setting in the next section. 
 
-Depending on the fixation probability \(\varphi_{\mutant}\), the mutant strategy either fixes (becomes the new resident) or goes extinct. 
+Depending on the fixation probability \(\rho_{\mutant}\), the mutant strategy either fixes (becomes the new resident) or goes extinct. 
 Afterwards, another random mutant strategy is introduced into the population. 
 We iterate this elementary population updating process for a large number of mutant strategies. 
 At each step, we record the current resident strategy and the resulting average cooperation rate. 
@@ -230,8 +231,8 @@ In Section~\ref{section:furthersimulations}, we present additional simulation re
   resident $\leftarrow$ starting resident\;
    \While{ $t <$ maximum number of steps}
    {mutant $\leftarrow$ random strategy\;
-   fixation probability $\leftarrow \varphi_\mutant $\;
-   \If{$\varphi_{\mutant} >$ random: $i \rightarrow [0,1]$}
+   fixation probability $\leftarrow \rho_\mutant $\;
+   \If{$\rho_{\mutant} >$ random: $i \rightarrow [0,1]$}
    {resident $\leftarrow$ mutant;}}
    \caption{Evolutionary process in the limit of rare mutations}\label{algorithm:pairwise_comparison}
 \end{algorithm}
@@ -251,12 +252,13 @@ In Section~\ref{section:furthersimulations}, we present additional simulation re
 %% RESULTS: General overview %% 
 
 In the following, we discuss our different memory settings in more detail. 
-We discuss five cases explicitly. In these cases, updating occurs
+We discuss six cases explicitly. In these cases, updating occurs
 ({\it i})~based on average payoffs based on all interactions (perfect memory), 
 ({\it ii})~based on the last round of one interaction (limited memory), 
 ({\it iii})~based on the last round of two interactions,
-({\it iv})~based on the last two rounds of one interaction, and 
-({\it v})~based on the last two rounds of two interactions. 
+({\it iv})~based on the last two rounds of one interaction,
+({\it v})~based on the last two rounds of two interactions, and
+({\it v})~based on the average payoff of one interaction.
 In each case, we consider the case that there are only two strategies present in the population (a resident and a mutant strategy). 
 We first derive how likely it is that a learner (of any type) assigns a given payoff $\pi_\learner$ to itself, and a payoff of $\pi_\rolemodel$ to the role model. 
 This allows us to derive explicit expressions for $\lambda^-_k/\lambda^+_k$, and hence for the mutant's fixation probability according to Eq.~\eqref{eq:fixation_probability}.
@@ -321,7 +323,7 @@ Using the auxiliary notation $r_i:=p_i\!-\!q_i$, we obtain
       \end{array}
     \end{equation}
 Using this distribution $\mathbf{v}$, we compute the first player's expected payoff as the weighted average
-\begin{equation}
+\begin{equation}\label{eq:expected_payoff}
 \pi(\strategy_1,\strategy_2) = R \, v_R + S\,v_S + T\,v_T + P\,v_P. 
 \end{equation}
 
@@ -342,11 +344,11 @@ of a resident.
 Similarly, it increases if a resident is the learner and adopts the strategy of a mutant. 
 The respective transition probabilities are 
 \begin{align*}
-  \lambda^-_k \!=\! \frac{N-k}{N}\frac{k}{N-1}\rho\big(\pi_\mutant(k),\,\pi_\resident(k)\big) \quad \text{ and } \quad \lambda^+_k \!=\!\frac{k}{N}\frac{N-k}{N-1}\rho\big(\pi_\resident(k),\,\pi_\mutant(k)\big).
+  \lambda^-_k \!=\! \frac{N-k}{N}\frac{k}{N-1}\varphi\big(\pi_\mutant(k),\,\pi_\resident(k)\big) \quad \text{ and } \quad \lambda^+_k \!=\!\frac{k}{N}\frac{N-k}{N-1}\varphi\big(\pi_\resident(k),\,\pi_\mutant(k)\big).
 \end{align*}
-For $\rho$ as defined by Eq.~\eqref{Eq:rho}, the ratio of these two transition probabilities simplifies to 
+For $\varphi$ as defined by Eq.~\eqref{Eq:rho}, the ratio of these two transition probabilities simplifies to 
 \begin{equation} \label{eq:LambdaRatio}
- \frac{\lambda^-_k}{\lambda^+_k} \!=\!  \frac{\rho\big(\,\pi_\mutant(k),~\pi_\resident(k)\,\big)}{\rho\big(\,\pi_\resident(k),~\pi_\mutant(k)\,\big)} 
+ \frac{\lambda^-_k}{\lambda^+_k} \!=\!  \frac{\varphi\big(\,\pi_\mutant(k),~\pi_\resident(k)\,\big)}{\varphi\big(\,\pi_\resident(k),~\pi_\mutant(k)\,\big)} 
  =e^{-\beta\big(\pi_\mutant(k)-\pi_\resident(k)\big)}.
 \end{equation}
 Based on these ratios for each $k$, we can compute the mutant's fixation probability by Eq.~\eqref{eq:fixation_probability}. 
@@ -375,9 +377,9 @@ As a consequence, we can calculate the corresponding ratio of transition probabi
 \frac{\lambda_1^{-}}{\lambda_1^{+}} = e^{-\beta \left( (1-\delta+\delta q)(b+\frac{c}{N-1})- \frac{N-2}{N-1}(b-c) \right)}
 \end{align*}
 By definition, cooperation is stochastically stable if this ratio exceeds one, which is equivalent to
-\begin{equation*}
+\begin{equation}\label{Eq:Condition_PerfectMemory}
 q<1-\frac{1}{\delta}\cdot \frac{b+(N\!-\!1)c}{(N\!-\!1)b+c}.
-\end{equation*}
+\end{equation}
 For such a strategy to be feasible we require $q\!>\!0$, which implies $\delta \!>\! \big(b+(N\!-\!1)c\big)/\big((N\!-\!1)b\!+\!c\big)$.
 In particular, in the limit of large populations \(N \!\rightarrow\! \infty\), we obtain that cooperation is stochastically stable if  \(q \!<\! 1\! -\! c/(\delta b)\). 
 The minimum continuation probability for such a strategy to exist is $\delta \!>\! c/b$. 
@@ -447,8 +449,8 @@ That is, it needs to be the case that $(u_\resident,u_\mutant)\in \mathcal{U}_F$
 The probability that the number of mutants increase or decreases by one is now given by
 \begin{equation}
 \begin{array}{l}
-\displaystyle \lambda^+_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N}\cdot \sum_{u_\resident,u_\mutant\,\in\,\mathcal{U}} x(u_\resident,u_\mutant)\cdot \rho(u_\resident,u_\mutant), \\[0.5cm]
-\displaystyle \lambda^-_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N}\cdot \sum_{u_\resident,u_\mutant \,\in\, \mathcal{U}} x(u_\resident,u_\mutant)\cdot \rho(u_\mutant,u_\resident).
+\displaystyle \lambda^+_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N}\cdot \sum_{u_\resident,u_\mutant\,\in\,\mathcal{U}} x(u_\resident,u_\mutant)\cdot \varphi(u_\resident,u_\mutant), \\[0.5cm]
+\displaystyle \lambda^-_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N}\cdot \sum_{u_\resident,u_\mutant \,\in\, \mathcal{U}} x(u_\resident,u_\mutant)\cdot \varphi(u_\mutant,u_\resident).
 \end{array}
 \end{equation}
 
@@ -665,8 +667,8 @@ Finally, the last line of Eq.~\eqref{Eq:xTwoInteractions} corresponds to the cas
 As a result, the transition probabilities for the number of mutants is now given by
 \begin{equation}\label{eq:ratio_TwoInteractions}
 \begin{array}{l}
-\displaystyle \lambda^+_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N} \sum_{u_{\resident 1},u_{\resident 2},u_{\mutant 1},u_{\mutant 2}} \hspace{-0.1cm} x(u_{\resident 1}u_{\resident 2}, u_{\mutant 1}u_{\mutant 2})\cdot \rho\left(\frac{u_{\resident 1} \!+\! u_{\resident 2}}{2}, \frac{u_{\mutant 1} \!+\! u_{\mutant 2}}{2}\right), \\[0.5cm]
-\displaystyle \lambda^-_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N} \sum_{u_{\resident 1},u_{\resident 2},u_{\mutant 1},u_{\mutant 2}} \hspace{-0.1cm} x(u_{\resident 1}u_{\resident 2},u_{\mutant 1}u_{\mutant 2})\cdot \rho\left(\frac{u_{\mutant 1} \!+\! u_{\mutant 2}}{2}, \frac{u_{\resident 1} \!+\! u_{\resident 2}}{2}\right).
+\displaystyle \lambda^+_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N} \sum_{u_{\resident 1},u_{\resident 2},u_{\mutant 1},u_{\mutant 2}} \hspace{-0.1cm} x(u_{\resident 1}u_{\resident 2}, u_{\mutant 1}u_{\mutant 2})\cdot \varphi\left(\frac{u_{\resident 1} \!+\! u_{\resident 2}}{2}, \frac{u_{\mutant 1} \!+\! u_{\mutant 2}}{2}\right), \\[0.5cm]
+\displaystyle \lambda^-_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N} \sum_{u_{\resident 1},u_{\resident 2},u_{\mutant 1},u_{\mutant 2}} \hspace{-0.1cm} x(u_{\resident 1}u_{\resident 2},u_{\mutant 1}u_{\mutant 2})\cdot \varphi\left(\frac{u_{\mutant 1} \!+\! u_{\mutant 2}}{2}, \frac{u_{\resident 1} \!+\! u_{\resident 2}}{2}\right).
 \end{array}
 \end{equation}
 Note that we assume players to use their average payoff across their two interactions for comparisons.\\
@@ -798,8 +800,8 @@ x(u_\resident u'_\resident, u_\mutant u'_\mutant)	 &=
 Overall, we obtain the following formula for the transition probabilities 
 \begin{equation}\label{eq:ratio_TwoRounds}
 \begin{array}{l}
-\displaystyle \lambda^+_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N} \sum_{u_{\resident},u_\resident',u_{\mutant},u_\mutant'} \hspace{-0.1cm} x(u_\resident u_\resident', u_\mutant u_\mutant')\cdot \rho\left(\frac{u_\resident \!+\! u_\resident'}{2}, \frac{u_\mutant \!+\! u_\mutant '}{2}\right), \\[0.5cm]
-\displaystyle \lambda^-_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N} \sum_{u_{\resident},u_\resident',u_{\mutant},u_\mutant'} \hspace{-0.1cm} x(u_\resident u_\resident', u_\mutant u_\mutant')\cdot \rho\left( \frac{u_\mutant \!+\! u_\mutant '}{2}, \frac{u_\resident \!+\! u_\resident'}{2}\right).
+\displaystyle \lambda^+_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N} \sum_{u_{\resident},u_\resident',u_{\mutant},u_\mutant'} \hspace{-0.1cm} x(u_\resident u_\resident', u_\mutant u_\mutant')\cdot \varphi\left(\frac{u_\resident \!+\! u_\resident'}{2}, \frac{u_\mutant \!+\! u_\mutant '}{2}\right), \\[0.5cm]
+\displaystyle \lambda^-_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N} \sum_{u_{\resident},u_\resident',u_{\mutant},u_\mutant'} \hspace{-0.1cm} x(u_\resident u_\resident', u_\mutant u_\mutant')\cdot \varphi\left( \frac{u_\mutant \!+\! u_\mutant '}{2}, \frac{u_\resident \!+\! u_\resident'}{2}\right).
 \end{array}
 \end{equation}
  
@@ -892,7 +894,7 @@ u_{\resident 1},u_{\resident 1}', u_{\resident 2},u_{\resident 2}'\\
 u_{\mutant 1},u_{\mutant 1}', u_{\mutant 2},u_{\mutant 2}'
 \end{array}} 
 \hspace{-1cm} x(u_{\resident 1} u_{\resident 1}'u_{\resident 2} u_{\resident 2}' ,u_{\mutant 1}u_{\mutant 1}'u_{\mutant 2}u_{\mutant 2}')\cdot 
-\rho\!\left(\frac{u_{\resident 1}\!+\! u_{\resident 1}'\!+\!u_{\resident 2}\!+\!u_{\resident 2}' }{4},
+\varphi\!\left(\frac{u_{\resident 1}\!+\! u_{\resident 1}'\!+\!u_{\resident 2}\!+\!u_{\resident 2}' }{4},
 \frac{u_{\mutant 1}\!+\!u_{\mutant 1}'\!+\!u_{\mutant 2}\!+\!u_{\mutant 2}'}{4}\!\right), \\[1.4cm]
 
 \displaystyle \lambda^-_k=\frac{N\!-\!k}{N}\cdot \frac{k}{N} 
@@ -903,12 +905,130 @@ u_{\resident 1},u_{\resident 1}', u_{\resident 2},u_{\resident 2}'\\
 u_{\mutant 1},u_{\mutant 1}', u_{\mutant 2},u_{\mutant 2}'
 \end{array}} 
 \hspace{-1cm} x(u_{\resident 1} u_{\resident 1}'u_{\resident 2} u_{\resident 2}' ,u_{\mutant 1}u_{\mutant 1}'u_{\mutant 2}u_{\mutant 2}')\cdot 
-\rho\!\left(\frac{u_{\mutant 1}\!+\!u_{\mutant 1}'\!+\!u_{\mutant 2}\!+\!u_{\mutant 2}'}{4},
+\varphi\!\left(\frac{u_{\mutant 1}\!+\!u_{\mutant 1}'\!+\!u_{\mutant 2}\!+\!u_{\mutant 2}'}{4},
 \frac{u_{\resident 1}\!+\! u_{\resident 1}'\!+\!u_{\resident 2}\!+\!u_{\resident 2}' }{4}\!\right).
 \end{array}
 \end{equation}
  Though we do not pursue any further analytical exploration of this case, in the
 next section we present simulation results for this setting, as well as for the other settings.\\
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% RESULTS: Remembering the last two rounds of one interaction %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Updates based on average payoff of one repeated game}\label{section:one_interaction_full_memory}
+
+%% RESULTS: Two interactions, last round -- General motivation %% 
+
+{\bf Motivation.}
+
+\nikoleta{CH to write a few senteces}
+
+
+\noindent
+{\bf Computing the ratio $\lambda^-_k/\lambda^+_k$.}
+We revisit the population setup, consisting of \(k\) mutants with the strategy
+\(\strategy_\mutant = (y_\mutant, p_\mutant, q_\mutant)\) and \(N-k\) residents
+with strategies \(\strategy_\resident = (y_\resident, p_\resident,
+q_\resident)\). In each step of the evolutionary process, we select a learner and
+a role model. The learner or the role model can be either a resident, and the
+other player is a mutant. We consider that the learner and the
+model update based on a single repeated game with a member of the population.
+As mentioned previously, two major cases must be considered:
+
+\begin{enumerate}
+  \item The learner and the role model play a repeated game with each other.
+  \item The learner's last repeated game was not with the role model.
+\end{enumerate}
+
+In the latter case, there are four different subcases based on whether the
+resident's last interaction partner was a mutant or a resident and whether the
+mutant's last interaction partner was a mutant or a resident.
+
+We assume that the players' calculations are based on the average payoffs (as given by
+Eq.~\eqref{eq:expected_payoff})
+received from interacting with their last interaction partners. Thus, a resident
+interacting with a resident receives the payoff $\pi(\strategy_\resident, \strategy_\resident)$,
+and $\pi(\strategy_\resident, \strategy_\mutant)$ when interacting with a mutant. Similarly, a
+mutant interacting with a resident receives the payoff $\pi(\strategy_\mutant,
+\strategy_\resident)$ and $\pi(\strategy_\mutant, \strategy_\mutant)$ when interacting with a mutant.\\
+
+\noindent
+After these preparations, we can define the probability that the number of
+mutants either increases or decreases by one.
+
+\begin{equation*}
+  \setlength{\arraycolsep}{1pt} 
+  \begin{array}{llll}
+    \lambda^+	 &=
+  &\frac{1}{N\!-\!1}\cdot  & \varphi\left(\pi (\strategy_\resident, \strategy_\mutant), \pi (\strategy_\mutant, \strategy_\resident)\right)\\[0.5cm]
+  &+
+  &\frac{N\!-\!2}{N\!-\!1} \cdot 
+  &\left[ \frac{k\!-\!1}{N\!-\!2}\frac{k\!-\!2}{N\!-\!3}\cdot \varphi(\pi (\strategy_\resident, \strategy_\mutant), \pi (\strategy_\mutant, \strategy_\mutant)) + 
+   \frac{k\!-\!1}{N\!-\!2}\frac{N\!-\!k\!-\!1}{N\!-\!3}\cdot \varphi(\pi (\strategy_\resident, \strategy_\mutant), \pi (\strategy_\mutant, \strategy_\resident)) \right.\\[0.5cm]
+  &&&\left. +\frac{N\!-\!k\!-\!1}{N\!-\!2}\frac{k\!-\!1}{N\!-\!3} \cdot \varphi(\pi (\strategy_\resident, \strategy_\resident), \pi (\strategy_\mutant, \strategy_\mutant)) + 
+   \frac{N\!-\!k\!-\!1}{N\!-\!2}\frac{N\!-\!k\!-\!2}{N\!-\!3} \cdot \varphi(\pi (\strategy_\resident, \strategy_\resident), \pi (\strategy_\mutant, \strategy_\resident))\right],
+  \end{array}
+\end{equation*}
+
+\begin{equation*}
+  \setlength{\arraycolsep}{1pt} 
+  \begin{array}{llll}
+    \lambda^-	 &=
+  &\frac{1}{N\!-\!1}\cdot  & \varphi\left(\pi (\strategy_\mutant, \strategy_\resident), \pi(\strategy_\resident, \strategy_\mutant)\right)\\[0.5cm]
+  &+
+  &\frac{N\!-\!2}{N\!-\!1} \cdot 
+  &\left[ \frac{k\!-\!1}{N\!-\!2}\frac{k\!-\!2}{N\!-\!3}\cdot \varphi(\pi(\strategy_\mutant, \strategy_\mutant), \pi(\strategy_\resident, \strategy_\mutant)) + 
+   \frac{k\!-\!1}{N\!-\!2}\frac{N\!-\!k\!-\!1}{N\!-\!3}\cdot \varphi(\pi(\strategy_\mutant, \strategy_\resident), \pi(\strategy_\resident, \strategy_\mutant)) \right.\\[0.5cm]
+  &&&\left. +\frac{N\!-\!k\!-\!1}{N\!-\!2}\frac{k\!-\!1}{N\!-\!3} \cdot \varphi(\pi(\strategy_\mutant, \strategy_\mutant), \pi(\strategy_\resident, \strategy_\resident)) + 
+   \frac{N\!-\!k\!-\!1}{N\!-\!2}\frac{N\!-\!k\!-\!2}{N\!-\!3} \cdot \varphi(\pi(\strategy_\mutant, \strategy_\resident), \pi(\strategy_\resident, \strategy_\resident),)\right].
+  \end{array}
+\end{equation*}
+
+
+\noindent
+{\bf Stochastic stability of cooperation.}
+We once again calculate how easily a single \alld{} mutant can invade into a
+resident population of \gtft{} players. When a resident interacts with another
+resident or with a mutant,
+the average payoffs based on Eq.~\eqref{eq:expected_payoff} of the interactions are,
+\begin{equation*}
+\begin{array}{ll}
+  \pi (\strategy_\resident, \strategy_\resident) =  b - c,
+  &\pi (\strategy_\resident, \strategy_\mutant) =  - c \left(\delta \left(q - 1\right) + 1\right).
+\end{array}
+\end{equation*}
+The average payoffs of the mutant, are
+\begin{align*}
+\begin{array}{ll}
+  \pi (\strategy_\mutant, \strategy_\resident) =  b \left(\delta \left(q - 1\right) + 1\right),
+  &\pi (\strategy_\mutant, \strategy_\mutant) =  0.
+\end{array}
+\end{align*}
+Based on these average payoffs, we compute the ratio
+\begin{equation}
+  \frac{\lambda^{-}_1}{\lambda^{+}_1} =
+  \frac{\frac{1}{N-1}\frac{1}{\left(1 + e^{\beta \left(b \left(\delta q - \delta\right) + c\right)}\right)}
+  + \frac{N - 2}{N-1}\frac{1}{\left(1 + e^{- \beta \left(- b \left(\delta q - \delta + 1\right) + b - c\right)}\right)}}
+  {\frac{1}{N-1}\frac{1}{\left(1 + e^{- \beta \left(b \left(\delta q - \delta\right) + c\right)}\right)}
+  + \frac{N - 2}{N-1}\frac{1}{\left(1 + e^{- \beta \left(b \left(\delta q - \delta + 1\right) - b + c\right)}\right)}}.
+\end{equation}
+
+\noindent
+In the limit of large populations \(N \rightarrow \infty \), this ratio simplifies to
+
+\begin{equation}
+  \frac{\lambda^{-}_1}{\lambda^{+}_1} =
+  \frac{1 + e^{- \beta \left(b \left(\delta q - \delta\right) + c\right)}}{1 + e^{\beta \left(b \left(\delta q - \delta\right) + c\right)}}.
+\end{equation}
+For stochastic stability of cooperation we require this ratio to be larger than one, which is equivalent to
+\begin{equation} \label{Eq:Condition_OneInteractionExpectedPayoff}
+  q<1 - \frac{c}{\delta b}
+\end{equation}
+Interestingly, this conditions is the same as the condition for stochastic
+stability in the case of perfect memory, see
+Eq.~\eqref{Eq:Condition_PerfectMemory}.
 
 \clearpage
 
@@ -928,13 +1048,15 @@ next section we present simulation results for this setting, as well as for the 
 \begin{figure}[t!]
     \centering 
     \includegraphics[width=\textwidth]{static/more_memory_heatmaps_donation_game_with_illustrations.pdf}
-    \caption{\textbf{Evolutionary dynamics of our five different settings.}
+    \caption{\textbf{Evolutionary dynamics of our six different settings.}
     From left to right, we present results on the following cases: individuals update their strategies based on
     ({\it i})~the expected payoffs (perfect memory); ({\it ii}) the last-round payoff
     of one interaction (limited memory); ({\it iii})~the last round payoff of two
     interactions; ({\it iv})~the payoffs of the last two rounds of one interaction; 
-    and ({\it v}) the payoff of the last two rounds of two interactions. We run each simulation for \(T
-    = 10^7\) time steps. For each time step we record the current resident
+    ({\it v}) the payoff of the last two rounds of two interactions and
+    ({\it vi}) the expected payoff of one interaction.
+    Simulations are run either for a comparably high benefit of cooperation~($b/c\!=\!10$), or for a low benefit~($b/c\!=\!3$).
+    We run each simulation for \(T= 10^7\) time steps. For each time step we record the current resident
     population \((y, p, q)\). The graphs show how often the
     resident population chooses each combination \((p, q)\); because $\delta\!\approx\!1$, we do not show the distribution of the player's first-round cooperation probability $y$.}\label{fig:expected_payoffs_results}
     \end{figure}
@@ -946,10 +1068,18 @@ The results of these simulations are shown in Supplementary Fig.~\ref{fig:expect
 Qualitatively, all settings lead to similar dynamics as in the case of perfect and limited memory described in the main text. 
 In particular, populations are clustered around \alld, and around a strip of conditionally cooperative strategies, \gtft$=\!(1,1,q)$. 
 In all settings, we observe that along this strip, strategies are most abundant when they satisfy the condition for stochastic stability. 
-For perfect memory, this means the resident population predominantly adopts a strategy with \(q\! \leq\! 1 \!-\!
-c/b\!=\!0.9\) (for the parameters used in the simulation). 
-For limited memory, the generosity of a conditional cooperator satisfies  \(q\!<\!\frac{1}{2}\). 
-In the next two cases, when players either remember the last round of two interactions, or the last two rounds of one interaction, stochastic stability requires $q\!<\!\sqrt{2}{2}\!\approx\!0.701$. 
+For perfect memory, this means the resident population predominantly adopts a
+strategy with \(q \leq 1 - \frac{c}{b} = 0.9\) for high benefit and \(q \leq 1 -
+\frac{c}{b} = 0.67\) for low benefit.
+For limited memory, the generosity of a conditional cooperator satisfies \(q <
+\frac{1}{2}\) for both values of benefit.
+In the next two cases, when players either remember the last round of two
+interactions or the last two rounds of one interaction, stochastic stability
+requires \(q < \frac{\sqrt{2}}{2} \approx 0.701\).
+In the final case, we observe that the generosity of a conditional cooperator is
+in line with the condition for stochastic stability in the perfect memory case:
+\(q < 1 - \frac{c}{b} = 0.9\) for high benefit and \(q < 1 - \frac{c}{b} =
+0.67\) for low benefit.
 In all cases, the simulation results are well aligned with these theoretical predictions.\\
 
 
@@ -1000,12 +1130,12 @@ Only as the mutation rate approaches one, and the processes become fully random,
 		for $T\!=\!4\times 10^7$ time steps for each parameter. In each time step,
 		we introduce a new mutant with a probability \(\mu\), and we then select
 		two random players to serve as the role model and the learner. The learner
-		adopts the strategy of the role model with a probability \(\rho(\pi_\learner, \pi_\rolemodel)\) where the
+		adopts the strategy of the role model with a probability \(\varphi(\pi_\learner, \pi_\rolemodel)\) where the
 		payoffs depend on the relevant setting. We plot the average cooperation rate
 		within the resident population for each value of \(\mu\). 
 		The results show that our previous results for rare mutations hold more generally:
 		While limited memory allows the evolution of moderate cooperation levels, perfect memory is always more conducive to the evolution of cooperation. 
-		Parameters are the same as before, \(N =100, c=1, b=10, \beta=1\).}\label{fig:mutation}
+		Parameters are the same as before, \(N =100, c=1, b=10, \beta=1, \delta=0.999\).}\label{fig:mutation}
 \end{figure}
 
 \subsection{Simulations for memory-one strategies}\label{section:memory_one}
@@ -1032,6 +1162,22 @@ Fig.~\ref{fig:memory_one_high_benefit} shows the corresponding results for a lar
 These simulations suggest that even when individuals
 are allowed to use memory-one strategies, there is more cooperation when players update their strategies based on perfect payoff memory. 
 
+To further investigate the influence of different parameters, we have
+systematically varied the benefit~$b$ and the selection strength~$\beta$, as
+shown in Fig.~\ref{fig:cooperation_rate_over_benefit_and_beta_memory_one}.
+When compared to the case of reactive strategies, what we observe
+here is that in the case of limited payoff memory, cooperation rates increase
+with an increasing benefit~$b$ and do not remain stable
+(Fig.~\ref{fig:cooperation_rate_over_benefit_and_beta_memory_one}(a)). However,
+even in this scenario, we still observe that perfect memory consistently results
+in a higher cooperation rate.
+Regarding the effect of different selection strengths, as depicted in
+Fig.~\ref{fig:cooperation_rate_over_benefit_and_beta_memory_one}(b), the results
+once again suggest that both perfect and limited payoff memory yield similar
+cooperation rates for weak selection (\(\beta \!<\! 1\)). Beyond weak selection, increasing
+selection has a positive effect under perfect payoff memory but a negative
+effect under limited payoff memory.
+
 \begin{figure}[!htbp]
   \centering 
   \includegraphics[width=\textwidth]{static/memory_one_results_low_benefit.pdf}
@@ -1048,7 +1194,7 @@ are allowed to use memory-one strategies, there is more cooperation when players
   simulation. Abundance is the number of mutants a strategy can repel before
   being invaded. The most abundant strategies have some similarities,
   namely, \(p_1 \approx 1\), \(p_3 \approx 0\) and \(p_4 > \frac{1}{2}\). 
-  Parameters: \(N =100, c=1, b=3, \beta=1\).}\label{fig:memory_one_low_benefit}
+  Parameters: \(N =100, c=1, b=3, \beta=1, \delta=0.999\).}\label{fig:memory_one_low_benefit}
 \end{figure}
 
 
@@ -1057,6 +1203,22 @@ are allowed to use memory-one strategies, there is more cooperation when players
   \includegraphics[width=\textwidth]{static/memory_one_results_high_benefit.pdf}
   \caption{\textbf{Evolution of memory-one strategies when the benefit is high.}
   We consider a similar setup as in Fig.~\ref{fig:memory_one_low_benefit}, but now using a larger benefit value $b\!=\!10$.}\label{fig:memory_one_high_benefit}
+\end{figure}
+
+
+\begin{figure}[!htbp]
+  \centering 
+  \includegraphics[width=\textwidth]{static/cooperation_rate_over_b_and_beta_memory_one.pdf}
+  \caption{{\bf Evolution of direct reciprocity for different parameter values for memory-one strategies.}
+  To further explore the robustness of our results in the case of memory-one
+  strategies, we run simulations for different benefit values (left panels, A)
+  and for different selection strengths (right panels, B). These simulations
+  suggest that perfect payoff memory consistently leads to more cooperation and
+  more generosity. Unless explicitly varied, the parameters of the simulation
+  are $N\!=\!100$, $b\!=\!3$, $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.999$.
+  Simulations are run for $T\!=\!5\times 10^7$ time steps for each parameter
+  combination.}
+  \label{fig:cooperation_rate_over_benefit_and_beta_memory_one}
 \end{figure}
 
 
@@ -1075,5 +1237,4 @@ are allowed to use memory-one strategies, there is more cooperation when players
 \bibliography{bibliography}
 }
 
-\christian{Adjust symbols in main text -- for role model, strategy, etc}
 \end{document}
