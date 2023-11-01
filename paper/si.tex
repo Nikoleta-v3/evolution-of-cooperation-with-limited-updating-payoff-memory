@@ -28,6 +28,7 @@
 \newcommand{\matlabcomment}[1]{\textcolor{darkgreen}{#1}}
 \newcommand{\christian}[1]{\textcolor{blue}{\textbf{CH}: #1}}
 \newcommand{\alex}[1]{\textcolor{red}{\textbf{AL}: #1}}
+\newcommand{\nikoleta}[1]{\textcolor{orange}{\textbf{NG}: #1}}
 
 \def\alld{\texttt{ALLD}}
 \def\tft{\texttt{TFT}}
@@ -257,7 +258,7 @@ We discuss six cases explicitly. In these cases, updating occurs
 ({\it iii})~based on the last round of two interactions,
 ({\it iv})~based on the last two rounds of one interaction,
 ({\it v})~based on the last two rounds of two interactions, and
-({\it v})~based on the expected payoff of one interaction.
+({\it v})~based on the average payoff of one interaction.
 In each case, we consider the case that there are only two strategies present in the population (a resident and a mutant strategy). 
 We first derive how likely it is that a learner (of any type) assigns a given payoff $\pi_\learner$ to itself, and a payoff of $\pi_\rolemodel$ to the role model. 
 This allows us to derive explicit expressions for $\lambda^-_k/\lambda^+_k$, and hence for the mutant's fixation probability according to Eq.~\eqref{eq:fixation_probability}.
@@ -916,12 +917,13 @@ next section we present simulation results for this setting, as well as for the 
 %% RESULTS: Remembering the last two rounds of one interaction %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Updates based on expected payoff of one repeated game}\label{section:one_interaction_full_memory}
+\subsection{Updates based on average payoff of one repeated game}\label{section:one_interaction_full_memory}
 
 %% RESULTS: Two interactions, last round -- General motivation %% 
 
 {\bf Motivation.}
 
+\nikoleta{CH to write a few senteces}
 
 
 \noindent
@@ -932,20 +934,21 @@ with strategies \(\strategy_\resident = (y_\resident, p_\resident,
 q_\resident)\). In each step of the evolutionary process, we select a learner and
 a role model. The learner or the role model can be either a resident, and the
 other player is a mutant. We consider that the learner and the
-model update based on their most recent interaction. As mentioned previously,
-two major cases must be considered:
+model update based on a single repeated game with a member of the population.
+As mentioned previously, two major cases must be considered:
 
 \begin{enumerate}
-  \item The learner and the role model have had their most recent interaction with each other.
-  \item The learner's last interaction was not with the role model.
+  \item The learner and the role model play a repeated game with each other.
+  \item The learner's last repeated game was not with the role model.
 \end{enumerate}
 
 In the latter case, there are four different subcases based on whether the
 resident's last interaction partner was a mutant or a resident and whether the
 mutant's last interaction partner was a mutant or a resident.
 
-We assume that the players' payoff received from their last interaction is their
-expected payoff given by Eq.~\eqref{eq:expected_payoff}. Thus, a resident
+We assume that the players' calculations are based on the average payoffs (as given by
+Eq.~\eqref{eq:expected_payoff})
+received from interacting with their last interaction partners. Thus, a resident
 interacting with a resident receives the payoff $\pi(\strategy_\resident, \strategy_\resident)$,
 and $\pi(\strategy_\resident, \strategy_\mutant)$ when interacting with a mutant. Similarly, a
 mutant interacting with a resident receives the payoff $\pi(\strategy_\mutant,
@@ -987,23 +990,23 @@ mutants either increases or decreases by one.
 \noindent
 {\bf Stochastic stability of cooperation.}
 We once again calculate how easily a single \alld{} mutant can invade into a
-resident population of \gtft{} players. When resident interacts with another
+resident population of \gtft{} players. When a resident interacts with another
 resident or with a mutant,
-the expected payoffs based on Eq.~\eqref{eq:expected_payoff} of the interactions are,
+the average payoffs based on Eq.~\eqref{eq:expected_payoff} of the interactions are,
 \begin{equation*}
 \begin{array}{ll}
   \pi (\strategy_\resident, \strategy_\resident) =  b - c,
   &\pi (\strategy_\resident, \strategy_\mutant) =  - c \left(\delta \left(q - 1\right) + 1\right).
 \end{array}
 \end{equation*}
-The expected payoff of the mutant, are
+The average payoffs of the mutant, are
 \begin{align*}
 \begin{array}{ll}
   \pi (\strategy_\mutant, \strategy_\resident) =  b \left(\delta \left(q - 1\right) + 1\right),
   &\pi (\strategy_\mutant, \strategy_\mutant) =  0.
 \end{array}
 \end{align*}
-Based on these expected payoffs, we compute the ratio
+Based on these average payoffs, we compute the ratio
 \begin{equation}
   \frac{\lambda^{-}_1}{\lambda^{+}_1} =
   \frac{\frac{1}{N-1}\frac{1}{\left(1 + e^{\beta \left(b \left(\delta q - \delta\right) + c\right)}\right)}
@@ -1234,5 +1237,4 @@ effect under limited payoff memory.
 \bibliography{bibliography}
 }
 
-\christian{Adjust symbols in main text -- for role model, strategy, etc}
 \end{document}
