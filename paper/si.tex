@@ -251,12 +251,13 @@ In Section~\ref{section:furthersimulations}, we present additional simulation re
 %% RESULTS: General overview %% 
 
 In the following, we discuss our different memory settings in more detail. 
-We discuss five cases explicitly. In these cases, updating occurs
+We discuss six cases explicitly. In these cases, updating occurs
 ({\it i})~based on average payoffs based on all interactions (perfect memory), 
 ({\it ii})~based on the last round of one interaction (limited memory), 
 ({\it iii})~based on the last round of two interactions,
-({\it iv})~based on the last two rounds of one interaction, and 
-({\it v})~based on the last two rounds of two interactions. 
+({\it iv})~based on the last two rounds of one interaction,
+({\it v})~based on the last two rounds of two interactions, and
+({\it v})~based on the expected payoff of one interaction.
 In each case, we consider the case that there are only two strategies present in the population (a resident and a mutant strategy). 
 We first derive how likely it is that a learner (of any type) assigns a given payoff $\pi_\learner$ to itself, and a payoff of $\pi_\rolemodel$ to the role model. 
 This allows us to derive explicit expressions for $\lambda^-_k/\lambda^+_k$, and hence for the mutant's fixation probability according to Eq.~\eqref{eq:fixation_probability}.
@@ -375,9 +376,9 @@ As a consequence, we can calculate the corresponding ratio of transition probabi
 \frac{\lambda_1^{-}}{\lambda_1^{+}} = e^{-\beta \left( (1-\delta+\delta q)(b+\frac{c}{N-1})- \frac{N-2}{N-1}(b-c) \right)}
 \end{align*}
 By definition, cooperation is stochastically stable if this ratio exceeds one, which is equivalent to
-\begin{equation*}
+\begin{equation}\label{Eq:Condition_PerfectMemory}
 q<1-\frac{1}{\delta}\cdot \frac{b+(N\!-\!1)c}{(N\!-\!1)b+c}.
-\end{equation*}
+\end{equation}
 For such a strategy to be feasible we require $q\!>\!0$, which implies $\delta \!>\! \big(b+(N\!-\!1)c\big)/\big((N\!-\!1)b\!+\!c\big)$.
 In particular, in the limit of large populations \(N \!\rightarrow\! \infty\), we obtain that cooperation is stochastically stable if  \(q \!<\! 1\! -\! c/(\delta b)\). 
 The minimum continuation probability for such a strategy to exist is $\delta \!>\! c/b$. 
@@ -915,49 +916,40 @@ next section we present simulation results for this setting, as well as for the 
 %% RESULTS: Remembering the last two rounds of one interaction %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Updates based on the realized payoff one repeated game}\label{section:one_interaction_full_memory}
+\subsection{Updates based on expected payoff of one repeated game}\label{section:one_interaction_full_memory}
 
 %% RESULTS: Two interactions, last round -- General motivation %% 
 
 {\bf Motivation.}
-In the case of limited memory, we have thus far considered that individuals
-update their strategies based solely on the number of interactions and by
-considering only the payoff they received in those interactions in the final
-turns. \\
 
-\noindent
-A player's payoff in such an interaction is calculated based on the
-probabilities. In comparison, in the perfect memory case, individuals consider
-their expected payoff from the interaction. A natural question to ask is what
-happens if individuals update based on the expected payoffs of the interaction.
+
 
 \noindent
 {\bf Computing the ratio $\lambda^-_k/\lambda^+_k$.}
-We consider the population setup once more, consisting of \(k\) mutants with the
-strategy \(\strategy_\mutant=(y_\mutant,p_\mutant,q_\mutant)\), and \(N-k\)
-residents with strategies \(\strategy_\resident =
-(y_\resident,p_\resident,q_\mutant)\). In each step of the evolutionary process,
-we select a learner and a role model. The learner or the role model can be
-either a resident, and the other player is a mutant. As mentioned previously,
+We revisit the population setup, consisting of \(k\) mutants with the strategy
+\(\strategy_\mutant = (y_\mutant, p_\mutant, q_\mutant)\) and \(N-k\) residents
+with strategies \(\strategy_\resident = (y_\resident, p_\resident,
+q_\resident)\). In each step of the evolutionary process, we select a learner and
+a role model. The learner or the role model can be either a resident, and the
+other player is a mutant. We consider that the learner and the
+model update based on their most recent interaction. As mentioned previously,
 two major cases must be considered:
 
 \begin{enumerate}
-  \item The learner and the role model have had their most recent interaction
-  with each other.
-  \item The learner's last interaction was not with the role model. In the
-  latter case, there are four different subcases based on whether the resident's
-  last interaction partner was a mutant or a resident, and whether the mutant's
-  last interaction partner was a mutant or a resident.
+  \item The learner and the role model have had their most recent interaction with each other.
+  \item The learner's last interaction was not with the role model.
 \end{enumerate}
 
-\noindent
-In each pairing, we assume that the players interact for a specific number of
-rounds, and the payoff from their interaction is the average of the payoffs
-described in Eq.~\eqref{eq:expected_payoff}. As a result, there are four
-possible payoffs in our population setup: the payoffs an individual with a
-resident strategy can receive when interacting with an individual with the same
-strategy or with a mutant strategy, and similarly, the payoffs for the mutant
-strategy. \\
+In the latter case, there are four different subcases based on whether the
+resident's last interaction partner was a mutant or a resident and whether the
+mutant's last interaction partner was a mutant or a resident.
+
+We assume that the players' payoff received from their last interaction is their
+expected payoff given by Eq.~\eqref{eq:expected_payoff}. Thus, a resident
+interacting with a resident receives the payoff $\pi(s_\resident, s_\resident)$,
+and $\pi(s_\resident, s_\mutant)$ when interacting with a mutant. Similarly, a
+mutant interacting with a resident receives the payoff $\pi(s_\mutant,
+s_\resident)$ and $\pi(s_\mutant, s_\mutant)$ when interacting with a mutant.\\
 
 \noindent
 After these preparations, we can define the probability that the number of
@@ -980,7 +972,7 @@ mutants either increases or decreases by one.
 \begin{equation*}
   \setlength{\arraycolsep}{1pt} 
   \begin{array}{llll}
-    \lambda^+	 &=
+    \lambda^-	 &=
   &\frac{1}{N\!-\!1}\cdot  & \rho\left(\pi (\strategy_\mutant, \strategy_\resident), \pi(\strategy_\resident, \strategy_\mutant)\right)\\[0.5cm]
   &+
   &\frac{N\!-\!2}{N\!-\!1} \cdot 
@@ -1014,9 +1006,14 @@ The expected payoff of the mutant, are
 Based on these expected payoffs, we compute the ratio
 \begin{equation}
   \frac{\lambda^{-}_1}{\lambda^{+}_1} =
-  \frac{\frac{1}{N-1} + \frac{N-2}{N-1}}{\frac{1}{N-1} + \frac{N-2}{N-1}}
+  \frac{\frac{1}{N-1}\frac{1}{\left(1 + e^{\beta \left(b \left(\delta q - \delta\right) + c\right)}\right)}
+  + \frac{N - 2}{N-1}\frac{1}{\left(1 + e^{- \beta \left(- b \left(\delta q - \delta + 1\right) + b - c\right)}\right)}}
+  {\frac{1}{N-1}\frac{1}{\left(1 + e^{- \beta \left(b \left(\delta q - \delta\right) + c\right)}\right)}
+  + \frac{N - 2}{N-1}\frac{1}{\left(1 + e^{- \beta \left(b \left(\delta q - \delta + 1\right) - b + c\right)}\right)}}.
 \end{equation}
 
+\noindent
+In the limit of large populations \(N \rightarrow \infty \), this ratio simplifies to
 
 \begin{equation}
   \frac{\lambda^{-}_1}{\lambda^{+}_1} =
@@ -1048,13 +1045,15 @@ Eq.~\eqref{Eq:Condition_PerfectMemory}.
 \begin{figure}[t!]
     \centering 
     \includegraphics[width=\textwidth]{static/more_memory_heatmaps_donation_game_with_illustrations.pdf}
-    \caption{\textbf{Evolutionary dynamics of our five different settings.}
+    \caption{\textbf{Evolutionary dynamics of our six different settings.}
     From left to right, we present results on the following cases: individuals update their strategies based on
     ({\it i})~the expected payoffs (perfect memory); ({\it ii}) the last-round payoff
     of one interaction (limited memory); ({\it iii})~the last round payoff of two
     interactions; ({\it iv})~the payoffs of the last two rounds of one interaction; 
-    and ({\it v}) the payoff of the last two rounds of two interactions. We run each simulation for \(T
-    = 10^7\) time steps. For each time step we record the current resident
+    ({\it v}) the payoff of the last two rounds of two interactions and
+    ({\it vi}) the expected payoff of one interaction.
+    Simulations are run either for a comparably high benefit of cooperation~($b/c\!=\!10$), or for a low benefit~($b/c\!=\!3$).
+    We run each simulation for \(T= 10^7\) time steps. For each time step we record the current resident
     population \((y, p, q)\). The graphs show how often the
     resident population chooses each combination \((p, q)\); because $\delta\!\approx\!1$, we do not show the distribution of the player's first-round cooperation probability $y$.}\label{fig:expected_payoffs_results}
     \end{figure}
@@ -1066,10 +1065,18 @@ The results of these simulations are shown in Supplementary Fig.~\ref{fig:expect
 Qualitatively, all settings lead to similar dynamics as in the case of perfect and limited memory described in the main text. 
 In particular, populations are clustered around \alld, and around a strip of conditionally cooperative strategies, \gtft$=\!(1,1,q)$. 
 In all settings, we observe that along this strip, strategies are most abundant when they satisfy the condition for stochastic stability. 
-For perfect memory, this means the resident population predominantly adopts a strategy with \(q\! \leq\! 1 \!-\!
-c/b\!=\!0.9\) (for the parameters used in the simulation). 
-For limited memory, the generosity of a conditional cooperator satisfies  \(q\!<\!\frac{1}{2}\). 
-In the next two cases, when players either remember the last round of two interactions, or the last two rounds of one interaction, stochastic stability requires $q\!<\!\sqrt{2}{2}\!\approx\!0.701$. 
+For perfect memory, this means the resident population predominantly adopts a
+strategy with \(q \leq 1 - \frac{c}{b} = 0.9\) for high benefit and \(q \leq 1 -
+\frac{c}{b} = 0.67\) for low benefit.
+For limited memory, the generosity of a conditional cooperator satisfies \(q <
+\frac{1}{2}\) for both values of benefit.
+In the next two cases, when players either remember the last round of two
+interactions or the last two rounds of one interaction, stochastic stability
+requires \(q < \frac{\sqrt{2}}{2} \approx 0.701\).
+In the final case, we observe that the generosity of a conditional cooperator is
+in line with the condition for stochastic stability in the perfect memory case:
+\(q < 1 - \frac{c}{b} = 0.9\) for high benefit and \(q < 1 - \frac{c}{b} =
+0.67\) for low benefit.
 In all cases, the simulation results are well aligned with these theoretical predictions.\\
 
 
@@ -1125,7 +1132,7 @@ Only as the mutation rate approaches one, and the processes become fully random,
 		within the resident population for each value of \(\mu\). 
 		The results show that our previous results for rare mutations hold more generally:
 		While limited memory allows the evolution of moderate cooperation levels, perfect memory is always more conducive to the evolution of cooperation. 
-		Parameters are the same as before, \(N =100, c=1, b=10, \beta=1\).}\label{fig:mutation}
+		Parameters are the same as before, \(N =100, c=1, b=10, \beta=1, \delta=0.999\).}\label{fig:mutation}
 \end{figure}
 
 \subsection{Simulations for memory-one strategies}\label{section:memory_one}
@@ -1152,6 +1159,22 @@ Fig.~\ref{fig:memory_one_high_benefit} shows the corresponding results for a lar
 These simulations suggest that even when individuals
 are allowed to use memory-one strategies, there is more cooperation when players update their strategies based on perfect payoff memory. 
 
+To further investigate the influence of different parameters, we have
+systematically varied the benefit~$b$ and the selection strength~$\beta$, as
+shown in Fig.~\ref{fig:cooperation_rate_over_benefit_and_beta_memory_one}.
+When compared to the case of reactive strategies, what we observe
+here is that in the case of limited payoff memory, cooperation rates increase
+with an increasing benefit~$b$ and do not remain stable
+(Fig.~\ref{fig:cooperation_rate_over_benefit_and_beta_memory_one}(a)). However,
+even in this scenario, we still observe that perfect memory consistently results
+in a higher cooperation rate.
+Regarding the effect of different selection strengths, as depicted in
+Fig.~\ref{fig:cooperation_rate_over_benefit_and_beta_memory_one}(b), the results
+once again suggest that both perfect and limited payoff memory yield similar
+cooperation rates for weak selection (\(\beta \!<\! 1\)). Beyond weak selection, increasing
+selection has a positive effect under perfect payoff memory but a negative
+effect under limited payoff memory.
+
 \begin{figure}[!htbp]
   \centering 
   \includegraphics[width=\textwidth]{static/memory_one_results_low_benefit.pdf}
@@ -1168,7 +1191,7 @@ are allowed to use memory-one strategies, there is more cooperation when players
   simulation. Abundance is the number of mutants a strategy can repel before
   being invaded. The most abundant strategies have some similarities,
   namely, \(p_1 \approx 1\), \(p_3 \approx 0\) and \(p_4 > \frac{1}{2}\). 
-  Parameters: \(N =100, c=1, b=3, \beta=1\).}\label{fig:memory_one_low_benefit}
+  Parameters: \(N =100, c=1, b=3, \beta=1, \delta=0.999\).}\label{fig:memory_one_low_benefit}
 \end{figure}
 
 
@@ -1183,7 +1206,16 @@ are allowed to use memory-one strategies, there is more cooperation when players
 \begin{figure}[!htbp]
   \centering 
   \includegraphics[width=\textwidth]{static/cooperation_rate_over_b_and_beta_memory_one.pdf}
-  \caption{{\bf Evolution of direct reciprocity for different parameter values.}}
+  \caption{{\bf Evolution of direct reciprocity for different parameter values for memory-one strategies.}
+  To further explore the robustness of our results in the case of memory-one
+  strategies, we run simulations for different benefit values (left panels, A)
+  and for different selection strengths (right panels, B). These simulations
+  suggest that perfect payoff memory consistently leads to more cooperation and
+  more generosity. Unless explicitly varied, the parameters of the simulation
+  are $N\!=\!100$, $b\!=\!3$, $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.999$.
+  Simulations are run for $T\!=\!5\times 10^7$ time steps for each parameter
+  combination.}
+  \label{fig:cooperation_rate_over_benefit_and_beta_memory_one}
 \end{figure}
 
 
