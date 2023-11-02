@@ -24,3 +24,4 @@ src/evol_dynamics/__pycache__/*
 *.blg
 *.fls
 
+paper/cover
