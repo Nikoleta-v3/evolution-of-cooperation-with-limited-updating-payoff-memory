@@ -1,0 +1,22 @@
+
+\documentclass[tikz]{standalone}
+
+\definecolor{solarizedBlue}{HTML}{268BD2}
+\definecolor{bostonuniversityred}{rgb}{0.8, 0.0, 0.0}
+\definecolor{ao}{rgb}{0.0, 0.5, 0.0}
+
+\usetikzlibrary{positioning, fit, calc,matrix, arrows,scopes}
+
+\begin{document}
+\tikzset{man/.pic={
+    \node[circle,fill,minimum size=10mm] (head) {};
+    \node[rounded corners=4pt,minimum height=1.1cm,minimum width=0.8cm,fill,below = 2pt of head] (body) {};
+    \draw[line width=2mm,round cap-round cap] ([shift={(4pt,-2pt)}]body.north east) --++(-90:6mm);
+    \draw[line width=2mm,round cap-round cap] ([shift={(-4pt,-2pt)}]body.north west)--++(-90:6mm);
+    }}
+\begin{tikzpicture}
+
+\pic[ao] at (0, 0) (myman) {man};
+
+\end{tikzpicture}
+\end{document}
