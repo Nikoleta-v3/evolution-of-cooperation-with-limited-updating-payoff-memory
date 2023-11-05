@@ -13,6 +13,8 @@
 \usepackage{booktabs}
 \usepackage{blkarray}
 \usepackage[ruled,vlined]{algorithm2e}
+\usepackage{lineno}
+\linenumbers
 \smallskip % Erlaubt kleine Abstaende zwischen Paragraphen, falls es dem Seitenlayout hilft
 \renewcommand{\baselinestretch}{1.3}
 \newcommand{\R}{\mathbb{R}}
@@ -93,10 +95,11 @@
 with limited payoff memory\\}
 \date{}
 \author{\parbox[c]{16cm}{\centering \onehalfspacing 
-Nikoleta E. Glynatsi$^1$,  Alex McAvoy$^{2,3}$, Christian Hilbe$^1$\\ \quad \\
+Nikoleta E. Glynatsi$^1$,  Alex McAvoy$^{2,3, \dagger}$, Christian Hilbe$^{1, \dagger}$\\ \quad \\
 $^{\rm 1}$Max Planck Research Group on the Dynamics of Social Behavior,\\ Max Planck Institute for Evolutionary Biology, Pl\"{o}n, Germany \\
 $^{\rm 2}$School of Data Science and Society, University of North Carolina at Chapel Hill,\\ Chapel Hill, NC 27599 \\
-$^{\rm 3}$Department of Mathematics, University of North Carolina at Chapel Hill,\\ Chapel Hill, NC 27599}}
+$^{\rm 3}$Department of Mathematics, University of North Carolina at Chapel Hill,\\ Chapel Hill, NC 27599 \\
+$^{\rm \dagger}$ A.M. and C.H. contributed equally to this work.}}
 
 \begin{document}
 \maketitle
@@ -104,18 +107,20 @@ $^{\rm 3}$Department of Mathematics, University of North Carolina at Chapel Hill
 
 \begin{abstract}
 \noindent
-Direct reciprocity is a mechanism for the evolution of cooperation in repeated social interactions. 
-According to this literature, individuals naturally learn to adopt conditionally cooperative strategies if they have multiple encounters with their partner. 
-Corresponding models have greatly facilitated our understanding of cooperation, yet they often make strong assumptions on how individuals remember and process payoff information. 
-For example, when strategies are updated through social learning, it is commonly assumed that individuals compare their average payoffs.  
+Direct reciprocity is a mechanism for the evolution of cooperation in repeated social interactions.
+According to this literature, individuals naturally learn to adopt conditionally cooperative strategies if they have multiple encounters with their partner.
+Corresponding models have greatly facilitated our understanding of cooperation, yet they often make strong assumptions on how individuals remember and process payoff information.
+For example, when strategies are updated through social learning, it is commonly assumed that individuals compare their average payoffs.
 This would require them to compute (or remember) their payoffs against everyone else in the population.
 To understand how more realistic constraints influence direct reciprocity, we consider the evolution of conditional behaviors when individuals learn based on more recent experiences.
-Even in the most extreme case that they only take into account their very last interaction, we find that cooperation can still evolve. 
-However, such individuals adopt less generous strategies, and they tend to cooperate less often than in the classical setup with average payoffs. 
-Interestingly, once individuals remember the payoffs of two or three recent interactions, cooperation rates quickly approach the classical limit. 
-These findings contribute to a literature that explores which kind of cognitive capabilities are required for reciprocal cooperation. 
+Even in the most extreme case that they only take into account their very last interaction, we find that cooperation can still evolve.
+However, such individuals adopt less generous strategies, and they tend to cooperate less often than in the classical setup with average payoffs.
+Interestingly, once individuals remember the payoffs of two or three recent interactions, cooperation rates quickly approach the classical limit.
+These findings contribute to a literature that explores which kind of cognitive capabilities are required for reciprocal cooperation.
 While our results suggest that some rudimentary form of payoff memory is necessary, it already suffices to remember a few interactions.
 \end{abstract}
+
+
 
 ~\\
 {\it Keywords:} Evolution of cooperation; direct reciprocity; repeated prisoner's dilemma; social learning; evolutionary dynamics
@@ -581,6 +586,8 @@ E-DIRECT, and by the Max Planck Society.\\
     \label{fig:cooperation_rate_over_benefit_and_beta}
 \end{figure}
 
+\clearpage
+\newpage
 
 \begin{figure}[t]
   \centering
