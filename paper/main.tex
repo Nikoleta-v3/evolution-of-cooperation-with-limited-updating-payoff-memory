@@ -14,7 +14,7 @@
 \usepackage{blkarray}
 \usepackage[ruled,vlined]{algorithm2e}
 \usepackage{lineno}
-\linenumbers
+% \linenumbers
 \smallskip % Erlaubt kleine Abstaende zwischen Paragraphen, falls es dem Seitenlayout hilft
 \renewcommand{\baselinestretch}{1.3}
 \newcommand{\R}{\mathbb{R}}
@@ -166,7 +166,7 @@ In practice, such information might be both difficult to obtain and to process.
 
 %% INTRO: Gap in the literature and what  question we wish to address. 
 
-Most models of direct reciprocity abstract from these difficulties~\citep{brauchli:JTB:1999,brandt:JTB:2006,ohtsuki:JTB:2007b,szolnoki:pre:2009b,imhof2010stochastic,van-segbroeck:prl:2012,grujic:jtb:2012,Martinez2012,stewart:pnas:2013,pinheiro:PLoSCB:2014,stewart:games:2015,Baek2016,McAvoy:ProcA:2019,glynatsi:SCR:2020,Schmid:PlosCB:2022,Murase:SciRep:2022,Cooney:BMB:2022,Chen:PNASNexus:2023}. 
+Most models of direct reciprocity abstract from these difficulties~\citep{brauchli:JTB:1999,brandt:JTB:2006,ohtsuki:JTB:2007b,szolnoki:pre:2009b,imhof2010stochastic,van-segbroeck:prl:2012,grujic:jtb:2012,Martinez2012,stewart:pnas:2013,pinheiro:PLoSCB:2014,stewart:games:2015,Baek2016,hilbe:PNAS:2017,McAvoy:ProcA:2019,glynatsi:SCR:2020,Schmid:PlosCB:2022,Murase:SciRep:2022,Cooney:BMB:2022,Chen:PNASNexus:2023}. 
 They just assume individuals can easily copy the strategies of others. 
 Similarly, they just assume that updating decisions are based on the strategies' average (or expected) payoffs, which are based on all rounds and all interactions. 
 These assumptions create a curious inconsistency in how models represent an individual's cognitive abilities. 
@@ -190,10 +190,26 @@ Moreover, as we increase the individuals' payoff memory to include the last two 
 
 %% INTRO: Summary and conclusions
 
-Overall, these findings suggest that while memory is important, already minimal payoff information may suffice for the evolution of direct reciprocity based on social learning. 
-They also suggest that the classical model of reciprocity (based on expected payoffs) can often be interpreted as a useful approximation to more realistic models that include cognitive constraints. 
+% Overall, these findings suggest that while memory is important, already minimal payoff information may suffice for the evolution of direct reciprocity based on social learning. 
+% They also suggest that the classical model of reciprocity (based on expected payoffs) can often be interpreted as a useful approximation to more realistic models that include cognitive constraints. 
 
+\todo{To address the reviewer's comment, we can either delete the last paragraph or rephrase the second-to-last paragraph as follows:}
 
+To explore this question, we theoretically study imitation dynamics in the
+repeated prisoner's dilemma, employing two extreme scenarios. In the first
+scenario, which follows the conventional modeling approach, individuals update
+their strategies based on their expected payoffs. We contrast this model with an
+alternative scenario where individuals base their strategy updates solely on the
+very last (one-shot) payoff they obtained. We observe that individuals with
+limited payoff memory tend to adopt less generous strategies, yet moderate
+levels of cooperation can still emerge. This suggests that while memory plays a
+significant role, minimal payoff information may suffice for the evolution of
+direct reciprocity through social learning. Moreover, increasing individuals'
+payoff memory to include the last two or three one-shot payoffs leads to
+cooperation rates quickly approaching those observed in the classical baseline
+case. This implies that the classical reciprocity model, based on expected
+payoffs, often serves as a useful approximation to more complex models
+incorporating cognitive constraints.
 
 %%%%%%%%%
 %% MODEL  %%

@@ -1189,6 +1189,124 @@ effect under limited payoff memory.
 \end{figure}
 
 
+\clearpage
+
+%%%%%%%%%%%%%%%%%%
+%% FURTHER REPEATED GAMES %% 
+%%%%%%%%%%%%%%%%%%
+
+\section{Further repeated games; Snowdrift game}
+\label{section:furtherrepeatedgames}
+
+So far, we have discussed the prisoner's dilemma. However, this is only one
+example of social dilemmas. Further examples of social dilemmas include the
+snowdrift game~\cite{doebeli:Ecology:2005}, the stag hunt
+game~\cite{pacheco:ProcB:2009}, and the public goods
+game~\cite{pinheiro:PLoSCompBio:2014}. In the following, we discuss how our
+methodology can be applied to other games. More specifically, here we focus on
+the snowdrift game.
+
+Similarly to the prisoner's dilemma, the snowdrift game is a two-player game. In
+each round, individuals can choose whether to cooperate ($C$) or defect ($D$).
+Here, cooperation yields a benefit \(b\) to the cooperator as well as to the
+opposing player and incurs a cost \(c\) if the opponent defects, but only a cost
+\(c/2\) if the opponent cooperates. This results in the following payoffs:
+
+\begin{align}
+	\bordermatrix{%
+		& C & D \cr
+		C &\ b -c/2 &\ b-c \  \cr
+		D &\ b &\ 0\ \cr
+	} . 
+\end{align}\label{eq:snowdrift_payoff}
+If \(b>c>0\), as before, then cooperation is a better strategy than defection if the opponent
+plays defection. On the other hand, if the opponent plays C, then D is still the best
+response. Thus, both strategies can invade when rare, resulting in a mixed
+evolutionarily stable state at which the proportion of cooperators is
+\(1-c/(2b-c)\). It is important to note that in this state, the population
+payoff is smaller than it would be if everybody played C; hence, the SD still
+represents a social dilemma.
+
+
+In the following, we discuss our methodology for the snowdrift game. We start by
+considering the case of perfect memory, and then we extend our analysis to the
+case of limited memory. More specifically, we look again at which conditions
+cooperation is stochastically stable for the two extreme cases of perfect and
+limited memory. We then present simulation results for all the six cases
+explicitly considered in this work."
+
+
+\subsection{Stochastic stability of cooperation.}\label{section:stochastic_stability_snowdrift}
+
+{\bf Perfect payoff memory.} We have already discussed the general setup for the
+case of perfect memory in Section~\ref{section:perfect_memory}. Here, we derive
+the conditions under which cooperation is stochastically stable for the
+snowdrift game. As a reminder, we suppose that there is a single mutant,
+\(k\!=\!1\) that adopts the strategy $\alld$, while the residents adopt the
+strategy \(\gtft\). The resulting average distributions between the residents
+and the mutants remain the same as in Section\ref{section:perfect_memory}.
+However, the expected payoffs of the strategies now differ, as we are now
+considering the Snowdrift payoff matrix~\eqref{eq:snowdrift_payoff}.
+Specifically, the expected payoffs are computed as,
+
+\begin{align*}
+  \pi_\gtft =  \frac{N\!-\!2}{N-1} (b - c/2)  \!+\! \frac{1}{N-1}\big(1\!-\!\delta\!+\!\delta q\big)(b - c)
+  \quad \text{and} \quad
+  \pi_\alld  = \big(1\!-\!\delta\!+\!\delta q\big)b.
+\end{align*}
+
+
+As a consequence, the corresponding ratio of transition probabilities according
+to Eq.~\eqref{eq:LambdaRatio} is now given by,
+
+\begin{align*}
+\frac{\lambda_1^{-}}{\lambda_1^{+}} = e^{-\beta \left( (1-\delta+\delta q)(b - \frac{b-c}{N-1})- \frac{N-2}{N-1}(b-c/2) \right)}
+\end{align*}
+By definition, cooperation is stochastically stable if this ratio exceeds one, which is equivalent to
+\begin{equation}\label{Eq:Condition_PerfectMemory_Snowdrift}
+q<1-\frac{1}{\delta}\cdot \frac{N(c/2)}{(N\!-\!2)b+c}.
+\end{equation}
+For such a strategy to be feasible we require $q\!>\!0$, which implies $\delta
+\!>\! \big((N\!-\!2)b+c\big)/\big(N(c/2)\big)$. In particular, in the limit of
+large populations \(N \!\rightarrow\! \infty\), we obtain that cooperation is
+stochastically stable if  \(q \!<\! 1\! -\! c/(2\delta b)\).
+
+\noindent
+{\bf Limited payoff memory.} Once again, we examine
+the scenario where a single \alld{} mutant can potentially invade a resident
+population of \gtft{} players. However, this time, we consider that individuals
+only take into account the last round of their last interaction.
+Based on the probabilities \(x(u_\resident,u_\mutant)\), where \(u_\resident\)
+represents the payoff of a randomly chosen \gtft{} player and \(u_\mutant\)
+represents the payoff of the \alld{} player, with both \(u_\resident\) and
+\(u_\mutant\) being elements of \(\mathcal{U}\) (see
+Section~\ref{section:limited_memory}), we calculate the ratio of transition
+probabilities as:
+
+\begin{equation*}
+\frac{\lambda^{-}_1}{\lambda^{+}_1} = \frac{ \frac{N - 2}{N - 1}  
+\left(\frac{ 1 - \delta + \delta q}{1+e^{ \beta (c/2)} } 
+  + \frac{ \delta  \left(1 - q \right)}{1+ e^{-  \beta  \left(b - c/2 \right)}} \right)  
+  +  \frac{1}{N-1}  \left(\frac{1 - \delta + \delta q}{1 + e^{\beta c}}
+  + \frac{ \delta  \left(1 - q \right)}{2} \right)}
+  { \frac{N - 2}{N - 1}  
+\left( \frac{ 1 - \delta + \delta q}{1 + e^{-\beta (c/2)}}
++  \frac{ \delta  (1 - q)}{1 +e^{  \beta (b - c/2)}} \right) 
++  \frac{1}{N -1} \left(\frac{ 1 - \delta + \delta q}{1 + e^{-  \beta c}}
++  \frac{ \delta  \left(1 - q \right)}{2} \right)} .
+\end{equation*}
+Cooperation is stochastically stable if $\lambda^-_1/\lambda^+_1\!>\!1$. 
+While one can solve this inequality for $q$, the resulting condition is somewhat lengthy.  
+To obtain a more interpretable condition, we consider the limit of strong selection \(\beta\! \rightarrow\! \infty\) and
+large populations \(N \!\rightarrow \!\infty \). In that case, because $b\!>\!c\!>\!0$, the above ratio simplifies to
+\begin{equation}
+    \frac{\lambda^{-}_1}{\lambda^{+}_1} = \frac{\delta(1 - q)}{1 - \delta + \delta q}.
+\end{equation}
+
+This condition is identical to condition~\eqref{Eq:TransitionRatioSimple} for
+the prisoner's dilemma.
+
+\subsection{Simulation results for reactive strategies}\label{section:simulation_results_snowdrift}
 
 
 %%%%%%%%%%%%
