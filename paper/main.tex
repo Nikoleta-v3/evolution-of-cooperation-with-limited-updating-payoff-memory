@@ -465,7 +465,37 @@ Specifically, in all four scenarios with extended memory, we see similar coopera
 These results suggest that while it takes {\it some} payoff memory to sustain substantial cooperation rates, the requirements on memory seem to be rather modest. 
 Already remembering a few interactions, either with the same co-player or across different co-players, may provide players with enough information to adopt reciprocal strategies. 
 
+%% RESULTS: Snowdrift Game
+{\bf Beyond the donation game.}
+So far, we have discussed the donation game, which is the most common
+example of social dilemmas. There are several other examples, which include the
+snowdrift game~\cite{doebeli:Ecology:2005}, the stag hunt
+game~\cite{pacheco:ProcB:2009}, and the public goods
+game~\cite{pinheiro:PLoSCompBio:2014}. However, the pattern we observe is more
+general and still holds for other social dilemmas. To demonstrate this, we
+consider the snowdrift game. In the snowdrift game, individuals can again
+cooperate or defect. However, now if both cooperate, they have the benefit \(b\)
+of getting home while sharing the labor \(c\). Thus for mutual cooperation, they
+receive \(b - \frac{c}{2}\). However, if one defects, they get \(b\) while
+the cooperator gets \(b - c\). By contrast to the donation game, now
+the best action depends on the co-player: to defect if the other cooperates, but
+to cooperate if the other defects.
 
+For most scenarios, we can again derive an analytical condition for when
+cooperation is stochastically stable. Here we focus only on the case of perfect
+and limited memory. The details can be found in the electronic supplementary
+material. In the perfect memory case, we find that cooperation is stochastically
+stable when \(q < 1 - \frac{c}{2 \delta b}\), and interestingly for the limited
+memory case \(q < 1 - \frac{1}{2 \delta}\), which is the same as in
+Eq.~\eqref{Eq:LimitedMemory}. This is because in this analysis, the ordering of
+the payoffs does not matter too much; what matters most is the following.
+
+Apart from the analytical analysis, we evaluate our results with simulations,
+and we do this for all the updating payoff cases considered in this manuscript.
+What we find is that the qualitative results still hold for the snowdrift game.
+Also, in that case, we observe that perfect memory leads to systematically
+higher cooperation rates (Supplementary Figures~8, 9). However, now less memory
+is needed to approximate the classical limit.
 
 %%%%%%%%%%%%
 %%  DISCUSSION %%
@@ -483,8 +513,17 @@ In fact, even beyond specific psychological considerations, a curious interpreta
 
 We note that the expected \emph{total} payoff in the game, $u_{0}+u_{1}+\cdots +u_{T}$, is given by $\sum_{t=0}^{\infty}\delta^{t}u_{t}$. This version of ``expected payoff'' appears less common in the literature on direct reciprocity than its normalization, $\left(1-\delta\right)\sum_{t=0}^{\infty}\delta^{t}u_{t}$, likely owing to the fact that payoffs can grow arbitrarily large with sufficiently long time horizons ($\delta\rightarrow 1^{-}$). Non-normalized payoffs interfere with selection intensity ($\beta$) in models of social imitation, which is (presumably) why they appear less frequently in the literature. On that point, we note that many of the differences between realized and expected payoffs disappear in the limit of weak selection \citep{mcavoy:NHB:2020}. Non-weak selection can introduce substantial differences between models with realized and expected payoffs \citep{mcavoy:PLOSCB:2021}, which is especially important to understand in models of social systems with cultural transmission \citep{cavalli1981cultural}.
 
-Our main contribution is an application of these ideas to direct reciprocity, which is one of the key mechanisms to explain why unrelated individuals might cooperate~\citep{nowak:Science:2006}. 
-According to this mechanism, cooperation pays if it makes the interaction partner more cooperative in future. 
+Our main contribution in this work is the application of these ideas to direct reciprocity, which is one of the key mechanisms to explain why unrelated individuals might cooperate~\citep{nowak:Science:2006}. We discuss the main contributions of our work in the next section.
+
+
+%%%%%%%%%%%%
+%%  Conclusion %%
+%%%%%%%%%%%%
+
+
+\section{Conclusion}\label{section:Conclusion}
+
+According to the mechanism of direct reciprocity, cooperation pays if it makes the interaction partner more cooperative in future. 
 To describe which strategies are most effective, the previous theoretical literature assumes that the evolutionary dynamics are driven by the players' expected payoffs~\citep{brauchli:JTB:1999,brandt:JTB:2006,ohtsuki:JTB:2007b,szolnoki:pre:2009b,imhof2010stochastic,van-segbroeck:prl:2012,grujic:jtb:2012,Martinez2012,stewart:pnas:2013,pinheiro:PLoSCB:2014,stewart:games:2015,Baek2016,McAvoy:ProcA:2019,glynatsi:SCR:2020,Schmid:PlosCB:2022,Murase:SciRep:2022}.
 To the extent that strategies are learned (not inherited), this assumption seems to impose rather stringent requirements on the individuals' cognitive abilities. 
 In the most extreme case, this would require individuals to remember (or compute) their payoffs against all population members, for all possible ways in which their repeated games may unfold. 
@@ -577,7 +616,8 @@ E-DIRECT, and by the Max Planck Society.\\
     In all four panels, two regions are visited particularly often. 
     One region corresponds to a neighborhood of \alld{} with $p\approx q\!\approx\!0$ (lower left corner). 
     The other region corresponds to a strip of conditionally cooperative strategies with $p\!\approx\! 1$ and $q$ satisfying the constraints \eqref{Eq:PerfectMemory} and \eqref{Eq:LimitedMemory}, respectively (lower right corner). 
-    The resulting average cooperation rate depends on which of these two neighborhoods is visited more often. 
+    The resulting average cooperation rate depends on which of these two neighborhoods is visited more often.
+    Given the stochastic nature of the evolutionary process, we run long-time simulations to thoroughly explore its behavior and capture significant trends.
     Simulations are run for $T\!=\!10^7$ time steps, using a cost $c\!=\!1$, a continuation probability of $\delta\!=\!0.999$ and a selection strength of $\beta\!=\!1$, in a population of size $N\!=\!100$.}
 \label{fig:expected_and_stochastic_for_donation}
 \end{figure}
@@ -597,8 +637,8 @@ E-DIRECT, and by the Max Planck Society.\\
     Here, we only take into account those residents with $p\! \approx\! 1$ and we compute
     the average of their cooperation probability~$q$. 
     These simulations suggest that perfect payoff memory consistently leads to more cooperation and more generosity. 
-    Unless explicitly varied, the parameters of the simulation are $N\!=\!100$, $b\!=\!3$, $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.99$. 
-    Simulations are run for $T\!=\!5\times 10^7$ time steps for each parameter combination.}
+    Unless explicitly varied, the parameters of the simulation are $N\!=\!100$, $b\!=\!3$, $c\!=\!1$, $\beta\!=\!1$, $\delta\!=\!0.99$.
+    Each point represents a single simulation run. Simulations are run for $T\!=\!5\times 10^7$ time steps for each parameter combination. Each point is a sinlge simualtion run.}
     \label{fig:cooperation_rate_over_benefit_and_beta}
 \end{figure}
 
@@ -620,7 +660,7 @@ E-DIRECT, and by the Max Planck Society.\\
   Again, simulations are run either for a comparably low benefit of cooperation~($b/c\!=\!3$), or for a high benefit~($b/c\!=\!10$). 
   We observe that perfect memory always yields the highest cooperation rate. 
   However, when individuals take into account at least two past interactions -- cases ({\it iii}) to ({\it vi}) -- evolving cooperation rates are close to this optimum. 
-  Baseline parameters are the same as in \FigDependenceParameters.}
+  Simulations are run for $T\!=\!10^7$ time steps, using a cost $c\!=\!1$, a continuation probability of $\delta\!=\!0.999$ and a selection strength of $\beta\!=\!1$, in a population of size $N\!=\!100$.}
 \label{fig:cooperation_rate_all_updating_payoffs}
 \end{figure}
 
