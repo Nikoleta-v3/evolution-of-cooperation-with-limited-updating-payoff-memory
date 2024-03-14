@@ -19,11 +19,15 @@ We agree that there are arguments that are repeated. We have made changes
 accordingly. Specifically, we removed the last sentence of the abstract and
 reworded the last paragraphs of the introduction.
 
+Nik: To address the reviewer's comment, we can either delete the last paragraph or
+rephrase the second-to-last paragraph. In the main I left both suggestions.
+
+
 > Also, consider separating the last paragraph of the Discussion into a dedicated Conclusion section for more clarity.
 
 We thank the reviewer for their suggestion. We have now divided the discussion into separate sections for discussion and conclusion.
 
-I slightly disagree with the reviewer's suggestion to only separate the last
+Nik: I slightly disagree with the reviewer's suggestion to only separate the last
 paragraph. In my suggestion, I separate the discussion section earlier on.
 However, feel free to change it.
 
@@ -42,7 +46,7 @@ Thank you for recommending the reference. We have included it to our manuscript.
 
 >  Given that a memory of three interactions appears to be enough to recover results close to the classical model, I would like the authors to explain further why they believe that this theoretical result is crucial for making informed deductions about reciprocity in natural systems. Would it be possible that the effect of memory is also dependent on the game? That is, would the effect be stronger in an iterated snow-drift game than in a iterated prisoner’s dilemma.
 
-We have included a dedicated section on the snowdrift game in the Supplementary Information. We further discuss your comment in the _corresponding_ section.
+We have included a dedicated section on the snowdrift game in the Supplementary Information. We further discuss your comment in the results section of the manuscript.
 
 
 # Comments by Referee: 2
@@ -61,18 +65,18 @@ We thank the reviewer for their kind words. Thank you for your valuable feedback
 
 > 1. (comment) All of the mathematical analysis is constrained to GTFT, whereas simulations are required for studying the full space reactive or all memory-1 strategies. Line 207 should be edited accordingly, because it seems to suggest analytical results for all reactive strategies.
 
-I believe the reviewer is referring to `Beyond reactive strategies`. However,
+Nik: I believe the reviewer is referring to `Beyond reactive strategies`. However,
 this section follows the numerical results section where we allow for all
 reactive strategies. I'm not sure how to address this comment. Should we
 consider renaming it to `Evolutionary dynamics of reciprocity beyond reactive strategies`?
 
 > 2. (extension) What happens when selection is weaker? The entire analysis is done in the limit of strong selection and weak mutation, which makes things simple. But this leads to some pathologies, such as the non-dependence on payoff matrix in the case of a player who only remembers the last rounds of a single opponent. I believe that the simulations are also done in the limit of strong selection (is that correct? please clarify).  Can the authors tell us anything about what happens when selection is not infinitely strong?  What about the opposite limit of weak selection -- where the zeroth-order (in beta) analysis will predict no difference between a long and short memory?
 
-AM
+_AM_
 
 > 3 (comment). The coincidence of the condition for stochastic stability in a scenario with memory of all rounds of the last co-player, with the result for all rounds of all co-players, is presumably not coincidental, but a reflection of the fact that the calculation is made in the N->infinity limit with weak mutation. So a random last opponent is the same the average over all opponents.  The authors should explain this logic (if they agree), or otherwise explain this result intuitively.
 
-CH
+_CH_
 
 > 1. (extension). A very short summary of the main result is: longer memory,  cooperation is more stable.  But what if memory is costly (which it surely is)? Can the authors say anything analytic if there is a fixed cost to having a long memory, even in the simple case of GTFT vs ALLD (but when each strategic type can either pay a cost and have a long memory, or pay no cost and remember only the last round)? Can the authors say anything about the evolution of (costly) memory, especially as it provides for greater expected population mean fitness?
 
@@ -80,7 +84,7 @@ This is a great point raised by the reviewer. We find this extension very
 interesting for future work. However, we currently find no straightforward way
 to include such a cost in our current model.
 
-_Can we say anything about the evolution of costly memory?_
+Nik: Can we say anything about the evolution of costly memory?
 
 > 2. (interpretation). The comparison between temporally discounted future rewards vs actual rewards from the past is fascinating. It is mindblowing to realize that the actual payoff from the last round is an unbiased estimator of the expected (normalized) discounted payoff. And this gives a mechanistic reason for imitation based on last-round payoff. Great stuff.
 
@@ -88,4 +92,7 @@ We thank the reviewer for their positive feedback!
 
 But there seems to be a subtle inconsistency in how imitation is implemented in the short-memory case -- meaning, when a player can only remember the very last round. Even in this case, when imitation is based only on the last round, a player can nonetheless imitate the entire strategy of their partner -- which requires knowledge of their entire strategy. But how could a player with one-round memory ever infer their co-player's strategy?  This problem is discussed by authors a bit (lines 291-301), but I don't think they really address or resolve this issue directly. It seems like they assume that a short-memory player can just copy their co-players full strategy, which in principle would require observation and recall all game histories. Can the authors clarify this inconsistency, or at least acknowledge it more clearly?
 
-CH. We agree with this comment by the reviewer. We have added further discussion on this point.
+_CH_
+
+We agree with this comment by the reviewer. We have added further discussion on
+this point.
