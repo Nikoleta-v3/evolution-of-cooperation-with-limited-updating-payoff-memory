@@ -76,7 +76,7 @@ _AM_
 
 > 3 (comment). The coincidence of the condition for stochastic stability in a scenario with memory of all rounds of the last co-player, with the result for all rounds of all co-players, is presumably not coincidental, but a reflection of the fact that the calculation is made in the N->infinity limit with weak mutation. So a random last opponent is the same the average over all opponents.  The authors should explain this logic (if they agree), or otherwise explain this result intuitively.
 
-_CH_
+_Discuss with CH_
 
 > 1. (extension). A very short summary of the main result is: longer memory,  cooperation is more stable.  But what if memory is costly (which it surely is)? Can the authors say anything analytic if there is a fixed cost to having a long memory, even in the simple case of GTFT vs ALLD (but when each strategic type can either pay a cost and have a long memory, or pay no cost and remember only the last round)? Can the authors say anything about the evolution of (costly) memory, especially as it provides for greater expected population mean fitness?
 
@@ -90,7 +90,7 @@ Nik: Can we say anything about the evolution of costly memory?
 
 We thank the reviewer for their positive feedback!
 
-But there seems to be a subtle inconsistency in how imitation is implemented in the short-memory case -- meaning, when a player can only remember the very last round. Even in this case, when imitation is based only on the last round, a player can nonetheless imitate the entire strategy of their partner -- which requires knowledge of their entire strategy. But how could a player with one-round memory ever infer their co-player's strategy?  This problem is discussed by authors a bit (lines 291-301), but I don't think they really address or resolve this issue directly. It seems like they assume that a short-memory player can just copy their co-players full strategy, which in principle would require observation and recall all game histories. Can the authors clarify this inconsistency, or at least acknowledge it more clearly?
+> But there seems to be a subtle inconsistency in how imitation is implemented in the short-memory case -- meaning, when a player can only remember the very last round. Even in this case, when imitation is based only on the last round, a player can nonetheless imitate the entire strategy of their partner -- which requires knowledge of their entire strategy. But how could a player with one-round memory ever infer their co-player's strategy?  This problem is discussed by authors a bit (lines 291-301), but I don't think they really address or resolve this issue directly. It seems like they assume that a short-memory player can just copy their co-players full strategy, which in principle would require observation and recall all game histories. Can the authors clarify this inconsistency, or at least acknowledge it more clearly?
 
 _CH_
 
