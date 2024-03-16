@@ -5,18 +5,16 @@
 
 A repository for the project ``Evolution of cooperation among individuals with
 limited payoff memory''. A collaboration with
-[@chilbe3](https://twitter.com/chilbe3) at the [Max Planck Research Group
+[@chilbe3](https://twitter.com/chilbe3) and Alex McAvoy, at the [Max Planck Research Group
 Dynamics of Social Behavior](https://www.evolbio.mpg.de/socialdynamics).
 
 # Software
 
-The evolutionary process described in the paper has been implemented in both
-Matlab and Python.
+The code for simulating the evolutionary process described in the paper has been
+implemented in Matlab. The code used to for the results can be found in the
+folder `matlab`.
 
-We have performed the numerical simulations using the Matlab code which can
-be found in the folder `matlab`.
-
-Matlab is not an open source language and for that reason we have also
+Matlab is not an open-source language, and for that reason, we have also
 implemented the process in Python. Note that the Python code is slower.
 
 ## Installation 
@@ -26,7 +24,7 @@ clone the repository locally to your computer. You just need to run the
 following command in the terminal:
 
 ```shell
-$ git clone https://github.com/Nikoleta-v3/pd-with-stochastic-payoffs.git
+$ git clone git@github.com:Nikoleta-v3/evolution-of-cooperation-with-limited-updating-payoff-memory.git
 ```
 
 ### Python
@@ -40,9 +38,8 @@ $ python setup.py install
 
 # Analysis
 
-Before running the
-analysis you have to download. the simulation data. They are achieved in Zenodo:
-https://zenodo.org/record/7664286#.Y_YDWS0w2hk.
+Before running the analysis you have to download the simulation data. They are
+achieved in Zenodo: https://zenodo.org/record/7664286#.Y_YDWS0w2hk.
 
 The analysis has been carried out in Jupyter Notebooks. We have created an
 environment file. To install it navigate to the project using the terminal and
@@ -73,7 +70,7 @@ Your Jupyter Notebook should look like this now:
 </p>
 
 From the Jupyter Notebooks navigate to the project and all the notebooks
-can be found in the folder `nbs`
+can be found in the folder `nbs`.
 
 # Tests
 
