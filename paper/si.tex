@@ -129,8 +129,8 @@ These settings differ in what kind of payoff information individuals take into a
 In the perfect-memory setting, individuals take into account all their interactions against all co-players.
 In the limited-memory setting, they only consider the very last round of their very last interaction.  
 In addition, we describe several model extensions in which the amount of information taken into account is in between these two extremes. 
-Finally, Section~\ref{section:furthersimulations} presents further simulation results. 
-In particular, we confirm that our main results continue to hold ({\it i}) when mutations are no longer rare, and  ({\it ii}) when players use memory-1 strategies instead of reactive strategies.
+Finally, Section~\ref{section:furthersimulations} presents further simulation results and model extensions. 
+In particular, we confirm that our main results continue to hold ({\it i}) when mutations are no longer rare, ({\it ii}) when players use memory-1 strategies instead of reactive strategies, and ({\it iii}) when players interact in a snowdrift game. 
 
 
 
@@ -157,7 +157,7 @@ In the most general setting, the resulting one-shot payoffs can be summarized by
 	} . \label{eq:prisoner}
 \end{align}
 Here, $R$ is interpreted as the reward for mutual cooperation, $S$ is the sucker's payoff, $T$ is the temptation, and $P$ is the punishment payoff~\citep{axelrod1981evolution}. 
-Throughout this work, we parametrize these payoffs as $R\!=\!b\!-\!c$, $S\!=\!-c$, $T\!=\!b$, and $P\!=\!0$, where $b$ and $c$ are the benefit and cost of cooperation, respectively, with $b\!>\!c\!>0$. 
+For most of this work, we parametrize these payoffs as $R\!=\!b\!-\!c$, $S\!=\!-c$, $T\!=\!b$, and $P\!=\!0$, where $b$ and $c$ are the benefit and cost of cooperation, respectively, with $b\!>\!c\!>0$. 
 After each round, players learn their co-player's previous action. 
 Then the game continues for another round with probability~$\delta$.
 Players make their decisions whether to cooperate in any given round based on their reactive strategies $\strategy\!=\!(y,p,q)$. 
@@ -199,7 +199,7 @@ We provide a detailed description of these different settings and the resulting 
 To simulate the evolutionary dynamics of the pairwise comparison process, it is sometimes useful to assume that mutations are rare, $\mu\!\rightarrow\!0$. 
 In that case, whenever a mutant strategy appears, it either fixes in the population or goes extinct before the next mutant appears. 
 As a result, at any given time there are at most two different strategies present in the population~\citep{fudenberg:JET:2006,wu:JMB:2012,mcavoy:jet:2015}. 
-This assumptions makes computations more efficient, and it makes some of the results easier to interpret.
+This assumption makes computations more efficient, and it makes some of the results easier to interpret.
 In the following, we describe our implementation of the process in the rare-mutation limit in more detail. 
 
 %% MODEL: Implementation of the rare-mutation limit %% 
@@ -261,7 +261,7 @@ We discuss six cases explicitly. In these cases, updating occurs
 ({\it iii})~based on the last round of two interactions,
 ({\it iv})~based on the last two rounds of one interaction,
 ({\it v})~based on the last two rounds of two interactions, and
-({\it v})~based on the average payoff of one interaction.
+({\it vi})~based on the average payoff of one interaction.
 In each case, we assume there are only two strategies present in the population (a resident and a mutant strategy). 
 We first derive how likely it is that a learner (of any type) assigns a given payoff $\pi_\learner$ to itself, and a payoff of $\pi_\rolemodel$ to the role model. 
 This allows us to derive explicit expressions for $\lambda^-_k/\lambda^+_k$, and hence for the mutant's fixation probability according to Eq.~\eqref{eq:fixation_probability}.
@@ -1002,8 +1002,7 @@ For stochastic stability of cooperation we require this ratio to be larger than 
 \begin{equation} \label{Eq:Condition_OneInteractionExpectedPayoff}
   q<1 - \frac{c}{\delta b}
 \end{equation}
-Interestingly, this condition is the same as condition~\eqref{Eq:Condition_PerfectMemory} for the case of perfect memory when $N\! \rightarrow\! \infty$.
-
+This condition is the same as condition~\eqref{Eq:Condition_PerfectMemory} for the case of perfect memory when $N\! \rightarrow\! \infty$. This result is intuitive: in infinitely large populations, we can ignore the possibility that the learner and the role model interacted directly immediately prior to the updating stage. Given that, their expected payoff in a single repeated game with their last interaction partner is identical to their expected payoff across all repeated games, with all possible interaction partners. 
 \clearpage
 
 
@@ -1012,7 +1011,7 @@ Interestingly, this condition is the same as condition~\eqref{Eq:Condition_Perfe
 %% FURTHER SIMULATIONS %% 
 %%%%%%%%%%%%%%%%%%
 
-\section{Further simulation results}
+\section{Further simulation results and model extensions}
 \label{section:furthersimulations}
 
 %% SIMULATIONS: Results in (p,q) space %% 
@@ -1196,58 +1195,47 @@ effect under limited payoff memory.
 %% FURTHER REPEATED GAMES %% 
 %%%%%%%%%%%%%%%%%%
 
-\section{Further repeated games; Snowdrift game}
+\subsection{An analysis of the snowdrift game}
 \label{section:furtherrepeatedgames}
 
 So far, we have discussed the repeated donation game, which is only one example
-of social dilemmas. In the following section, we explore how our methodology can
-be applied to other games, with a focus on the snowdrift game.
-
-Similar to the donation game, the snowdrift game is a two-player game where
-individuals choose to cooperate (\(C\)) or defect (\(D\)) each round.
-Cooperation yields a benefit \(b\) to both players, incurring a cost \(c\) if
-the opponent defects, but only \(c/2\) if the opponent cooperates. This results
+of a social dilemma. In the following section, we apply our methodology to a different dilemma, the snowdrift game.
+Similar to the donation game, the snowdrift game is a two-player game where each round, 
+individuals can choose to cooperate~(\(C\)) or to defect~(\(D\)).
+If at least one player cooperates, both players get a benefit \(b\). 
+A cooperator pays a cost of \(c\) if the opponent defects, and of \(c/2\) if the opponent cooperates. This results
 in the following payoff matrix
-
-\begin{align}
+\begin{equation} \label{eq:snowdrift_payoff}
 	\bordermatrix{%
 		& C & D \cr
 		C & b - \frac{c}{2} & b - c  \cr
 		D & b & 0 \cr
 	} . 
-\end{align}\label{eq:snowdrift_payoff}
-
+\end{equation}
 In the following subsections, we discuss how our results extend to the snowdrift
 game. In Section~\ref{section:stochastic_stability_snowdrift}, we investigate
 under which conditions cooperation is stochastically stable for both perfect and
-limited memory scenarios. In Section~\ref{section:simulation_results_snowdrift},
-we present simulation results for all six cases considered in this study.
+limited memory. In Section~\ref{section:simulation_results_snowdrift},
+we present simulation results.
 
-\subsection{Stochastic stability of cooperation.}\label{section:stochastic_stability_snowdrift}
+\subsubsection{Stochastic stability of cooperation.}\label{section:stochastic_stability_snowdrift}
 
-{\bf Perfect payoff memory.} We have already discussed the general setup for the
-case of perfect memory in Section~\ref{section:perfect_memory}. Here, we derive
-the conditions under which cooperation is stochastically stable for the
-snowdrift game. As a reminder, we suppose that there is a single mutant,
+{\bf Perfect payoff memory.} As before, we suppose that there is a single mutant,
 \(k\!=\!1\) that adopts the strategy $\alld$, while the residents adopt the
 strategy \(\gtft\). The resulting average distributions between the residents
-and the mutants remain the same as in Section\ref{section:perfect_memory}.
+and the mutants remain the same as in Section~\ref{section:perfect_memory}.
 However, the expected payoffs of the strategies now differ, as we are now
 considering the snowdrift payoff matrix~\eqref{eq:snowdrift_payoff}. \\
 
 \noindent
 Specifically, the expected payoffs are computed as,
-
-\begin{align*}
+\begin{equation*}
   \pi_\gtft =  \frac{N\!-\!2}{N-1} (b - c/2)  \!+\! \frac{1}{N-1}\big(1\!-\!\delta\!+\!\delta q\big)(b - c)
   \quad \text{and} \quad
   \pi_\alld  = \big(1\!-\!\delta\!+\!\delta q\big)b.
-\end{align*}
-
-
+\end{equation*}
 As a consequence, the corresponding ratio of transition probabilities according
-to Eq.~\eqref{eq:LambdaRatio} is now given by,
-
+to Eq.~\eqref{eq:LambdaRatio} is now given by
 \begin{align*}
 \frac{\lambda_1^{-}}{\lambda_1^{+}} = e^{-\beta \left( (1-\delta+\delta q)(b - \frac{b-c}{N-1})- \frac{N-2}{N-1}(b-c/2) \right)}
 \end{align*}
@@ -1255,16 +1243,14 @@ By definition, cooperation is stochastically stable if this ratio exceeds one, w
 \begin{equation}\label{Eq:Condition_PerfectMemory_Snowdrift}
 q<1-\frac{1}{\delta}\cdot \frac{N(c/2)}{(N\!-\!2)b+c}.
 \end{equation}
-For such a strategy to be feasible we require $q\!>\!0$, which implies $\delta
-\!>\! \big((N\!-\!2)b+c\big)/\big(N(c/2)\big)$. In particular, in the limit of
+For such a strategy to be feasible we require $q\!\ge\!0$, which implies $\delta
+\!\ge\! \big((N\!-\!2)b+c\big)/\big(N(c/2)\big)$. In particular, in the limit of
 large populations \(N \!\rightarrow\! \infty\), we obtain that cooperation is
 stochastically stable if  \(q \!<\! 1\! -\! c/(2\delta b)\). \\
 
 
 \noindent
-{\bf Limited payoff memory.} Once again, we examine
-the scenario where a single \alld{} mutant can potentially invade a resident
-population of \gtft{} players. However, this time, we consider that individuals
+{\bf Limited payoff memory.} Now we assume that individuals
 only take into account the last round of their last interaction.
 Based on the probabilities \(x(u_\resident,u_\mutant)\), where \(u_\resident\)
 represents the payoff of a randomly chosen \gtft{} player and \(u_\mutant\)
@@ -1291,27 +1277,22 @@ large populations \(N \!\rightarrow \!\infty \). In that case, because $b\!>\!c\
 \begin{equation}\label{Eq:Condition_LimitedMemory_Snowdrift}
     \frac{\lambda^{-}_1}{\lambda^{+}_1} = \frac{\delta(1 - q)}{1 - \delta + \delta q}.
 \end{equation}
-
 Interestingly, this condition is identical to
 condition~\eqref{Eq:TransitionRatioSimple} for the donation game. To understand
-this result, we first need to discuss the difference between the two games. The
-difference between the two games lies in the relationship between the possible
-payoffs. More specifically, in the donation game, the payoffs satisfy the
-relationship \(T > R > P > S\), whereas in the snowdrift game, it's \(T > R > S
-> P\).
-Now, note that for the above condition, the relationship between all the
+this result, we first need to discuss the difference between the two games. 
+In the donation game, the payoffs satisfy the
+relationship \(T \!>\! R \!>\! P \!>\! S\), whereas in the snowdrift game, the respective ordering is \(T \!>\! R \!>\! S
+\!>\! P\).
+Note that for the stochastic stability of \gtft, the relationship between all the
 possible payoffs is not important; what is important is the relationship between
-all the feasible pairs of payoffs. In a population of \gtft{} strategies with a
-single mutant of \alld{}, the feasible pairs of payoffs are \((R, T)\), \((R,
-P)\), \((S, T)\), and \((P, P)\). In both games, the payoff \(T\) is higher than
-\(S\) and \(R\), and \(R\) is higher than the punishment payoff, thus the
-condition remains unchanged.
+all the feasible pairs of payoffs. In a \gtft{} population  with a
+single \alld{} mutant, the feasible payoff pairs are \((R, T)\), \((R,
+P)\), \((S, T)\), \((P, P)\). In all these four cases, the relative ranking of the two payoffs remains unchanged.
 
-\subsection{Simulation results for reactive strategies}\label{section:simulation_results_snowdrift}
+\subsubsection{Simulation results for reactive strategies}\label{section:simulation_results_snowdrift}
 
-To investigate whether the previous static observations accurately depict the
-dynamics of evolving populations, we once again rely on simulations. Firstly, we
-conducted separate simulations for perfect and limited payoff memory. In each
+In addition to these static observations, we again explore the evolutionary dynamics with simulations. 
+Firstly, we conducted separate simulations for perfect and limited payoff memory. In each
 scenario, we examined both low and high benefits of cooperation (\(b/c=2\) and
 \(b/c=10\), respectively). Supplementary Fig.
 \ref{fig:expected_and_stochastic_for_snowdrift} illustrates the conditional
@@ -1319,22 +1300,17 @@ cooperation probabilities \(p\) and \(q\) of the evolving populations. Overall,
 we find that the evolving populations are more cooperative compared to those of
 the donation game. There is no cluster around the neighborhood of \alld{} as
 they are easily outperformed by more cooperative strategies. Moreover, the
-evolving cooperation rates are high for all the cases. Even in the limited
-payoff memory for low benefit, the evolving cooperation is at 71\%. Thus, the
+evolving cooperation rates are high for all the cases. Even for limited
+payoff memory and a low benefit, the evolving cooperation is at 71\%. Thus, 
 in the snowdrift game, the memory requirement for cooperation is
 even more modest compared to the donation game.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=.75\textwidth]{static/snowdrift_game_results.pdf}
-  \caption{{\bf Evolutionary dynamics under perfect and limited payoff memory.}
+  \caption{{\bf Evolutionary dynamics for the snowdrift game under perfect and limited payoff memory.}
 The four panels depict the outcome of evolutionary simulations for the repeated
-snowdrift game with either a low or high benefit of cooperation. In the top
-panels, individuals have perfect payoff memory, meaning they consider all their
-past interactions against all population members, taking every turn of each
-repeated game into account. In the bottom panels, individuals have limited
-payoff memory, considering only their very last interaction against one specific
-population member, and taking into account only one round of the repeated game.
+snowdrift game with either a low or high benefit of cooperation. 
 Colors represent how often the respective region of the strategy space is
 visited over time.
 In all cases, there is one dominant cluster, and that is the cluster of
@@ -1347,44 +1323,25 @@ continuation probability of \(\delta = 0.999\), and a selection strength of
 \label{fig:expected_and_stochastic_for_snowdrift}
 \end{figure}
 
-Furthermore, to understand the impact of payoff memory on the snowdrift game
-even more, we performed simulations for the four additional scenarios considered
-in this work. As a reminder, in the first scenario, players recall the payoffs
-they obtained in the last two rounds against a single co-player. In the second
-scenario, players recall their last-round payoffs against two co-players. In the
-third scenario, they recall the last two rounds against two co-players. Finally,
-in the last scenario, players update based on the average payoff they receive
-over all rounds with a single co-player (further extensions are possible, but we
-do not explore them here). In Supplementary
-Fig.~\ref{fig:cooperation_rate_all_updating_payoffs_snowdrift}, we show the
-evolving cooperation rates for all these scenarios, as well as for the limited
-and perfect memory cases.
-
-We observe that main pattern of our results remains unchanged: the perfect
-memory case always overestimates the cooperation rate. Compared to the baseline
+Again, we performed similar simulations when the players' payoff memory is 
+in between the two extremes of perfect and limited memory (Supplementary
+Fig.~\ref{fig:cooperation_rate_all_updating_payoffs_snowdrift}).
+The main patterns of our previous results remain unchanged: ({\it i})~Perfect
+memory always yields the highest cooperation rate; ({\it ii})~Compared to the 
 case with a single round recalled, even a minimal increase in the players'
-payoff memory further increases the cooperation rate. In all four scenarios with
-extended memory, we observe similar cooperation rates, and they quickly approach
-the rates observed under perfect memory. This happens at a faster rate compared
-to the donation game.
+memory further increases cooperation; ({\it iii})~In all scenarios with
+intermediate memory, we observe similar cooperation rates, and they quickly approach
+the rates observed under perfect memory. 
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\textwidth]{static/snowdrift_game_more_memory.pdf}
   \caption{{\bf Average cooperation rates in the snowdrift game for different payoff memories.}
-  We vary how much information individuals take into account when updating their strategies.
-  From left to right, we consider the following cases:
-  ({\it i}) Updating occurs based on expected payoffs (perfect memory).
-  ({\it ii}) It occurs based on the last round of one interaction (limited memory).
-  ({\it iii}) Based on the last round of two interactions.
-  ({\it iv}) Based on the last two rounds of one interaction.
-  ({\it v}) Based on the last two rounds of two interactions.
-  ({\it vi}) Based on the average payoff of one interaction.
-  Simulations are run either for a comparably low benefit of cooperation~($b/c\!=\!2$), or for a high benefit~($b/c\!=\!10$). 
+  Again, we vary how much information individuals take into account when updating their strategies.
+  Simulations are run either for a low benefit of cooperation~($b/c\!=\!2$), or for a high benefit~($b/c\!=\!10$). 
   We observe that perfect memory always yields the highest cooperation rate, and limited memory yields the lowest.
-  However, in the snowdrift game, the difference between the two extreme scenarios is not large, as we have already discussed.
-  When individuals take into account a bit more information—cases (iii) to (vi)—evolving
-  cooperation rates quickly approach the optimum of perfect memory. This increase happens faster compared to the donation game.
+  However, in the snowdrift game, the difference between the two extreme scenarios is smaller than in the donation game. 
+  When individuals take into account a bit more information, evolving cooperation rates quickly approach the optimum of perfect memory. 
   Simulations are run for $T\!=\!10^7$ time steps, using a cost $c\!=\!1$, a continuation probability of $\delta\!=\!0.999$ and a selection strength of $\beta\!=\!1$, in a population of size $N\!=\!100$.}
 \label{fig:cooperation_rate_all_updating_payoffs_snowdrift}
 \end{figure}
