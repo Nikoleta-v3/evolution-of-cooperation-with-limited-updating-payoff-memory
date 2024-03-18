@@ -130,7 +130,7 @@ In the perfect-memory setting, individuals take into account all their interacti
 In the limited-memory setting, they only consider the very last round of their very last interaction.  
 In addition, we describe several model extensions in which the amount of information taken into account is in between these two extremes. 
 Finally, Section~\ref{section:furthersimulations} presents further simulation results. 
-In particular, we confirm that our main results continue to hold ({\it i}) when mutations are no longer rare, and  ({\it ii}) when players use memory-one strategies instead of reactive strategies.
+In particular, we confirm that our main results continue to hold ({\it i}) when mutations are no longer rare, and  ({\it ii}) when players use memory-1 strategies instead of reactive strategies.
 
 
 
@@ -222,7 +222,7 @@ We iterate this elementary population updating process for a large number of mut
 At each step, we record the current resident strategy and the resulting average cooperation rate. 
 
 We consider this limit of rare-mutation throughout the main text. 
-The respective process is summarised by Algorithm~\ref{algorithm:pairwise_comparison}.
+The respective process is summarized by Algorithm~\ref{algorithm:pairwise_comparison}.
 In Section~\ref{section:furthersimulations}, we present additional simulation results to show that our qualitative results continue to hold when the mutation rate is strictly bounded away from zero. 
 
 %% MODEL: Algorithm 
@@ -262,7 +262,7 @@ We discuss six cases explicitly. In these cases, updating occurs
 ({\it iv})~based on the last two rounds of one interaction,
 ({\it v})~based on the last two rounds of two interactions, and
 ({\it v})~based on the average payoff of one interaction.
-In each case, we assumet there are only two strategies present in the population (a resident and a mutant strategy). 
+In each case, we assume there are only two strategies present in the population (a resident and a mutant strategy). 
 We first derive how likely it is that a learner (of any type) assigns a given payoff $\pi_\learner$ to itself, and a payoff of $\pi_\rolemodel$ to the role model. 
 This allows us to derive explicit expressions for $\lambda^-_k/\lambda^+_k$, and hence for the mutant's fixation probability according to Eq.~\eqref{eq:fixation_probability}.
 Based on these expressions we can characterize under which conditions cooperation is stochastically stable.  
@@ -1109,29 +1109,29 @@ Only as the mutation rate approaches one, and the processes become fully random,
 		Parameters are the same as before, \(N =100, c=1, b=10, \beta=1, \delta=0.999\).}\label{fig:mutation}
 \end{figure}
 
-\subsection{Simulations for memory-one strategies}\label{section:memory_one}
+\subsection{Simulations for memory-1 strategies}\label{section:memory_one}
 
 So far, we have assumed that individuals adopt reactive strategies.
 To demonstrate that our results hold for more complex strategy sets, 
-in the following we present results when players can choose among all memory-one strategies~\citep{sigmund2010calculus}. 
+in the following we present results when players can choose among all memory-1 strategies~\citep{sigmund2010calculus}. 
 Players with these strategies consider the full outcome of the
 previous round to decide on their next action. 
 There are four possible outcomes in each
 round,  \((C, C), (C, D), (D, C), (D, D)\). 
-A memory-one strategy \(\strategy\) can thus be
+A memory-1 strategy \(\strategy\) can thus be
 written as a five-dimensional vector \(\strategy=(y, p_1, p_2, p_3, p_4)\). 
 As with reactive strategies, the entry \(y\) is the probability that the strategy opens with a cooperation.
 The other entries \(p_1\), \(p_2\), \(p_3\), \(p_4\) are the probabilities that the strategy
 cooperates in all subsequent rounds, depending on the outcome of the previous round.
-Every reactive strategy $(y,p,q)$ can be written as a memory-one strategy, by using the memory-one representation $(y,p,q,p,q)$.
-Conversely, there are memory-one strategies that cannot be represented by a reactive strategy, such as the strategy \texttt{WSLS}$=(1,1,0,0,1)$. 
-Therefore, the set of memory-one strategies is a strict superset of the reactive strategies. 
+Every reactive strategy $(y,p,q)$ can be written as a memory-1 strategy, by using the memory-1 representation $(y,p,q,p,q)$.
+Conversely, there are memory-1 strategies that cannot be represented by a reactive strategy, such as the strategy \texttt{WSLS}$=(1,1,0,0,1)$. 
+Therefore, the set of memory-1 strategies is a strict superset of the reactive strategies. 
 
-To explore the dynamics among memory-one strategies, we perform four separate simulations, for both perfect and limited memory, and for two different benefit values. 
+To explore the dynamics among memory-1 strategies, we perform four separate simulations, for both perfect and limited memory, and for two different benefit values. 
 Supplementary~Fig.~\ref{fig:memory_one_low_benefit} shows the results for a comparably low benefit of cooperation; 
 Supplementary~Fig.~\ref{fig:memory_one_high_benefit} shows the corresponding results for a large benefit. 
 These simulations suggest that even when individuals
-are allowed to use memory-one strategies, there is more cooperation when players update their strategies based on perfect payoff memory. 
+are allowed to use memory-1 strategies, there is more cooperation when players update their strategies based on perfect payoff memory. 
 
 To further investigate the influence of different parameters, we have
 systematically varied the benefit~$b$ and the selection strength~$\beta$, as
@@ -1149,7 +1149,7 @@ effect under limited payoff memory.
 \begin{figure}[t!]
   \centering 
   \includegraphics[width=0.8\textwidth]{static/memory_one_results_low_benefit.pdf}
-  \caption{\textbf{Evolution of memory-one strategies when the benefit of cooperation is comparably small.}
+  \caption{\textbf{Evolution of memory-1 strategies when the benefit of cooperation is comparably small.}
   We perform two independent simulations. In one simulation, individuals use
   expected payoffs. 
   In the other, they update their strategy based on the payoff they received in the last round of their last interaction. 
@@ -1157,7 +1157,7 @@ effect under limited payoff memory.
   For each time step, we record the current resident population, which is
   now of the form  \((y, p_1, p_2, p_3, p_4)\). In the left panel, we report the
   cooperation rates for each simulation. 
-  For memory-one strategies, like for reactive strategies, the use of expected payoffs results in more cooperation. 
+  For memory-1 strategies, like for reactive strategies, the use of expected payoffs results in more cooperation. 
   The right panel reports the most abundant strategy of each
   simulation. Abundance is the number of mutants a strategy can repel before
   being invaded. The most abundant strategies have some similarities,
@@ -1169,7 +1169,7 @@ effect under limited payoff memory.
 \begin{figure}[t!]
   \centering 
   \includegraphics[width=0.8\textwidth]{static/memory_one_results_high_benefit.pdf}
-  \caption{\textbf{Evolution of memory-one strategies when the benefit is high.}
+  \caption{\textbf{Evolution of memory-1 strategies when the benefit is high.}
   We consider a similar setup as in Supplementary~Fig.~\ref{fig:memory_one_low_benefit}, but now using a larger benefit value $b\!=\!10$.}\label{fig:memory_one_high_benefit}
 \end{figure}
 
@@ -1177,8 +1177,8 @@ effect under limited payoff memory.
 \begin{figure}[t!]
   \centering 
   \includegraphics[width=0.8\textwidth]{static/cooperation_rate_over_b_and_beta_memory_one.pdf}
-  \caption{{\bf Evolution of direct reciprocity for different parameter values for memory-one strategies.}
-  To further explore the robustness of our results in the case of memory-one
+  \caption{{\bf Evolution of direct reciprocity for different parameter values for memory-1 strategies.}
+  To further explore the robustness of our results in the case of memory-1
   strategies, we run simulations for different benefit values (left panels, A)
   and for different selection strengths (right panels, B). These simulations
   suggest that perfect payoff memory consistently leads to more cooperation and
