@@ -123,7 +123,7 @@ While our results suggest that some rudimentary form of payoff memory is necessa
 
 
 ~\\
-{\it Keywords:} Evolution of cooperation; evolutionary dynamics; direct reciprocity; repeated prisoner's dilemma; social learning
+{\it Keywords:} Direct reciprocity; evolution of cooperation; evolutionary dynamics; repeated prisoner's dilemma; social learning
 
 
 
@@ -255,7 +255,7 @@ In the long run, however, the players' strategies may change depending on the pa
 Herein, we assume population members update their strategies based on social learning. 
 To model these strategy updates, we consider a pairwise comparison process~\citep{traulsen2007pairwise}. 
 This process assumes that at regular time intervals, one population member is randomly selected, and given the chance to revise its strategy.
-We refer to this player as the ``learner.'' 
+We refer to this player as the ``learner''.
 With probability $\mu$ (reflecting a mutation rate), the learner simply adopts a random strategy (all reactive strategies have the same probability to be chosen). 
 With the converse probability $1\!-\!\mu$, the learner randomly picks a ``role model'' from the population. 
 The learner then compares its own payoff $\pi_\learner$ from the repeated game to the role model's payoff $\pi_\rolemodel$. 
@@ -392,7 +392,7 @@ To further investigate the influence of different parameters, we have systematic
 According to \FigDependenceParameters{\it a}, perfect memory consistently results in a higher cooperation rate, and this relative advantage further increases with an increasing benefit~$b$. 
 Interestingly, for limited payoff memory, the cooperation rate remains stable at approximately 50\% once \(b \!\ge\! 5\).
 This finding is reminiscent of our earlier static results, which also suggested that changes in the game's benefits may have a negligible role on the stochastic stability of full cooperation.  
-With respect to the effect of different selection strengths, \FigDependenceParameters{\it b} suggests that both perfect and limited payoff memory yield similar cooperation rates for weak selection \(\beta \!<\! 1\). 
+With respect to the effect of different selection strengths, \FigDependenceParameters{\it b} suggests that both perfect and limited payoff memory yield similar cooperation rates for weak selection (\(\beta \!\ll\! 1\)). This is not a coincidence: it is known that, under weak selection, stochastic payoffs can be replaced by their (deterministic) expectations without altering the evolutionary dynamics \citep{mcavoy:NHB:2020}--and perfect payoff memory corresponds to the expected value of the payoffs in the limited payoff memory model, due to the law of large numbers.
 Beyond weak selection, increasing selection has a positive effect under perfect payoff memory, but a negative effect under limited payoff memory.\\
 
 %% RESULTS: Setup of higher-memory simulations
