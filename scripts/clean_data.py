@@ -8,7 +8,7 @@ import pandas as pd
 
 if __name__ == "__main__":  # pragma: no cover
     folder = sys.argv[1]
-    starting_characters = "beta_0.01_stochastic_1"  # sys.argv[2]
+    starting_characters = sys.argv[2]
 
     in_columns = [
         "y",

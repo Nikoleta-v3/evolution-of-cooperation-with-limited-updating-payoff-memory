@@ -1,5 +1,5 @@
 function [payoffs]=payoffsLastRound(players_indices, population, u, N, delta);
-
+% The realised payoff 
 payoffs = zeros(1, 2);
 exclude = zeros(1, 3);
 

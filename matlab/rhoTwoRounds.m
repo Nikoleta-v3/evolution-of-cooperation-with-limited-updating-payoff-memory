@@ -1,4 +1,4 @@
-function [laplus, laminus]=phiTwoRounds(N, vRM, vMM, vMR, vRR, Rho);
+function [rho]=rhoTwoRounds(N, vRM, vMM, vMR, vRR, Rho);
 %% Calculates the fixation probability based on the last two rounds payoff
 
 laplus = zeros(1, 1); laminus=laplus;
@@ -16,4 +16,6 @@ x(i1,i2) = 1 / (N-1) * vRM(i1) * ((i1==1 & i2==1)  |(i1==2 & i2==3)  |(i1==3 &i2
 end
 laplus(k) = sum(sum(x.*Rho));
 laminus(k) = sum(sum(x.*Rho'));
+
+rho = 1 / (1 + sum(cumprod(laminus./laplus)));
 end

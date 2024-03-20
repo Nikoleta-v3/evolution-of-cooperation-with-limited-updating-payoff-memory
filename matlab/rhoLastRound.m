@@ -1,4 +1,4 @@
-function [phi]=phiLastRound(N, vRM, vMM, vMR, vRR, Rho);
+function [rho]=rhoLastRound(N, vRM, vMM, vMR, vRR, Rho);
 %% Calculates the fixation probability based on the last round payoffs
 
 laplus=zeros(1, N-1); laminus=laplus;
@@ -14,5 +14,5 @@ for k=1:N-1
     laminus(k)=sum(sum(x.*Rho'));
 end
 
-phi = 1 / (1 + sum(cumprod(laminus./laplus)));
+rho = 1 / (1 + sum(cumprod(laminus./laplus)));
 end

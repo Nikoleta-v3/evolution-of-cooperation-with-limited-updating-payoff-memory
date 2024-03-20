@@ -1,4 +1,4 @@
-function [phi]=phiExpected(N, piMM, piMR, piRR, piRM, beta);
+function [rho]=rhoExpected(N, piMM, piMR, piRR, piRM, beta);
 %% Calculates the fixation probability based on the expected payoffs
 
 laplus=zeros(1, N-1); laminus=laplus;
@@ -10,5 +10,5 @@ for k=1:N-1
     laminus(k) = 1 / (1 + exp(-beta * (piR - piM)));
 end
 
-phi = 1 / (1 + sum(cumprod(laminus./laplus)));
+rho = 1 / (1 + sum(cumprod(laminus./laplus)));
 end

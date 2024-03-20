@@ -1,4 +1,4 @@
-function [xDat, AvCoop, AvPay,payoff_type, Data]=evolSimulationTwoRoundsOpponents(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
+function [xDat, payoff_type, Data]=evolSimulationUpdatingMemoryFour(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
 %% Preparations for the output
 Data=['R=',num2str(u(1)),'; S=',num2str(u(2)),'; T=',num2str(u(3)), '; P=',num2str(u(4)),'; N=',num2str(N),'; beta=',num2str(beta), '; nIt=',num2str(numberIterations), '; payoff=',payoff_type];
 AvCoop=0; AvPay=0; Res=starting_resident;
@@ -7,7 +7,7 @@ AvCoop=0; AvPay=0; Res=starting_resident;
 sdim=3;
 xDat=zeros(round(numberIterations/(100 * 0.6)), 5);
 xDat(1,:)=[Res, 0, 0];
-Rho=calcRhoTwoFiftySix(u, beta);
+Phi=calcPhiTwoFiftySix(u, beta);
 
 ps = zeros(256, 2);
 for i1=1:256
@@ -34,34 +34,31 @@ end
 j = 2;
 for t = progress(1:numberIterations)
     Mut=rand(1, sdim);
-    [phi, coopM]=calcPhi(Mut, Res, Rho, N, delta,  payoff_type, condition_round_one, condition_round_two, ps);
-    if rand(1)<phi
+    [rho, coopM]=calcPhi(Mut, Res, Phi, N, delta,  payoff_type, condition_round_one, condition_round_two, ps);
+    if rand(1)<rho
         Res=Mut; xDat(j,:)=[Res, coopM, t]; j=j+1;
     end
 end
 
 csvwrite(filename + ".csv", xDat);
 writematrix(Data, filename + ".txt");
-
-AvCoop = mean(xDat(:,end-2));
-AvPay = mean(xDat(:,end-1));
 end
 
-function [Rho]=calcRhoTwoFiftySix(u, beta);
+function [Phi]=calcPhiTwoFiftySix(u, beta);
     %% Calculates all possible pairwise imitation probabilities based on the last two payoffs
         new_u = log(kron(exp(u),exp(u)));
-        Rho = zeros(256, 256);
+        Phi = zeros(256, 256);
     
         for i=1:256
             for j=1:256
                 player = new_u(1 + fix((i - 1) / 16)) + new_u(1 + mod(i - 1, 16));
                 opponent = new_u(1 + fix((j - 1) / 16)) + new_u(1 + mod(j - 1, 16));
-                Rho(i, j) =  1 / (1 + exp(-beta *(opponent - player) / 2));
+                Phi(i, j) =  1 / (1 + exp(-beta *(opponent - player) / 2));
             end
         end
 end
 
-function [phi, coopMM]=calcPhi(Mut, Res, Rho, N, delta, payoff_type, condition_round_one, condition_round_two, ps);
+function [rho, coopMM]=calcPhi(Mut, Res, Phi, N, delta, payoff_type, condition_round_one, condition_round_two, ps);
 %% Calculating the fixation probability
 
 vMM = stationaryRoundTwo(Mut, Mut, delta);
@@ -73,7 +70,7 @@ coopMM = (2 * (vMM(1) + vMM(2) + vMM(5) + vMM(6)) + (vMM(3) + vMM(4) + vMM(7) + 
 
 if payoff_type=="two_rounds_opponents"
 
-    phi = phiTwoRoundsOpponents(N, vRM, vMM, vMR, vRR, Rho, condition_round_one, condition_round_two, ps);
+    rho = rhoTwoRoundsOpponents(N, vRM, vMM, vMR, vRR, Phi, condition_round_one, condition_round_two, ps);
 
 else
     disp('Please check payoff type.')

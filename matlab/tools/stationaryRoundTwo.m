@@ -1,4 +1,6 @@
 function v=stationaryRoundTwo(s1,s2,delta);
+% Calculates the probabilities of being at CC|CC, CC|CD, CC|DC, .. etc at the last
+% two rounds.
 
 M=[s1(2) * s2(2), s1(2) * (1-s2(2)), (1-s1(2)) * s2(2), (1-s1(2)) * (1-s2(2));
     s1(3) * s2(2), s1(3) * (1-s2(2)), (1-s1(3)) * s2(2), (1-s1(3)) * (1-s2(2));

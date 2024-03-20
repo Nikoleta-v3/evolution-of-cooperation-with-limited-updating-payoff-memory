@@ -1,7 +1,6 @@
 function v=stationaryMemoryOne(p1,p2,delta);
-% Calculates the invariant distribution v
-% for the game between two memory-1 players with strategies p1, p2.
-% p1=(pCC, pCD, pDC, pDD, p0);
+% Calculates the probabilities of being at CC, CD, DC, DD at the last round
+% given that player 1 and 2 use memory-1 strategies
 
 M = [p1(1)*p2(1), p1(1)*(1-p2(1)), (1-p1(1))*p2(1), (1-p1(1))*(1-p2(1));
      p1(2)*p2(3), p1(2)*(1-p2(3)), (1-p1(2))*p2(3), (1-p1(2))*(1-p2(3));

@@ -1,6 +1,5 @@
 function [payoffs]=payoffsExpected(player_indices, population, u, N, delta);
-
-
+% The expected payoff for each member of the population given the population
 payoffs = zeros(N - 1, 2);
 
 for i=1:N 
