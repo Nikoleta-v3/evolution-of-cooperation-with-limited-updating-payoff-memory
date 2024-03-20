@@ -139,9 +139,9 @@ While our results suggest that some rudimentary form of payoff memory is necessa
 
 %% INTRO: General introduction to evolutionary game theory and cognitive constrains
 
-Evolutionary game theory describes the dynamics of populations when an individual's fitness depends on the traits or strategies of other population members~\cite{hofbauer1998evolutionary, nowak:Nature:2004, hauert2005game,Traulsen:PhilTrans:2022}.  
+Evolutionary game theory describes the dynamics of populations when an individual's fitness depends on the traits or strategies of other population members~\citep{hofbauer1998evolutionary, nowak:Nature:2004, hauert2005game,Traulsen:PhilTrans:2022}.  
 This theory can be used to describe the dynamics of animal conflict~\citep{maynard-smith:Nature:1973}, cancer cells~\citep{Stein:PTRS:2023}, and of cooperation~\citep{nowak:Science:2006}. 
-Respective models translate strategic interactions into games~\cite{smith1982evolution}. 
+Respective models translate strategic interactions into games~\citep{smith1982evolution}. 
 These games specify how individuals (players) interact, which strategies individuals can choose, and what fitness consequences (or payoffs) the different strategies have. 
 In addition, these models also specify the mode by which successful strategies spread over time. 
 In models of biological evolution, individuals with a high fitness produce more offspring; in models of cultural evolution, such individuals are imitated more often. 
@@ -166,11 +166,11 @@ In practice, such information might be difficult both to obtain and to process.
 
 %% INTRO: Gap in the literature and what  question we wish to address. 
 
-Most models of direct reciprocity do not address these difficulties~\citep{brauchli:JTB:1999,brandt:JTB:2006,ohtsuki:JTB:2007b,szolnoki:pre:2009b,imhof2010stochastic,van-segbroeck:prl:2012,grujic:jtb:2012,Martinez2012,stewart:pnas:2013,pinheiro:PLoSCB:2014,stewart:games:2015,Baek2016,McAvoy:ProcA:2019,glynatsi:SCR:2020,Schmid:PlosCB:2022,Murase:SciRep:2022,Cooney:BMB:2022,Chen:PNASNexus:2023} and, instead, assume individuals can easily copy the strategies of others. 
+Most models of direct reciprocity do not address these difficulties~\citep{brauchli:JTB:1999,brandt:JTB:2006,ohtsuki:JTB:2007b,szolnoki:pre:2009b,imhof2010stochastic,vansegbroeck:prl:2012,grujic:jtb:2012,Martinez2012,stewart:pnas:2013,pinheiro:PLoSCB:2014,stewart:games:2015,Baek2016,McAvoy:ProcA:2019,glynatsi:SCR:2020,Schmid:PlosCB:2022,Murase:SciRep:2022,Cooney:BMB:2022,Chen:PNASNexus:2023} and, instead, assume individuals can easily copy the strategies of others. 
 Similarly, they assume that updating decisions are based on the strategies' average (or expected) payoffs, which are based on all rounds and all interactions. 
 These assumptions create a curious inconsistency in how models represent an individual's cognitive abilities. 
 On the one hand, when playing the game, individuals are often assumed to have restricted memory. 
-Respective studies typically assume that individuals make their decisions each round based on the outcome of the last round only~\citep[with only a few exceptions, see Refs.][]{Hauert1997,van-veelen:PNAS:2012,Stewart2016,hilbe:PNAS:2017,Li:NatCS:2022,Murase:PLoSCompBio:2023a}. 
+Respective studies typically assume that individuals make their decisions each round based on the outcome of the last round only~\citep[with only a few exceptions, see Refs.]{Hauert1997,vanveelen:PNAS:2012,Stewart2016,hilbe:PNAS:2017,Li:NatCS:2022,Murase:PLoSCompBio:2023a}. 
 Yet when learning new strategies, individuals are assumed to remember (or compute) each others' precise average payoff across many rounds and many interaction partners. 
 Herein, we wish to explore whether this latter assumption is actually necessary for the evolution of reciprocity through social imitation. 
 We ask whether individuals can learn to adopt reciprocal strategies even when learning is based on payoff information from a limited number of rounds. 
@@ -445,7 +445,7 @@ Also in that case, we also observe that perfect memory leads to systematically h
 Again, this advantage of perfect memory is particularly pronounced for strong selection, or when there is a high benefit of cooperation (\FigMemoryOneParameters).
 
 %% RESULTS: Snowdrift Game
-In a second step, we also analyze the evolutionary dynamics of a different social dilemma, the snowdrift game~\cite{doebeli:Ecology:2005}. 
+In a second step, we also analyze the evolutionary dynamics of a different social dilemma, the snowdrift game~\citep{doebeli:Ecology:2005}. 
 In this game, individuals can again cooperate or defect. 
 However, now they get the benefit $b$ if at least one of them cooperates. 
 Cooperators in turn pay a cost of $c$ or $c/2$, depending on whether they are the only one to cooperate or not. 
@@ -475,7 +475,7 @@ We note that the expected \emph{total} payoff in the game, $u_{0}+u_{1}+\cdots +
 
 Our main contribution is an application of these ideas to direct reciprocity, which is one of the key mechanisms to explain why unrelated individuals might cooperate~\citep{nowak:Science:2006}. 
 According to this mechanism, cooperation pays if it makes the interaction partner more cooperative in future. 
-To describe which strategies are most effective, the previous theoretical literature assumes that the evolutionary dynamics are driven by the players' expected payoffs~\citep{brauchli:JTB:1999,brandt:JTB:2006,ohtsuki:JTB:2007b,szolnoki:pre:2009b,imhof2010stochastic,van-segbroeck:prl:2012,grujic:jtb:2012,Martinez2012,stewart:pnas:2013,pinheiro:PLoSCB:2014,stewart:games:2015,Baek2016,McAvoy:ProcA:2019,glynatsi:SCR:2020,Schmid:PlosCB:2022,Murase:SciRep:2022}.
+To describe which strategies are most effective, the previous theoretical literature assumes that the evolutionary dynamics are driven by the players' expected payoffs~\citep{brauchli:JTB:1999,brandt:JTB:2006,ohtsuki:JTB:2007b,szolnoki:pre:2009b,imhof2010stochastic,vansegbroeck:prl:2012,grujic:jtb:2012,Martinez2012,stewart:pnas:2013,pinheiro:PLoSCB:2014,stewart:games:2015,Baek2016,McAvoy:ProcA:2019,glynatsi:SCR:2020,Schmid:PlosCB:2022,Murase:SciRep:2022}.
 To the extent that strategies are learned (not inherited), this assumption seems to impose rather stringent requirements on the individuals' cognitive abilities. 
 In the most extreme case, individuals would have to remember (or compute) their payoffs against all population members, for all possible ways in which their repeated games may unfold. 
 This assumption introduces a curious inconsistency in how these models represent an individual's cognitive abilities. 
@@ -497,7 +497,7 @@ To explore the effect of payoff memory, we only considered the simplest model of
 This leaves several possible directions for future work. 
 For example, for both our analytical analysis and our simulations, we assumed that populations are {\it well-mixed}. 
 As a result, any population member is equally likely to be a given player's last co-player. 
-A similar analysis for structured populations would be desirable, as population structure can often promote cooperation without an explicit need for reciprocity~\citep{szabo:PR:2007,van-veelen:PNAS:2012}.
+A similar analysis for structured populations would be desirable, as population structure can often promote cooperation without an explicit need for reciprocity~\citep{szabo:PR:2007,vanveelen:PNAS:2012}.
 Similarly, we assumed that after identifying a suitable role model, players can easily imitate that role model's strategy. 
 In the context of our study, this might be a particular simplification, because players with limited payoff memory may also have less accurate information to infer a co-player's strategy. 
  Finally, we have taken a player's payoff memory to be a given parameter of the model. 
@@ -531,8 +531,11 @@ This work is purely theoretical and did not require ethical approval from a huma
 
 \noindent
 {\bf Data accessibility.}
-All data and code used in this manuscript are openly available at\newline
-\texttt{https://zenodo.org/records/10066227}.\\
+All data generated for this manuscript are openly available at:
+\href{https://zenodo.org/records/10844104}{https://zenodo.org/records/10844104}.
+The code for producing the results and generating the figures is available
+on the online repository
+\href{https://github.com/Nikoleta-v3/evolution-of-cooperation-with-limited-updating-payoff-memory}{evolution-of-cooperation-with-limited-updating-payoff-memory}.\\
 
 \noindent
 {\bf Declaration of AI use.}
@@ -564,8 +567,7 @@ E-DIRECT, and by the Max Planck Society.\\
 \bibliographystyle{naturemag}
 \bibliography{bibliography}
 }
-
-
+}
 
 %%%%%%%%%%
 %% FIGURES  %%
@@ -576,7 +578,7 @@ E-DIRECT, and by the Max Planck Society.\\
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=\textwidth]{static/donation_expected_last_round_summary_results.pdf}
+    \includegraphics[width=\textwidth]{donation_expected_last_round_summary_results.pdf}
     \caption{{\bf Evolutionary dynamics under perfect and limited payoff memory.}
     The leftmost panels give a schematic overview of the two main scenarios we compare. 
     The two scenarios differ in how many past interactions individuals take into account when updating their strategy. 
@@ -599,7 +601,7 @@ E-DIRECT, and by the Max Planck Society.\\
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=.75\textwidth]{static/cooperation_rate_over_b_and_beta.pdf}
+    \includegraphics[width=.75\textwidth]{cooperation_rate_over_b_and_beta.pdf}
     \caption{{\bf Evolution of direct reciprocity for different parameter values.} 
     To explore the robustness of our results, we have run simulations for different benefit values (left panels, {\it a}), and for different selection strengths (right panels, {\it b}). 
     In each case, we record the resulting average cooperation rate over the entire simulation (upper panels). 
@@ -617,7 +619,7 @@ E-DIRECT, and by the Max Planck Society.\\
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\textwidth]{static/more_memory_summary_results.pdf}
+  \includegraphics[width=\textwidth]{more_memory_summary_results.pdf}
   \caption{{\bf Average cooperation rates for different payoff memories.}
   We vary how much information individuals take into account when updating their strategies. 
   From left to right, we consider the following cases.
