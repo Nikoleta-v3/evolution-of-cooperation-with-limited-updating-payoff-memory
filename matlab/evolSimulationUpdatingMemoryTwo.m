@@ -1,4 +1,4 @@
-function [xDat, AvCoop, AvPay,payoff_type, Data]=evolSimulationTwoRounds(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
+function [xDat, payoff_type, Data]=evolSimulationUpdatingMemoryTwo(starting_resident, u, N, delta, beta, numberIterations, payoff_type, filename);
 %% Preparations for the output
 Data=['R=',num2str(u(1)),'; S=',num2str(u(2)),'; T=',num2str(u(3)), '; P=',num2str(u(4)),'; N=',num2str(N),'; beta=',num2str(beta), '; nIt=',num2str(numberIterations), '; payoff=',payoff_type];
 AvCoop=0; AvPay=0; Res=starting_resident;
@@ -7,26 +7,23 @@ AvCoop=0; AvPay=0; Res=starting_resident;
 sdim=3;
 xDat=zeros(numberIterations,6);
 xDat(1,:)=[Res, 0, u(4), 0];
-Rho=calcRhoSixteen(u, beta);
+Phi=calcPhiSixteen(u, beta);
 
 %% Running the evolutionary process
 j = 2;
 for t = progress(1:numberIterations)
     Mut=rand(1, sdim);
-    [phi, coopM, piM]=calcPhi(Mut, Res, Rho, N, u, delta, beta, payoff_type);
-    if rand(1)<phi
+    [rho, coopM, piM]=calcPhi(Mut, Res, Phi, N, u, delta, beta, payoff_type);
+    if rand(1)<rho
         Res=Mut; xDat(j,:)=[Res, coopM, piM, t]; j=j+1;
     end
 end
 
 dlmwrite(filename + ".csv", xDat, 'delimiter', ',', 'precision', 9);
 writematrix(Data, filename + ".txt");
-
-AvCoop = mean(xDat(:,end-2));
-AvPay = mean(xDat(:,end-1));
 end
 
-function [Rho]=calcRhoSixteen(u, beta);
+function [Phi]=calcPhiSixteen(u, beta);
 %% Calculates all possible pairwise imitation probabilities based on the last two payoffs
     Us = zeros(16, 16);
 
@@ -37,17 +34,17 @@ function [Rho]=calcRhoSixteen(u, beta);
     end
 
     Us = Us / 2;
-    Rho = zeros(16, 16);
+    Phi = zeros(16, 16);
 
     for i=1:16
         for j=1:16
-            Rho(i, j) = 1 / (1 + exp(-beta * Us(i, j)));
+            Phi(i, j) = 1 / (1 + exp(-beta * Us(i, j)));
         end
     end
 end
 
 
-function [phi, coopMM, piMM]=calcPhi(Mut, Res, Rho, N, u, delta, beta, payoff_type);
+function [phi, coopMM, piMM]=calcRho(Mut, Res, Phi, N, u, delta, beta, payoff_type);
 %% Calculating the fixation probability
 
 if payoff_type=="two_rounds"
@@ -61,7 +58,7 @@ if payoff_type=="two_rounds"
     coopMM = (2 * (vMM(1) + vMM(2) + vMM(5) + vMM(6)) + (vMM(3) + vMM(4) + vMM(7) + vMM(8) + vMM(9) + vMM(10) + vMM(13) + vMM(14))) / 2;
 
 
-    phi = phiTwoRounds(N, vRM, vMM, vMR, vRR, Rho);
+    rho = rhoTwoRounds(N, vRM, vMM, vMR, vRR, Phi);
 
 elseif payoff_type=="two_opponents"
 
@@ -73,7 +70,7 @@ elseif payoff_type=="two_opponents"
     piMM=vMM*u';
     coopMM=vMM(1)+vMM(2);
 
-    phi = phiTwoOpponents(N, vRM, vMM, vMR, vRR, Rho);
+    rho = rhoTwoOpponents(N, vRM, vMM, vMR, vRR, Phi);
 
 else
     disp('Please check payoff type.')

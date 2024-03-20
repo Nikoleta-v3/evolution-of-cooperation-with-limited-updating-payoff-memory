@@ -11,6 +11,8 @@ data/*
 *dask-worker-space/
 */images/*
 to_archieve/*
+*.csv
+data_per_seed/
 
 src/evol_dynamics.egg-info/*
 src/evol_dynamics/__pycache__/*

@@ -1,4 +1,4 @@
-function [phi]=phiTwoRoundsOpponents(N, vRM, vMM, vMR, vRR, Rho, condition_round_one, condition_round_two, ps);
+function [rho]=rhoTwoRoundsOpponents(N, vRM, vMM, vMR, vRR, Rho, condition_round_one, condition_round_two, ps);
 %% Calculates the fixation probability based on the last two rounds payoff with two opponents
 laplus = zeros(1, N-1); laminus=laplus;
 for k=1:N-1
@@ -29,5 +29,5 @@ laplus(k) = sum(sum(x.*Rho));
 laminus(k) = sum(sum(x.*Rho'));
 end
 
-phi = 1 / (1 + sum(cumprod(laminus./laplus)));
+rho = 1 / (1 + sum(cumprod(laminus./laplus)));
 end

@@ -1,4 +1,4 @@
-function [phi]=phiTwoOpponents(N, vRM, vMM, vMR, vRR, Rho);
+function [rho]=rhoTwoOpponents(N, vRM, vMM, vMR, vRR, Rho);
 %% Calculates the fixation probability based on the last round payoff with two opponents
 laplus=zeros(1,N-1); laminus=laplus;
 for k=1:N-1
@@ -33,5 +33,5 @@ x(i1,i2) = learner_role_model + (mutant_mutant + mutant_resident + resident_muta
     laminus(k)=sum(sum(x.*Rho'));
 end
 
-phi = 1 / (1 + sum(cumprod(laminus./laplus)));
+rho = 1 / (1 + sum(cumprod(laminus./laplus)));
 end

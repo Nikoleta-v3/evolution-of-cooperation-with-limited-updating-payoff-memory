@@ -1,4 +1,4 @@
-function [Rho]=calcRhoSixteen(u, beta);
+function [Phi]=calcPhiSixteen(u, beta);
 %% Calculates all possible pairwise imitation probabilities based on the last two payoffs
     Us = zeros(16, 16);
 
@@ -9,11 +9,11 @@ function [Rho]=calcRhoSixteen(u, beta);
     end
 
     Us = Us / 2;
-    Rho = zeros(16, 16);
+    Phi = zeros(16, 16);
 
     for i=1:16
         for j=1:16
-            Rho(i, j) = 1 / (1 + exp(-beta * Us(i, j)));
+            Phi(i, j) = 1 / (1 + exp(-beta * Us(i, j)));
         end
     end
 end
