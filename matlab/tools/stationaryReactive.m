@@ -1,4 +1,6 @@
 function v=stationaryReactive(p1,p2,delta);
+% Calculates the probabilities of being at CC, CD, DC, DD at the last round.
+% This is done using the invariant distrubtion of the transition matrix.
 
 M=[p1(2)*p2(2), p1(2)*(1-p2(2)), (1-p1(2))*p2(2), (1-p1(2))*(1-p2(2));
     p1(3)*p2(2), p1(3)*(1-p2(2)), (1-p1(3))*p2(2), (1-p1(3))*(1-p2(2));

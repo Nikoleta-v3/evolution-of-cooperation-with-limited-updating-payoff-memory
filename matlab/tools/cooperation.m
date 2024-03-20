@@ -1,5 +1,5 @@
 function [coop]=cooperation(Mu, h, sz, delta);
-
+%% Calculates average cooperation rate withing a population
 coop = zeros(sz, 1);
 
 for i=1:sz
