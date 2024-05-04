@@ -1,4 +1,7 @@
 \documentclass[11pt]{article}
+%DIF LATEXDIFF DIFFERENCE FILE
+%DIF DEL Revision/main.tex   Sat May  4 13:45:42 2024
+%DIF ADD main.tex            Sat May  4 14:13:03 2024
 \usepackage{times}
 \usepackage{amsmath,amsthm,amssymb,setspace,enumitem,epsfig,titlesec,verbatim,color,array,eurosym,multirow}
 \usepackage[sort&compress,comma,round,numbers]{natbib}
@@ -14,6 +17,9 @@
 \usepackage{blkarray}
 \usepackage[ruled,vlined]{algorithm2e}
 \usepackage{lineno}
+%DIF 17d17
+%DIF < \linenumbers
+%DIF -------
 \smallskip % Erlaubt kleine Abstaende zwischen Paragraphen, falls es dem Seitenlayout hilft
 \renewcommand{\baselinestretch}{1.3}
 \newcommand{\R}{\mathbb{R}}
@@ -99,6 +105,46 @@ $^{\rm 1}$Max Planck Research Group on the Dynamics of Social Behavior,\\ Max Pl
 $^{\rm 2}$School of Data Science and Society, University of North Carolina at Chapel Hill,\\ Chapel Hill, NC 27599 \\
 $^{\rm 3}$Department of Mathematics, University of North Carolina at Chapel Hill,\\ Chapel Hill, NC 27599 \\
 $^{\rm \dagger}$ A.M. and C.H. contributed equally to this work.}}
+%DIF PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%DIF UNDERLINE PREAMBLE %DIF PREAMBLE
+\RequirePackage[normalem]{ulem} %DIF PREAMBLE
+\RequirePackage{color}\definecolor{RED}{rgb}{1,0,0}\definecolor{BLUE}{rgb}{0,0,1} %DIF PREAMBLE
+\providecommand{\DIFaddtex}[1]{{\protect\color{blue}\uwave{#1}}} %DIF PREAMBLE
+\providecommand{\DIFdeltex}[1]{{\protect\color{red}\sout{#1}}}                      %DIF PREAMBLE
+%DIF SAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddbegin}{} %DIF PREAMBLE
+\providecommand{\DIFaddend}{} %DIF PREAMBLE
+\providecommand{\DIFdelbegin}{} %DIF PREAMBLE
+\providecommand{\DIFdelend}{} %DIF PREAMBLE
+\providecommand{\DIFmodbegin}{} %DIF PREAMBLE
+\providecommand{\DIFmodend}{} %DIF PREAMBLE
+%DIF FLOATSAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddFL}[1]{\DIFadd{#1}} %DIF PREAMBLE
+\providecommand{\DIFdelFL}[1]{\DIFdel{#1}} %DIF PREAMBLE
+\providecommand{\DIFaddbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFaddendFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelendFL}{} %DIF PREAMBLE
+%DIF HYPERREF PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFadd}[1]{\texorpdfstring{\DIFaddtex{#1}}{#1}} %DIF PREAMBLE
+\providecommand{\DIFdel}[1]{\texorpdfstring{\DIFdeltex{#1}}{}} %DIF PREAMBLE
+%DIF LISTINGS PREAMBLE %DIF PREAMBLE
+\RequirePackage{listings} %DIF PREAMBLE
+\RequirePackage{color} %DIF PREAMBLE
+\lstdefinelanguage{DIFcode}{ %DIF PREAMBLE
+%DIF DIFCODE_UNDERLINE %DIF PREAMBLE
+  moredelim=[il][\color{red}\sout]{\%DIF\ <\ }, %DIF PREAMBLE
+  moredelim=[il][\color{blue}\uwave]{\%DIF\ >\ } %DIF PREAMBLE
+} %DIF PREAMBLE
+\lstdefinestyle{DIFverbatimstyle}{ %DIF PREAMBLE
+	language=DIFcode, %DIF PREAMBLE
+	basicstyle=\ttfamily, %DIF PREAMBLE
+	columns=fullflexible, %DIF PREAMBLE
+	keepspaces=true %DIF PREAMBLE
+} %DIF PREAMBLE
+\lstnewenvironment{DIFverbatim}{\lstset{style=DIFverbatimstyle}}{} %DIF PREAMBLE
+\lstnewenvironment{DIFverbatim*}{\lstset{style=DIFverbatimstyle,showspaces=true}}{} %DIF PREAMBLE
+%DIF END PREAMBLE EXTENSION ADDED BY LATEXDIFF
 
 \begin{document}
 \maketitle
@@ -246,7 +292,7 @@ Finally, it contains Generous Tit-for-Tat, \gtft $=\!(1,1,q)$, where $q\!>\!0$ r
 In the short run, the players' strategies are taken to be fixed.
 Players use their strategies to decide whether to cooperate in a series of repeated games against all other population members. 
 In the long run, however, the players' strategies may change depending on the payoffs they yield, as we describe in the following.\\
- 
+
  %% MODEL: Pairwise comparison process
 
 \noindent
@@ -498,12 +544,12 @@ For example, for both our analytical analysis and our simulations, we assumed th
 As a result, any population member is equally likely to be a given player's last co-player. 
 A similar analysis for structured populations would be desirable, as population structure can often promote cooperation without an explicit need for reciprocity~\citep{szabo:PR:2007,vanveelen:PNAS:2012}.
 Similarly, we assumed that after identifying a suitable role model, players can
-easily imitate that role model's strategy. Especially in repeated games, this
+easily imitate that role model's strategy. \DIFaddbegin \DIFadd{Especially in repeated games, this
 assumption is less innocuous than it may appear. After all, a player can
 typically only observe the co-players' actions, but not their underlying
 strategies. This player may only attempt to infer the co-players' strategies
 from their past reactions. Once players only have a restricted recollection of
-the past, this task seems particularly difficult. In the context of our study,
+the past, this task seems particularly difficult. }\DIFaddend In the context of our study,
 this might be a particular simplification, because players with limited payoff
 memory may also have less accurate information to infer a co-player's strategy.
 Finally, we have taken a player's payoff memory to be a given parameter of the model. 
@@ -511,7 +557,7 @@ Instead, future models could explore how that payoff memory might co-evolve alon
 Here, individuals might experience an interesting trade-off. 
 Better payoff-memory would help them to make better decisions, yet it might also come with higher cognitive costs. 
 For such a setup, our results suggest that in many instances, a modest amount of memory may be sufficient to achieve good outcomes. 
- 
+
  
 %%%%%%%%%%%%%
 %%  CONCLUSION  %%
@@ -540,7 +586,7 @@ This work is purely theoretical and did not require ethical approval from a huma
 All data generated for this manuscript are openly available at:
 \href{https://zenodo.org/records/10844104}{https://zenodo.org/records/10844104}.
 The code for producing the results and generating the figures is available
-on the online GitHub repository
+on the online \DIFaddbegin \DIFadd{GitHub }\DIFaddend repository
 \href{https://github.com/Nikoleta-v3/evolution-of-cooperation-with-limited-updating-payoff-memory}{evolution-of-cooperation-with-limited-updating-payoff-memory}.\\
 
 \noindent
@@ -568,662 +614,756 @@ E-DIRECT, and by the Max Planck Society.\\
 %% REFERENCES %%
 %%%%%%%%%%%%
 
-% {
-% {\setlength{\bibsep}{0\baselineskip}
-% \bibliographystyle{naturemag}
-% \bibliography{bibliography}
-% }
-% }
+\DIFdelbegin %DIFDELCMD < {
+%DIFDELCMD < {\setlength{\bibsep}{0\baselineskip}
+%DIFDELCMD < \bibliographystyle{naturemag}
+%DIFDELCMD < \bibliography{bibliography}
+%DIFDELCMD < }
+%DIFDELCMD < }
+%DIFDELCMD < %%%
+\DIFdelend %DIF >  {
+%DIF >  {\setlength{\bibsep}{0\baselineskip}
+%DIF >  \bibliographystyle{naturemag}
+%DIF >  \bibliography{bibliography}
+%DIF >  }
+%DIF >  }
+\DIFaddbegin 
 
 \begin{thebibliography}{10}
-\expandafter\ifx\csname url\endcsname\relax
+\expandafter\ifx\csname \DIFadd{url}\endcsname\relax
   \def\url#1{\texttt{#1}}\fi
-\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\expandafter\ifx\csname \DIFadd{urlprefix}\endcsname\relax\def\urlprefix{URL }\fi
 \providecommand{\bibinfo}[2]{#2}
 \providecommand{\eprint}[2][]{\url{#2}}
 
 \bibitem{hofbauer1998evolutionary}
-\bibinfo{author}{Hofbauer, J.}, \bibinfo{author}{Sigmund, K.} \emph{et~al.}
+\bibinfo{author}{Hofbauer, J.}\DIFadd{, }\bibinfo{author}{Sigmund, K.} \emph{\DIFadd{et~al.}}
 \newblock \emph{\bibinfo{title}{Evolutionary games and population dynamics}}
-  (\bibinfo{publisher}{Cambridge university press}, \bibinfo{year}{1998}).
+  \DIFadd{(}\bibinfo{publisher}{Cambridge university press}\DIFadd{, }\bibinfo{year}{1998}\DIFadd{).
+}
 
 \bibitem{nowak:Nature:2004}
-\bibinfo{author}{Nowak, M.~A.}, \bibinfo{author}{Sasaki, A.},
-  \bibinfo{author}{Taylor, C.} \& \bibinfo{author}{Fudenberg, D.}
+\bibinfo{author}{Nowak, M.~A.}\DIFadd{, }\bibinfo{author}{Sasaki, A.}\DIFadd{,
+  }\bibinfo{author}{Taylor, C.} \DIFadd{\& }\bibinfo{author}{Fudenberg, D.}
 \newblock \bibinfo{title}{Emergence of cooperation and evolutionary stability
-  in finite populations}.
-\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{428}},
-  \bibinfo{pages}{646--650} (\bibinfo{year}{2004}).
+  in finite populations}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{428}}\DIFadd{,
+  }\bibinfo{pages}{646--650} \DIFadd{(}\bibinfo{year}{2004}\DIFadd{).
+}
 
 \bibitem{hauert2005game}
-\bibinfo{author}{Hauert, C.} \& \bibinfo{author}{Szab{\'o}, G.}
-\newblock \bibinfo{title}{Game theory and physics}.
-\newblock \emph{\bibinfo{journal}{American Journal of Physics}}
-  \textbf{\bibinfo{volume}{73}}, \bibinfo{pages}{405--414}
-  (\bibinfo{year}{2005}).
+\bibinfo{author}{Hauert, C.} \DIFadd{\& }\bibinfo{author}{Szab{\'o}, G.}
+\newblock \bibinfo{title}{Game theory and physics}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{American Journal of Physics}}
+  \textbf{\bibinfo{volume}{73}}\DIFadd{, }\bibinfo{pages}{405--414}
+  \DIFadd{(}\bibinfo{year}{2005}\DIFadd{).
+}
 
 \bibitem{Traulsen:PhilTrans:2022}
-\bibinfo{author}{Traulsen, A.} \& \bibinfo{author}{Glynatsi, N.~E.}
-\newblock \bibinfo{title}{The future of theoretical evolutionary game theory}.
-\newblock \emph{\bibinfo{journal}{Philosophical Transactions B}}
-  (\bibinfo{year}{2022}).
+\bibinfo{author}{Traulsen, A.} \DIFadd{\& }\bibinfo{author}{Glynatsi, N.~E.}
+\newblock \bibinfo{title}{The future of theoretical evolutionary game theory}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Philosophical Transactions B}}
+  \DIFadd{(}\bibinfo{year}{2022}\DIFadd{).
+}
 
 \bibitem{maynard-smith:Nature:1973}
-\bibinfo{author}{Maynard~Smith, J.} \& \bibinfo{author}{Price, G.~R.}
-\newblock \bibinfo{title}{The logic of animal conflict}.
-\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{246}},
-  \bibinfo{pages}{15--18} (\bibinfo{year}{1973}).
+\bibinfo{author}{Maynard~Smith, J.} \DIFadd{\& }\bibinfo{author}{Price, G.~R.}
+\newblock \bibinfo{title}{The logic of animal conflict}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{246}}\DIFadd{,
+  }\bibinfo{pages}{15--18} \DIFadd{(}\bibinfo{year}{1973}\DIFadd{).
+}
 
 \bibitem{Stein:PTRS:2023}
-\bibinfo{author}{Stein, A.} \emph{et~al.}
+\bibinfo{author}{Stein, A.} \emph{\DIFadd{et~al.}}
 \newblock \bibinfo{title}{Stackelberg evolutionary game theory: how to manage
-  evolving systems}.
-\newblock \emph{\bibinfo{journal}{Philosophical Transactions of the Royal
-  Society B}} \textbf{\bibinfo{volume}{378}}, \bibinfo{pages}{20210495}
-  (\bibinfo{year}{2023}).
+  evolving systems}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Philosophical Transactions of the Royal
+  Society B}} \textbf{\bibinfo{volume}{378}}\DIFadd{, }\bibinfo{pages}{20210495}
+  \DIFadd{(}\bibinfo{year}{2023}\DIFadd{).
+}
 
 \bibitem{nowak:Science:2006}
 \bibinfo{author}{Nowak, M.~A.}
-\newblock \bibinfo{title}{Five rules for the evolution of cooperation}.
-\newblock \emph{\bibinfo{journal}{Science}} \textbf{\bibinfo{volume}{314}},
-  \bibinfo{pages}{1560--1563} (\bibinfo{year}{2006}).
+\newblock \bibinfo{title}{Five rules for the evolution of cooperation}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Science}} \textbf{\bibinfo{volume}{314}}\DIFadd{,
+  }\bibinfo{pages}{1560--1563} \DIFadd{(}\bibinfo{year}{2006}\DIFadd{).
+}
 
 \bibitem{smith1982evolution}
 \bibinfo{author}{Smith, J.~M.}
 \newblock \emph{\bibinfo{title}{Evolution and the Theory of Games}}
-  (\bibinfo{publisher}{Cambridge university press}, \bibinfo{year}{1982}).
+  \DIFadd{(}\bibinfo{publisher}{Cambridge university press}\DIFadd{, }\bibinfo{year}{1982}\DIFadd{).
+}
 
 \bibitem{Wu2015}
-\bibinfo{author}{Wu, B.}, \bibinfo{author}{Bauer, B.}, \bibinfo{author}{Galla,
-  T.} \& \bibinfo{author}{Traulsen, A.}
+\bibinfo{author}{Wu, B.}\DIFadd{, }\bibinfo{author}{Bauer, B.}\DIFadd{, }\bibinfo{author}{Galla,
+  T.} \DIFadd{\& }\bibinfo{author}{Traulsen, A.}
 \newblock \bibinfo{title}{Fitness-based models and pairwise comparison models
   of evolutionary games are typically different---even in unstructured
-  populations}.
-\newblock \emph{\bibinfo{journal}{New Journal of Physics}}
-  \textbf{\bibinfo{volume}{17}}, \bibinfo{pages}{023043}
-  (\bibinfo{year}{2015}).
+  populations}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{New Journal of Physics}}
+  \textbf{\bibinfo{volume}{17}}\DIFadd{, }\bibinfo{pages}{023043}
+  \DIFadd{(}\bibinfo{year}{2015}\DIFadd{).
+}
 
 \bibitem{Smolla:PTRS:2021}
-\bibinfo{author}{Smolla, M.} \emph{et~al.}
-\newblock \bibinfo{title}{Underappreciated features of cultural evolution}.
-\newblock \emph{\bibinfo{journal}{Philosophical Transactions of the Royal
-  Society B}} \textbf{\bibinfo{volume}{376}}, \bibinfo{pages}{20200259}
-  (\bibinfo{year}{2021}).
+\bibinfo{author}{Smolla, M.} \emph{\DIFadd{et~al.}}
+\newblock \bibinfo{title}{Underappreciated features of cultural evolution}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Philosophical Transactions of the Royal
+  Society B}} \textbf{\bibinfo{volume}{376}}\DIFadd{, }\bibinfo{pages}{20200259}
+  \DIFadd{(}\bibinfo{year}{2021}\DIFadd{).
+}
 
 \bibitem{Denton:TPB:2022}
-\bibinfo{author}{Denton, K.~K.}, \bibinfo{author}{Ram, Y.} \&
-  \bibinfo{author}{Feldman, M.~W.}
+\bibinfo{author}{Denton, K.~K.}\DIFadd{, }\bibinfo{author}{Ram, Y.} \DIFadd{\&
+  }\bibinfo{author}{Feldman, M.~W.}
 \newblock \bibinfo{title}{Conformity and content-biased cultural transmission
-  in the evolution of altruism}.
-\newblock \emph{\bibinfo{journal}{Theoretical Population Biology}}
-  \textbf{\bibinfo{volume}{143}}, \bibinfo{pages}{52--61}
-  (\bibinfo{year}{2022}).
+  in the evolution of altruism}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Theoretical Population Biology}}
+  \textbf{\bibinfo{volume}{143}}\DIFadd{, }\bibinfo{pages}{52--61}
+  \DIFadd{(}\bibinfo{year}{2022}\DIFadd{).
+}
 
 \bibitem{Chatterjee:JTB:2012}
-\bibinfo{author}{Chatterjee, K.}, \bibinfo{author}{Zufferey, D.} \&
-  \bibinfo{author}{Nowak, M.~A.}
+\bibinfo{author}{Chatterjee, K.}\DIFadd{, }\bibinfo{author}{Zufferey, D.} \DIFadd{\&
+  }\bibinfo{author}{Nowak, M.~A.}
 \newblock \bibinfo{title}{Evolutionary game dynamics in populations with
-  different learners}.
-\newblock \emph{\bibinfo{journal}{Journal of Theoretical Biology}}
-  \textbf{\bibinfo{volume}{301}}, \bibinfo{pages}{161--173}
-  (\bibinfo{year}{2012}).
+  different learners}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Journal of Theoretical Biology}}
+  \textbf{\bibinfo{volume}{301}}\DIFadd{, }\bibinfo{pages}{161--173}
+  \DIFadd{(}\bibinfo{year}{2012}\DIFadd{).
+}
 
 \bibitem{trivers1971evolution}
 \bibinfo{author}{Trivers, R.~L.}
-\newblock \bibinfo{title}{The evolution of reciprocal altruism}.
-\newblock \emph{\bibinfo{journal}{The Quarterly review of biology}}
-  \textbf{\bibinfo{volume}{46}}, \bibinfo{pages}{35--57}
-  (\bibinfo{year}{1971}).
+\newblock \bibinfo{title}{The evolution of reciprocal altruism}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{The Quarterly review of biology}}
+  \textbf{\bibinfo{volume}{46}}\DIFadd{, }\bibinfo{pages}{35--57}
+  \DIFadd{(}\bibinfo{year}{1971}\DIFadd{).
+}
 
 \bibitem{rapoport:book:1965}
-\bibinfo{author}{Rapoport, A.} \& \bibinfo{author}{Chammah, A.~M.}
+\bibinfo{author}{Rapoport, A.} \DIFadd{\& }\bibinfo{author}{Chammah, A.~M.}
 \newblock \emph{\bibinfo{title}{Prisoner's Dilemma}}
-  (\bibinfo{publisher}{University of Michigan Press, Ann Arbor},
-  \bibinfo{year}{1965}).
+  \DIFadd{(}\bibinfo{publisher}{University of Michigan Press, Ann Arbor}\DIFadd{,
+  }\bibinfo{year}{1965}\DIFadd{).
+}
 
 \bibitem{axelrod1981evolution}
-\bibinfo{author}{Axelrod, R.} \& \bibinfo{author}{Hamilton, W.~D.}
-\newblock \bibinfo{title}{The evolution of cooperation}.
-\newblock \emph{\bibinfo{journal}{Science}} \textbf{\bibinfo{volume}{211}},
-  \bibinfo{pages}{1390--1396} (\bibinfo{year}{1981}).
+\bibinfo{author}{Axelrod, R.} \DIFadd{\& }\bibinfo{author}{Hamilton, W.~D.}
+\newblock \bibinfo{title}{The evolution of cooperation}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Science}} \textbf{\bibinfo{volume}{211}}\DIFadd{,
+  }\bibinfo{pages}{1390--1396} \DIFadd{(}\bibinfo{year}{1981}\DIFadd{).
+}
 
 \bibitem{molander:jcr:1985}
 \bibinfo{author}{Molander, P.}
 \newblock \bibinfo{title}{The optimal level of generosity in a selfish,
-  uncertain environment}.
-\newblock \emph{\bibinfo{journal}{Journal of Conflict Resolution}}
-  \textbf{\bibinfo{volume}{29}}, \bibinfo{pages}{611--618}
-  (\bibinfo{year}{1985}).
+  uncertain environment}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Journal of Conflict Resolution}}
+  \textbf{\bibinfo{volume}{29}}\DIFadd{, }\bibinfo{pages}{611--618}
+  \DIFadd{(}\bibinfo{year}{1985}\DIFadd{).
+}
 
 \bibitem{Nowak1992tit}
-\bibinfo{author}{Nowak, M.~A.} \& \bibinfo{author}{Sigmund, K.}
-\newblock \bibinfo{title}{Tit for tat in heterogeneous populations}.
-\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{355}},
-  \bibinfo{pages}{250--253} (\bibinfo{year}{1992}).
+\bibinfo{author}{Nowak, M.~A.} \DIFadd{\& }\bibinfo{author}{Sigmund, K.}
+\newblock \bibinfo{title}{Tit for tat in heterogeneous populations}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{355}}\DIFadd{,
+  }\bibinfo{pages}{250--253} \DIFadd{(}\bibinfo{year}{1992}\DIFadd{).
+}
 
 \bibitem{fischbacher:EconL:2001}
-\bibinfo{author}{Fischbacher, U.}, \bibinfo{author}{G{\"a}chter, S.} \&
-  \bibinfo{author}{Fehr, E.}
+\bibinfo{author}{Fischbacher, U.}\DIFadd{, }\bibinfo{author}{G{\"a}chter, S.} \DIFadd{\&
+  }\bibinfo{author}{Fehr, E.}
 \newblock \bibinfo{title}{Are people conditionally cooperative? {E}vidence from
-  a public goods experiment}.
-\newblock \emph{\bibinfo{journal}{Economic Letters}}
-  \textbf{\bibinfo{volume}{71}}, \bibinfo{pages}{397--404}
-  (\bibinfo{year}{2001}).
+  a public goods experiment}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Economic Letters}}
+  \textbf{\bibinfo{volume}{71}}\DIFadd{, }\bibinfo{pages}{397--404}
+  \DIFadd{(}\bibinfo{year}{2001}\DIFadd{).
+}
 
 \bibitem{Rand:TCS:2013}
-\bibinfo{author}{Rand, D.~G.} \& \bibinfo{author}{Nowak, M.~A.}
-\newblock \bibinfo{title}{Human cooperation}.
-\newblock \emph{\bibinfo{journal}{Trends in Cogn. Sciences}}
-  \textbf{\bibinfo{volume}{117}}, \bibinfo{pages}{413--425}
-  (\bibinfo{year}{2012}).
+\bibinfo{author}{Rand, D.~G.} \DIFadd{\& }\bibinfo{author}{Nowak, M.~A.}
+\newblock \bibinfo{title}{Human cooperation}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Trends in Cogn. Sciences}}
+  \textbf{\bibinfo{volume}{117}}\DIFadd{, }\bibinfo{pages}{413--425}
+  \DIFadd{(}\bibinfo{year}{2012}\DIFadd{).
+}
 
 \bibitem{DalBo:AER:2019}
-\bibinfo{author}{Dal~B{\'o}, P.} \& \bibinfo{author}{Fr{\'e}chette, G.~R.}
+\bibinfo{author}{Dal~B{\'o}, P.} \DIFadd{\& }\bibinfo{author}{Fr{\'e}chette, G.~R.}
 \newblock \bibinfo{title}{Strategy choice in the infinitely repeated prisoner's
-  dilemma}.
-\newblock \emph{\bibinfo{journal}{American Economic Review}}
-  \textbf{\bibinfo{volume}{109}}, \bibinfo{pages}{3929--3952}
-  (\bibinfo{year}{2019}).
+  dilemma}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{American Economic Review}}
+  \textbf{\bibinfo{volume}{109}}\DIFadd{, }\bibinfo{pages}{3929--3952}
+  \DIFadd{(}\bibinfo{year}{2019}\DIFadd{).
+}
 
 \bibitem{Montero-Porras:SciRep:2022}
-\bibinfo{author}{Montero-Porras, E.}, \bibinfo{author}{Gruji{\'c}, J.},
-  \bibinfo{author}{Fern{\'a}ndez~Domingos, E.} \& \bibinfo{author}{Lenaerts,
+\bibinfo{author}{Montero-Porras, E.}\DIFadd{, }\bibinfo{author}{Gruji{\'c}, J.}\DIFadd{,
+  }\bibinfo{author}{Fern{\'a}ndez~Domingos, E.} \DIFadd{\& }\bibinfo{author}{Lenaerts,
   T.}
 \newblock \bibinfo{title}{Inferring strategies from observations in long
-  iterated prisoner's dilemma experiments}.
-\newblock \emph{\bibinfo{journal}{Scientific Reports}}
-  \textbf{\bibinfo{volume}{12}}, \bibinfo{pages}{7589} (\bibinfo{year}{2022}).
+  iterated prisoner's dilemma experiments}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Scientific Reports}}
+  \textbf{\bibinfo{volume}{12}}\DIFadd{, }\bibinfo{pages}{7589} \DIFadd{(}\bibinfo{year}{2022}\DIFadd{).
+}
 
 \bibitem{Rossetti:ETH:2023}
-\bibinfo{author}{Rossetti, C.} \& \bibinfo{author}{Hilbe, C.}
-\newblock \bibinfo{title}{Direct reciprocity among humans}.
-\newblock \emph{\bibinfo{journal}{Ethology}}
-  \bibinfo{pages}{https://doi.org/10.1111/eth.13407} (\bibinfo{year}{2023}).
+\bibinfo{author}{Rossetti, C.} \DIFadd{\& }\bibinfo{author}{Hilbe, C.}
+\newblock \bibinfo{title}{Direct reciprocity among humans}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Ethology}}
+  \bibinfo{pages}{https://doi.org/10.1111/eth.13407} \DIFadd{(}\bibinfo{year}{2023}\DIFadd{).
+}
 
 \bibitem{Carter:PRSB:2013}
-\bibinfo{author}{Carter, G.~G.} \& \bibinfo{author}{Wilkinson, G.~S.}
+\bibinfo{author}{Carter, G.~G.} \DIFadd{\& }\bibinfo{author}{Wilkinson, G.~S.}
 \newblock \bibinfo{title}{Food sharing in vampire bats, reciprocal help
-  predicts donations more than relatedness or harassment}.
-\newblock \emph{\bibinfo{journal}{Proceedings of the Royal Society B:
-  Biological Sciences}} \textbf{\bibinfo{volume}{280}},
-  \bibinfo{pages}{20122573} (\bibinfo{year}{2013}).
+  predicts donations more than relatedness or harassment}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Proceedings of the Royal Society B:
+  Biological Sciences}} \textbf{\bibinfo{volume}{280}}\DIFadd{,
+  }\bibinfo{pages}{20122573} \DIFadd{(}\bibinfo{year}{2013}\DIFadd{).
+}
 
 \bibitem{Schweinfurth:AnBehav:2019}
-\bibinfo{author}{Schweinfurth, M.~K.}, \bibinfo{author}{Aeschbacher, J.},
-  \bibinfo{author}{Santi, M.} \& \bibinfo{author}{Taborsky, M.}
+\bibinfo{author}{Schweinfurth, M.~K.}\DIFadd{, }\bibinfo{author}{Aeschbacher, J.}\DIFadd{,
+  }\bibinfo{author}{Santi, M.} \DIFadd{\& }\bibinfo{author}{Taborsky, M.}
 \newblock \bibinfo{title}{Male norway rats cooperate according to direct but
-  not generalized reciprocity rules}.
-\newblock \emph{\bibinfo{journal}{Animal Behaviour}}
-  \textbf{\bibinfo{volume}{152}}, \bibinfo{pages}{93--101}
-  (\bibinfo{year}{2019}).
+  not generalized reciprocity rules}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Animal Behaviour}}
+  \textbf{\bibinfo{volume}{152}}\DIFadd{, }\bibinfo{pages}{93--101}
+  \DIFadd{(}\bibinfo{year}{2019}\DIFadd{).
+}
 
 \bibitem{Voelkl:PNAS:2015}
-\bibinfo{author}{Voelkl, B.} \emph{et~al.}
+\bibinfo{author}{Voelkl, B.} \emph{\DIFadd{et~al.}}
 \newblock \bibinfo{title}{Matching times of leading and following suggest
-  cooperation through direct reciprocity during {V}-formation flight in ibis}.
-\newblock \emph{\bibinfo{journal}{Proceedings of the National Academy of
-  Sciences USA}} \textbf{\bibinfo{volume}{112}}, \bibinfo{pages}{2115--2120}
-  (\bibinfo{year}{2015}).
+  cooperation through direct reciprocity during {V}-formation flight in ibis}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Proceedings of the National Academy of
+  Sciences USA}} \textbf{\bibinfo{volume}{112}}\DIFadd{, }\bibinfo{pages}{2115--2120}
+  \DIFadd{(}\bibinfo{year}{2015}\DIFadd{).
+}
 
 \bibitem{CluttonBrock:Nature:2009}
 \bibinfo{author}{Clutton-Brock, T.}
-\newblock \bibinfo{title}{Cooperation between non-kin in animal societies}.
-\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{462}},
-  \bibinfo{pages}{51--57} (\bibinfo{year}{2009}).
+\newblock \bibinfo{title}{Cooperation between non-kin in animal societies}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{462}}\DIFadd{,
+  }\bibinfo{pages}{51--57} \DIFadd{(}\bibinfo{year}{2009}\DIFadd{).
+}
 
 \bibitem{Silk:CurrentBiology:2013}
 \bibinfo{author}{Silk, J.~B.}
-\newblock \bibinfo{title}{Reciprocal altruism}.
-\newblock \emph{\bibinfo{journal}{Current Biology}}
-  \textbf{\bibinfo{volume}{23}}, \bibinfo{pages}{827--828}
-  (\bibinfo{year}{2013}).
+\newblock \bibinfo{title}{Reciprocal altruism}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Current Biology}}
+  \textbf{\bibinfo{volume}{23}}\DIFadd{, }\bibinfo{pages}{827--828}
+  \DIFadd{(}\bibinfo{year}{2013}\DIFadd{).
+}
 
 \bibitem{taborsky:CurrentBiology:2013}
 \bibinfo{author}{Taborsky, M.}
-\newblock \bibinfo{title}{Social evolution: {R}eciprocity there is}.
-\newblock \emph{\bibinfo{journal}{Current Biology}}
-  \textbf{\bibinfo{volume}{23}}, \bibinfo{pages}{486--488}
-  (\bibinfo{year}{2013}).
+\newblock \bibinfo{title}{Social evolution: {R}eciprocity there is}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Current Biology}}
+  \textbf{\bibinfo{volume}{23}}\DIFadd{, }\bibinfo{pages}{486--488}
+  \DIFadd{(}\bibinfo{year}{2013}\DIFadd{).
+}
 
 \bibitem{brauchli:JTB:1999}
-\bibinfo{author}{Brauchli, K.}, \bibinfo{author}{Killingback, T.} \&
-  \bibinfo{author}{Doebeli, M.}
+\bibinfo{author}{Brauchli, K.}\DIFadd{, }\bibinfo{author}{Killingback, T.} \DIFadd{\&
+  }\bibinfo{author}{Doebeli, M.}
 \newblock \bibinfo{title}{Evolution of cooperation in spatially structured
-  populations}.
-\newblock \emph{\bibinfo{journal}{Journal of Theoretical Biology}}
-  \textbf{\bibinfo{volume}{200}}, \bibinfo{pages}{405--417}
-  (\bibinfo{year}{1999}).
+  populations}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Journal of Theoretical Biology}}
+  \textbf{\bibinfo{volume}{200}}\DIFadd{, }\bibinfo{pages}{405--417}
+  \DIFadd{(}\bibinfo{year}{1999}\DIFadd{).
+}
 
 \bibitem{brandt:JTB:2006}
-\bibinfo{author}{Brandt, H.} \& \bibinfo{author}{Sigmund, K.}
+\bibinfo{author}{Brandt, H.} \DIFadd{\& }\bibinfo{author}{Sigmund, K.}
 \newblock \bibinfo{title}{The good, the bad and the discriminator - errors in
-  direct and indirect reciprocity}.
-\newblock \emph{\bibinfo{journal}{Journal of Theoretical Biology}}
-  \textbf{\bibinfo{volume}{239}}, \bibinfo{pages}{183--194}
-  (\bibinfo{year}{2006}).
+  direct and indirect reciprocity}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Journal of Theoretical Biology}}
+  \textbf{\bibinfo{volume}{239}}\DIFadd{, }\bibinfo{pages}{183--194}
+  \DIFadd{(}\bibinfo{year}{2006}\DIFadd{).
+}
 
 \bibitem{ohtsuki:JTB:2007b}
-\bibinfo{author}{Ohtsuki, H.} \& \bibinfo{author}{Nowak, M.~A.}
-\newblock \bibinfo{title}{Direct reciprocity on graphs}.
-\newblock \emph{\bibinfo{journal}{Journal of Theoretical Biology}}
-  \textbf{\bibinfo{volume}{247}}, \bibinfo{pages}{462--470}
-  (\bibinfo{year}{2007}).
+\bibinfo{author}{Ohtsuki, H.} \DIFadd{\& }\bibinfo{author}{Nowak, M.~A.}
+\newblock \bibinfo{title}{Direct reciprocity on graphs}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Journal of Theoretical Biology}}
+  \textbf{\bibinfo{volume}{247}}\DIFadd{, }\bibinfo{pages}{462--470}
+  \DIFadd{(}\bibinfo{year}{2007}\DIFadd{).
+}
 
 \bibitem{szolnoki:pre:2009b}
-\bibinfo{author}{Szolnoki, A.}, \bibinfo{author}{Perc, M.} \&
-  \bibinfo{author}{Szab{\'{o}}, G.}
+\bibinfo{author}{Szolnoki, A.}\DIFadd{, }\bibinfo{author}{Perc, M.} \DIFadd{\&
+  }\bibinfo{author}{Szab{\'{o}}, G.}
 \newblock \bibinfo{title}{Phase diagrams for three-strategy evolutionary
-  prisoner's dilemma games on regular graphs}.
-\newblock \emph{\bibinfo{journal}{Physical Review E}}
-  \textbf{\bibinfo{volume}{80}}, \bibinfo{pages}{056104}
-  (\bibinfo{year}{2009}).
+  prisoner's dilemma games on regular graphs}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Physical Review E}}
+  \textbf{\bibinfo{volume}{80}}\DIFadd{, }\bibinfo{pages}{056104}
+  \DIFadd{(}\bibinfo{year}{2009}\DIFadd{).
+}
 
 \bibitem{imhof2010stochastic}
-\bibinfo{author}{Imhof, L.~A.} \& \bibinfo{author}{Nowak, M.~A.}
+\bibinfo{author}{Imhof, L.~A.} \DIFadd{\& }\bibinfo{author}{Nowak, M.~A.}
 \newblock \bibinfo{title}{Stochastic evolutionary dynamics of direct
-  reciprocity}.
-\newblock \emph{\bibinfo{journal}{Proceedings of the Royal Society B:
-  Biological Sciences}} \textbf{\bibinfo{volume}{277}},
-  \bibinfo{pages}{463--468} (\bibinfo{year}{2010}).
+  reciprocity}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Proceedings of the Royal Society B:
+  Biological Sciences}} \textbf{\bibinfo{volume}{277}}\DIFadd{,
+  }\bibinfo{pages}{463--468} \DIFadd{(}\bibinfo{year}{2010}\DIFadd{).
+}
 
 \bibitem{vansegbroeck:prl:2012}
-\bibinfo{author}{van Segbroeck, S.}, \bibinfo{author}{Pacheco, J.~M.},
-  \bibinfo{author}{Lenaerts, T.} \& \bibinfo{author}{Santos, F.~C.}
+\bibinfo{author}{van Segbroeck, S.}\DIFadd{, }\bibinfo{author}{Pacheco, J.~M.}\DIFadd{,
+  }\bibinfo{author}{Lenaerts, T.} \DIFadd{\& }\bibinfo{author}{Santos, F.~C.}
 \newblock \bibinfo{title}{Emergence of fairness in repeated group
-  interactions}.
-\newblock \emph{\bibinfo{journal}{Physical Review Letters}}
-  \textbf{\bibinfo{volume}{108}}, \bibinfo{pages}{158104}
-  (\bibinfo{year}{2012}).
+  interactions}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Physical Review Letters}}
+  \textbf{\bibinfo{volume}{108}}\DIFadd{, }\bibinfo{pages}{158104}
+  \DIFadd{(}\bibinfo{year}{2012}\DIFadd{).
+}
 
 \bibitem{grujic:jtb:2012}
-\bibinfo{author}{Grujic, J.}, \bibinfo{author}{Cuesta, J.~A.} \&
-  \bibinfo{author}{Sanchez, A.}
+\bibinfo{author}{Grujic, J.}\DIFadd{, }\bibinfo{author}{Cuesta, J.~A.} \DIFadd{\&
+  }\bibinfo{author}{Sanchez, A.}
 \newblock \bibinfo{title}{On the coexistence of cooperators, defectors and
-  conditional cooperators in the multiplayer iterated prisoner's dilemma}.
-\newblock \emph{\bibinfo{journal}{Journal of Theoretical Biology}}
-  \textbf{\bibinfo{volume}{300}}, \bibinfo{pages}{299--308}
-  (\bibinfo{year}{2012}).
+  conditional cooperators in the multiplayer iterated prisoner's dilemma}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Journal of Theoretical Biology}}
+  \textbf{\bibinfo{volume}{300}}\DIFadd{, }\bibinfo{pages}{299--308}
+  \DIFadd{(}\bibinfo{year}{2012}\DIFadd{).
+}
 
 \bibitem{Martinez2012}
-\bibinfo{author}{Martinez-Vaquero, L.~A.}, \bibinfo{author}{Cuesta, J.~A.} \&
-  \bibinfo{author}{Sanchez, A.}
+\bibinfo{author}{Martinez-Vaquero, L.~A.}\DIFadd{, }\bibinfo{author}{Cuesta, J.~A.} \DIFadd{\&
+  }\bibinfo{author}{Sanchez, A.}
 \newblock \bibinfo{title}{Generosity pays in the presence of direct
-  reciprocity: A comprehensive study of 2$\times$ 2 repeated games}.
-\newblock \emph{\bibinfo{journal}{{PLoS} One}} \textbf{\bibinfo{volume}{7}},
-  \bibinfo{pages}{e35135} (\bibinfo{year}{2012}).
+  reciprocity: A comprehensive study of 2$\times$ 2 repeated games}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{{PLoS} One}} \textbf{\bibinfo{volume}{7}}\DIFadd{,
+  }\bibinfo{pages}{e35135} \DIFadd{(}\bibinfo{year}{2012}\DIFadd{).
+}
 
 \bibitem{stewart:pnas:2013}
-\bibinfo{author}{Stewart, A.~J.} \& \bibinfo{author}{Plotkin, J.~B.}
+\bibinfo{author}{Stewart, A.~J.} \DIFadd{\& }\bibinfo{author}{Plotkin, J.~B.}
 \newblock \bibinfo{title}{From extortion to generosity, evolution in the
-  iterated prisoner's dilemma}.
-\newblock \emph{\bibinfo{journal}{Proceedings of the National Academy of
-  Sciences USA}} \textbf{\bibinfo{volume}{110}}, \bibinfo{pages}{15348--15353}
-  (\bibinfo{year}{2013}).
+  iterated prisoner's dilemma}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Proceedings of the National Academy of
+  Sciences USA}} \textbf{\bibinfo{volume}{110}}\DIFadd{, }\bibinfo{pages}{15348--15353}
+  \DIFadd{(}\bibinfo{year}{2013}\DIFadd{).
+}
 
 \bibitem{pinheiro:PLoSCB:2014}
-\bibinfo{author}{Pinheiro, F.~L.}, \bibinfo{author}{Vasconcelos, V.~V.},
-  \bibinfo{author}{Santos, F.~C.} \& \bibinfo{author}{Pacheco, J.~M.}
+\bibinfo{author}{Pinheiro, F.~L.}\DIFadd{, }\bibinfo{author}{Vasconcelos, V.~V.}\DIFadd{,
+  }\bibinfo{author}{Santos, F.~C.} \DIFadd{\& }\bibinfo{author}{Pacheco, J.~M.}
 \newblock \bibinfo{title}{Evolution of all-or-none strategies in repeated
-  public goods dilemmas}.
-\newblock \emph{\bibinfo{journal}{PLoS Comput Biol}}
-  \textbf{\bibinfo{volume}{10}}, \bibinfo{pages}{e1003945}
-  (\bibinfo{year}{2014}).
+  public goods dilemmas}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{PLoS Comput Biol}}
+  \textbf{\bibinfo{volume}{10}}\DIFadd{, }\bibinfo{pages}{e1003945}
+  \DIFadd{(}\bibinfo{year}{2014}\DIFadd{).
+}
 
 \bibitem{stewart:games:2015}
-\bibinfo{author}{Stewart, A.~J.} \& \bibinfo{author}{Plotkin, J.~B.}
+\bibinfo{author}{Stewart, A.~J.} \DIFadd{\& }\bibinfo{author}{Plotkin, J.~B.}
 \newblock \bibinfo{title}{The evolvability of cooperation under local and
-  non-local mutations}.
-\newblock \emph{\bibinfo{journal}{Games}} \textbf{\bibinfo{volume}{6}},
-  \bibinfo{pages}{231--250} (\bibinfo{year}{2015}).
+  non-local mutations}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Games}} \textbf{\bibinfo{volume}{6}}\DIFadd{,
+  }\bibinfo{pages}{231--250} \DIFadd{(}\bibinfo{year}{2015}\DIFadd{).
+}
 
 \bibitem{Baek2016}
-\bibinfo{author}{Baek, S.~K.}, \bibinfo{author}{Jeong, H.-C.},
-  \bibinfo{author}{Hilbe, C.} \& \bibinfo{author}{Nowak, M.~A.}
+\bibinfo{author}{Baek, S.~K.}\DIFadd{, }\bibinfo{author}{Jeong, H.-C.}\DIFadd{,
+  }\bibinfo{author}{Hilbe, C.} \DIFadd{\& }\bibinfo{author}{Nowak, M.~A.}
 \newblock \bibinfo{title}{Comparing reactive and memory-one strategies of
-  direct reciprocity}.
-\newblock \emph{\bibinfo{journal}{Scientific reports}}
-  \textbf{\bibinfo{volume}{6}}, \bibinfo{pages}{1--13} (\bibinfo{year}{2016}).
+  direct reciprocity}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Scientific reports}}
+  \textbf{\bibinfo{volume}{6}}\DIFadd{, }\bibinfo{pages}{1--13} \DIFadd{(}\bibinfo{year}{2016}\DIFadd{).
+}
 
 \bibitem{McAvoy:ProcA:2019}
-\bibinfo{author}{McAvoy, A.} \& \bibinfo{author}{Nowak, M.~A.}
-\newblock \bibinfo{title}{Reactive learning strategies for iterated games}.
-\newblock \emph{\bibinfo{journal}{Proceedings of the Royal Society A}}
-  \textbf{\bibinfo{volume}{475}}, \bibinfo{pages}{20180819}
-  (\bibinfo{year}{2019}).
+\bibinfo{author}{McAvoy, A.} \DIFadd{\& }\bibinfo{author}{Nowak, M.~A.}
+\newblock \bibinfo{title}{Reactive learning strategies for iterated games}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Proceedings of the Royal Society A}}
+  \textbf{\bibinfo{volume}{475}}\DIFadd{, }\bibinfo{pages}{20180819}
+  \DIFadd{(}\bibinfo{year}{2019}\DIFadd{).
+}
 
 \bibitem{glynatsi:SCR:2020}
-\bibinfo{author}{Glynatsi, N.~E.} \& \bibinfo{author}{Knight, V.~A.}
+\bibinfo{author}{Glynatsi, N.~E.} \DIFadd{\& }\bibinfo{author}{Knight, V.~A.}
 \newblock \bibinfo{title}{Using a theory of mind to find best responses to
-  memory-one strategies}.
-\newblock \emph{\bibinfo{journal}{Scientific Reports}}
-  \textbf{\bibinfo{volume}{10}}, \bibinfo{pages}{17287} (\bibinfo{year}{2020}).
+  memory-one strategies}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Scientific Reports}}
+  \textbf{\bibinfo{volume}{10}}\DIFadd{, }\bibinfo{pages}{17287} \DIFadd{(}\bibinfo{year}{2020}\DIFadd{).
+}
 
 \bibitem{Schmid:PlosCB:2022}
-\bibinfo{author}{Schmid, L.}, \bibinfo{author}{Hilbe, C.},
-  \bibinfo{author}{Chatterjee, K.} \& \bibinfo{author}{Nowak, M.~A.}
+\bibinfo{author}{Schmid, L.}\DIFadd{, }\bibinfo{author}{Hilbe, C.}\DIFadd{,
+  }\bibinfo{author}{Chatterjee, K.} \DIFadd{\& }\bibinfo{author}{Nowak, M.~A.}
 \newblock \bibinfo{title}{Direct reciprocity between individuals that use
-  different strategy spaces}.
-\newblock \emph{\bibinfo{journal}{PLoS Computational Biology}}
-  \textbf{\bibinfo{volume}{18}}, \bibinfo{pages}{e1010149}
-  (\bibinfo{year}{2022}).
+  different strategy spaces}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{PLoS Computational Biology}}
+  \textbf{\bibinfo{volume}{18}}\DIFadd{, }\bibinfo{pages}{e1010149}
+  \DIFadd{(}\bibinfo{year}{2022}\DIFadd{).
+}
 
 \bibitem{Murase:SciRep:2022}
-\bibinfo{author}{Murase, Y.}, \bibinfo{author}{Hilbe, C.} \&
-  \bibinfo{author}{Baek, S.~K.}
+\bibinfo{author}{Murase, Y.}\DIFadd{, }\bibinfo{author}{Hilbe, C.} \DIFadd{\&
+  }\bibinfo{author}{Baek, S.~K.}
 \newblock \bibinfo{title}{Evolution of direct reciprocity in group-structured
-  populations}.
-\newblock \emph{\bibinfo{journal}{Scientific Reports}}
-  \textbf{\bibinfo{volume}{12}}, \bibinfo{pages}{18645} (\bibinfo{year}{2022}).
+  populations}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Scientific Reports}}
+  \textbf{\bibinfo{volume}{12}}\DIFadd{, }\bibinfo{pages}{18645} \DIFadd{(}\bibinfo{year}{2022}\DIFadd{).
+}
 
 \bibitem{Cooney:BMB:2022}
 \bibinfo{author}{Cooney, D.~B.}
 \newblock \bibinfo{title}{Assortment and reciprocity mechanisms for promotion
-  of cooperation in a model of multilevel selection}.
-\newblock \emph{\bibinfo{journal}{Bulletin of Mathematical Biology}}
-  \textbf{\bibinfo{volume}{84}}, \bibinfo{pages}{126} (\bibinfo{year}{2022}).
+  of cooperation in a model of multilevel selection}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Bulletin of Mathematical Biology}}
+  \textbf{\bibinfo{volume}{84}}\DIFadd{, }\bibinfo{pages}{126} \DIFadd{(}\bibinfo{year}{2022}\DIFadd{).
+}
 
 \bibitem{Chen:PNASNexus:2023}
-\bibinfo{author}{Chen, X.} \& \bibinfo{author}{Fu, F.}
+\bibinfo{author}{Chen, X.} \DIFadd{\& }\bibinfo{author}{Fu, F.}
 \newblock \bibinfo{title}{Outlearning extortioners: {U}nbending strategies can
-  foster reciprocal fairness and cooperation}.
-\newblock \emph{\bibinfo{journal}{PNAS {N}exus}} \textbf{\bibinfo{volume}{2}},
-  \bibinfo{pages}{pgad176} (\bibinfo{year}{2023}).
+  foster reciprocal fairness and cooperation}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{PNAS {N}exus}} \textbf{\bibinfo{volume}{2}}\DIFadd{,
+  }\bibinfo{pages}{pgad176} \DIFadd{(}\bibinfo{year}{2023}\DIFadd{).
+}
 
 \bibitem{Hauert1997}
-\bibinfo{author}{Hauert, C.} \& \bibinfo{author}{Schuster, H.~G.}
+\bibinfo{author}{Hauert, C.} \DIFadd{\& }\bibinfo{author}{Schuster, H.~G.}
 \newblock \bibinfo{title}{Effects of increasing the number of players and
-  memory size in the iterated prisoner's dilemma: a numerical approach}.
-\newblock \emph{\bibinfo{journal}{Proceedings of the Royal Society of London.
-  Series B: Biological Sciences}} \textbf{\bibinfo{volume}{264}},
-  \bibinfo{pages}{513--519} (\bibinfo{year}{1997}).
+  memory size in the iterated prisoner's dilemma: a numerical approach}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Proceedings of the Royal Society of London.
+  Series B: Biological Sciences}} \textbf{\bibinfo{volume}{264}}\DIFadd{,
+  }\bibinfo{pages}{513--519} \DIFadd{(}\bibinfo{year}{1997}\DIFadd{).
+}
 
 \bibitem{vanveelen:PNAS:2012}
-\bibinfo{author}{van Veelen, M.}, \bibinfo{author}{Garcia, J.},
-  \bibinfo{author}{Rand, D.~G.} \& \bibinfo{author}{Nowak, M.~A.}
-\newblock \bibinfo{title}{Direct reciprocity in structured populations}.
-\newblock \emph{\bibinfo{journal}{Proceedings of the National Academy of
-  Sciences USA}} \textbf{\bibinfo{volume}{109}}, \bibinfo{pages}{9929--9934}
-  (\bibinfo{year}{2012}).
+\bibinfo{author}{van Veelen, M.}\DIFadd{, }\bibinfo{author}{Garcia, J.}\DIFadd{,
+  }\bibinfo{author}{Rand, D.~G.} \DIFadd{\& }\bibinfo{author}{Nowak, M.~A.}
+\newblock \bibinfo{title}{Direct reciprocity in structured populations}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Proceedings of the National Academy of
+  Sciences USA}} \textbf{\bibinfo{volume}{109}}\DIFadd{, }\bibinfo{pages}{9929--9934}
+  \DIFadd{(}\bibinfo{year}{2012}\DIFadd{).
+}
 
 \bibitem{Stewart2016}
-\bibinfo{author}{Stewart, A.~J.} \& \bibinfo{author}{Plotkin, J.~B.}
-\newblock \bibinfo{title}{Small groups and long memories promote cooperation}.
-\newblock \emph{\bibinfo{journal}{Scientific reports}}
-  \textbf{\bibinfo{volume}{6}}, \bibinfo{pages}{1--11} (\bibinfo{year}{2016}).
+\bibinfo{author}{Stewart, A.~J.} \DIFadd{\& }\bibinfo{author}{Plotkin, J.~B.}
+\newblock \bibinfo{title}{Small groups and long memories promote cooperation}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Scientific reports}}
+  \textbf{\bibinfo{volume}{6}}\DIFadd{, }\bibinfo{pages}{1--11} \DIFadd{(}\bibinfo{year}{2016}\DIFadd{).
+}
 
 \bibitem{hilbe:PNAS:2017}
-\bibinfo{author}{Hilbe, C.}, \bibinfo{author}{Martinez-Vaquero, L.~A.},
-  \bibinfo{author}{Chatterjee, K.} \& \bibinfo{author}{Nowak, M.~A.}
-\newblock \bibinfo{title}{Memory n strategies of direct reciprocity}.
-\newblock \emph{\bibinfo{journal}{Proceedings of the National Academy of
-  Sciences}} \textbf{\bibinfo{volume}{114}}, \bibinfo{pages}{4715--4720}
-  (\bibinfo{year}{2017}).
+\bibinfo{author}{Hilbe, C.}\DIFadd{, }\bibinfo{author}{Martinez-Vaquero, L.~A.}\DIFadd{,
+  }\bibinfo{author}{Chatterjee, K.} \DIFadd{\& }\bibinfo{author}{Nowak, M.~A.}
+\newblock \bibinfo{title}{Memory n strategies of direct reciprocity}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Proceedings of the National Academy of
+  Sciences}} \textbf{\bibinfo{volume}{114}}\DIFadd{, }\bibinfo{pages}{4715--4720}
+  \DIFadd{(}\bibinfo{year}{2017}\DIFadd{).
+}
 
 \bibitem{Li:NatCS:2022}
-\bibinfo{author}{Li, J.} \emph{et~al.}
+\bibinfo{author}{Li, J.} \emph{\DIFadd{et~al.}}
 \newblock \bibinfo{title}{Evolution of cooperation through cumulative
-  reciprocity}.
-\newblock \emph{\bibinfo{journal}{Nature Computational Science}}
-  \textbf{\bibinfo{volume}{2}}, \bibinfo{pages}{677--686}
-  (\bibinfo{year}{2022}).
+  reciprocity}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Nature Computational Science}}
+  \textbf{\bibinfo{volume}{2}}\DIFadd{, }\bibinfo{pages}{677--686}
+  \DIFadd{(}\bibinfo{year}{2022}\DIFadd{).
+}
 
 \bibitem{Murase:PLoSCompBio:2023a}
-\bibinfo{author}{Murase, Y.} \& \bibinfo{author}{Baek, S.~K.}
+\bibinfo{author}{Murase, Y.} \DIFadd{\& }\bibinfo{author}{Baek, S.~K.}
 \newblock \bibinfo{title}{Grouping promotes both partnership and rivalry with
-  long memory in direct reciprocity}.
-\newblock \emph{\bibinfo{journal}{PLoS Computational Biology}}
-  \textbf{\bibinfo{volume}{19}}, \bibinfo{pages}{e1011228}
-  (\bibinfo{year}{2023}).
+  long memory in direct reciprocity}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{PLoS Computational Biology}}
+  \textbf{\bibinfo{volume}{19}}\DIFadd{, }\bibinfo{pages}{e1011228}
+  \DIFadd{(}\bibinfo{year}{2023}\DIFadd{).
+}
 
 \bibitem{sigmund2010calculus}
 \bibinfo{author}{Sigmund, K.}
 \newblock \emph{\bibinfo{title}{The calculus of selfishness}}
-  (\bibinfo{publisher}{Princeton University Press}, \bibinfo{year}{2010}).
+  \DIFadd{(}\bibinfo{publisher}{Princeton University Press}\DIFadd{, }\bibinfo{year}{2010}\DIFadd{).
+}
 
 \bibitem{friedman:RES:1971}
 \bibinfo{author}{Friedman, J.}
-\newblock \bibinfo{title}{A non-cooperative equilibrium for supergames}.
-\newblock \emph{\bibinfo{journal}{Review of Economic Studies}}
-  \textbf{\bibinfo{volume}{38}}, \bibinfo{pages}{1--12} (\bibinfo{year}{1971}).
+\newblock \bibinfo{title}{A non-cooperative equilibrium for supergames}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Review of Economic Studies}}
+  \textbf{\bibinfo{volume}{38}}\DIFadd{, }\bibinfo{pages}{1--12} \DIFadd{(}\bibinfo{year}{1971}\DIFadd{).
+}
 
 \bibitem{Akin:chapter:2016}
 \bibinfo{author}{Akin, E.}
 \newblock \bibinfo{title}{The iterated prisoner's dilemma: {G}ood strategies
-  and their dynamics}.
-\newblock In \bibinfo{editor}{Assani, I.} (ed.)
-  \emph{\bibinfo{booktitle}{Ergodic Theory, Advances in Dynamics}},
-  \bibinfo{pages}{77--107} (\bibinfo{publisher}{de Gruyter},
-  \bibinfo{address}{Berlin}, \bibinfo{year}{2016}).
+  and their dynamics}\DIFadd{.
+}\newblock \DIFadd{In }\bibinfo{editor}{Assani, I.} \DIFadd{(ed.)
+  }\emph{\bibinfo{booktitle}{Ergodic Theory, Advances in Dynamics}}\DIFadd{,
+  }\bibinfo{pages}{77--107} \DIFadd{(}\bibinfo{publisher}{de Gruyter}\DIFadd{,
+  }\bibinfo{address}{Berlin}\DIFadd{, }\bibinfo{year}{2016}\DIFadd{).
+}
 
 \bibitem{hilbe:GEB:2015}
-\bibinfo{author}{Hilbe, C.}, \bibinfo{author}{Traulsen, A.} \&
-  \bibinfo{author}{Sigmund, K.}
+\bibinfo{author}{Hilbe, C.}\DIFadd{, }\bibinfo{author}{Traulsen, A.} \DIFadd{\&
+  }\bibinfo{author}{Sigmund, K.}
 \newblock \bibinfo{title}{Partners or rivals? {S}trategies for the iterated
-  prisoner's dilemma}.
-\newblock \emph{\bibinfo{journal}{Games and Economic Behavior}}
-  \textbf{\bibinfo{volume}{92}}, \bibinfo{pages}{41--52}
-  (\bibinfo{year}{2015}).
+  prisoner's dilemma}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Games and Economic Behavior}}
+  \textbf{\bibinfo{volume}{92}}\DIFadd{, }\bibinfo{pages}{41--52}
+  \DIFadd{(}\bibinfo{year}{2015}\DIFadd{).
+}
 
 \bibitem{stewart:pnas:2014}
-\bibinfo{author}{Stewart, A.~J.} \& \bibinfo{author}{Plotkin, J.~B.}
-\newblock \bibinfo{title}{Collapse of cooperation in evolving games}.
-\newblock \emph{\bibinfo{journal}{Proceedings of the National Academy of
-  Sciences USA}} \textbf{\bibinfo{volume}{111}}, \bibinfo{pages}{17558 --
-  17563} (\bibinfo{year}{2014}).
+\bibinfo{author}{Stewart, A.~J.} \DIFadd{\& }\bibinfo{author}{Plotkin, J.~B.}
+\newblock \bibinfo{title}{Collapse of cooperation in evolving games}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Proceedings of the National Academy of
+  Sciences USA}} \textbf{\bibinfo{volume}{111}}\DIFadd{, }\bibinfo{pages}{17558 --
+  17563} \DIFadd{(}\bibinfo{year}{2014}\DIFadd{).
+}
 
 \bibitem{traulsen2007pairwise}
-\bibinfo{author}{Traulsen, A.}, \bibinfo{author}{Pacheco, J.~M.} \&
-  \bibinfo{author}{Nowak, M.~A.}
+\bibinfo{author}{Traulsen, A.}\DIFadd{, }\bibinfo{author}{Pacheco, J.~M.} \DIFadd{\&
+  }\bibinfo{author}{Nowak, M.~A.}
 \newblock \bibinfo{title}{Pairwise comparison and selection temperature in
-  evolutionary game dynamics}.
-\newblock \emph{\bibinfo{journal}{Journal of theoretical biology}}
-  \textbf{\bibinfo{volume}{246}}, \bibinfo{pages}{522--529}
-  (\bibinfo{year}{2007}).
+  evolutionary game dynamics}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Journal of theoretical biology}}
+  \textbf{\bibinfo{volume}{246}}\DIFadd{, }\bibinfo{pages}{522--529}
+  \DIFadd{(}\bibinfo{year}{2007}\DIFadd{).
+}
 
 \bibitem{blume:GEB:1995}
 \bibinfo{author}{Blume, L.~E.}
 \newblock \bibinfo{title}{The statistical mechanics of best-response strategy
-  revision}.
-\newblock \emph{\bibinfo{journal}{Games and Economic Behavior}}
-  \textbf{\bibinfo{volume}{11}}, \bibinfo{pages}{111--145}
-  (\bibinfo{year}{1995}).
+  revision}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Games and Economic Behavior}}
+  \textbf{\bibinfo{volume}{11}}\DIFadd{, }\bibinfo{pages}{111--145}
+  \DIFadd{(}\bibinfo{year}{1995}\DIFadd{).
+}
 
 \bibitem{szabo:PRE:1998}
-\bibinfo{author}{Szab{\'o}, G.} \& \bibinfo{author}{T{\H o}ke, C.}
+\bibinfo{author}{Szab{\'o}, G.} \DIFadd{\& }\bibinfo{author}{T{\H o}ke, C.}
 \newblock \bibinfo{title}{Evolutionary {P}risoner's {D}ilemma game on a square
-  lattice}.
-\newblock \emph{\bibinfo{journal}{Physical Review E}}
-  \textbf{\bibinfo{volume}{58}}, \bibinfo{pages}{69--73}
-  (\bibinfo{year}{1998}).
+  lattice}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Physical Review E}}
+  \textbf{\bibinfo{volume}{58}}\DIFadd{, }\bibinfo{pages}{69--73}
+  \DIFadd{(}\bibinfo{year}{1998}\DIFadd{).
+}
 
 \bibitem{fudenberg:JET:2006}
-\bibinfo{author}{Fudenberg, D.} \& \bibinfo{author}{Imhof, L.~A.}
-\newblock \bibinfo{title}{Imitation processes with small mutations}.
-\newblock \emph{\bibinfo{journal}{Journal of Economic Theory}}
-  \textbf{\bibinfo{volume}{131}}, \bibinfo{pages}{251--262}
-  (\bibinfo{year}{2006}).
+\bibinfo{author}{Fudenberg, D.} \DIFadd{\& }\bibinfo{author}{Imhof, L.~A.}
+\newblock \bibinfo{title}{Imitation processes with small mutations}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Journal of Economic Theory}}
+  \textbf{\bibinfo{volume}{131}}\DIFadd{, }\bibinfo{pages}{251--262}
+  \DIFadd{(}\bibinfo{year}{2006}\DIFadd{).
+}
 
 \bibitem{wu:JMB:2012}
-\bibinfo{author}{Wu, B.}, \bibinfo{author}{Gokhale, C.~S.},
-  \bibinfo{author}{Wang, L.} \& \bibinfo{author}{Traulsen, A.}
+\bibinfo{author}{Wu, B.}\DIFadd{, }\bibinfo{author}{Gokhale, C.~S.}\DIFadd{,
+  }\bibinfo{author}{Wang, L.} \DIFadd{\& }\bibinfo{author}{Traulsen, A.}
 \newblock \bibinfo{title}{How small are small mutation rates?}
 \newblock \emph{\bibinfo{journal}{Journal of Mathematical Biology}}
-  \textbf{\bibinfo{volume}{64}}, \bibinfo{pages}{803--827}
-  (\bibinfo{year}{2012}).
+  \textbf{\bibinfo{volume}{64}}\DIFadd{, }\bibinfo{pages}{803--827}
+  \DIFadd{(}\bibinfo{year}{2012}\DIFadd{).
+}
 
 \bibitem{mcavoy:jet:2015}
 \bibinfo{author}{McAvoy, A.}
 \newblock \bibinfo{title}{Comment on ``{I}mitation processes with small
-  mutations''}.
-\newblock \emph{\bibinfo{journal}{J. Econ. Theory}}
-  \textbf{\bibinfo{volume}{159}}, \bibinfo{pages}{66--69}
-  (\bibinfo{year}{2015}).
+  mutations''}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{J. Econ. Theory}}
+  \textbf{\bibinfo{volume}{159}}\DIFadd{, }\bibinfo{pages}{66--69}
+  \DIFadd{(}\bibinfo{year}{2015}\DIFadd{).
+}
 
 \bibitem{Schmid:NHB:2021}
-\bibinfo{author}{Schmid, L.}, \bibinfo{author}{Chatterjee, K.},
-  \bibinfo{author}{Hilbe, C.} \& \bibinfo{author}{Nowak, M.}
+\bibinfo{author}{Schmid, L.}\DIFadd{, }\bibinfo{author}{Chatterjee, K.}\DIFadd{,
+  }\bibinfo{author}{Hilbe, C.} \DIFadd{\& }\bibinfo{author}{Nowak, M.}
 \newblock \bibinfo{title}{A unified framework of direct and indirect
-  reciprocity}.
-\newblock \emph{\bibinfo{journal}{Nature Human Behaviour}}
-  \textbf{\bibinfo{volume}{5}}, \bibinfo{pages}{1292--1302}
-  (\bibinfo{year}{2021}).
+  reciprocity}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Nature Human Behaviour}}
+  \textbf{\bibinfo{volume}{5}}\DIFadd{, }\bibinfo{pages}{1292--1302}
+  \DIFadd{(}\bibinfo{year}{2021}\DIFadd{).
+}
 
 \bibitem{mcavoy:NHB:2020}
-\bibinfo{author}{McAvoy, A.}, \bibinfo{author}{Allen, B.} \&
-  \bibinfo{author}{Nowak, M.~A.}
-\newblock \bibinfo{title}{Social goods dilemmas in heterogeneous societies}.
-\newblock \emph{\bibinfo{journal}{Nature Human Behaviour}}
-  \textbf{\bibinfo{volume}{4}}, \bibinfo{pages}{819--831}
-  (\bibinfo{year}{2020}).
+\bibinfo{author}{McAvoy, A.}\DIFadd{, }\bibinfo{author}{Allen, B.} \DIFadd{\&
+  }\bibinfo{author}{Nowak, M.~A.}
+\newblock \bibinfo{title}{Social goods dilemmas in heterogeneous societies}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Nature Human Behaviour}}
+  \textbf{\bibinfo{volume}{4}}\DIFadd{, }\bibinfo{pages}{819--831}
+  \DIFadd{(}\bibinfo{year}{2020}\DIFadd{).
+}
 
 \bibitem{nowak:Nature:1993}
-\bibinfo{author}{Nowak, M.~A.} \& \bibinfo{author}{Sigmund, K.}
+\bibinfo{author}{Nowak, M.~A.} \DIFadd{\& }\bibinfo{author}{Sigmund, K.}
 \newblock \bibinfo{title}{A strategy of win-stay, lose-shift that outperforms
-  tit-for-tat in the {P}risoner's {D}ilemma game}.
-\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{364}},
-  \bibinfo{pages}{56--58} (\bibinfo{year}{1993}).
+  tit-for-tat in the {P}risoner's {D}ilemma game}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{364}}\DIFadd{,
+  }\bibinfo{pages}{56--58} \DIFadd{(}\bibinfo{year}{1993}\DIFadd{).
+}
 
 \bibitem{imhof:JTB:2007}
-\bibinfo{author}{Imhof, L.~A.}, \bibinfo{author}{Fudenberg, D.} \&
-  \bibinfo{author}{Nowak, M.~A.}
+\bibinfo{author}{Imhof, L.~A.}\DIFadd{, }\bibinfo{author}{Fudenberg, D.} \DIFadd{\&
+  }\bibinfo{author}{Nowak, M.~A.}
 \newblock \bibinfo{title}{Tit-for-tat or win-stay, lose-shift?}
 \newblock \emph{\bibinfo{journal}{Journal of Theoretical Biology}}
-  \textbf{\bibinfo{volume}{247}}, \bibinfo{pages}{574--580}
-  (\bibinfo{year}{2007}).
+  \textbf{\bibinfo{volume}{247}}\DIFadd{, }\bibinfo{pages}{574--580}
+  \DIFadd{(}\bibinfo{year}{2007}\DIFadd{).
+}
 
 \bibitem{doebeli:Ecology:2005}
-\bibinfo{author}{Doebeli, M.} \& \bibinfo{author}{Hauert, C.}
+\bibinfo{author}{Doebeli, M.} \DIFadd{\& }\bibinfo{author}{Hauert, C.}
 \newblock \bibinfo{title}{Models of cooperation based on the prisoner's dilemma
-  and the snowdrift game}.
-\newblock \emph{\bibinfo{journal}{Ecology letters}}
-  \textbf{\bibinfo{volume}{8}}, \bibinfo{pages}{748--766}
-  (\bibinfo{year}{2005}).
+  and the snowdrift game}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Ecology letters}}
+  \textbf{\bibinfo{volume}{8}}\DIFadd{, }\bibinfo{pages}{748--766}
+  \DIFadd{(}\bibinfo{year}{2005}\DIFadd{).
+}
 
 \bibitem{nowak:JTB:2012}
 \bibinfo{author}{Nowak, M.~A.}
-\newblock \bibinfo{title}{Evolving cooperation}.
-\newblock \emph{\bibinfo{journal}{Journal of Theoretical Biology}}
-  \textbf{\bibinfo{volume}{299}}, \bibinfo{pages}{1--8} (\bibinfo{year}{2012}).
+\newblock \bibinfo{title}{Evolving cooperation}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Journal of Theoretical Biology}}
+  \textbf{\bibinfo{volume}{299}}\DIFadd{, }\bibinfo{pages}{1--8} \DIFadd{(}\bibinfo{year}{2012}\DIFadd{).
+}
 
 \bibitem{stephens1986foraging}
-\bibinfo{author}{Stephens, D.~W.} \& \bibinfo{author}{Krebs, J.~R.}
-\newblock \emph{\bibinfo{title}{Foraging Theory}}.
-\newblock Monographs in Behavior and Ecology (\bibinfo{publisher}{Princeton
-  University Press}, \bibinfo{year}{1986}).
+\bibinfo{author}{Stephens, D.~W.} \DIFadd{\& }\bibinfo{author}{Krebs, J.~R.}
+\newblock \emph{\bibinfo{title}{Foraging Theory}}\DIFadd{.
+}\newblock \DIFadd{Monographs in Behavior and Ecology (}\bibinfo{publisher}{Princeton
+  University Press}\DIFadd{, }\bibinfo{year}{1986}\DIFadd{).
+}
 
 \bibitem{sutton:MIT:2018}
-\bibinfo{author}{Sutton, R.~S.} \& \bibinfo{author}{Barto, A.~G.}
+\bibinfo{author}{Sutton, R.~S.} \DIFadd{\& }\bibinfo{author}{Barto, A.~G.}
 \newblock \emph{\bibinfo{title}{Reinforcement Learning: An Introduction}}
-  (\bibinfo{publisher}{The MIT Press}, \bibinfo{year}{2018}),
-  \bibinfo{edition}{second} edn.
+  \DIFadd{(}\bibinfo{publisher}{The MIT Press}\DIFadd{, }\bibinfo{year}{2018}\DIFadd{),
+  }\bibinfo{edition}{second} \DIFadd{edn.
+}
 
 \bibitem{schultz:JN:1998}
 \bibinfo{author}{Schultz, W.}
-\newblock \bibinfo{title}{{Predictive Reward Signal of Dopamine Neurons}}.
-\newblock \emph{\bibinfo{journal}{Journal of Neurophysiology}}
-  \textbf{\bibinfo{volume}{80}}, \bibinfo{pages}{1--27} (\bibinfo{year}{1998}).
+\newblock \bibinfo{title}{{Predictive Reward Signal of Dopamine Neurons}}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Journal of Neurophysiology}}
+  \textbf{\bibinfo{volume}{80}}\DIFadd{, }\bibinfo{pages}{1--27} \DIFadd{(}\bibinfo{year}{1998}\DIFadd{).
+}
 
 \bibitem{dan:Neuron:2004}
-\bibinfo{author}{Dan, Y.} \& \bibinfo{author}{Poo, M.~M.}
+\bibinfo{author}{Dan, Y.} \DIFadd{\& }\bibinfo{author}{Poo, M.~M.}
 \newblock \bibinfo{title}{{Spike Timing-Dependent Plasticity of Neural
-  Circuits}}.
-\newblock \emph{\bibinfo{journal}{Neuron}} \textbf{\bibinfo{volume}{44}},
-  \bibinfo{pages}{23--30} (\bibinfo{year}{2004}).
+  Circuits}}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Neuron}} \textbf{\bibinfo{volume}{44}}\DIFadd{,
+  }\bibinfo{pages}{23--30} \DIFadd{(}\bibinfo{year}{2004}\DIFadd{).
+}
 
 \bibitem{murdock:JEP:1962}
 \bibinfo{author}{Murdock, B.~B.}
 \newblock \bibinfo{title}{The serial position effect of free recall.}
 \newblock \emph{\bibinfo{journal}{Journal of Experimental Psychology}}
-  \textbf{\bibinfo{volume}{64}}, \bibinfo{pages}{482--488}
-  (\bibinfo{year}{1962}).
+  \textbf{\bibinfo{volume}{64}}\DIFadd{, }\bibinfo{pages}{482--488}
+  \DIFadd{(}\bibinfo{year}{1962}\DIFadd{).
+}
 
 \bibitem{mcavoy:PLOSCB:2021}
-\bibinfo{author}{McAvoy, A.}, \bibinfo{author}{Rao, A.} \&
-  \bibinfo{author}{Hauert, C.}
+\bibinfo{author}{McAvoy, A.}\DIFadd{, }\bibinfo{author}{Rao, A.} \DIFadd{\&
+  }\bibinfo{author}{Hauert, C.}
 \newblock \bibinfo{title}{Intriguing effects of selection intensity on the
-  evolution of prosocial behaviors}.
-\newblock \emph{\bibinfo{journal}{{PLOS} Computational Biology}}
-  \textbf{\bibinfo{volume}{17}}, \bibinfo{pages}{e1009611}
-  (\bibinfo{year}{2021}).
+  evolution of prosocial behaviors}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{{PLOS} Computational Biology}}
+  \textbf{\bibinfo{volume}{17}}\DIFadd{, }\bibinfo{pages}{e1009611}
+  \DIFadd{(}\bibinfo{year}{2021}\DIFadd{).
+}
 
 \bibitem{cavalli1981cultural}
-\bibinfo{author}{Cavalli-Sforza, L.~L.} \& \bibinfo{author}{Feldman, M.~W.}
+\bibinfo{author}{Cavalli-Sforza, L.~L.} \DIFadd{\& }\bibinfo{author}{Feldman, M.~W.}
 \newblock \emph{\bibinfo{title}{Cultural Transmission and Evolution: A
-  Quantitative Approach}}.
-\newblock Cultural Transmission and Evolution: A Quantitative Approach
-  (\bibinfo{publisher}{Princeton University Press}, \bibinfo{year}{1981}).
+  Quantitative Approach}}\DIFadd{.
+}\newblock \DIFadd{Cultural Transmission and Evolution: A Quantitative Approach
+  (}\bibinfo{publisher}{Princeton University Press}\DIFadd{, }\bibinfo{year}{1981}\DIFadd{).
+}
 
 \bibitem{sanchez:JTB:2005}
-\bibinfo{author}{S{\'a}nchez, A.} \& \bibinfo{author}{Cuesta, J.~A.}
-\newblock \bibinfo{title}{Altruism may arise from individual selection}.
-\newblock \emph{\bibinfo{journal}{Journal of theoretical biology}}
-  \textbf{\bibinfo{volume}{235}}, \bibinfo{pages}{233--240}
-  (\bibinfo{year}{2005}).
+\bibinfo{author}{S{\'a}nchez, A.} \DIFadd{\& }\bibinfo{author}{Cuesta, J.~A.}
+\newblock \bibinfo{title}{Altruism may arise from individual selection}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Journal of theoretical biology}}
+  \textbf{\bibinfo{volume}{235}}\DIFadd{, }\bibinfo{pages}{233--240}
+  \DIFadd{(}\bibinfo{year}{2005}\DIFadd{).
+}
 
 \bibitem{roca:PhysicalReview:2006}
-\bibinfo{author}{Roca, C.~P.}, \bibinfo{author}{Cuesta, J.~A.} \&
-  \bibinfo{author}{S{\'a}nchez, A.}
-\newblock \bibinfo{title}{Time scales in evolutionary dynamics}.
-\newblock \emph{\bibinfo{journal}{Physical review letters}}
-  \textbf{\bibinfo{volume}{97}}, \bibinfo{pages}{158701}
-  (\bibinfo{year}{2006}).
+\bibinfo{author}{Roca, C.~P.}\DIFadd{, }\bibinfo{author}{Cuesta, J.~A.} \DIFadd{\&
+  }\bibinfo{author}{S{\'a}nchez, A.}
+\newblock \bibinfo{title}{Time scales in evolutionary dynamics}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Physical review letters}}
+  \textbf{\bibinfo{volume}{97}}\DIFadd{, }\bibinfo{pages}{158701}
+  \DIFadd{(}\bibinfo{year}{2006}\DIFadd{).
+}
 
 \bibitem{Traulsen:JTB:2007}
-\bibinfo{author}{Traulsen, A.}, \bibinfo{author}{Nowak, M.~A.} \&
-  \bibinfo{author}{Pacheco, J.~M.}
+\bibinfo{author}{Traulsen, A.}\DIFadd{, }\bibinfo{author}{Nowak, M.~A.} \DIFadd{\&
+  }\bibinfo{author}{Pacheco, J.~M.}
 \newblock \bibinfo{title}{Stochastic payoff evaluation increases the
-  temperature of selection}.
-\newblock \emph{\bibinfo{journal}{Journal of theoretical biology}}
-  \textbf{\bibinfo{volume}{244}}, \bibinfo{pages}{349--356}
-  (\bibinfo{year}{2007}).
+  temperature of selection}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Journal of theoretical biology}}
+  \textbf{\bibinfo{volume}{244}}\DIFadd{, }\bibinfo{pages}{349--356}
+  \DIFadd{(}\bibinfo{year}{2007}\DIFadd{).
+}
 
 \bibitem{Woelfing:JTB:2009}
-\bibinfo{author}{Woelfing, B.} \& \bibinfo{author}{Traulsen, A.}
+\bibinfo{author}{Woelfing, B.} \DIFadd{\& }\bibinfo{author}{Traulsen, A.}
 \newblock \bibinfo{title}{Stochastic sampling of interaction partners versus
-  deterministic payoff assignment}.
-\newblock \emph{\bibinfo{journal}{Journal of Theoretical Biology}}
-  \textbf{\bibinfo{volume}{257}}, \bibinfo{pages}{689--695}
-  (\bibinfo{year}{2009}).
+  deterministic payoff assignment}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Journal of Theoretical Biology}}
+  \textbf{\bibinfo{volume}{257}}\DIFadd{, }\bibinfo{pages}{689--695}
+  \DIFadd{(}\bibinfo{year}{2009}\DIFadd{).
+}
 
 \bibitem{Hauert:PRE:2018}
-\bibinfo{author}{Hauert, C.} \& \bibinfo{author}{Miekisz, J.}
+\bibinfo{author}{Hauert, C.} \DIFadd{\& }\bibinfo{author}{Miekisz, J.}
 \newblock \bibinfo{title}{Effects of sampling interaction partners and
-  competitors in evolutionary games}.
-\newblock \emph{\bibinfo{journal}{Physical Review E}}
-  \textbf{\bibinfo{volume}{98}}, \bibinfo{pages}{052301}
-  (\bibinfo{year}{2018}).
+  competitors in evolutionary games}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Physical Review E}}
+  \textbf{\bibinfo{volume}{98}}\DIFadd{, }\bibinfo{pages}{052301}
+  \DIFadd{(}\bibinfo{year}{2018}\DIFadd{).
+}
 
 \bibitem{nowak:APC:1989}
-\bibinfo{author}{Nowak, M.} \& \bibinfo{author}{Sigmund, K.}
-\newblock \bibinfo{title}{Game-dynamical aspects of the prisoner's dilemma}.
-\newblock \emph{\bibinfo{journal}{Applied Mathematics and Computation}}
-  \textbf{\bibinfo{volume}{30}}, \bibinfo{pages}{191--213}
-  (\bibinfo{year}{1989}).
+\bibinfo{author}{Nowak, M.} \DIFadd{\& }\bibinfo{author}{Sigmund, K.}
+\newblock \bibinfo{title}{Game-dynamical aspects of the prisoner's dilemma}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Applied Mathematics and Computation}}
+  \textbf{\bibinfo{volume}{30}}\DIFadd{, }\bibinfo{pages}{191--213}
+  \DIFadd{(}\bibinfo{year}{1989}\DIFadd{).
+}
 
 \bibitem{szabo:PR:2007}
-\bibinfo{author}{Szab{\'o}, G.} \& \bibinfo{author}{F{\'a}th, G.}
-\newblock \bibinfo{title}{Evolutionary games on graphs}.
-\newblock \emph{\bibinfo{journal}{Physics Reports}}
-  \textbf{\bibinfo{volume}{446}}, \bibinfo{pages}{97--216}
-  (\bibinfo{year}{2007}).
+\bibinfo{author}{Szab{\'o}, G.} \DIFadd{\& }\bibinfo{author}{F{\'a}th, G.}
+\newblock \bibinfo{title}{Evolutionary games on graphs}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Physics Reports}}
+  \textbf{\bibinfo{volume}{446}}\DIFadd{, }\bibinfo{pages}{97--216}
+  \DIFadd{(}\bibinfo{year}{2007}\DIFadd{).
+}
 
 \bibitem{Stevens:fip:2011}
-\bibinfo{author}{Stevens, J.~R.}, \bibinfo{author}{Volstorf, J.},
-  \bibinfo{author}{Schooler, L.~J.} \& \bibinfo{author}{Rieskamp, J.}
+\bibinfo{author}{Stevens, J.~R.}\DIFadd{, }\bibinfo{author}{Volstorf, J.}\DIFadd{,
+  }\bibinfo{author}{Schooler, L.~J.} \DIFadd{\& }\bibinfo{author}{Rieskamp, J.}
 \newblock \bibinfo{title}{Forgetting constrains the emergence of cooperative
-  decision strategies}.
-\newblock \emph{\bibinfo{journal}{Frontiers in Psychology}}
-  \textbf{\bibinfo{volume}{1}}, \bibinfo{pages}{235} (\bibinfo{year}{2011}).
+  decision strategies}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{Frontiers in Psychology}}
+  \textbf{\bibinfo{volume}{1}}\DIFadd{, }\bibinfo{pages}{235} \DIFadd{(}\bibinfo{year}{2011}\DIFadd{).
+}
 
 \bibitem{Volstorf:PlosOne:2011}
-\bibinfo{author}{Volstorf, J.}, \bibinfo{author}{Rieskamp, J.} \&
-  \bibinfo{author}{Stevens, J.~R.}
+\bibinfo{author}{Volstorf, J.}\DIFadd{, }\bibinfo{author}{Rieskamp, J.} \DIFadd{\&
+  }\bibinfo{author}{Stevens, J.~R.}
 \newblock \bibinfo{title}{The good, the bad, and the rare: Memory for partners
-  in social interactions}.
-\newblock \emph{\bibinfo{journal}{PloS one}} \textbf{\bibinfo{volume}{6}},
-  \bibinfo{pages}{e18945} (\bibinfo{year}{2011}).
+  in social interactions}\DIFadd{.
+}\newblock \emph{\bibinfo{journal}{PloS one}} \textbf{\bibinfo{volume}{6}}\DIFadd{,
+  }\bibinfo{pages}{e18945} \DIFadd{(}\bibinfo{year}{2011}\DIFadd{).
+}
 
 \end{thebibliography}
+\DIFaddend 
 
 
 %%%%%%%%%%
